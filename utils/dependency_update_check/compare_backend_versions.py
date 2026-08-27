@@ -12,7 +12,22 @@ from pathlib import Path
 PYPROJECT_PATH = Path("pyproject.toml")
 
 
-def apply_constraints(max_versions: dict[str, str]) -> str | None:
+def apply_max_version_constraints(max_versions: dict[str, str]) -> str | None:
+    """
+    Apply max versions to backend dependencies if there are some defined in dependency_update_check.yaml.
+
+    See: https://docs.astral.sh/uv/reference/settings/#constraint-dependencies
+
+    Parameters
+    ----------
+    max_versions : dict[str, str]
+        The name of a dependency and the maximum version it should be updated to.
+
+    Returns
+    -------
+    str | None
+        The updated dependencies or None if there are no clamped versions.
+    """
     if not max_versions:
         return None
 
@@ -23,17 +38,26 @@ def apply_constraints(max_versions: dict[str, str]) -> str | None:
     if match := re.search(r"^\[tool\.uv\]\n", original, flags=re.MULTILINE):
         insert_at = match.end()
         updated = original[:insert_at] + constraint_line + original[insert_at:]
+
     else:
-        updated = original + f"\n[tool.uv]\n{constraint_line}"
+        updated = f"{original}\n[tool.uv]\n{constraint_line}"
 
     PYPROJECT_PATH.write_text(updated)
 
     return original
 
 
-def restore_pyproject(original: str | None) -> None:
-    if original is not None:
-        PYPROJECT_PATH.write_text(original)
+def overwrite_pyproject(pyproject_text: str | None) -> None:
+    """
+    Restore the original pyproject.toml file for testing this process locally.
+
+    Parameters
+    ----------
+    pyproject_text : str
+        The original pyproject.toml file for overwriting in local testing.
+    """
+    if pyproject_text is not None:
+        PYPROJECT_PATH.write_text(pyproject_text)
 
 
 def capture_and_pint_uv_upgrades() -> None:
@@ -63,9 +87,10 @@ def capture_and_pint_uv_upgrades() -> None:
 
 if __name__ == "__main__":
     max_versions = json.loads(os.environ.get("BACKEND_MAX_VERSIONS", "{}"))
-    original_pyproject = apply_constraints(max_versions)
+    original_pyproject_text = apply_max_version_constraints(max_versions)
 
     try:
         capture_and_pint_uv_upgrades()
+
     finally:
-        restore_pyproject(original_pyproject)
+        overwrite_pyproject(pyproject_text=original_pyproject_text)

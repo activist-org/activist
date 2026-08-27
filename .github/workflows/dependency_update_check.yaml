@@ -24,9 +24,12 @@ jobs:
     needs: check-repository
     if: needs.check-repository.outputs.is_remote_main == 'true'
     runs-on: ubuntu-latest
+
+    # Note: Update the following if there are dependencies that can't be upgraded.
     env:
-      BACKEND_MAX_VERSIONS: '{}'
+      BACKEND_MAX_VERSIONS: "{}"
       FRONTEND_MAX_VERSIONS: '{"typescript": "6.0.3"}'
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -46,9 +49,10 @@ jobs:
 
           BACKEND_CAPS=$(echo "$BACKEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
           FRONTEND_CAPS=$(echo "$FRONTEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
+
           if [ -n "$BACKEND_CAPS" ] || [ -n "$FRONTEND_CAPS" ]; then
             echo "> [!WARNING]" >> reports.md
-            echo "> Note that the following dependencies have maximum versions set in the dependency_update_check.yaml workflow:" >> reports.md
+            echo "> Note that the following dependencies have maximum versions set in the [dependency_update_check.yaml](https://github.com/activist-org/activist/blob/main/.github/workflows/dependency_update_check.yaml) workflow:" >> reports.md
             echo ">" >> reports.md
             [ -n "$BACKEND_CAPS" ] && echo "> Backend: $BACKEND_CAPS" >> reports.md
             [ -n "$FRONTEND_CAPS" ] && echo "> Frontend: $FRONTEND_CAPS" >> reports.md
