@@ -27,7 +27,9 @@ jobs:
 
     # Note: Update the following if there are dependencies that can't be upgraded.
     env:
+      # Note: The dependencies and versions here are passed to compare_backend_versions.py.
       BACKEND_MAX_VERSIONS: "{}"
+      # Note: Set these values in yarn.config.cjs to enforce the version constraints.
       FRONTEND_MAX_VERSIONS: '{"typescript": "6.0.3"}'
 
     steps:
@@ -129,7 +131,9 @@ jobs:
           # Note: We don't install versions that are younger than seven days (three to seven days is conservative age).
           yarn ncu -u -p yarn -c 7d  # npm-check-updates
 
-          node ../utils/dependency_update_check/clamp_frontend_versions.ts
+          # Attn: Max versions are set via the yarn.config.cjs file.
+          # See: https://yarnpkg.com/features/constraints
+          yarn constraints --fix
 
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
