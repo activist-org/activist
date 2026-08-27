@@ -47,19 +47,6 @@ def apply_max_version_constraints(max_versions: dict[str, str]) -> str | None:
     return original
 
 
-def overwrite_pyproject(pyproject_text: str | None) -> None:
-    """
-    Restore the original pyproject.toml file for testing this process locally.
-
-    Parameters
-    ----------
-    pyproject_text : str
-        The original pyproject.toml file for overwriting in local testing.
-    """
-    if pyproject_text is not None:
-        PYPROJECT_PATH.write_text(pyproject_text)
-
-
 def capture_and_pint_uv_upgrades() -> None:
     """
     Capture the output of uv lock --upgrade to derive potential backend package upgrades.
@@ -93,4 +80,6 @@ if __name__ == "__main__":
         capture_and_pint_uv_upgrades()
 
     finally:
-        overwrite_pyproject(pyproject_text=original_pyproject_text)
+        # Restore the original pyproject.toml file for testing this process locally.
+        if original_pyproject_text is not None:
+            PYPROJECT_PATH.write_text(original_pyproject_text)
