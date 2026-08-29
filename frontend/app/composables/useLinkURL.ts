@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-const aboveMediumBP = useBreakpoint("md");
 
+/**
+ * Computes the navigation target URL for various entity types (Organization, Group, Event, Resource, User),
+ * automatically appending `/about` on medium or larger screens where split view / about subroutes are displayed.
+ *
+ * @param props - Entity payload containing optional organization, group, event, resource, or user.
+ * @returns An object containing the reactive `linkUrl` computed property.
+ */
 export function useLinkURL(props: {
   organization?: Organization | null;
   group?: Group | null;
@@ -8,8 +14,10 @@ export function useLinkURL(props: {
   resource?: Resource | null;
   user?: UserActivist | null;
 }) {
+  const aboveMediumBP = useBreakpoint("md");
+
   const linkUrl = computed<string>(() => {
-    let url: string;
+    let url = "";
     if (props.organization) {
       url = `/organizations/${props.organization.id}`;
     } else if (props.group) {
@@ -20,15 +28,12 @@ export function useLinkURL(props: {
       url = props.resource.url;
     } else if (props.user) {
       url = `/users/${props.user.id}`;
-    } else {
-      url = "";
     }
 
-    if (aboveMediumBP && !props.resource) {
+    if (url && aboveMediumBP.value && !props.resource) {
       return `${url}/about`;
-    } else {
-      return url;
     }
+    return url;
   });
 
   return {
