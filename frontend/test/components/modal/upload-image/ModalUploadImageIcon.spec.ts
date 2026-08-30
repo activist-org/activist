@@ -5,7 +5,7 @@ import { ref } from "vue";
 
 import ModalUploadImageIcon from "../../../../app/components/modal/upload-image/ModalUploadImageIcon.vue";
 import { useFileManager } from "../../../../app/composables/useFileManager";
-import { EntityType } from "../../../../shared/types/entity";
+import { EntityMap } from "../../../../shared/constants/entityMap";
 import { MAX_IMAGE_SIZE_IN_BYTES } from "../../../../shared/constants/uploadLimits";
 
 const showToastError = vi.fn();
@@ -91,7 +91,7 @@ describe("ModalUploadImageIcon", () => {
     const wrapper = mount(ModalUploadImageIcon, {
       props: {
         entityId: "org-1",
-        entityType: EntityType.ORGANIZATION,
+        entityType: EntityMap.ORGANIZATION,
       },
       global: {
         stubs: {
