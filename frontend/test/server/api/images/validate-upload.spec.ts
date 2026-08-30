@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { validateUploadBodySchema } from "../../../shared/utils/imageUploadBatchValidation";
 import {
   IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
   MAX_IMAGE_SIZE_IN_BYTES,
@@ -9,6 +8,7 @@ import {
   getMaxImageBatchFileBytesInBytes,
   validateImageUploadBatchSize,
 } from "../../../shared/constants/uploadLimits";
+import { validateUploadBodySchema } from "../../../shared/utils/imageUploadBatchValidation";
 
 describe("server/api/images/validate-upload.post", () => {
   describe("validateUploadBodySchema", () => {
