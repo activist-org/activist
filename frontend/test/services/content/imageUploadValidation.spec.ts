@@ -8,8 +8,8 @@ import {
   IMAGE_UPLOAD_BATCH_TOO_LARGE_MESSAGE,
   validateImageUploadBatch,
 } from "../../../app/services/content/imageUploadValidation";
-import { AppErrorCause } from "../../../shared/types/error";
-import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "../../../shared/utils/uploadLimits";
+import { AppErrorCause } from "../../../shared/constants/error";
+import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "../../../shared/constants/uploadLimits";
 import { setupServiceTestMocks } from "../helpers";
 
 function makeFetchError(

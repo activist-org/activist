@@ -6,7 +6,7 @@ import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
 
 import { useFileManager } from "../../app/composables/useFileManager";
 import { UploadableFile } from "../../shared/types/file";
-import { MAX_IMAGE_SIZE_IN_BYTES } from "../../shared/utils/uploadLimits";
+import { MAX_IMAGE_SIZE_IN_BYTES } from "../../shared/constants/uploadLimits";
 import { createUseColorModeSpy } from "../mocks/composableMocks";
 
 const mockFetch = vi.fn();

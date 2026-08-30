@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { AppErrorCause } from "#shared/types/error";
-import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "#shared/utils/uploadLimits";
+import { AppErrorCause } from "#shared/constants/error";
+import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "#shared/constants/uploadLimits";
 
 export const IMAGE_UPLOAD_BATCH_TOO_LARGE_MESSAGE =
   "The selected images are too large to upload together. Please remove some images and try again.";

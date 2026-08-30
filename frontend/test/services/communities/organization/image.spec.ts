@@ -9,7 +9,7 @@ import {
   uploadOrganizationIconImage,
   uploadOrganizationImages,
 } from "../../../../app/services/communities/organization/image";
-import { AppErrorCause } from "../../../../shared/types/error";
+import { AppErrorCause } from "../../../../shared/constants/error";
 import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,

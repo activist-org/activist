@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { MAX_IMAGE_SIZE_IN_BYTES } from "#shared/utils/uploadLimits";
+import { MAX_IMAGE_SIZE_IN_BYTES } from "#shared/constants/uploadLimits";
 
 export function useFileManager() {
   const { showToastError } = useToaster();

@@ -6,7 +6,7 @@ import { ref } from "vue";
 import ModalUploadImageIcon from "../../../../app/components/modal/upload-image/ModalUploadImageIcon.vue";
 import { useFileManager } from "../../../../app/composables/useFileManager";
 import { EntityType } from "../../../../shared/types/entity";
-import { MAX_IMAGE_SIZE_IN_BYTES } from "../../../../shared/utils/uploadLimits";
+import { MAX_IMAGE_SIZE_IN_BYTES } from "../../../../shared/constants/uploadLimits";
 
 const showToastError = vi.fn();
 const uploadOrganizationIconImage = vi.fn();

@@ -8,7 +8,7 @@ import {
   MAX_IMAGES_PER_UPLOAD,
   getMaxImageBatchFileBytesInBytes,
   validateImageUploadBatchSize,
-} from "../../../shared/utils/uploadLimits";
+} from "../../../shared/constants/uploadLimits";
 
 describe("server/api/images/validate-upload.post", () => {
   describe("validateUploadBodySchema", () => {

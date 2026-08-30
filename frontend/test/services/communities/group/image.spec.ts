@@ -8,7 +8,7 @@ import {
   updateGroupImage,
   uploadGroupImages,
 } from "../../../../app/services/communities/group/image";
-import { AppErrorCause } from "../../../../shared/types/error";
+import { AppErrorCause } from "../../../../shared/constants/error";
 import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,

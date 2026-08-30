@@ -3,7 +3,7 @@ import { validateUploadBodySchema } from "#shared/utils/imageUploadBatchValidati
 import {
   IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
   validateImageUploadBatchSize,
-} from "#shared/utils/uploadLimits";
+} from "#shared/constants/uploadLimits";
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, validateUploadBodySchema.parse);
