@@ -2,7 +2,7 @@
 
 /**
  * Computes the navigation target URL for various entity types (Organization, Group, Event, Resource, User),
- * automatically appending `/about` on medium or larger screens where split view / about subroutes are displayed.
+ * automatically appending `/about` for internal entity detail pages.
  *
  * @param props - Entity payload containing optional organization, group, event, resource, or user.
  * @returns An object containing the reactive `linkUrl` computed property.
@@ -14,8 +14,6 @@ export function useLinkURL(props: {
   resource?: Resource | null;
   user?: UserActivist | null;
 }) {
-  const aboveMediumBP = useBreakpoint("md");
-
   const linkUrl = computed<string>(() => {
     let url = "";
     if (props.organization) {
@@ -30,7 +28,7 @@ export function useLinkURL(props: {
       url = `/users/${props.user.id}`;
     }
 
-    if (url && aboveMediumBP.value && !props.resource) {
+    if (url && !props.resource) {
       return `${url}/about`;
     }
     return url;
