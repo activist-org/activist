@@ -691,6 +691,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
 class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    pagination_class = CustomPagination
 
     def list(self, request: Request, org_id: UUID) -> Response:
         if org_id is None:
@@ -724,6 +725,11 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
             queryset = queryset.filter(orgs__id=org_id)
 
         queryset = queryset.order_by("times__start_time").distinct()
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
