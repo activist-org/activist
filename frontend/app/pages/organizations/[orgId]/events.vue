@@ -70,9 +70,12 @@
         </div>
       </div>
     </HeaderAppPageOrganization>
-    <Loading v-if="pending" :loading="pending" />
+    <Loading
+      v-if="pending && !loadingFetchMore"
+      :loading="pending && !loadingFetchMore"
+    />
     <div
-      v-if="events && (events ?? []).length > 0"
+      v-else-if="showEvents"
       class="space-y-3 py-4"
       data-testid="organization-events-list"
     >
@@ -82,6 +85,12 @@
         :event="e"
         :isReduced="true"
       />
+      <div ref="bottomSentinel" class="h-px">
+        <Loading
+          v-if="loadingFetchMore && pending"
+          :loading="loadingFetchMore && pending"
+        />
+      </div>
     </div>
     <EmptyState v-else class="py-4" pageType="events" :permission="false" />
   </div>
@@ -92,19 +101,55 @@ const orgId = useRoute().params.orgId as string;
 
 const name = ref<string>("");
 const dateRange = ref<{ start?: Date; end?: Date }>({});
+const loadingFetchMore = ref(false);
 
 // format to YYYY-MM-DD for backend __date filter
 const toDateParam = (d?: Date) =>
   d ? d.toISOString().slice(0, 10) : undefined;
 
-const filters = computed(() => ({
+const filters = computed<OrganizationEventFilters>(() => ({
   name: name.value || undefined,
   startDate: toDateParam(dateRange.value.start),
   endDate: toDateParam(dateRange.value.end),
 }));
 
+watch(
+  filters,
+  () => {
+    loadingFetchMore.value = false;
+  },
+  { immediate: true, deep: true }
+);
+
 const { data: organization } = useGetOrganization(orgId);
-const { data: events, pending } = useGetOrganizationEvents(orgId, filters);
+const {
+  data: events,
+  pending,
+  getMore,
+} = useGetOrganizationEvents(orgId, filters);
+
+const bottomSentinel = ref<HTMLElement | null>(null);
+const canFetchMore = ref(true);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+
+useCustomInfiniteScroll({
+  sentinel: bottomSentinel as Ref<HTMLElement | null>,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
+
+const showEvents = computed(() => {
+  if ((events?.value ?? []).length > 0) {
+    if (loadingFetchMore.value) {
+      return true;
+    }
+    return !pending.value;
+  }
+  return false;
+});
 
 const { openModal } = useModalHandlers("ModalCreateEvent");
 const downloadCalendarEntries = () => {};
