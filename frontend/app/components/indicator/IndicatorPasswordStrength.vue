@@ -21,13 +21,13 @@
     >
       {{
         !!(password || []).length
-          ? $t(
+          ? t(
               "i18n.components.indicator_password_strength.time_to_crack_password",
               {
                 time: crackTimeDisplay,
               }
             )
-          : $t("i18n.components.indicator_password_strength.invalid")
+          : t("i18n.components.indicator_password_strength.invalid")
       }}
     </div>
   </div>
@@ -39,6 +39,8 @@ import zxcvbn from "zxcvbn";
 const props = defineProps<{
   passwordValue?: string | Ref<string | undefined>;
 }>();
+
+const { t } = useI18n();
 
 const password = computed(() => unref(props.passwordValue));
 type PasswordIndexKey = 0 | 1 | 2 | 3 | 4;

@@ -1,17 +1,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <h2>{{ $t("i18n.components.modal_create_event.create_new_event") }}</h2>
+    <h2>{{ t("i18n.components.modal_create_event.create_new_event") }}</h2>
     <Machine
       @close="handleCloseModal"
-      :machine-type="MachineCreateType.CreateEvent"
+      :machine-type="createEvent"
       :options="flowOptions"
     />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const modalName = "ModalCreateEvent";
+const createEvent = MachineCreateType.CreateEvent;
 const { handleCloseModal } = useModalHandlers(modalName);
 const { createAsync } = useEventMutations();
 

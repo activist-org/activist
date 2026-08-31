@@ -2,7 +2,7 @@
 <template>
   <div class="overflow-hidden bg-layer-0">
     <Head>
-      <Title>{{ $t("i18n.pages.index.title") }}</Title>
+      <Title>{{ t("i18n.pages.index.title") }}</Title>
     </Head>
     <LandingSplash />
     <LandingCommunityBanner />
@@ -17,7 +17,7 @@
         contentPosition="left"
         header="i18n.pages.index.get_active_header"
         imageAltText="i18n.pages.index.get_active_img_alt_text"
-        :imgUrl="GET_ACTIVE_IMAGE_URL"
+        :imgUrl="getActiveImageUrl"
         tagline="i18n.pages.index.get_active_tagline"
         text="i18n.pages.index.get_active_text"
       />
@@ -29,7 +29,7 @@
         contentPosition="right"
         header="i18n.pages.index.get_organized_header"
         imageAltText="i18n.pages.index.get_organized_img_alt_text"
-        :imgUrl="GET_ORGANIZED_IMAGE_URL"
+        :imgUrl="getOrganizedImageUrl"
         tagline="i18n.pages.index.get_organized_tagline"
         text="i18n.pages.index.get_organized_text"
       />
@@ -41,7 +41,7 @@
         contentPosition="left"
         header="i18n.pages.index.grow_organization_header"
         imageAltText="i18n.pages.index.grow_organization_img_alt_text"
-        :imgUrl="GROW_ORGANIZATION_IMAGE_URL"
+        :imgUrl="growOrganizationImageUrl"
         tagline="i18n.pages.index.grow_organization_tagline"
         text="i18n.pages.index.grow_organization_text"
       />
@@ -77,3 +77,11 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+
+const getActiveImageUrl = GET_ACTIVE_IMAGE_URL;
+const getOrganizedImageUrl = GET_ORGANIZED_IMAGE_URL;
+const growOrganizationImageUrl = GROW_ORGANIZATION_IMAGE_URL;
+</script>

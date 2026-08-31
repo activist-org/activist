@@ -3,9 +3,7 @@
   <button
     @click="toggleTooltip"
     @keydown.shift.tab="onShiftTab"
-    :aria-label="
-      $t('i18n.components.menu_search_result.toggle_menu_aria_label')
-    "
+    :aria-label="t('i18n.components.menu_search_result.toggle_menu_aria_label')"
     class="style-cta relative flex h-8 w-8 items-center justify-center rounded-full elem-shadow-sm md:h-6 md:w-6"
     data-testid="menu-button"
   >
@@ -66,6 +64,8 @@ defineProps<{
   resource?: Resource;
   user?: UserActivist;
 }>();
+
+const { t } = useI18n();
 
 const showTooltip = ref(false);
 

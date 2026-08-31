@@ -5,7 +5,7 @@
   >
     <p class="mb-2 px-2">
       {{
-        $t(
+        t(
           "i18n.components.tooltip_password_requirements.password_rules_message"
         )
       }}
@@ -33,17 +33,17 @@
       <title :id="rule.rule" class="sr-only">
         {{
           validRules.some((ruleV) => ruleV.isValid && ruleV.rule === rule.rule)
-            ? $t(
+            ? t(
                 "i18n.components.tooltip_password_requirements.password_passed_rule"
               )
-            : $t(
+            : t(
                 "i18n.components.tooltip_password_requirements.password_failed_rule"
               )
         }}
       </title>
       <p class="truncate text-sm">
         {{
-          $t(passwordRequirementsDict[rule.rule as PasswordRequirementsDictKey])
+          t(passwordRequirementsDict[rule.rule as PasswordRequirementsDictKey])
         }}
       </p>
     </div>
@@ -51,6 +51,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
   password: string | Ref<string | undefined>;
 }>();

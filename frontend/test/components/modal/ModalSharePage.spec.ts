@@ -12,8 +12,8 @@ import type { UserActivist } from "../../../shared/types/user";
 
 import ModalSharePage from "../../../app/components/modal/ModalSharePage.vue";
 
-// Mock global $t for setup context
-vi.stubGlobal("$t", (key: string) => key);
+// Mock global t for setup context
+vi.stubGlobal("t", (key: string) => key);
 
 // MARK: Stubs
 
@@ -142,7 +142,7 @@ const createWrapper = (
     },
     global: {
       mocks: {
-        $t: (key: string) => key,
+        t: (key: string) => key,
         $colorMode: { value: "dark" },
       },
       stubs: {

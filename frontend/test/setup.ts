@@ -41,6 +41,24 @@ vi.mock("@sidebase/nuxt-auth", () => ({
   useAuthState: globalThis.useAuthState,
 }));
 
+// MARK: ~/services/http Mocks
+// NOTE: services call a global `$fetch` provided by the Nuxt test env, not the
+// "ofetch" module — so mock the wrapper module instead of "ofetch".
+const httpMocks = vi.hoisted(() => {
+  const fetchMock = vi.fn();
+  return {
+    fetchMock,
+    get: fetchMock,
+    post: fetchMock,
+    put: fetchMock,
+    del: fetchMock,
+    fetchSession: fetchMock,
+  };
+});
+
+globalThis.httpMocks = httpMocks;
+globalThis.$fetch = httpMocks.fetchMock as typeof globalThis.$fetch;
+
 // MARK: @pinia/colada Global Mocks (Stable References)
 
 interface MutationOptions<TResult, TVars, TContext = unknown> {
@@ -164,7 +182,7 @@ URL.createObjectURL = (obj: Blob | MediaSource) => {
 config.global.provide = {
   [Symbol.for("vue-i18n")]: i18n,
 };
-config.global.$t = (key: string) => i18n.global.t(key);
+config.global.t = (key: string) => i18n.global.t(key);
 
 // MARK: Component Mocks
 config.global.components = {

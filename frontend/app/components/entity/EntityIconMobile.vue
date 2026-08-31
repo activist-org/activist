@@ -62,9 +62,9 @@ const props = defineProps<{
   tagline?: string;
 }>();
 
-const emit = defineEmits(["edit"]);
-const { canEdit } = useUser();
 const { t } = useI18n();
+const { canEdit } = useUser();
+const emit = defineEmits(["edit"]);
 
 const canEditEntity = computed(() => canEdit(props.entity));
 const imageClass = computed(() => (props.accentClass ? "w-[80%]" : "w-full"));

@@ -13,7 +13,7 @@
         />
       </div>
       <p class="lg:mt-3">
-        {{ $t("i18n.components.footer_website.activist_tagline") }}
+        {{ t("i18n.components.footer_website.activist_tagline") }}
       </p>
       <!-- Note: Platform Links -->
       <div
@@ -23,20 +23,20 @@
           <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
-              :aria-label="$t(platform.ariaLabel)"
+              :aria-label="t(platform.ariaLabel)"
               class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(platform.url)"
             >
-              {{ $t(platform.name) }}
+              {{ t(platform.name) }}
             </NuxtLink>
             <a
               v-else
-              :aria-label="$t(platform.ariaLabel)"
+              :aria-label="t(platform.ariaLabel)"
               class="text-primary-text focus-brand hover:text-distinct-text"
               :href="platform.url"
               target="_blank"
             >
-              {{ $t(platform.name) }}
+              {{ t(platform.name) }}
             </a>
             <div v-if="index < links.platformLinks.length - 1" class="px-2">
               •
@@ -51,12 +51,12 @@
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium">
-          {{ $t("i18n.components._global.connect") }}
+          {{ t("i18n.components._global.connect") }}
         </p>
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
-              :aria-label="$t(connect.name)"
+              :aria-label="t(connect.name)"
               class="mt-2 flex items-center space-x-2 text-base text-primary-text focus-brand hover:text-distinct-text"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
@@ -65,7 +65,7 @@
               <MetaTagSocialMedia
                 class="text-2xl sm:text-base"
                 :iconName="connect.iconName"
-                :text="$t(connect.name)"
+                :text="t(connect.name)"
                 textUtilityClasses="sr-only sm:not-sr-only"
               />
             </a>
@@ -75,7 +75,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="mt-6 text-xl font-medium sm:mt-0">
-          {{ $t("i18n._global.resources") }}
+          {{ t("i18n._global.resources") }}
         </p>
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(resource, index) in links.resourcesLinks">
@@ -84,11 +84,11 @@
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink
-                :aria-label="$t(resource.ariaLabel)"
+                :aria-label="t(resource.ariaLabel)"
                 class="focus-brand"
                 :to="localePath(resource.url)"
               >
-                {{ $t(resource.name) }}
+                {{ t(resource.name) }}
               </NuxtLink>
               <span
                 v-if="index < links.resourcesLinks.length - 1"
@@ -103,7 +103,7 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="mt-6 text-xl font-medium sm:mt-0">
-          {{ $t("i18n._global.organization") }}
+          {{ t("i18n._global.organization") }}
         </p>
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(oLink, index) in links.organizationLinks">
@@ -112,11 +112,11 @@
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink
-                :aria-label="$t(oLink.ariaLabel)"
+                :aria-label="t(oLink.ariaLabel)"
                 class="focus-brand"
                 :to="localePath(oLink.url)"
               >
-                {{ $t(oLink.name) }}
+                {{ t(oLink.name) }}
               </NuxtLink>
               <span
                 v-if="index < links.organizationLinks.length - 1"
@@ -137,11 +137,11 @@
         <template v-for="(policy, index) in links.legalLinks" :key="index">
           <div class="flex">
             <NuxtLink
-              :aria-label="$t(policy.ariaLabel)"
+              :aria-label="t(policy.ariaLabel)"
               class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(policy.url)"
             >
-              {{ $t(policy.name) }}
+              {{ t(policy.name) }}
             </NuxtLink>
             <span
               v-if="index < links.legalLinks.length - 1"
@@ -157,11 +157,11 @@
         href="https://www.netlify.com/"
         target="_blank"
       >
-        {{ $t("i18n.components.footer_website.powered_by_netlify") }}
+        {{ t("i18n.components.footer_website.powered_by_netlify") }}
       </a>
       <p class="mt-2">
         {{
-          $t("i18n.components.footer_website.copyright", {
+          t("i18n.components.footer_website.copyright", {
             year: new Date().getFullYear(),
           })
         }}
@@ -171,10 +171,12 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const localePath = useLocalePath();
+
 const currentWidth = ref(window.innerWidth);
 const isMobileDevice = ref(false);
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
-const localePath = useLocalePath();
 
 const updateWidth = () => {
   currentWidth.value = window.innerWidth;

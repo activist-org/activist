@@ -3,7 +3,6 @@ import maplibregl, { type LayerSpecification } from "maplibre-gl";
 
 export const useMap = () => {
   const { t } = useI18n();
-
   const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
 

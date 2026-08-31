@@ -11,7 +11,7 @@ export async function uploadGroupImages(
   try {
     const fd = new FormData();
     fd.append("entity_id", groupId);
-    fd.append("entity_type", "group"); // backend expects EntityType.GROUP; if you have enum, adjust
+    fd.append("entity_type", EntityMap.GROUP);
     for (const s of sequences) fd.append("sequences", String(s));
     for (const f of files) fd.append("file_object", f.file);
 
