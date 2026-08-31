@@ -8,6 +8,7 @@ from rest_framework.test import APIRequestFactory
 
 from communities.organizations.factories import OrganizationFactory
 from communities.organizations.views import OrganizationEventViewSet
+from core.custom_settings import PAGINATION_PAGE_SIZE
 from events.factories import EventFactory, EventTimeFactory
 
 pytestmark = pytest.mark.django_db
@@ -41,7 +42,10 @@ def test_org_event_retrieve_no_events_returns_empty_payload_ok_200():
     response = _test_org_event_retrieve_list(org_id=org.id)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response.data == []
+    assert response.data["count"] == 0
+    assert response.data["next"] is None
+    assert response.data["previous"] is None
+    assert response.data["results"] == []
 
 
 def test_org_event_retrieve_name_filter_icontains_ok_200():
@@ -63,7 +67,7 @@ def test_org_event_retrieve_name_filter_icontains_ok_200():
     response = _test_org_event_retrieve_list(org_id=org.id, params={"name": "clean"})
 
     assert response.status_code == status.HTTP_200_OK
-    returned_ids = {str(item["id"]) for item in response.data}
+    returned_ids = {str(item["id"]) for item in response.data["results"]}
     assert str(keep.id) in returned_ids
     assert str(drop.id) not in returned_ids
 
@@ -91,7 +95,7 @@ def test_org_event_retrieve_start_and_end_overlap_filter_ok_200():
 
     assert response.status_code == status.HTTP_200_OK
 
-    returned_ids = {str(item["id"]) for item in response.data}
+    returned_ids = {str(item["id"]) for item in response.data["results"]}
     assert str(overlapping.id) in returned_ids
     assert str(outside.id) not in returned_ids
 
@@ -117,7 +121,7 @@ def test_org_event_retrieve_start_date_only_filter_ok_200():
     )
 
     assert response.status_code == status.HTTP_200_OK
-    returned_ids = {str(item["id"]) for item in response.data}
+    returned_ids = {str(item["id"]) for item in response.data["results"]}
     assert str(keep.id) in returned_ids
     assert str(drop.id) not in returned_ids
 
@@ -143,6 +147,6 @@ def test_org_event_retrieve_end_date_only_filter_ok_200():
     )
 
     assert response.status_code == status.HTTP_200_OK
-    returned_ids = {str(item["id"]) for item in response.data}
+    returned_ids = {str(item["id"]) for item in response.data["results"]}
     assert str(keep.id) in returned_ids
     assert str(drop.id) not in returned_ids
