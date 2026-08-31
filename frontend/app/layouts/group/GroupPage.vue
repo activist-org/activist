@@ -1,20 +1,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <SidebarLeft
-      v-if="aboveMediumBP"
-      @blur="sidebarHover = false"
-      @focus="sidebarHover = true"
-      @mouseleave="sidebarHover = false"
-      @mouseover="sidebarHover = true"
-      class="block"
-    />
+    <SidebarLeft v-if="aboveMediumBP" class="block" />
     <div
       class="flex grid-rows-none flex-col overflow-x-hidden md:grid md:h-screen md:grid-rows-[1fr_auto] md:overflow-y-hidden"
     >
       <div
         v-if="group && images"
-        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
+        class="w-full min-w-0 bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
         <EntityIconMobile
@@ -52,16 +45,14 @@ const showMobileEntityShortcut = computed(
   () => !aboveMediumBP.value && !!group.value
 );
 
-const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
   useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
-  sidebarContentScrollable.value,
-  sidebarHover
+  sidebarContentScrollable.value
 );
 
-const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+const sidebarFooterDynamicClass = getSidebarFooterDynamicClass();
 const { showToastError } = useToaster();
 
 function handleEditGroupIcon(): void {

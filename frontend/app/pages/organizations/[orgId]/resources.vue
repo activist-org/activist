@@ -3,18 +3,18 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ organization?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ organization?.name }}&nbsp;{{ t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
-      :header="organization?.name + ' ' + $t('i18n._global.resources_lower')"
-      :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
+      :header="organization?.name + ' ' + t('i18n._global.resources_lower')"
+      :tagline="t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          :element="$t('i18n._global.resources_lower')"
+          :element="t('i18n._global.resources_lower')"
           :entity="organization"
           label="i18n.pages._global.resources.add_new_resource"
           :onClick="
@@ -66,7 +66,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="organization"
-            :entityType="EntityType.ORGANIZATION"
+            :entityType="EntityMap.ORGANIZATION"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(organization) ? 0 : -1"
@@ -86,8 +86,10 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const { openModal } = useModalHandlers("ModalResourceOrganization");
+const { t } = useI18n();
 const { canEdit } = useUser();
+
+const { openModal } = useModalHandlers("ModalResourceOrganization");
 
 const route = useRoute();
 const paramsOrgId = (route.params.orgId as string | undefined) ?? "";

@@ -49,7 +49,7 @@ const createWrapper = (
     },
     global: {
       mocks: {
-        $t: (key: string) => key,
+        t: (key: string) => key,
       },
       stubs: {
         Icon: { template: '<span class="icon-stub"></span>' },

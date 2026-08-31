@@ -3,12 +3,16 @@
 import type { NuxtPage } from "nuxt/schema";
 
 import tailwindcss from "@tailwindcss/vite";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import modules from "./modules";
+import { MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES } from "./shared/constants/uploadLimits";
 import locales from "./shared/utils/locales";
-import { MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES } from "./shared/utils/uploadLimits";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineNuxtConfig({
   app: {
@@ -31,7 +35,12 @@ export default defineNuxtConfig({
   plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
   // Auto import services and stores.
   imports: {
-    dirs: ["./constants", "./services", "./stores"],
+    dirs: [
+      "./constants",
+      "./services",
+      "./stores",
+      resolve(__dirname, "./shared/constants"),
+    ],
   },
 
   vite: {
@@ -111,6 +120,9 @@ export default defineNuxtConfig({
     // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
     // Use netlify-static preset for Netlify deployment (creates static site)
     preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
+    imports: {
+      dirs: [resolve(__dirname, "./shared/constants")],
+    },
   },
 
   // plausible: {

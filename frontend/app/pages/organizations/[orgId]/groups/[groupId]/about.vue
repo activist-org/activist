@@ -67,7 +67,7 @@
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
             :entityId="group?.id || ''"
-            :entityType="EntityType.GROUP"
+            :entityType="EntityMap.GROUP"
             :images="images || []"
           />
         </div>

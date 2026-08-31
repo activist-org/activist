@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { IconMap } from "#shared/types/icon-map";
+
+import { IconMap } from "./iconMap";
 
 export const menuItems = [
   {
@@ -15,6 +16,6 @@ export const menuItems = [
   {
     label: "i18n._global.organizations",
     routeUrl: "/organizations",
-    iconUrl: "IconOrganization",
+    iconUrl: `${IconMap.ORGANIZATION}`,
   },
 ];

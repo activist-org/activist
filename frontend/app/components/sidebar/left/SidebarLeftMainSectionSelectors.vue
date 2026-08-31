@@ -5,7 +5,7 @@
       <!-- In the v-for don't select Home. -->
       <SidebarLeftSelector
         :id="getSelectorId(item.label)"
-        v-for="(item, index) in menuItems.slice(1, 3)"
+        v-for="(item, index) in menuItemsForSidebar"
         :key="index"
         :active="true"
         :iconUrl="item.iconUrl"
@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 const route = useRoute();
+const menuItemsForSidebar = menuItems.slice(1, 3);
 const isActive = (routeUrl: string) => {
   return isTopLevelRouteActive(routeUrl, route.path);
 };
