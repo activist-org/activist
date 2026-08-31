@@ -8,7 +8,6 @@ from rest_framework.test import APIRequestFactory
 
 from communities.organizations.factories import OrganizationFactory
 from communities.organizations.views import OrganizationEventViewSet
-from core.custom_settings import PAGINATION_PAGE_SIZE
 from events.factories import EventFactory, EventTimeFactory
 
 pytestmark = pytest.mark.django_db
