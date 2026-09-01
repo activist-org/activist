@@ -65,6 +65,10 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
+  icon: {
+    mode: "svg",
+  },
+
   css: [
     "~/assets/css/tailwind.css",
     "reduced-motion/css",
@@ -136,6 +140,14 @@ export default defineNuxtConfig({
     headers: {
       contentSecurityPolicy: {
         "img-src": ["'self'", "data:", "blob:"],
+        "style-src": [
+          "'self'",
+          "https:",
+          "'nonce-{{nonce}}'",
+          // Allow the locked vue3-friendly-captcha runtime stylesheet.
+          "'sha256-egNyWPabcEfOY1nlLJYuKx6bWZ6K6yD2yvQRcn1UpY0='",
+        ],
+        "style-src-attr": ["'unsafe-inline'"],
         "script-src": [
           "'self'",
           "https:",

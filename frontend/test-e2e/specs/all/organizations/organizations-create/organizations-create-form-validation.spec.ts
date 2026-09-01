@@ -137,7 +137,9 @@ test.describe(
       // X icon renders, then dispatch the click directly on the icon span
       // (CSS icons have pointer-events: none, so regular .click() misses them).
       await expect(modal.countryField).not.toHaveValue("", { timeout: 5000 });
-      await countryComboboxButton.locator("span").dispatchEvent("click");
+      await countryComboboxButton
+        .getByTestId("form-selector-combobox-clear")
+        .dispatchEvent("click");
 
       await modal.cityField.fill("Berlin");
       await modal.submitLocationButton.click();
