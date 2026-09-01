@@ -39,6 +39,7 @@
         <Icon
           v-else
           @click.stop.prevent="internalSelectedOptions = null"
+          data-testid="form-selector-combobox-clear"
           :name="IconMap.X_LG"
         />
       </ComboboxButton>
