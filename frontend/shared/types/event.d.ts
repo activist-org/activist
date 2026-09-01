@@ -55,6 +55,12 @@ export interface EventFilters {
   days_ahead?: number; // number of days in the future
 }
 
+export interface OrganizationEventFilters {
+  startDate?: string;
+  endDate?: string;
+  name?: string;
+}
+
 export interface EventSocialLink extends SocialLink {
   eventId: string;
 }
