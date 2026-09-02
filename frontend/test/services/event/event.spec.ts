@@ -15,7 +15,6 @@ import {
   expectJsonRequest,
   expectRequest,
   getFetchCall,
-  getFetchRawCall,
   setupServiceTestMocks,
 } from "../helpers";
 
@@ -59,9 +58,9 @@ describe("services/event", () => {
   });
 
   it("getEventCalendarFile() returns the calendar Blob and response filename header", async () => {
-    const { fetchRawMock } = getMocks();
+    const { get } = getMocks();
     const blob = new Blob(["BEGIN:VCALENDAR"], { type: "text/calendar" });
-    fetchRawMock.mockResolvedValueOnce({
+    get.mockResolvedValueOnce({
       _data: blob,
       headers: new Headers({
         "Content-Disposition": "attachment; filename=activist_event_test.ics",
@@ -75,7 +74,7 @@ describe("services/event", () => {
       blob,
       contentDisposition: "attachment; filename=activist_event_test.ics",
     });
-    const [url, opts] = getFetchRawCall(fetchRawMock);
+    const [url, opts] = get.mock.calls[0];
     expect(url).toBe("/events/event_calendar");
     expect(opts.baseURL).toBe("/api/public");
     expect(opts.query).toEqual({ event_id: "event-id" });
@@ -83,8 +82,8 @@ describe("services/event", () => {
   });
 
   it("getEventCalendarFile() rejects an empty response as an AppError", async () => {
-    const { fetchRawMock } = getMocks();
-    fetchRawMock.mockResolvedValueOnce({
+    const { get } = getMocks();
+    get.mockResolvedValueOnce({
       _data: undefined,
       headers: new Headers(),
       status: 200,

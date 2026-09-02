@@ -41,11 +41,6 @@ export async function getEvent(id: string): Promise<EventResponse> {
 
 // MARK: Calendar Export
 
-export interface EventCalendarFile {
-  blob: Blob;
-  contentDisposition: string | null;
-}
-
 export async function getEventCalendarFile(
   eventId: string
 ): Promise<EventCalendarFile> {

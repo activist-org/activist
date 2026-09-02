@@ -59,7 +59,8 @@ describe("services/http (mocked contract)", () => {
       headers: new Headers({ "Content-Disposition": "attachment" }),
       status: 200,
     };
-    fetchRawMock.mockResolvedValueOnce(rawResponse);
+
+    mocks().get.mockResolvedValueOnce(rawResponse);
 
     const result = await getRaw<Blob>("/calendar", {
       headers: { "X-Trace": "calendar-download" },
@@ -68,8 +69,8 @@ describe("services/http (mocked contract)", () => {
     });
 
     expect(result).toBe(rawResponse);
-    expect(fetchRawMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = fetchRawMock.mock.calls[0] as [
+    expect(mocks().get).toHaveBeenCalledTimes(1);
+    const [url, opts] = mocks().get.mock.calls[0] as [
       string,
       Record<string, unknown>,
     ];
