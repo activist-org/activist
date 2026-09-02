@@ -4255,7 +4255,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/core@npm:3.27.1, @tiptap/core@npm:^3.27.1":
+"@tiptap/core@npm:3.30.4":
+  version: 3.30.4
+  resolution: "@tiptap/core@npm:3.30.4"
+  peerDependencies:
+    "@tiptap/pm": 3.30.4
+  checksum: 10c0/51cc37a296eee4b1ec0b969bf1c5a95a29793533d976a0085db15b033b4ac6d5e2765a94225a19266fb1c4eec403ec712ea4aa84cb67269d51cd41ce431b28b7
+  languageName: node
+  linkType: hard
+
+"@tiptap/core@npm:^3.27.1":
   version: 3.27.1
   resolution: "@tiptap/core@npm:3.27.1"
   peerDependencies:
@@ -6138,7 +6147,7 @@ __metadata:
     "@somushq/vue3-friendly-captcha": "npm:1.0.2"
     "@tailwindcss/vite": "npm:4.3.2"
     "@testing-library/vue": "npm:8.1.0"
-    "@tiptap/core": "npm:3.27.1"
+    "@tiptap/core": "npm:3.30.4"
     "@tiptap/extension-link": "npm:3.27.1"
     "@tiptap/extension-mention": "npm:3.27.1"
     "@tiptap/extension-placeholder": "npm:3.27.1"
