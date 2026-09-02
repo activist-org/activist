@@ -24,6 +24,14 @@ jobs:
     needs: check-repository
     if: needs.check-repository.outputs.is_remote_main == 'true'
     runs-on: ubuntu-latest
+
+    # Note: Update the following if there are dependencies that can't be upgraded.
+    env:
+      # Note: The dependencies and versions here are passed to compare_backend_versions.py.
+      BACKEND_MAX_VERSIONS: "{}"
+      # Note: Set these values in yarn.config.cjs to enforce the version constraints.
+      FRONTEND_MAX_VERSIONS: '{"typescript": "6.0.3"}'
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -38,8 +46,25 @@ jobs:
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖⬆️" > reports.md
+          echo "\n" >> reports.md
           echo "> [!NOTE]" >> reports.md
           echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
+
+          BACKEND_CAPS=$(echo "$BACKEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
+          FRONTEND_CAPS=$(echo "$FRONTEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
+
+          if [ -n "$BACKEND_CAPS" ] || [ -n "$FRONTEND_CAPS" ]; then
+            echo "\n" >> reports.md
+            echo "> [!WARNING]" >> reports.md
+            echo "> Note that the following dependencies have maximum versions set in the [dependency_update_check.yaml](https://github.com/activist-org/activist/blob/main/.github/workflows/dependency_update_check.yaml) workflow:" >> reports.md
+            echo ">" >> reports.md
+            [ -n "$BACKEND_CAPS" ] && echo "> - Backend: $BACKEND_CAPS" >> reports.md
+            [ -n "$FRONTEND_CAPS" ] && echo "> - Frontend: $FRONTEND_CAPS" >> reports.md
+            echo ">" >> reports.md
+            echo "> Please check whether maximum version restrictions can be removed and rerun the workflow without them if they can be." >> reports.md
+            echo "\n" >> reports.md
+          fi
+
           echo "## Available Dependency Updates" >> reports.md
 
       # MARK: Backend
@@ -109,6 +134,11 @@ jobs:
           # Note: We don't install versions that are younger than seven days (three to seven days is conservative age).
           yarn ncu -u -p yarn -c 7d  # npm-check-updates
 
+          # Attn: Max versions are set via the yarn.config.cjs file.
+          # See: https://yarnpkg.com/features/constraints
+          yarn constraints  # view constraints for logging
+          yarn constraints --fix
+
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
 
@@ -123,7 +153,7 @@ jobs:
           cd backend
 
           echo "\n" >> ../reports.md
-          echo "\n## Backend Tests" >> ../reports.md
+          echo "## Backend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results\n" >> ../reports.md
@@ -158,7 +188,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "\n" >> ../reports.md
-          echo "\n## Frontend Tests" >> ../reports.md
+          echo "## Frontend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
           # echo "compare_versions.js" >> ../.prettierignore
@@ -191,7 +221,7 @@ jobs:
       - name: Create GitHub Issue
         uses: peter-evans/create-issue-from-file@v6
         with:
-          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖⬆️"
+          title: "[Multiple Assignees Possible] Dependency Update Report - ${{ env.REPORT_DATE }} 🤖⬆️"
           content-filepath: reports.md
           labels: |
             dependencies
