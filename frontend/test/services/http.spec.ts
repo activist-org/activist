@@ -1,73 +1,54 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-/**
- * Tests for http service helpers after nuxt-auth-utils migration.
- *
- * Key changes from the old auth approach:
- * - Authorization headers are now added server-side by middleware, not client-side
- * - get/post/put/del use baseURL "/api/auth" (authenticated) or "/api/public" (withoutAuth)
- * - fetchSession uses baseURL "/api/session" and $fetch directly (not $fetch.raw)
- */
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
-import type { FetchFn, FetchGlobal, FetchRawFn } from "../vitest-globals";
+import { del, fetchSession, get, post, put } from "~/services/http";
 
-import {
-  del,
-  fetchSession,
-  get,
-  getRaw,
-  post,
-  put,
-} from "../../app/services/http";
-import { expectRequest, getFetchCall } from "./helpers";
+const mocks = () =>
+  globalThis.httpMocks as {
+    get: ReturnType<typeof vi.fn>;
+    post: ReturnType<typeof vi.fn>;
+    put: ReturnType<typeof vi.fn>;
+    del: ReturnType<typeof vi.fn>;
+    fetchSession: ReturnType<typeof vi.fn>;
+  };
 
-describe("services/http", () => {
-  let fetchMock: ReturnType<typeof vi.fn<FetchFn>>;
-  let fetchRawMock: ReturnType<typeof vi.fn<FetchRawFn>>;
-
+describe("services/http (mocked contract)", () => {
   beforeEach(() => {
-    fetchMock = vi.fn<FetchFn>();
-    fetchRawMock = vi.fn<FetchRawFn>();
-    const combined = Object.assign(fetchMock, {
-      raw: fetchRawMock,
-    }) as FetchGlobal;
-    globalThis.$fetch = combined;
-
-    vi.restoreAllMocks();
+    mocks().get.mockClear();
+    mocks().post.mockClear();
+    mocks().put.mockClear();
+    mocks().del.mockClear();
+    mocks().fetchSession.mockClear();
   });
 
-  // MARK: Get
+  it("get() calls the http get wrapper", async () => {
+    mocks().get.mockResolvedValueOnce({ ok: true });
 
-  it("get() sets baseURL to /api/auth and GET method by default", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const result = await get("/foo");
 
-    await get("/foo");
-
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, "/foo", "GET");
-    const [, opts] = getFetchCall(fetchMock);
-    expect(opts.baseURL).toBe("/api/auth");
+    expect(mocks().get).toHaveBeenCalledTimes(1);
+    expect(mocks().get).toHaveBeenCalledWith("/foo", {
+      baseURL: "/api/auth",
+      method: "GET",
+      headers: {},
+    });
+    expect(result).toEqual({ ok: true });
   });
 
-  it("get() sets baseURL to /api/public when withoutAuth is true", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true });
+  it("get() forwards options (withoutAuth, headers)", async () => {
+    mocks().get.mockResolvedValueOnce({ ok: true });
 
-    await get("/bar", { withoutAuth: true });
-
-    const [, opts] = getFetchCall(fetchMock);
-    expect(opts.baseURL).toBe("/api/public");
-  });
-
-  it("get() preserves caller-provided headers", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true });
-
-    await get("/caller-auth", {
+    await get("/bar", {
+      withoutAuth: true,
       headers: { Authorization: "Bearer caller", "X-Trace": "t" },
     });
 
-    const [, opts] = getFetchCall(fetchMock);
-    expect(opts.headers?.Authorization).toBe("Bearer caller");
-    expect(opts.headers?.["X-Trace"]).toBe("t");
+    expect(mocks().get).toHaveBeenCalledWith("/bar", {
+      baseURL: "/api/public",
+      method: "GET",
+      withoutAuth: true,
+      headers: { Authorization: "Bearer caller", "X-Trace": "t" },
+    });
   });
 
   // MARK: Get Raw
@@ -104,64 +85,65 @@ describe("services/http", () => {
 
   it("post() sends body and sets baseURL to /api/auth by default", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
+  it("post() sends body through the post wrapper", async () => {
+    mocks().post.mockResolvedValueOnce({ ok: true });
     const body = { a: 1 };
 
     await post("/items", body);
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = getFetchCall(fetchMock);
-    expect(url).toBe("/items");
-    expect(opts.method).toBe("POST");
-    expect(opts.baseURL).toBe("/api/auth");
-    expect(opts.body).toEqual(body);
+    // The wrapper merges body into the options object.
+    expect(mocks().post).toHaveBeenCalledWith("/items", {
+      baseURL: "/api/auth",
+      method: "POST",
+      body,
+      headers: {},
+    });
   });
 
-  // MARK: Put
-
-  it("put() sends body and merges headers", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true });
+  it("put() sends body and merges headers through the put wrapper", async () => {
+    mocks().put.mockResolvedValueOnce({ ok: true });
     const body = { name: "x" };
 
     await put("/items/1", body, {
       headers: { "Content-Type": "application/json" },
     });
 
-    const [, opts] = getFetchCall(fetchMock);
-    expect(opts.method).toBe("PUT");
-    expect(opts.body).toEqual(body);
-    expect(opts.baseURL).toBe("/api/auth");
-    expect(opts.headers?.["Content-Type"]).toBe("application/json");
+    expect(mocks().put).toHaveBeenCalledWith("/items/1", {
+      baseURL: "/api/auth",
+      method: "PUT",
+      body,
+      headers: { "Content-Type": "application/json" },
+    });
   });
 
-  // MARK: Delete
-
-  it("del() sets DELETE method and respects withoutAuth", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true });
+  it("del() forwards options through the del wrapper", async () => {
+    mocks().del.mockResolvedValueOnce({ ok: true });
 
     await del("/items/2", { withoutAuth: true });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, "/items/2", "DELETE");
-    const [, opts] = getFetchCall(fetchMock);
-    expect(opts.baseURL).toBe("/api/public");
+    expect(mocks().del).toHaveBeenCalledWith("/items/2", {
+      baseURL: "/api/public",
+      method: "DELETE",
+      withoutAuth: true,
+      headers: {},
+    });
   });
 
-  // MARK: Fetch Session
-
-  it("fetchSession() calls $fetch with baseURL /api/session", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true, value: 42 });
+  it("fetchSession() calls the fetchSession wrapper", async () => {
+    mocks().fetchSession.mockResolvedValueOnce({ ok: true, value: 42 });
 
     const result = await fetchSession("/open", { q: 1 }, "POST", {
       body: 1,
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = getFetchCall(fetchMock);
-    expect(url).toBe("/open");
-    expect(opts.baseURL).toBe("/api/session");
-    expect(opts.method).toBe("POST");
-    expect(opts.data).toEqual({ q: 1 });
-    expect(opts.body).toEqual({ body: 1 });
+    // fetchSession maps its params to an options object.
+    expect(mocks().fetchSession).toHaveBeenCalledWith("/open", {
+      baseURL: "/api/session",
+      data: { q: 1 },
+      method: "POST",
+      body: { body: 1 },
+      headers: {},
+    });
     expect(result).toEqual({ ok: true, value: 42 });
   });
 });

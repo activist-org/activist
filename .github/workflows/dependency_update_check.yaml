@@ -24,6 +24,14 @@ jobs:
     needs: check-repository
     if: needs.check-repository.outputs.is_remote_main == 'true'
     runs-on: ubuntu-latest
+
+    # Note: Update the following if there are dependencies that can't be upgraded.
+    env:
+      # Note: The dependencies and versions here are passed to compare_backend_versions.py.
+      BACKEND_MAX_VERSIONS: "{}"
+      # Note: Set these values in yarn.config.cjs to enforce the version constraints.
+      FRONTEND_MAX_VERSIONS: '{"typescript": "6.0.3"}'
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -37,9 +45,26 @@ jobs:
 
       - name: Initialize Report
         run: |
-          echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖📝" > reports.md
+          echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖⬆️" > reports.md
+          echo "\n" >> reports.md
           echo "> [!NOTE]" >> reports.md
           echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
+
+          BACKEND_CAPS=$(echo "$BACKEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
+          FRONTEND_CAPS=$(echo "$FRONTEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
+
+          if [ -n "$BACKEND_CAPS" ] || [ -n "$FRONTEND_CAPS" ]; then
+            echo "\n" >> reports.md
+            echo "> [!WARNING]" >> reports.md
+            echo "> Note that the following dependencies have maximum versions set in the [dependency_update_check.yaml](https://github.com/activist-org/activist/blob/main/.github/workflows/dependency_update_check.yaml) workflow:" >> reports.md
+            echo ">" >> reports.md
+            [ -n "$BACKEND_CAPS" ] && echo "> - Backend: $BACKEND_CAPS" >> reports.md
+            [ -n "$FRONTEND_CAPS" ] && echo "> - Frontend: $FRONTEND_CAPS" >> reports.md
+            echo ">" >> reports.md
+            echo "> Please check whether maximum version restrictions can be removed and rerun the workflow without them if they can be." >> reports.md
+            echo "\n" >> reports.md
+          fi
+
           echo "## Available Dependency Updates" >> reports.md
 
       # MARK: Backend
@@ -109,6 +134,11 @@ jobs:
           # Note: We don't install versions that are younger than seven days (three to seven days is conservative age).
           yarn ncu -u -p yarn -c 7d  # npm-check-updates
 
+          # Attn: Max versions are set via the yarn.config.cjs file.
+          # See: https://yarnpkg.com/features/constraints
+          yarn constraints  # view constraints for logging
+          yarn constraints --fix
+
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
 
@@ -122,20 +152,21 @@ jobs:
         run: |
           cd backend
 
-          echo "\n## Backend Tests" >> ../reports.md
+          echo "\n" >> ../reports.md
+          echo "## Backend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
-          # echo -e "\n### Ruff Format Results" >> ../reports.md
+          # echo -e "\n### Ruff Format Results\n" >> ../reports.md
           # echo "\`\`\`" >> ../reports.md
           # uv run ruff format . 2>&1 | tee -a ../reports.md || true
           # echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Ruff Lint Results" >> ../reports.md
+          echo -e "\n### Ruff Lint Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           uv run ruff check . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### mypy Results" >> ../reports.md
+          echo -e "\n### mypy Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           uv run mypy . --config-file ./pyproject.toml 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
@@ -146,7 +177,7 @@ jobs:
 
           # Note: We're in the project root now and will write to reports.md instead of ../reports.md.
           # Note: We run pytest with --quiet --disable-warnings --tb=line to only record the failures in a quiet output.
-          echo -e "\n### Pytest Results" >> reports.md
+          echo -e "\n### Pytest Results\n" >> reports.md
           echo "\`\`\`" >> reports.md
           docker exec django_backend uv run pytest --quiet --disable-warnings --tb=line --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml 2>&1 | tee -a reports.md || true
           echo "\`\`\`" >> reports.md
@@ -156,26 +187,27 @@ jobs:
         working-directory: ./frontend
         continue-on-error: true
         run: |
-          echo "\n## Frontend Tests" >> ../reports.md
+          echo "\n" >> ../reports.md
+          echo "## Frontend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
           # echo "compare_versions.js" >> ../.prettierignore
-          # echo -e "\n### Prettier Results" >> ../reports.md
+          # echo -e "\n### Prettier Results\n" >> ../reports.md
           # echo "\`\`\`" >> ../reports.md
           # yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
           # echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### ESLint Results" >> ../reports.md
+          echo -e "\n### ESLint Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn lint 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Type Check Results" >> ../reports.md
+          echo -e "\n### Type Check Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn typecheck 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Vitest Results" >> ../reports.md
+          echo -e "\n### Vitest Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn test --reporter=dot --silent='passed-only' --no-color 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
@@ -189,7 +221,7 @@ jobs:
       - name: Create GitHub Issue
         uses: peter-evans/create-issue-from-file@v6
         with:
-          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖📝"
+          title: "[Multiple Assignees Possible] Dependency Update Report - ${{ env.REPORT_DATE }} 🤖⬆️"
           content-filepath: reports.md
           labels: |
             dependencies

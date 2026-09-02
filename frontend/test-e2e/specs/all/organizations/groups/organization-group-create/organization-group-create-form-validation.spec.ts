@@ -122,7 +122,9 @@ test.describe(
       const orgComboboxButton = modal.organizationCombobox.getByRole("button", {
         name: new RegExp(getEnglishText("i18n._global.organization"), "i"),
       });
-      await orgComboboxButton.locator("span").dispatchEvent("click");
+      await orgComboboxButton
+        .getByTestId("form-selector-combobox-clear")
+        .dispatchEvent("click");
 
       await expect(orgInput).toHaveValue("", { timeout: 5000 });
 

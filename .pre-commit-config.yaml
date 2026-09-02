@@ -42,7 +42,7 @@ repos:
       - id: mypy-check
         name: run mypy static type checking
         files: ^backend/
-        entry: uv run mypy ./backend --config-file ./backend/pyproject.toml
+        entry: "uv run --project ./backend mypy ./backend --config-file ./backend/pyproject.toml"
         language: python
         types: [python]
         pass_filenames: false
@@ -57,7 +57,7 @@ repos:
       - id: run-i18n-check
         name: run i18n-check key-value checks
         files: ^frontend/
-        entry: uv run i18n-check -a
+        entry: "uv run --project ./backend i18n-check -a"
         language: python
         pass_filenames: false
 

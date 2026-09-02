@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { FetchError } from "ofetch";
 
-import { AppErrorCause } from "#shared/types/error";
+import type { AppErrorCauseValue } from "#shared/types/error";
 
+import { AppErrorCause } from "#shared/constants/error";
 export class AppError extends Error {
   status?: number;
   code?: string;
-  causeTag: AppErrorCause;
+  causeTag: AppErrorCauseValue;
   details?: unknown;
 
   constructor(
     message: string,
-    causeTag: AppErrorCause,
+    causeTag: AppErrorCauseValue,
     opts?: { status?: number; code?: string; details?: unknown }
   ) {
     super(message);
@@ -23,7 +24,7 @@ export class AppError extends Error {
   }
 }
 
-const statusToCause: Record<number, AppErrorCause> = {
+const statusToCause: Record<number, AppErrorCauseValue> = {
   400: AppErrorCause.VALIDATION,
   401: AppErrorCause.UNAUTHORIZED,
   403: AppErrorCause.FORBIDDEN,
@@ -32,8 +33,7 @@ const statusToCause: Record<number, AppErrorCause> = {
   429: AppErrorCause.RATE_LIMITED,
   500: AppErrorCause.SERVER,
 };
-
-const getCauseFromStatus = (status?: number): AppErrorCause => {
+const getCauseFromStatus = (status?: number): AppErrorCauseValue => {
   if (!status) {
     return AppErrorCause.UNKNOWN;
   }
@@ -75,9 +75,23 @@ function extractMessage(data: unknown): string | undefined {
       return errorData.errors.join(", ");
     }
 
-    // Fall back to joining all string values (your current approach).
+    // Django REST Framework validation errors are keyed by field name (or
+    // "non_field_errors" for whole-serializer errors), each holding an array
+    // of message strings, e.g. {"non_field_errors": ["The file size (X
+    // bytes) is too large. The maximum file size is Y bytes."]}. Flatten
+    // those in alongside any plain string values so this shape surfaces its
+    // message instead of being silently dropped (it doesn't match "errors",
+    // and its values aren't themselves strings).
     const values = Object.values(errorData)
-      .filter((v): v is string => typeof v === "string")
+      .flatMap((v) => {
+        if (typeof v === "string") {
+          return [v];
+        }
+        if (Array.isArray(v)) {
+          return v.filter((item): item is string => typeof item === "string");
+        }
+        return [];
+      })
       .filter(Boolean);
 
     return values.length > 0 ? values.join(", ") : undefined;

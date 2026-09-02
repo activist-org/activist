@@ -211,11 +211,13 @@ fi
 # starting. Note: this wipes locally created dev data by design.
 docker compose --env-file .env.dev down -v >/dev/null 2>&1 || true
 
-# Start the backend and database (USE_PREVIEW skips full build inside Docker).
+# Start the backend, database, and db_worker (USE_PREVIEW skips full build
+# inside Docker). db_worker drains the background-task queue that signup and
+# other emails are enqueued onto; without it, emails never reach Mailhog.
 # Fail fast if Docker itself is unreachable, otherwise we'd waste ~2 minutes
 # on the frontend build only to hit a misleading "frontend did not become ready"
 # error downstream.
-USE_PREVIEW=true docker compose --env-file .env.dev up backend db -d || {
+USE_PREVIEW=true docker compose --env-file .env.dev up backend db db_worker -d || {
   echo "run-e2e-tests.sh: failed to start Docker services (is the Docker daemon running?)" >&2
   exit 1
 }

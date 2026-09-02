@@ -3,33 +3,39 @@
   <ModalBase :modalName="modalName">
     <h2>
       {{
-        $t("i18n.components.modal_create_organization.create_new_organization")
+        t("i18n.components.modal_create_organization.create_new_organization")
       }}
     </h2>
     <Machine
       @close="handleCloseModal"
-      :machine-type="MachineCreateType.CreateOrganization"
+      :machine-type="createOrganization"
       :options="flowOptions"
     />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
+const createOrganization = MachineCreateType.CreateOrganization;
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
-
-const { create } = useOrganizationMutations();
 const router = useRouter();
+
+const { create } = useOrganizationMutations({
+  create: {
+    onSuccess: (data: unknown) => {
+      router.push(`/organizations/${(data as Organization).id}/about`);
+    },
+  },
+});
+
 /**
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.
  */
 async function handleSubmission(values: unknown) {
-  const organization = await create(values as CreateOrganizationInput);
-  // handleCloseModal();
-  if (organization) {
-    router.push(`/organizations/${organization.id}/about`);
-  }
+  create(values as CreateOrganizationInput);
 }
 
 // Pass the handler to the machine via its options.

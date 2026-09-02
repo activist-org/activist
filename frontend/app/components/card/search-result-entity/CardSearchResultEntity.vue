@@ -5,7 +5,7 @@
   >
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
-        <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
+        <NuxtLink :aria-label="t(ariaLabel)" :to="localePath(linkUrl)">
           <div class="h-min w-max rounded-md border border-section-div">
             <slot :imageAlt="imageAlt" :imageUrl="imageUrl" name="image">
               <img
@@ -27,9 +27,9 @@
         </NuxtLink>
       </div>
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
-        <div class="-mb-2 flex flex-col justify-between md:flex-row">
+        <div class="flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
+            <NuxtLink :aria-label="t(ariaLabel)" :to="localePath(linkUrl)">
               <h3 class="font-bold" data-testid="group-title">
                 {{ title }}
               </h3>
@@ -62,7 +62,7 @@
         </div>
         <NuxtLink
           v-if="entityName"
-          :aria-label="$t(ariaLabel)"
+          :aria-label="t(ariaLabel)"
           class="text-distinct-text hover:text-primary-text"
           data-testid="group-entity-name"
           :to="localePath(linkUrl)"
@@ -97,6 +97,7 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
+const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 

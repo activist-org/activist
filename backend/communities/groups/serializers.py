@@ -63,7 +63,7 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
 
         try:
             group = Group.objects.get(id=value)
-            logger.info("Group found for value: %s", value)
+            logger.info(f"Group found for value: {value}")
 
         except Group.DoesNotExist as e:
             raise serializers.ValidationError("Group not found.") from e
@@ -116,7 +116,7 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
 
         try:
             group = Group.objects.get(id=value)
-            logger.info("Group found for value: %s", value)
+            logger.info(f"Group found for value: {value}")
 
         except Group.DoesNotExist as e:
             raise serializers.ValidationError("Group not found.") from e
@@ -160,7 +160,7 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
 
         try:
             group = Group.objects.get(id=value)
-            logger.info("Group found for value: %s", value)
+            logger.info(f"Group found for value: {value}")
 
         except Group.DoesNotExist as e:
             raise serializers.ValidationError("Group not found.") from e
@@ -268,7 +268,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
                 )
                 group.texts.set([group_text])
 
-                logger.info("Created Group with id: %s", group.id)
+                logger.info(f"Created Group with id: {group.id}")
 
                 return group
 

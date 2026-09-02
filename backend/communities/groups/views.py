@@ -679,6 +679,14 @@ class GroupImageViewSet(viewsets.ModelViewSet[Image]):
         return Response(serializer.data)
 
     def update(self, request: Request, group_id: UUID, pk: UUID | str) -> Response:
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         sequence_index = request.data.get("sequence_index", None)
         if sequence_index is not None:
             # Update GroupImage, not the Image itself.

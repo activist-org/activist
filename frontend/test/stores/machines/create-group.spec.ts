@@ -3,7 +3,7 @@ import { setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, beforeEach } from "vitest";
 
 import { useCreateGroupStore } from "../../../app/stores";
-import { CreateGroupSteps } from "../../../shared/types";
+import { CreateGroupSteps } from "../../../shared/constants";
 
 // If these are "GroupDetails" and "Location" in your real file, this test will pass.
 

@@ -9,7 +9,7 @@
   >
     <div class="flex items-center space-x-2">
       <IconDraggableEdit
-        class="drag-handle cursor-grab select-none"
+        class="drag-handle cursor-grab touch-none select-none"
         :class="dragIconSizeClass"
         data-testid="resource-drag-handle"
         :entity="entity"
@@ -17,7 +17,7 @@
       />
       <div class="flex flex-col md:flex-row">
         <NuxtLink
-          :aria-label="$t(ariaLabel)"
+          :aria-label="t(ariaLabel)"
           data-testid="resource-link"
           target="_blank"
           :to="localePath(linkUrl)"
@@ -34,10 +34,10 @@
       </div>
     </div>
     <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
-      <div class="-mb-2 flex flex-col justify-between md:flex-row">
+      <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <NuxtLink
-            :aria-label="$t(ariaLabel)"
+            :aria-label="t(ariaLabel)"
             target="_blank"
             :to="localePath(linkUrl)"
           >
@@ -70,7 +70,6 @@
         >
           <MetaTagOrganization
             v-if="!isReduced && resource.org"
-            class="pt-2"
             :organization="resource.org"
           />
         </div>
@@ -115,7 +114,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   resource: Resource;
-  entityType: EntityType;
+  entityType: EntityMapType;
   entity?: Entity | null;
   isReduced?: boolean;
 }>();
@@ -123,6 +122,10 @@ const props = defineProps<{
 const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
+
+const { openModal } = useModalHandlers(
+  `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}`
+);
 
 const description = computed(() => {
   return props.resource.description || "";
@@ -144,9 +147,7 @@ const dragIconSizeClass = computed(() => ({
   "h-[25px] w-[25px]": props.isReduced,
   "h-[50px] w-[50px]": !props.isReduced,
 }));
-const { openModal } = useModalHandlers(
-  `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}`
-);
+
 const openModalEdit = () => {
   openModal({
     resource: props.resource,

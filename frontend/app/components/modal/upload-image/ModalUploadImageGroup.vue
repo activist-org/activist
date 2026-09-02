@@ -4,10 +4,10 @@
     <div>
       <DialogTitle>
         <h2 v-if="uploadLimit > 1" class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_images") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_images") }}
         </h2>
         <h2 v-else class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -42,23 +42,30 @@ interface Props {
   uploadLimit?: number;
   images: ContentImage[];
 }
-
 const props = withDefaults(defineProps<Props>(), {
-  uploadLimit: 10,
+  uploadLimit: MAX_IMAGES_PER_UPLOAD,
 });
 
+const { t } = useI18n();
+
 const groupId = computed(() => props.groupId);
-const { data: groupImages, refresh } = useGetGroupImages(groupId);
-const { updateImage, uploadImages, loading } = useGroupImageMutations(groupId);
+
+const modals = useModals();
+const modalName = "ModalUploadImageGroup";
+const uploadError = ref(false);
+
+const { data: groupImages } = useGetGroupImages(groupId);
+const { updateImageAsync, uploadImagesAsync, deleteImage, loading } =
+  useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
-// useFileManager.removeFile() deletes on the server but doesn't invalidate
-// the groupImages cache, so the carousel stays stale until reload (same
-// class of bug as #1791). Only server-side images need a refresh.
+// The drop zone only drops the entry from its list, so stored images are
+// deleted here. Only server-side images (`type === "file"`) exist to delete.
 const handleFileDeleted = async (file: FileUploadMix) => {
-  if (file?.type === "file") {
-    await refresh();
+  if (file?.type !== "file") {
+    return;
   }
+  deleteImage(file.data.id);
 };
 
 watch(
@@ -76,10 +83,6 @@ watch(
   { immediate: true, deep: true }
 );
 
-const modals = useModals();
-const modalName = "ModalUploadImageGroup";
-const uploadError = ref(false);
-
 const emit = defineEmits(["upload-complete", "upload-error"]);
 // TODO: This is a lot of code, and it should be in a composable.
 const handleUpload = async () => {
@@ -93,7 +96,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          updateImage({
+          updateImageAsync({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -101,10 +104,10 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await uploadImages(
-        uploadFiles.map((file) => file.data as UploadableFile),
-        uploadFiles.map((file) => file.sequence)
-      );
+      await uploadImagesAsync({
+        images: uploadFiles.map((file) => file.data as UploadableFile),
+        sequences: uploadFiles.map((file) => file.sequence),
+      });
     }
     files.value = (groupImages.value || []).map(
       (image: ContentImage, index: number) => ({

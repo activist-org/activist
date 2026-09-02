@@ -3,7 +3,7 @@
   <ModalBase :modalName="modalName">
     <DialogTitle class="flex justify-between font-display">
       <h2 class="font-bold">
-        {{ $t("i18n.components.modal_qr_code.header") }}
+        {{ t("i18n.components.modal_qr_code.header") }}
       </h2>
     </DialogTitle>
     <div
@@ -17,17 +17,17 @@
           {{ props.secondParagraph }}
         </p>
         <p>
-          {{ $t("i18n.components.modal_qr_code.subheader_2") }}
+          {{ t("i18n.components.modal_qr_code.subheader_2") }}
         </p>
         <ul class="list-disc pl-6 md:pl-8">
           <li>
-            {{ $t("i18n.components.modal_qr_code.section_2_list_1_item_1") }}
+            {{ t("i18n.components.modal_qr_code.section_2_list_1_item_1") }}
           </li>
           <li>
-            {{ $t("i18n.components.modal_qr_code.section_2_list_1_item_2") }}
+            {{ t("i18n.components.modal_qr_code.section_2_list_1_item_2") }}
           </li>
           <li>
-            {{ $t("i18n.components.modal_qr_code.section_2_list_1_item_3") }}
+            {{ t("i18n.components.modal_qr_code.section_2_list_1_item_3") }}
           </li>
         </ul>
         <BtnActionDropdown
@@ -57,7 +57,7 @@
           @touchcancel="showTooltip = false"
           @touchend="showTooltip = false"
           @touchstart="showTooltip = true"
-          :ariaLabel="$t('i18n.components.modal_qr_code.aria_label')"
+          :ariaLabel="t('i18n.components.modal_qr_code.aria_label')"
           class="flex cursor-pointer focus-brand"
         >
           <ModalQRCodeImage
@@ -67,7 +67,7 @@
           />
           <TooltipBase
             v-show="showTooltip"
-            :text="$t('i18n.components.modal_qr_code.tooltip')"
+            :text="t('i18n.components.modal_qr_code.tooltip')"
           />
         </button>
       </div>
@@ -99,6 +99,9 @@ const props = defineProps<{
   linkUrl?: string;
   fileName?: string;
 }>();
+
+const { t } = useI18n();
+const { BASE_FRONTEND_URL } = useGetBaseURLs();
 
 const aboveMediumBP = useBreakpoint("md");
 const modalName = "ModalQRCode";

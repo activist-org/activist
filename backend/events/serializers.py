@@ -75,7 +75,7 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
 
         try:
             event = Event.objects.get(id=value)
-            logger.info("Event found for value: %s", value)
+            logger.info(f"Event found for value: {value}")
 
         except Event.DoesNotExist as e:
             raise serializers.ValidationError("Event not found.") from e
@@ -128,7 +128,7 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         try:
             event = Event.objects.get(id=value)
-            logger.info("Event found for value: %s", value)
+            logger.info(f"Event found for value: {value}")
 
         except Event.DoesNotExist as e:
             raise serializers.ValidationError("Event not found.") from e
@@ -185,7 +185,7 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
         try:
             event = Event.objects.get(id=value)
-            logger.info("Event found for value: %s", value)
+            logger.info(f"Event found for value: {value}")
 
         except Event.DoesNotExist as e:
             raise serializers.ValidationError("Event not found.") from e

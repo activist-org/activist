@@ -13,7 +13,7 @@
     <div class="flex items-center" :class="{ 'max-sm:grow': isSelector }">
       <Icon class="my-1 h-5 w-5 shrink-0" :name="IconMap.GLOBE" size="1em" />
       <p class="select-none pl-2 text-center text-base font-bold">
-        {{ $t(topic) }}
+        {{ t(topic) }}
       </p>
     </div>
     <Icon v-if="active && isSelector" :name="IconMap.X_LG" size="20" />
@@ -31,4 +31,6 @@ withDefaults(defineProps<Props>(), {
   active: true,
   isSelector: false,
 });
+
+const { t } = useI18n();
 </script>

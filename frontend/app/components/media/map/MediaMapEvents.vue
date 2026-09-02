@@ -6,7 +6,7 @@
     :clusterTooltipCreate="buildExpandedTooltipCluster"
     :pointerTooltipCreate="buildExpandedTooltipPointer"
     :pointers="pointers"
-    :type="MapType.CLUSTER"
+    :type="clusterType"
   />
 </template>
 
@@ -14,17 +14,18 @@
 import type { GeoJsonProperties } from "geojson";
 
 const props = defineProps<{
-  events: CommunityEvent[];
+  events?: CommunityEvent[];
 }>();
 
 const { t } = useI18n();
+const { getEventColorByType } = useColor();
 
+const clusterType = MapViewMap.CLUSTER;
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 
-const { events } = props;
-const { getEventColorByType } = useColor();
+const { events = [] } = props;
 
 const buildExpandedTooltipPointer = (pointer: unknown) => {
   const root = document.createElement("div");

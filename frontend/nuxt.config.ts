@@ -3,11 +3,16 @@
 import type { NuxtPage } from "nuxt/schema";
 
 import tailwindcss from "@tailwindcss/vite";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import modules from "./modules";
+import { MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES } from "./shared/constants/uploadLimits";
 import locales from "./shared/utils/locales";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineNuxtConfig({
   app: {
@@ -30,7 +35,12 @@ export default defineNuxtConfig({
   plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
   // Auto import services and stores.
   imports: {
-    dirs: ["./constants", "./services", "./stores"],
+    dirs: [
+      "./constants",
+      "./services",
+      "./stores",
+      resolve(__dirname, "./shared/constants"),
+    ],
   },
 
   vite: {
@@ -53,6 +63,10 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: "",
+  },
+
+  icon: {
+    mode: "svg",
   },
 
   css: [
@@ -110,6 +124,9 @@ export default defineNuxtConfig({
     // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
     // Use netlify-static preset for Netlify deployment (creates static site)
     preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
+    imports: {
+      dirs: [resolve(__dirname, "./shared/constants")],
+    },
   },
 
   // plausible: {
@@ -123,6 +140,14 @@ export default defineNuxtConfig({
     headers: {
       contentSecurityPolicy: {
         "img-src": ["'self'", "data:", "blob:"],
+        "style-src": [
+          "'self'",
+          "https:",
+          "'nonce-{{nonce}}'",
+          // Allow the locked vue3-friendly-captcha runtime stylesheet.
+          "'sha256-egNyWPabcEfOY1nlLJYuKx6bWZ6K6yD2yvQRcn1UpY0='",
+        ],
+        "style-src-attr": ["'unsafe-inline'"],
         "script-src": [
           "'self'",
           "https:",
@@ -154,8 +179,12 @@ export default defineNuxtConfig({
           },
     // When true, turns off console.log output? Also look at unplugin-remove Vite Plugin by Talljack.
     removeLoggers: false,
+    // This guard measures a request's whole Content-Length, so it has to stay
+    // above the largest image batch the backend accepts. At or below that, an
+    // oversized upload is rejected here with a generic 413 "Payload Too Large"
+    // and never reaches the size check that can tell the user the actual limit.
     requestSizeLimiter: {
-      maxUploadFileRequestInBytes: 5000000,
+      maxUploadFileRequestInBytes: MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES,
     },
   },
 } as unknown as Parameters<typeof defineNuxtConfig>[0]);

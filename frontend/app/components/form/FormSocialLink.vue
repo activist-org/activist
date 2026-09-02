@@ -1,23 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
+  <!-- prettier-ignore-attribute :initial-values -->
   <Form
     @submit="handleSubmit"
-    :initial-values="formData as unknown as Record<string, unknown>"
+    :initial-values="(formData as unknown as Record<string, unknown>)"
     :schema="schema"
-    :submit-label="$t(submitLabel)"
+    :submit-label="t(submitLabel)"
   >
-    <h2 v-if="title">
-      {{ $t(title) }}
-    </h2>
     <div class="flex flex-col space-y-7">
-      <FormListItem
-        v-slot="{ fields, remove, push, move }"
-        :label="$t('i18n.components.form_social_link.social_links')"
-        name="socialLinks"
-      >
+      <FormListItem v-slot="{ fields, remove, push, move }" name="socialLinks">
         <div class="flex flex-col space-y-3">
           <h2 for="textarea">
-            {{ $t("i18n.components.form_social_link.social_links") }}
+            {{ t("i18n.components.form_social_link.social_links") }}
           </h2>
           <draggable
             v-model="fields.value"
@@ -39,7 +33,7 @@
                 :data-testid="`social-link-entry-${index}`"
               >
                 <IconDraggableEdit
-                  :aria-label="$t('i18n.components._global.draggable_element')"
+                  :aria-label="t('i18n.components._global.draggable_element')"
                   class="drag-handle"
                   size="1em"
                 />
@@ -53,7 +47,7 @@
                 />
                 <FormItem
                   v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                  :label="$t('i18n.components.form_social_link.new_link_label')"
+                  :label="t('i18n.components.form_social_link.new_link_label')"
                   :name="`socialLinks.${index}.label`"
                   :required="true"
                 >
@@ -69,14 +63,14 @@
                     :data-testid="`social-link-label-${index}`"
                     :hasError="!!errorMessage.value"
                     :label="
-                      $t('i18n.components.form_social_link.new_link_label')
+                      t('i18n.components.form_social_link.new_link_label')
                     "
                     :modelValue="(value.value as string)"
                   />
                 </FormItem>
                 <FormItem
                   v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                  :label="$t('i18n.components.form_social_link.new_link_url')"
+                  :label="t('i18n.components.form_social_link.new_link_url')"
                   :name="`socialLinks.${index}.link`"
                   :required="true"
                 >
@@ -91,7 +85,7 @@
                     "
                     :data-testid="`social-link-url-${index}`"
                     :hasError="!!errorMessage.value"
-                    :label="$t('i18n.components.form_social_link.new_link_url')"
+                    :label="t('i18n.components.form_social_link.new_link_url')"
                     :modelValue="(value.value as string)"
                   />
                 </FormItem>

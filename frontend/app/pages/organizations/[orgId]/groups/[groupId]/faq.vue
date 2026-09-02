@@ -3,23 +3,23 @@
   <Tabs class="pt-2 md:pt-0" :selectedTab="3" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ group?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ group?.name }}&nbsp;{{ t("i18n._global.faq") }}</Title>
     </Head>
     <HeaderAppPageGroup
-      :header="group?.name + ' ' + $t('i18n._global.faq')"
-      :tagline="$t('i18n.pages._global.faq_tagline')"
+      :header="group?.name + ' ' + t('i18n._global.faq')"
+      :tagline="t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
-          :element="$t('i18n._global.faq')"
+          :element="t('i18n._global.faq')"
           :entity="group"
           label="i18n.pages._global.new_faq_entry"
           :onClick="
             () =>
               openModal({
-                entityId: group?.id,
+                entityId: groupId,
               })
           "
         />
@@ -35,7 +35,7 @@
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
-        class="space-y-4"
+        class="space-y-4 pb-28 md:pb-0"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -43,8 +43,9 @@
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
+        :fallback-on-body="true"
         :fallback-tolerance="0"
-        :force-fallback="false"
+        :force-fallback="true"
         ghost-class="sortable-ghost"
         handle=".drag-handle"
         :invert-swap="false"
@@ -65,7 +66,7 @@
             }"
             :entity="group"
             :faqEntry="element"
-            :pageType="EntityType.GROUP"
+            :pageType="EntityMap.GROUP"
             :tabindex="canEdit(group) ? 0 : -1"
           />
         </template>
@@ -78,15 +79,17 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const groupTabs = useGetGroupTabs();
+const { t } = useI18n();
 
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
+
+const groupTabs = useGetGroupTabs();
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
-const { reorderFAQs, deleteFAQ } = useGroupFAQEntryMutations(groupId);
+const { reorderFAQs, deleteFAQ, loading } = useGroupFAQEntryMutations(groupId);
 
 const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
@@ -109,6 +112,7 @@ export type CardExpose = {
 watch(
   () => group?.value?.faqEntries,
   (newVal) => {
+    if (loading.value) return;
     faqList.value = newVal?.slice() ?? [];
   },
   { immediate: true }
@@ -144,11 +148,12 @@ const handleDeleteFAQ = async (faqId: string) => {
 }
 
 .sortable-fallback {
-  display: none;
+  opacity: 0.95;
 }
 
-/* Ensure drag handles work properly. */
+/* Prevent the browser from treating the handle gesture as a page scroll. */
 .drag-handle {
+  touch-action: none;
   user-select: none;
 }
 
