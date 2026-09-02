@@ -84,8 +84,6 @@ describe("services/http (mocked contract)", () => {
   // MARK: Post
 
   it("post() sends body and sets baseURL to /api/auth by default", async () => {
-    fetchMock.mockResolvedValueOnce({ ok: true });
-  it("post() sends body through the post wrapper", async () => {
     mocks().post.mockResolvedValueOnce({ ok: true });
     const body = { a: 1 };
 
