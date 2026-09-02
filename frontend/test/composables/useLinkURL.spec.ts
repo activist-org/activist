@@ -65,14 +65,14 @@ describe("composables/useLinkURL", () => {
   // MARK: Edge Cases
 
   describe("edge cases", () => {
-    it("returns empty string when no entity is provided", () => {
+    it("returns /about when empty props are provided", () => {
       const { linkUrl } = useLinkURL({});
-      expect(linkUrl.value).toBe("");
+      expect(linkUrl.value).toBe("/about");
     });
 
-    it("returns empty string when entity is null", () => {
+    it("returns /about when entity is null", () => {
       const { linkUrl } = useLinkURL({ organization: null });
-      expect(linkUrl.value).toBe("");
+      expect(linkUrl.value).toBe("/about");
     });
   });
 });
