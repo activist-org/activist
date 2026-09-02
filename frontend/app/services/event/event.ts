@@ -2,7 +2,7 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
+import { del, get, getRaw, post } from "~/services/http";
 
 // MARK: Map API Response to Type
 
@@ -34,6 +34,31 @@ export async function getEvent(id: string): Promise<EventResponse> {
       withoutAuth: true,
     });
     return mapEvent(res);
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
+// MARK: Calendar Export
+
+export async function getEventCalendarFile(
+  eventId: string
+): Promise<EventCalendarFile> {
+  try {
+    const response = await getRaw<Blob>(`/events/event_calendar`, {
+      query: { event_id: eventId },
+      responseType: "blob",
+      withoutAuth: true,
+    });
+
+    if (!response._data) {
+      throw new Error("The calendar export response was empty.");
+    }
+
+    return {
+      blob: response._data,
+      contentDisposition: response.headers.get("Content-Disposition"),
+    };
   } catch (e) {
     throw errorHandler(e);
   }

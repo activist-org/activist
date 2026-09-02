@@ -19,6 +19,18 @@ export function get<T>(url: string, options?: ServiceOptions) {
   });
 }
 
+export function getRaw<T>(url: string, options?: ServiceOptions) {
+  const headers = {
+    ...(options?.headers || {}),
+  };
+  return $fetch.raw<T>(url, {
+    baseURL: baseURL(!options?.withoutAuth),
+    method: "GET" as const,
+    ...options,
+    headers,
+  });
+}
+
 export function post<T, X extends AcceptedBody>(
   url: string,
   body?: X,
