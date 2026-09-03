@@ -104,7 +104,7 @@ export async function createEvent(
     const res = await post<EventResponse, typeof data>(`/events/events`, data, {
       headers: { "Content-Type": "application/json" },
     });
-    return res;
+    return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
   }
