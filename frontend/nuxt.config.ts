@@ -14,6 +14,8 @@ import locales from "./shared/utils/locales";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
+const isDev = process.env.NODE_ENV === "development";
+
 export default defineNuxtConfig({
   app: {
     head,
@@ -140,13 +142,10 @@ export default defineNuxtConfig({
     headers: {
       contentSecurityPolicy: {
         "img-src": ["'self'", "data:", "blob:"],
-        "style-src": [
-          "'self'",
-          "https:",
-          "'nonce-{{nonce}}'",
-          // Allow the locked vue3-friendly-captcha runtime stylesheet.
-          "'sha256-egNyWPabcEfOY1nlLJYuKx6bWZ6K6yD2yvQRcn1UpY0='",
-        ],
+        // Allow unsafe-inline in dev for Nuxt DevTools, enforce nonces in production.
+        "style-src": isDev
+          ? ["'self'", "https:", "'unsafe-inline'"]
+          : ["'self'", "https:", "'nonce-{{nonce}}'"],
         "style-src-attr": ["'unsafe-inline'"],
         "script-src": [
           "'self'",
