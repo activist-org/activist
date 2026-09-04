@@ -80,7 +80,7 @@
     "@popperjs/core": "2.11.8",
     "@somushq/vue3-friendly-captcha": "1.0.2",
     "@tailwindcss/vite": "4.3.2",
-    "@tiptap/core": "3.27.1",
+    "@tiptap/core": "3.30.4",
     "@tiptap/extension-link": "3.27.1",
     "@tiptap/extension-mention": "3.27.1",
     "@tiptap/extension-placeholder": "3.27.1",
