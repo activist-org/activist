@@ -145,7 +145,13 @@ export default defineNuxtConfig({
         // Allow unsafe-inline in dev for Nuxt DevTools, enforce nonces in production.
         "style-src": isDev
           ? ["'self'", "https:", "'unsafe-inline'"]
-          : ["'self'", "https:", "'nonce-{{nonce}}'"],
+          : [
+              "'self'",
+              "https:",
+              "'nonce-{{nonce}}'",
+              // Allow the locked vue3-friendly-captcha runtime stylesheet.
+              "'sha256-egNyWPabcEfOY1nlLJYuKx6bWZ6K6yD2yvQRcn1UpY0='",
+            ],
         "style-src-attr": ["'unsafe-inline'"],
         "script-src": [
           "'self'",
