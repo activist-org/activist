@@ -10,6 +10,11 @@
   - [Best Practices](#best-practices)
   - [Flaky Tests](#flaky-tests)
   - [Checking E2E coverage](#checking-e2e-coverage)
+    - [Add a scenario to the catalog](#add-a-scenario-to-the-catalog)
+    - [How to run the report](#how-to-run-the-report)
+    - [What covered, partial, and missing mean](#what-covered-partial-and-missing-mean)
+    - [How to read an id](#how-to-read-an-id)
+    - [Known limitations](#known-limitations)
 - [Component and Unit Tests](#component-and-unit-tests)
 
 ## End to End Tests
@@ -156,27 +161,103 @@ await expect(myCard).not.toBeVisible();
 
 ### Checking E2E coverage
 
-To see which application routes are covered by the E2E test suite, run the coverage script from the `frontend/` directory:
+"Coverage" here does not just mean a test opened a page. It means a test proved a specific behavior works, like "a member cannot delete a question." Opening the FAQ page proves nothing about that on its own.
 
-```bash
-# Terminal output (colored, with coverage summary):
-node test-e2e/scripts/e2e-coverage.mjs
+The checklist of behaviors lives in [`frontend/test-e2e/e2e-coverage/catalog/`](frontend/test-e2e/e2e-coverage/catalog/). Each line is one promise:
 
-# GitHub-flavored markdown (for pasting into issues or PRs):
-node test-e2e/scripts/e2e-coverage.mjs --markdown
-
-# Only show uncovered testable routes:
-node test-e2e/scripts/e2e-coverage.mjs --uncovered
-
-# Machine-readable JSON output:
-node test-e2e/scripts/e2e-coverage.mjs --json
+```js
+c("L-DISP-01", "DISP", "Page title and hero visible", "landing-page/landing-page.spec")
+//  id           kind    what we promise                 spec path must contain this
 ```
 
-The script distinguishes between:
+See the checklist from `frontend/`:
 
-- **Covered routes** — routes with at least one `goto`, `waitForURL`, or `toHaveURL` assertion in specs, actions, or page objects
-- **Stub routes** — pages marked `:underDevelopment="true"` with no implemented UI (excluded from the testable coverage calculation)
-- **Uncovered testable routes** — implemented routes that have no E2E coverage yet
+```bash
+yarn test:e2e:coverage
+```
+
+Search the output for an id you care about. It stays **missing** until a spec matches, then **covered**.
+
+#### Add a scenario to the catalog
+
+When a new behavior should count toward coverage, add one `c(...)` row to the matching file in [`catalog/flows/`](frontend/test-e2e/e2e-coverage/catalog/flows/) (for example `events.mjs` for event pages), in the same shape as the row above:
+
+1. Open that file and copy a nearby row.
+2. Give it the next number in that flow (`01` if it is the first).
+3. Point `spec` at a unique bit of the spec file path.
+4. Run `yarn test:e2e:coverage` and search for your id. It moves from **missing** to **covered** once a real (not `skip` or `fixme`) test matches.
+
+Set `required: false` to list a row without it counting toward the percentage. Remove the row if the behavior no longer exists.
+
+Writing a test never edits the catalog by itself: if a new spec's path (and title, if set) matches an existing row, that row flips to covered on its own. A brand-new behavior still needs its own row added by hand.
+
+**One spec, several cases**
+
+If a spec file covers more than one behavior, add a `title` so the script checks the `test("...")` name, not just the file:
+
+```js
+c("EF-CRUD-01", "CRUD", "Full FAQ CRUD happy path", "event-faq-page", {
+  title: "CREATE|UPDATE|DELETE|manage FAQ",
+})
+```
+
+For CRUD, name the test `User can manage <thing> (CREATE, UPDATE, DELETE)` and let one test walk the whole happy path. One test then backs one catalog row, and a title filter such as `manage resources` cannot be satisfied by a validation or server-error spec that never reaches a success path.
+
+#### How to run the report
+
+```bash
+yarn test:e2e:coverage              # scenario checklist: summary, categories, missing rows
+yarn test:e2e:coverage --uncovered  # every gap, plus the spec path each one expects
+yarn test:e2e:coverage --verbose    # every row, plus the test() title that counted
+```
+
+Every run also saves a copy to `test-results/e2e-coverage-latest.md` (git ignored). Two more flags for less common needs: `--routes` for the URL table only, and `--json` for machine-readable output.
+
+Local gate, fails below 90% required coverage: `yarn test:e2e:coverage:gate`. It reads source files only, no browser, and is not part of the default e2e CI job.
+
+The same report also lists page URLs a test opened. That only means "we opened the page," it says nothing about which behaviors were tested there, and it is a separate, weaker signal than the checklist above.
+
+#### What covered, partial, and missing mean
+
+| Result | What happened |
+|--------|----------------|
+| **covered** | A matching spec exists and has a real (not skipped) test |
+| **partial** | A matching spec exists, but every matching test is `skip` or `fixme` |
+| **missing** | No spec matches, or a spec matches but no `test()` title matches |
+
+Run with `--verbose` to see which `test()` title counted for each row, so you can spot a loose match.
+
+#### How to read an id
+
+The id is a short label, not a secret code. `EF-PERM-01` means:
+
+| Part | Value | Meaning |
+|------|-------|---------|
+| Area | `EF` | Event FAQ |
+| Kind of test | `PERM` | Permissions (who can see or click what) |
+| Number | `01` | First permissions case on that page |
+
+The full name of each area and kind of test is in `ID_PREFIXES` and `CATEGORIES` under `e2e-coverage/catalog/`. Common kinds:
+
+| Code | In plain words |
+|------|----------------|
+| `DISP` | The page loads and you can see the main content |
+| `NAV` | Clicking a tab or link takes you to the right place |
+| `CRUD` | Create, edit, and delete work |
+| `VAL` | Bad form input shows an error |
+| `PERM` | The right roles see the right buttons |
+| `A11Y` | Accessibility scan (axe) |
+
+#### Known limitations
+
+> [!NOTE]
+> This system is hand-authored and self-declared. It catches obvious gaps, it does not guarantee test quality.
+
+- **Title filters are fragile.** `title: "CREATE|UPDATE|DELETE|manage FAQ"` matches on `test()` names. Renaming a test can flip a row from covered to missing with no warning at the point of the rename, only at the next report run.
+- **The gate is not in CI.** `yarn test:e2e:coverage:gate` runs locally only. A regression is invisible until someone runs it by hand.
+- **Row quality is not enforced.** A `c(...)` row self-declares what "done" means. Nothing but ordinary PR review stops a title filter from being too broad or a spec fragment from matching the wrong file. `--verbose` surfaces the matched test title for a human to sanity-check, it does not block anything.
+- **Stale rows need manual cleanup.** There is no staleness detection. If a feature is removed or reshaped, its row stays missing until someone deletes or updates it, dragging the percentage down for reasons unrelated to real test gaps.
+- **90% is a calibrated floor, not a target.** It was set one point under the coverage measured right after the catalog was made honest, as a "do not regress" line, not a number chosen from a coverage-quality process. `required: false` rows list known gaps without counting against the percentage; they are not reviewed on any schedule.
 
 <sub><a href="#top">Back to top.</a></sub>
 
