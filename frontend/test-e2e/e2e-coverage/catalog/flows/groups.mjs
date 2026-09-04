@@ -16,11 +16,14 @@ export const GROUP_FLOWS = [
         "Group subpage navigation",
         "organization-group-about-navigation"
       ),
+      // Role-based UI on group surfaces is still in development, so the PERM
+      // rows below stay in the catalog but out of the percentage.
       c(
         "GA-PERM-01",
         "PERM",
         "4-role edit matrix",
-        "organization-group-about-permissions"
+        "organization-group-about-permissions",
+        { required: false }
       ),
     ],
   },
@@ -61,7 +64,8 @@ export const GROUP_FLOWS = [
         "GF-PERM-01",
         "PERM",
         "4-role matrix",
-        "organization-group-faq-permissions"
+        "organization-group-faq-permissions",
+        { required: false }
       ),
     ],
   },
@@ -102,7 +106,8 @@ export const GROUP_FLOWS = [
         "GR-PERM-01",
         "PERM",
         "Permissions matrix",
-        "organization-group-resources-permissions"
+        "organization-group-resources-permissions",
+        { required: false }
       ),
     ],
   },

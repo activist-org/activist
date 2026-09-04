@@ -65,11 +65,14 @@ export const ORGANIZATION_FLOWS = [
         "desktop/organizations/organization-about",
         "mobile/organizations/organization-about",
       ]),
+      // Role-based UI on org and group surfaces is still in development, so the
+      // PERM rows below stay in the catalog but out of the percentage.
       c(
         "OA-PERM-01",
         "PERM",
         "4-role edit matrix",
-        "organization-about-permissions"
+        "organization-about-permissions",
+        { required: false }
       ),
     ],
   },
@@ -86,7 +89,9 @@ export const ORGANIZATION_FLOWS = [
         "desktop/organizations/organization-faq",
         "mobile/organizations/organization-faq",
       ]),
-      c("OF-PERM-01", "PERM", "4-role matrix", "organization-faq-permissions"),
+      c("OF-PERM-01", "PERM", "4-role matrix", "organization-faq-permissions", {
+        required: false,
+      }),
       c(
         "OF-EMPTY-01",
         "EMPTY",
@@ -125,7 +130,8 @@ export const ORGANIZATION_FLOWS = [
         "OR-PERM-01",
         "PERM",
         "Permissions matrix",
-        "organization-resources-permissions"
+        "organization-resources-permissions",
+        { required: false }
       ),
       c(
         "OR-EMPTY-01",

@@ -125,10 +125,8 @@ export const LANDING_AUTH_FLOWS = [
       ),
       c("H-NAV-01", "NAV", "Nav to Events / Organizations", "home-page"),
       c("H-A11Y-01", "A11Y", "Home axe", "home-page", { title: "accessib" }),
-      c("H-INT-04", "INT", "Search returns results / navigates", "search"),
-      c("H-INT-05", "INT", "Home topics persist in URL", "home-page", {
-        title: "topic",
-      }),
+      // Search results are owned by S-INT-01 and home topic URL persistence by
+      // T-INT-03, so duplicate rows here were double counting the same work.
     ],
   },
 ];

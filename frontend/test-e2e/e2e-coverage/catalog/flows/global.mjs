@@ -13,7 +13,11 @@ export const GLOBAL_FLOWS = [
         "specs/desktop/search",
         "specs/mobile/search",
       ]),
-      c("S-INT-01", "INT", "Query, results, navigate", "search.spec"),
+      // Title filters keep a bare page-load spec from also claiming the
+      // behavior rows on these pages.
+      c("S-INT-01", "INT", "Query, results, navigate", "search.spec", {
+        title: "result|query|navigat",
+      }),
     ],
   },
   {
@@ -28,7 +32,9 @@ export const GLOBAL_FLOWS = [
     name: "Contact",
     cases: [
       c("C-DISP-01", "DISP", "Contact page loads", "contact"),
-      c("C-VAL-01", "VAL", "Contact form validation", "contact"),
+      c("C-VAL-01", "VAL", "Contact form validation", "contact", {
+        title: "validation|invalid|required|error",
+      }),
     ],
   },
   {
@@ -41,6 +47,8 @@ export const GLOBAL_FLOWS = [
         "Topic(s) persist in events URL",
         "route-query-topics-stability"
       ),
+      // /home mounts ComboboxTopics without a query handler, so topic
+      // selection there never reaches the URL. Not testable until it is wired.
       c(
         "T-INT-03",
         "INT",
@@ -48,6 +56,7 @@ export const GLOBAL_FLOWS = [
         "route-query-topics-stability",
         {
           title: "home",
+          required: false,
         }
       ),
     ],
