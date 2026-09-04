@@ -171,9 +171,9 @@ describe("services/event", () => {
     } as const;
 
     const created = "evt-3";
-    post.mockResolvedValueOnce(created);
+    post.mockResolvedValueOnce({ id: created, ...newEventInput });
 
-    const id = await createEvent({ ...newEventInput });
+    const createdEvent = await createEvent({ ...newEventInput });
 
     expect(post).toHaveBeenCalledTimes(1);
     // The service constructs a specific payload subset.
@@ -184,7 +184,7 @@ describe("services/event", () => {
       description: newEventInput.description,
       topics: newEventInput.topics,
     });
-    expect(id).toBe("evt-3");
+    expect(createdEvent.id).toBe("evt-3");
   });
 
   // MARK: Delete
