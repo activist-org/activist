@@ -9,7 +9,11 @@ export type FetchFn = (
 export type FetchRawFn = (
   url: string,
   opts: FetchOptionsShape
-) => Promise<{ _data: unknown }>;
+) => Promise<{
+  _data: unknown;
+  headers?: Headers;
+  status?: number;
+}>;
 export interface FetchGlobal extends FetchFn {
   raw: FetchRawFn;
 }

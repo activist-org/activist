@@ -21,6 +21,11 @@ interface EventBase extends Entity {
   // supportingUsers?: User[];
 }
 
+export interface EventCalendarFile {
+  blob: Blob;
+  contentDisposition: string | null;
+}
+
 export type EventType = "action" | "learn";
 // Note: CommunityEvent is used in the frontend to refer to events since "event" is a reserved word in JS.
 export interface CommunityEvent extends EventBase {
