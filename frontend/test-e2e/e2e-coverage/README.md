@@ -5,7 +5,7 @@ This folder scores the E2E suite without starting a browser. Run it from `fronte
 ```bash
 yarn test:e2e:coverage              # compact scenario report
 yarn test:e2e:coverage --uncovered  # every gap and the spec path it expects
-yarn test:e2e:coverage:gate         # Playwright check that coverage stays at 85%
+yarn test:e2e:coverage:gate         # Playwright check that coverage stays at 90%
 ```
 
 `scripts/e2e-coverage.mjs` is a thin wrapper around `run.mjs`.

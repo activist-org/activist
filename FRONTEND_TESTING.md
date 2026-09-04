@@ -234,7 +234,7 @@ node test-e2e/scripts/e2e-coverage.mjs --json
 
 The default report is the scenario checklist. `--verbose` adds every id and the `test()` title that counted, so you can spot a loose match.
 
-To fail a local run when required coverage drops below 85%, from `frontend/`:
+To fail a local run when required coverage drops below 90%, from `frontend/`:
 
 ```bash
 yarn test:e2e:coverage:gate
