@@ -20,7 +20,7 @@ import {
 
 const validateImageUploadBatch = vi.fn();
 
-vi.mock("../../../../app/services/content/imageUploadValidation", () => ({
+vi.mock("../../../../app/services/content/image", () => ({
   validateImageUploadBatch: (...args: unknown[]) =>
     validateImageUploadBatch(...args),
 }));
@@ -83,7 +83,7 @@ describe("services/communities/organization/image", () => {
     const res = await fetchOrganizationImages("org-2");
     expect(res).toBe(returned);
 
-    expectRequest(get, "/communities/organization/org-2/images", "GET");
+    expectRequest(get, "/communities/organization/org-2/images");
     const [, opts] = getFetchCall(get);
     // Authorization is now added by server-side middleware, not the client helper.
     expect(opts.baseURL).toBe("/api/public");
@@ -112,7 +112,7 @@ describe("services/communities/organization/image", () => {
   });
 
   it("uploadOrganizationImages() does not upload when batch validation fails", async () => {
-    const { fetchMock } = getMocks();
+    const { fetchImage } = getMocks();
     validateImageUploadBatch.mockRejectedValueOnce(
       new AppError("batch too large", AppErrorCause.VALIDATION)
     );
@@ -126,7 +126,7 @@ describe("services/communities/organization/image", () => {
     ).rejects.toBeInstanceOf(AppError);
 
     expect(validateImageUploadBatch).toHaveBeenCalledTimes(1);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchImage).not.toHaveBeenCalled();
   });
 
   // MARK: Error Handling

@@ -2,8 +2,6 @@
 // Groups service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { get } from "~/services/http";
-
 // MARK: Map API Response to Type
 
 export function mapGroup(res: GroupResponse): Group {

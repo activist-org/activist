@@ -19,7 +19,7 @@ import {
 
 const validateImageUploadBatch = vi.fn();
 
-vi.mock("../../../../app/services/content/imageUploadValidation", () => ({
+vi.mock("../../../../app/services/content/image", () => ({
   validateImageUploadBatch: (...args: unknown[]) =>
     validateImageUploadBatch(...args),
 }));
@@ -102,7 +102,7 @@ describe("services/communities/group/image", () => {
     const res = await fetchGroupImages("grp-3");
     expect(res).toBe(returned);
 
-    expectRequest(get, "/communities/group/grp-3/images", "GET");
+    expectRequest(get, "/communities/group/grp-3/images");
     const [, opts] = getFetchCall(get);
     // Authorization is now added by server-side middleware, not the client helper.
     expect(opts.baseURL).toBe("/api/public");

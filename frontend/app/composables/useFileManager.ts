@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { MAX_IMAGE_SIZE_IN_BYTES } from "#shared/constants/uploadLimits";
 
 export function useFileManager() {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const { locale, t } = useI18n();
 
   const defaultImageUrls = computed(() => {
@@ -29,25 +28,16 @@ export function useFileManager() {
     }).format(fileNames);
   }
 
-  function showTooLargeFilesError(files: File[]) {
-    if (files.length === 0) {
-      return;
-    }
-
-    const maxSize = formatMaxImageSize();
+  function getMessageForTooLargeFiles(files: File[]) {
     const fileNames = files.map((file) => file.name);
     const messageKey =
       files.length === 1
         ? "i18n.composables.use_file_manager.file_too_large"
         : "i18n.composables.use_file_manager.files_too_large";
-
-    showToastError(
-      t(messageKey, {
-        file_name: fileNames[0],
-        file_names: formatFileNames(fileNames),
-        max_size: maxSize,
-      })
-    );
+    return {
+      fileNames,
+      messageKey,
+    };
   }
 
   function isImageWithinSizeLimit(file: File) {
@@ -73,18 +63,32 @@ export function useFileManager() {
   }
 
   function getValidatedUploadableFile(file?: File) {
-    if (!file) {
+    try {
+      if (!file) {
+        throw new AppError(
+          t("i18n.composables.use_file_manager.no_file_provided"),
+          AppErrorCause.VALIDATION
+        );
+      }
+
+      const { validFiles } = partitionImageFilesBySize([file]);
+      if (validFiles && !validFiles?.length) {
+        const { fileNames, messageKey } = getMessageForTooLargeFiles([file]);
+        throw new AppError(
+          t(messageKey, {
+            file_name: fileNames[0],
+            max_size: formatMaxImageSize(),
+          }),
+          AppErrorCause.VALIDATION
+        );
+      }
+      return new UploadableFile(validFiles[0] as File);
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error);
+      }
       return null;
     }
-
-    const { validFiles, invalidFiles } = partitionImageFilesBySize([file]);
-    showTooLargeFilesError(invalidFiles);
-
-    if (!validFiles[0]) {
-      return null;
-    }
-
-    return new UploadableFile(validFiles[0]);
   }
 
   function getIconImage(files: File[]) {
@@ -98,18 +102,44 @@ export function useFileManager() {
     );
     const { validFiles, invalidFiles } =
       partitionImageFilesBySize(validImageFiles);
+    try {
+      if (invalidFiles.length > 0) {
+        const { fileNames, messageKey } =
+          getMessageForTooLargeFiles(invalidFiles);
+        throw new AppError(
+          t(messageKey, {
+            file_name: fileNames[0],
+            file_names: formatFileNames(fileNames),
+            max_size: formatMaxImageSize(),
+          }),
+          AppErrorCause.VALIDATION
+        );
+      }
+      const newUploadableFiles = validFiles
+        .map((file, index) => ({
+          type: "upload",
+          data: new UploadableFile(file),
+          sequence: index + files.length,
+        }))
+        .filter((file) => !fileExists(file.data.id, files)) as FileUploadMix[];
 
-    showTooLargeFilesError(invalidFiles);
-
-    const newUploadableFiles = validFiles
-      .map((file, index) => ({
-        type: "upload",
-        data: new UploadableFile(file),
-        sequence: index + files.length,
-      }))
-      .filter((file) => !fileExists(file.data.id, files)) as FileUploadMix[];
-
-    return [...files, ...newUploadableFiles];
+      return [...files, ...newUploadableFiles];
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error);
+        const newUploadableFiles = validFiles
+          .map((file, index) => ({
+            type: "upload",
+            data: new UploadableFile(file),
+            sequence: index + files.length,
+          }))
+          .filter(
+            (file) => !fileExists(file.data.id, files)
+          ) as FileUploadMix[];
+        return [...files, ...newUploadableFiles];
+      }
+      return files;
+    }
   }
 
   function fileExists(otherId: string, files: FileUploadMix[]) {

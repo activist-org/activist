@@ -96,7 +96,19 @@ const {
 });
 
 const { uploadIconImage: uploadEventIconImage, loading: loadingEvent } =
-  useEventImageIconMutations(entityId);
+  useEventImageIconMutations(entityId, {
+    upload: {
+      onSuccess() {
+        uploadError.value = false;
+        emit("upload-complete");
+        handleCloseModal();
+      },
+      onError() {
+        uploadError.value = true;
+        emit("upload-error");
+      },
+    },
+  });
 const fileImageIcon = ref<UploadableFile | null>(null);
 const { getIconImage } = useFileManager();
 const handleUpload = async () => {

@@ -53,6 +53,7 @@ const httpMocks = vi.hoisted(() => {
     put: fetchMock,
     del: fetchMock,
     fetchSession: fetchMock,
+    fetchImage: fetchMock,
   };
 });
 

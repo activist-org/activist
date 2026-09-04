@@ -98,3 +98,18 @@ export const fetchSession = async (
     body,
   });
 };
+
+export const fetchImage = async (
+  url: string,
+  data: object | undefined,
+  method: "GET" | "POST" = "GET",
+  body?: object | undefined
+) => {
+  return $fetch(url, {
+    baseURL: "/api/images",
+    data,
+    headers: {},
+    method,
+    body,
+  });
+};
