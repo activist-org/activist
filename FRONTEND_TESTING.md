@@ -165,7 +165,7 @@ Coverage answers two different questions:
 1. **Did a test open this URL?** That is route coverage. Opening `/events/123/faq` once is enough.
 2. **Did we test the behaviors we care about?** That is scenario coverage. Opening the FAQ page does not prove we tested "a member cannot delete a question."
 
-The checklist of behaviors lives in [`frontend/test-e2e/scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs). Each row is one promise, such as "the landing hero is visible" or "event FAQ hides edit buttons from a member."
+The checklist of behaviors lives in [`frontend/test-e2e/e2e-coverage/catalog/`](frontend/test-e2e/e2e-coverage/catalog/). Each row is one promise, such as "the landing hero is visible" or "event FAQ hides edit buttons from a member." The folder map is in [`frontend/test-e2e/e2e-coverage/README.md`](frontend/test-e2e/e2e-coverage/README.md).
 
 #### How to read an id
 
@@ -179,7 +179,7 @@ Ids are a short label, not a secret code. `EF-PERM-01` means:
 
 So `EF-PERM-01` is "event FAQ, permissions, case 1." `L-DISP-01` is "landing page, content is visible, case 1."
 
-The full name of each area and kind of test is in `ID_PREFIXES` and `CATEGORIES` at the top of the catalog. Common kinds:
+The full name of each area and kind of test is in `ID_PREFIXES` and `CATEGORIES` under `e2e-coverage/catalog/`. Common kinds:
 
 | Code | In plain words |
 |------|----------------|
@@ -225,7 +225,7 @@ node test-e2e/scripts/e2e-coverage.mjs --verbose
 # Route table only (URLs a spec opens):
 node test-e2e/scripts/e2e-coverage.mjs --routes
 
-# Only URLs that no test visits:
+# Every gap: missing scenarios with the spec path each expects, plus unvisited URLs:
 node test-e2e/scripts/e2e-coverage.mjs --uncovered
 
 # JSON (includes the scenario scores):
@@ -233,6 +233,14 @@ node test-e2e/scripts/e2e-coverage.mjs --json
 ```
 
 The default report is the scenario checklist. `--verbose` adds every id and the `test()` title that counted, so you can spot a loose match.
+
+To fail a local run when required coverage drops below 85%, from `frontend/`:
+
+```bash
+yarn test:e2e:coverage:gate
+```
+
+That Playwright project (`Coverage`, tagged `@coverage`) only reads source files. It is not part of the default e2e CI job.
 
 The script also still reports routes:
 
@@ -244,7 +252,7 @@ A covered route only means "we opened the page." Create-event, create-organizati
 
 ### Editing the scenario catalog
 
-When a new user-facing behavior should count toward coverage, add one row to [`scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs).
+When a new user-facing behavior should count toward coverage, add one `c(...)` row to the matching file in [`frontend/test-e2e/e2e-coverage/catalog/flows/`](frontend/test-e2e/e2e-coverage/catalog/flows/) (for example `events.mjs` for event FAQ).
 
 Example: you want a test that the landing page hero is visible.
 
