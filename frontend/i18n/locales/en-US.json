@@ -443,6 +443,7 @@
   "i18n.components.tooltip_password_requirements.password_rules_message": "For your security and that of the community, please choose a password that you've never used before. Thank you!",
   "i18n.composables.use_file_manager.file_too_large": "The file '{file_name}' is too large. The maximum allowed size is {max_size}.",
   "i18n.composables.use_file_manager.files_too_large": "The files {file_names} are too large. The maximum allowed size is {max_size}.",
+  "i18n.composables.use_file_manager.no_file_provided": "No file provided",
   "i18n.composables.use_get_label_by_key_filter.location_type_online": "Online Location",
   "i18n.composables.use_get_label_by_key_filter.location_type_physical": "Physical Location",
   "i18n.composables.use_get_label_by_key_filter.next_days": "Next {value} days",
