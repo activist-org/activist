@@ -272,6 +272,8 @@ c("EF-CRUD-01", "CRUD", "Full FAQ CRUD happy path", "event-faq-page", {
 })
 ```
 
+For CRUD, name the test `User can manage <thing> (CREATE, UPDATE, DELETE)` and let one test walk the whole happy path, as the FAQ and resource specs do. One test then backs one catalog row, and a title filter such as `manage resources` cannot be satisfied by a validation or server-error spec that never reaches a success path.
+
 Then from `frontend/` run `node test-e2e/scripts/e2e-coverage.mjs` and search the report for your id. It stays **missing** until a spec matches, then **covered**. Use `--verbose` if you want the matched test title.
 
 Set `required: false` if you want the row to stay in the list without lowering the percentage (not ready yet). Remove the row if the product no longer has that behavior.

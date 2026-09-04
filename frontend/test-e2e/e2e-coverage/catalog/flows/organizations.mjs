@@ -106,14 +106,13 @@ export const ORGANIZATION_FLOWS = [
     name: "Organization resources",
     cases: [
       c("OR-DISP-01", "DISP", "Resources load", "organization-resources-page"),
-      // Only create is tested on this surface: edit and delete have no spec.
       c(
         "OR-CRUD-01",
         "CRUD",
-        "Create resource happy path",
-        "organization-resources-form-validation",
+        "Full resource CRUD happy path",
+        "organization-resources-page",
         {
-          title: "correcting all errors submits the form",
+          title: "manage resources",
         }
       ),
       c(

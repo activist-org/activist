@@ -126,26 +126,17 @@ export const EVENT_FLOWS = [
     name: "Event resources",
     cases: [
       c("ER-DISP-01", "DISP", "Resources page loads", "event-resources-page"),
-      // The create happy path lives in the validation spec: it fills valid
-      // input, submits, and asserts the new card. Point at it directly so the
-      // server-error specs in this folder cannot stand in for a success path.
+      // One row for one spec: the "manage resources" test walks create, update
+      // and delete, so the server-error specs cannot stand in for it.
       c(
         "ER-CRUD-01",
         "CRUD",
-        "Create resource happy path",
-        "event-resources-form-validation",
+        "Full resource CRUD happy path",
+        "event-resources-page",
         {
-          title: "correcting all errors submits the form",
+          title: "manage resources",
         }
       ),
-      c("ER-CRUD-02", "CRUD", "Edit resource", "event-resources", {
-        title: "edit resource|update resource|CREATE, UPDATE, DELETE",
-      }),
-      // Excludes the server-errors spec so the delete 403 test cannot satisfy
-      // a success path. No spec deletes a resource yet.
-      c("ER-CRUD-03", "CRUD", "Delete resource", "event-resources-page", {
-        title: "delete",
-      }),
       c(
         "ER-PERM-01",
         "PERM",

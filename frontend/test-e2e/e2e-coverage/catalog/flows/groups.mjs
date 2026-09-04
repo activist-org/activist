@@ -77,8 +77,11 @@ export const GROUP_FLOWS = [
       c(
         "GR-CRUD-01",
         "CRUD",
-        "Management / delete happy path",
-        "organization-group-resources-management"
+        "Full resource CRUD happy path",
+        "organization-group-resources-management",
+        {
+          title: "manage resources",
+        }
       ),
       c(
         "GR-EMPTY-01",
