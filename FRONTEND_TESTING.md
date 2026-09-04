@@ -210,13 +210,13 @@ Sometimes one spec file covers several behaviors. Then the row also names a `tit
 
 #### How to run the report
 
-From `frontend/` (`yarn test:e2e:coverage` is the same as the first command):
+From `frontend/` (`yarn test:e2e:coverage` is the first command plus `--out`):
 
 ```bash
 # Summary, category table, and missing rows (start here):
 node test-e2e/scripts/e2e-coverage.mjs
 
-# Same report, saved to test-results/e2e-coverage-latest.md:
+# Same report, also saved to test-results/e2e-coverage-latest.md (git ignored):
 node test-e2e/scripts/e2e-coverage.mjs --out
 
 # Every catalog row, plus which test() title counted:
