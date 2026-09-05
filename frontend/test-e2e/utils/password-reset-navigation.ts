@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 /**
  * True when the URL is an allowed post-submit landing after requesting a password-reset email.
- * Matches `/`, locale-only roots (e.g. `/en`), and `/home` — `pages/auth/pwreset/email.vue` uses `push("/")`, not `/home`.
+ * Matches `/`, locale-only roots (e.g. `/en`), and `/home` — `pages/auth/pwreset/email.vue`
+ * uses `push("/")`, not `/home`.
  */
 export function isPostPasswordRequestLanding(url: string): boolean {
   let path: string;

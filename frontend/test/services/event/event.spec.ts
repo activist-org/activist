@@ -5,6 +5,7 @@ import {
   createEvent,
   deleteEvent,
   getEvent,
+  getEventCalendarFile,
   listEvents,
   mapEvent,
 } from "../../../app/services/event/event";
@@ -54,6 +55,43 @@ describe("services/event", () => {
 
     expect(result.id).toBe("evt-1");
     expect(result.texts).toEqual([defaultEventText]);
+  });
+
+  it("getEventCalendarFile() returns the calendar Blob and response filename header", async () => {
+    const { get } = getMocks();
+    const blob = new Blob(["BEGIN:VCALENDAR"], { type: "text/calendar" });
+    get.mockResolvedValueOnce({
+      _data: blob,
+      headers: new Headers({
+        "Content-Disposition": "attachment; filename=activist_event_test.ics",
+      }),
+      status: 200,
+    });
+
+    const result = await getEventCalendarFile("event-id");
+
+    expect(result).toEqual({
+      blob,
+      contentDisposition: "attachment; filename=activist_event_test.ics",
+    });
+    const [url, opts] = get.mock.calls[0];
+    expect(url).toBe("/events/event_calendar");
+    expect(opts.baseURL).toBe("/api/public");
+    expect(opts.query).toEqual({ event_id: "event-id" });
+    expect(opts.responseType).toBe("blob");
+  });
+
+  it("getEventCalendarFile() rejects an empty response as an AppError", async () => {
+    const { get } = getMocks();
+    get.mockResolvedValueOnce({
+      _data: undefined,
+      headers: new Headers(),
+      status: 200,
+    });
+
+    await expect(getEventCalendarFile("event-id")).rejects.toBeInstanceOf(
+      AppError
+    );
   });
 
   // MARK: List
@@ -133,9 +171,9 @@ describe("services/event", () => {
     } as const;
 
     const created = "evt-3";
-    post.mockResolvedValueOnce(created);
+    post.mockResolvedValueOnce({ id: created, ...newEventInput });
 
-    const id = await createEvent({ ...newEventInput });
+    const createdEvent = await createEvent({ ...newEventInput });
 
     expect(post).toHaveBeenCalledTimes(1);
     // The service constructs a specific payload subset.
@@ -146,7 +184,7 @@ describe("services/event", () => {
       description: newEventInput.description,
       topics: newEventInput.topics,
     });
-    expect(id).toBe("evt-3");
+    expect(createdEvent.id).toBe("evt-3");
   });
 
   // MARK: Delete

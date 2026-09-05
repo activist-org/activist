@@ -12,10 +12,14 @@
  * Large" and the backend's message never reaches the user.
  */
 
-/** Mirrors IMAGE_UPLOAD_MAX_FILE_SIZE in backend/core/settings.py. */
+/**
+ * Mirrors IMAGE_UPLOAD_MAX_FILE_SIZE in backend/core/settings.py.
+ */
 export const MAX_IMAGE_SIZE_IN_BYTES = 5 * 1024 * 1024;
 
-/** Images accepted per upload request; the uploadLimit the modals default to. */
+/**
+ * Images accepted per upload request; the uploadLimit the modals default to.
+ */
 export const MAX_IMAGES_PER_UPLOAD = 10;
 
 /**
@@ -33,3 +37,36 @@ const MULTIPART_ENVELOPE_HEADROOM_IN_BYTES = 1024 * 1024;
 export const MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES =
   MAX_IMAGES_PER_UPLOAD * MAX_IMAGE_SIZE_IN_BYTES +
   MULTIPART_ENVELOPE_HEADROOM_IN_BYTES;
+
+/**
+ * Error code returned when a batch exceeds the file-byte budget.
+ */
+export const IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE = "IMAGE_UPLOAD_BATCH_TOO_LARGE";
+
+export type ImageUploadBatchValidationResult = {
+  valid: boolean;
+  totalFileBytes: number;
+  maxFileBytes: number;
+};
+
+/**
+ * File-byte budget for one multipart image upload batch (excludes envelope headroom).
+ */
+export function getMaxImageBatchFileBytesInBytes(): number {
+  return MAX_IMAGES_PER_UPLOAD * MAX_IMAGE_SIZE_IN_BYTES;
+}
+
+export function validateImageUploadBatchSize(
+  fileSizesInBytes: number[]
+): ImageUploadBatchValidationResult {
+  const maxFileBytes = getMaxImageBatchFileBytesInBytes();
+  const totalFileBytes = fileSizesInBytes.reduce((sum, size) => sum + size, 0);
+
+  return {
+    valid:
+      fileSizesInBytes.length <= MAX_IMAGES_PER_UPLOAD &&
+      totalFileBytes <= maxFileBytes,
+    totalFileBytes,
+    maxFileBytes,
+  };
+}

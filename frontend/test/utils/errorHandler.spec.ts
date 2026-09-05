@@ -95,12 +95,12 @@ describe("utils/errorHandler", () => {
     const out = errorHandler(
       makeFetchError(400, {
         nonFieldErrors: [
-          "The file size (6.291MB) is too large. The maximum file size is 5MB.",
+          "The file size (6.291 MB) is too large. The maximum file size is 5 MB.",
         ],
       })
     );
     expect(out.message).toBe(
-      "The file size (6.291MB) is too large. The maximum file size is 5MB."
+      "The file size (6.291 MB) is too large. The maximum file size is 5 MB."
     );
   });
 
