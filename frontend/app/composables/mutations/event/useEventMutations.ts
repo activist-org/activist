@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 export const useEventMutations = (options: OptionMutation = {}) => {
   const { error, handleError } = useAppError();
   const { invalidateEventList } = useEventCache();

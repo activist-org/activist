@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 const FALLBACK_EVENT_CALENDAR_FILENAME = "activist_event.ics";
 
 export function getEventCalendarFilename(
