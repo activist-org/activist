@@ -1,10 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Service functions for organization/group membership and role changes.
-
-Keep signup/invite assignment and role-change logic here rather than in
-views, so the rules are enforced identically no matter which endpoint
-(web form, API, admin action) triggers them.
 """
 
 from __future__ import annotations
@@ -23,6 +19,27 @@ from communities.permissions import get_group_membership, get_org_membership
 def join_organization(
     user: UserModel, org: Organization, role: str = enums.MembershipRole.GUEST
 ) -> OrganizationMember:
+    """
+    Assign a membership role to a user joining an organization.
+
+    Guest role is assigned by default.
+
+    Parameters
+    ----------
+    user : UserModel
+        The user to assign membership to.
+    org : Organization
+        The organization the user is joining.
+    role : str, optional
+        Role to assign to the user within the organization. Defaults to
+        ``enums.MembershipRole.GUEST``.
+
+    Returns
+    -------
+    OrganizationMember
+        The existing membership if one already exists, otherwise the
+        newly created membership record.
+    """
     membership, _created = OrganizationMember.objects.get_or_create(
         org=org, user=user, defaults={"role": role}
     )
@@ -33,10 +50,34 @@ def join_group(
     user: UserModel, group: Group, role: str = enums.MembershipRole.GUEST
 ) -> GroupMember:
     """
+    Assign a membership role to a user joining a group.
+
     Design decision: a user must already be a member of the Group's
     parent Organization before joining one of its Groups. Remove this
     check if you'd rather allow Group membership independent of Org
     membership.
+
+    Parameters
+    ----------
+    user : UserModel
+        The user to assign membership to.
+    group : Group
+        The group the user is joining.
+    role : str, optional
+        Role to assign to the user within the group. Defaults to
+        ``enums.MembershipRole.GUEST``.
+
+    Returns
+    -------
+    GroupMember
+        The existing membership if one already exists, otherwise the
+        newly created membership record.
+
+    Raises
+    ------
+    ValidationError
+        If the user is not already a member of the group's parent
+        organization.
     """
     if get_org_membership(user, group.org) is None:
         raise ValidationError(
@@ -53,9 +94,34 @@ def join_group(
 
 
 def change_org_role(
-    actor, membership: OrganizationMember, new_role: str
+    actor: UserModel, membership: OrganizationMember, new_role: str
 ) -> OrganizationMember:
-    """Change a user's role within an Organization, enforcing guardrails."""
+    """
+    Change a user's role within an Organization, enforcing guardrails.
+
+    Parameters
+    ----------
+    actor : UserModel
+        The user attempting to perform the role change.
+    membership : OrganizationMember
+        The organization membership whose role is being changed.
+    new_role : str
+        The role to assign to the membership.
+
+    Returns
+    -------
+    OrganizationMember
+        The updated membership record.
+
+    Raises
+    ------
+    PermissionDenied
+        If ``actor`` is neither a site admin nor an org admin of
+        ``membership.org``.
+    ValidationError
+        If the change would demote the last remaining admin of the
+        organization.
+    """
     org = membership.org
 
     if not getattr(actor, "is_admin", False):
@@ -87,12 +153,39 @@ def change_org_role(
     return membership
 
 
-def change_group_role(actor, membership: GroupMember, new_role: str) -> GroupMember:
+def change_group_role(
+    actor: UserModel, membership: GroupMember, new_role: str
+) -> GroupMember:
     """
-    Change a user's role within a Group. Site admins and admins of the
-    group's parent Organization can do this outright (cascading power
-    from Step: org admins control everything inside their org);
-    otherwise the actor must be a group admin themselves.
+    Change a user's role within a Group.
+
+    Site admins and admins of the group's parent Organization can do
+    this outright (cascading power from Step: org admins control
+    everything inside their org); otherwise the actor must be a group
+    admin themselves.
+
+    Parameters
+    ----------
+    actor : UserModel
+        The user attempting to perform the role change.
+    membership : GroupMember
+        The group membership whose role is being changed.
+    new_role : str
+        The role to assign to the membership.
+
+    Returns
+    -------
+    GroupMember
+        The updated membership record.
+
+    Raises
+    ------
+    PermissionDenied
+        If ``actor`` is not a site admin, an org admin of the group's
+        organization, or a group admin.
+    ValidationError
+        If the change would demote the last remaining admin of the
+        group.
     """
     group = membership.group
 

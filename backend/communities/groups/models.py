@@ -135,7 +135,15 @@ class GroupMember(models.Model):
 
     @property
     def role_level(self) -> int:
-        return MEMBERSHIP_ROLE_LEVELS[self.role]
+        """
+        Return the priority level of the user as per their role assigned.
+
+        Returns
+        -------
+        int
+            The numeric priority level corresponding to the member's role.
+        """
+        return MEMBERSHIP_ROLE_LEVELS[MembershipRole(self.role)]
 
     def __str__(self) -> str:
         return str(self.id)

@@ -147,18 +147,20 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: dict[str, UploadedFile]) -> dict[str, UploadedFile]:
+    def validate(
+        self, data: dict[str, UploadedFile[bytes]]
+    ) -> dict[str, UploadedFile[bytes]]:
         """
         Validate uploaded image files.
 
         Parameters
         ----------
-        data : dict[str, UploadedFile]
+        data : dict[str, UploadedFile[bytes]]
             Dictionary containing the file_object.
 
         Returns
         -------
-        dict[str, UploadedFile]
+        dict[str, UploadedFile[bytes]]
             Validated data dictionary.
 
         Raises
@@ -283,18 +285,20 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: dict[str, UploadedFile]) -> dict[str, UploadedFile]:
+    def validate(
+        self, data: dict[str, UploadedFile[bytes]]
+    ) -> dict[str, UploadedFile[bytes]]:
         """
         Validate uploaded image files.
 
         Parameters
         ----------
-        data : dict[str, UploadedFile]
+        data : dict[str, UploadedFile[bytes]]
             Dictionary containing the file_object.
 
         Returns
         -------
-        dict[str, UploadedFile]
+        dict[str, UploadedFile[bytes]]
             Validated data dictionary.
 
         Raises

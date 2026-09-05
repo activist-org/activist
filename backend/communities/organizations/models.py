@@ -180,8 +180,13 @@ class OrganizationMember(models.Model):
     def role_level(self) -> int:
         """
         Return the priority level of the user as per their role assigned.
+
+        Returns
+        -------
+        int
+            The numeric priority level corresponding to the member's role.
         """
-        return enums.MEMBERSHIP_ROLE_LEVELS[self.role]
+        return enums.MEMBERSHIP_ROLE_LEVELS[enums.MembershipRole(self.role)]
 
     def __str__(self) -> str:
         return str(self.id)

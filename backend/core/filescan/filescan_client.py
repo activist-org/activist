@@ -49,13 +49,13 @@ def _build_scan_url() -> str:
 FILESCAN_URL = _build_scan_url()
 
 
-def scan_file(upload: UploadedFile) -> dict[str, Any]:
+def scan_file(upload: UploadedFile[bytes]) -> dict[str, Any]:
     """
     Call the filescan service with the uploaded file and return its JSON response.
 
     Parameters
     ----------
-    upload : UploadedFile
+    upload : UploadedFile[bytes]
         The uploaded file to send to the filescan service.
 
     Returns

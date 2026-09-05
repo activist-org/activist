@@ -16,13 +16,13 @@ FILESCAN_MSG_REJECTED = "The uploaded file was rejected by the security scan."
 FILESCAN_MSG_COULD_NOT_SCAN = "The file could not be scanned. Please try again later."
 
 
-def scan_uploads_and_rewind(uploads: Iterable[UploadedFile]) -> Response | None:
+def scan_uploads_and_rewind(uploads: Iterable[UploadedFile[bytes]]) -> Response | None:
     """
     Scan uploads; return 400 Response on malware/scan error, else rewind and return None.
 
     Parameters
     ----------
-    uploads : Iterable[UploadedFile]
+    uploads : Iterable[UploadedFile[bytes]]
         Uploaded file objects to scan (typically from ``request.FILES``).
 
     Returns
