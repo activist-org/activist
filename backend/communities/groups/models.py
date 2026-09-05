@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from django.db import models
 
+from authentication.enums import MEMBERSHIP_ROLE_LEVELS, MembershipRole
 from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Group
@@ -115,9 +116,34 @@ class GroupMember(models.Model):
         on_delete=models.CASCADE,
         related_name="group_members",
     )
+    role = models.CharField(
+        max_length=20,
+        choices=MembershipRole.choices,
+        default=MembershipRole.GUEST,
+    )
+
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["group", "user"], name="unique_group_membership"
+            )
+        ]
+
+    @property
+    def role_level(self) -> int:
+        """
+        Return the priority level of the user as per their role assigned.
+
+        Returns
+        -------
+        int
+            The numeric priority level corresponding to the member's role.
+        """
+        return MEMBERSHIP_ROLE_LEVELS[MembershipRole(self.role)]
 
     def __str__(self) -> str:
         return str(self.id)

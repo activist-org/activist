@@ -158,12 +158,12 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         Parameters
         ----------
-        data : dict[str, UploadedFile]
+        data : dict[str, UploadedFile[bytes]]
             Dictionary containing the file_object.
 
         Returns
         -------
-        dict[str, UploadedFile]
+        dict[str, UploadedFile[bytes]]
             Validated data dictionary.
 
         Raises
@@ -299,12 +299,12 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
 
         Parameters
         ----------
-        data : dict[str, UploadedFile]
+        data : dict[str, UploadedFile[bytes]]
             Dictionary containing the file_object.
 
         Returns
         -------
-        dict[str, UploadedFile]
+        dict[str, UploadedFile[bytes]]
             Validated data dictionary.
 
         Raises
