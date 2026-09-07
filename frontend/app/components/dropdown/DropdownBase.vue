@@ -54,10 +54,9 @@
           <Transition name="chevron">
             <Icon
               v-if="
-                !isPageBreadcrumbs &&
-                (!isSidebarLeftMenu ||
-                  sidebar.collapsed == false ||
-                  sidebar.collapsedSwitch == false)
+                !isSidebarLeftMenu ||
+                sidebar.collapsed == false ||
+                sidebar.collapsedSwitch == false
               "
               class="right-3"
               :class="{
