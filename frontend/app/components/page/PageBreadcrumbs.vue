@@ -1,75 +1,81 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <nav :aria-label="t('i18n.components.page_breadcrumbs.aria_label')">
-    <ul class="flex flex-row flex-wrap text-sm md:text-base">
-      <li
-        v-for="(breadcrumb, index) in displayBreadcrumbs"
-        :key="index"
-        class="flex items-center font-display"
-      >
-        <NuxtLink
-          v-if="index === 0"
-          class="mx-[0.35rem] text-distinct-text focus-brand hover:text-primary-text"
-          :to="localePath('/home')"
+  <div class="flex items-center justify-between gap-2">
+    <nav :aria-label="t('i18n.components.page_breadcrumbs.aria_label')">
+      <ul class="flex flex-row flex-wrap text-sm md:text-base">
+        <li
+          v-for="(breadcrumb, index) in displayBreadcrumbs"
+          :key="index"
+          class="flex items-center font-display"
         >
-          &#60;
-        </NuxtLink>
-        <span v-else class="mx-[0.45rem] mb-[0.2rem] text-distinct-text">
-          |
-        </span>
-        <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
-            v-if="isValidUUID(breadcrumb) && pageType == 'event'"
-            class="text-distinct-text focus-brand hover:text-primary-text"
-            :to="makeURL(breadcrumb)"
+            v-if="index === 0"
+            class="mx-[0.35rem] text-distinct-text focus-brand hover:text-primary-text"
+            :to="localePath('/home')"
           >
-            {{ event.name }}
+            &#60;
           </NuxtLink>
-          <NuxtLink
-            v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
-            class="text-distinct-text focus-brand hover:text-primary-text"
-            :to="makeURL(breadcrumb)"
-          >
-            {{ organization.name }}
-          </NuxtLink>
-          <NuxtLink
-            v-else-if="
-              isValidUUID(breadcrumb) && pageType == 'group' && index == 1
-            "
-            class="text-distinct-text focus-brand hover:text-primary-text"
-            :to="makeURL(breadcrumb)"
-          >
-            {{ group.org.name }}
-          </NuxtLink>
-          <NuxtLink
-            v-else-if="
-              isValidUUID(breadcrumb) && pageType == 'group' && index == 3
-            "
-            class="text-distinct-text focus-brand hover:text-primary-text"
-            :to="makeURL(breadcrumb)"
-          >
-            {{ group.name }}
-          </NuxtLink>
-          <NuxtLink
-            v-else
-            class="text-distinct-text focus-brand hover:text-primary-text"
-            :to="makeURL(breadcrumb)"
-          >
-            {{ capitalizeFirstLetter(breadcrumb) }}
-          </NuxtLink>
-        </span>
-        <span v-else>
-          <NuxtLink
-            aria-current="page"
-            class="text-distinct-text focus-brand hover:text-primary-text"
-            :to="makeURL(breadcrumb)"
-          >
-            {{ capitalizeFirstLetter(breadcrumb) }}
-          </NuxtLink>
-        </span>
-      </li>
-    </ul>
-  </nav>
+          <span v-else class="mx-[0.45rem] mb-[0.2rem] text-distinct-text">
+            |
+          </span>
+          <span v-if="index !== displayBreadcrumbs.length - 1">
+            <NuxtLink
+              v-if="isValidUUID(breadcrumb) && pageType == 'event'"
+              class="text-distinct-text focus-brand hover:text-primary-text"
+              :to="makeURL(breadcrumb)"
+            >
+              {{ event.name }}
+            </NuxtLink>
+            <NuxtLink
+              v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
+              class="text-distinct-text focus-brand hover:text-primary-text"
+              :to="makeURL(breadcrumb)"
+            >
+              {{ organization.name }}
+            </NuxtLink>
+            <NuxtLink
+              v-else-if="
+                isValidUUID(breadcrumb) && pageType == 'group' && index == 1
+              "
+              class="text-distinct-text focus-brand hover:text-primary-text"
+              :to="makeURL(breadcrumb)"
+            >
+              {{ group.org.name }}
+            </NuxtLink>
+            <NuxtLink
+              v-else-if="
+                isValidUUID(breadcrumb) && pageType == 'group' && index == 3
+              "
+              class="text-distinct-text focus-brand hover:text-primary-text"
+              :to="makeURL(breadcrumb)"
+            >
+              {{ group.name }}
+            </NuxtLink>
+            <NuxtLink
+              v-else
+              class="text-distinct-text focus-brand hover:text-primary-text"
+              :to="makeURL(breadcrumb)"
+            >
+              {{ capitalizeFirstLetter(breadcrumb) }}
+            </NuxtLink>
+          </span>
+          <span v-else>
+            <NuxtLink
+              aria-current="page"
+              class="text-distinct-text focus-brand hover:text-primary-text"
+              :to="makeURL(breadcrumb)"
+            >
+              {{ capitalizeFirstLetter(breadcrumb) }}
+            </NuxtLink>
+          </span>
+        </li>
+      </ul>
+    </nav>
+    <div class="flex shrink-0 items-center gap-1">
+      <DropdownTheme :location="dropdownLocation" />
+      <DropdownLanguage :location="dropdownLocation" />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -80,6 +86,8 @@ import { getOrganization } from "~/services/communities/organization/organizatio
 import { getEvent } from "~/services/event/event";
 
 const { t } = useI18n();
+
+const dropdownLocation = DropdownLocation.PAGE_BREADCRUMBS;
 
 const url = window.location.href;
 let pageType = "";

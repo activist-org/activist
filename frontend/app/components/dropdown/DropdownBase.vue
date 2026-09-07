@@ -11,6 +11,7 @@
           'pl-6': isSideMenu,
           'style-menu-option-cta flex items-center rounded-md pl-1':
             isSidebarLeftMenu,
+          'px-2 py-1': isPageBreadcrumbs,
         }"
         :data-testid="dataTestId"
       >
@@ -37,7 +38,9 @@
                   sidebar.collapsedSwitch == false
                 "
                 :class="{
-                  'sr-only lg:not-sr-only': !isSidebarLeftMenu,
+                  'sr-only lg:not-sr-only':
+                    !isSidebarLeftMenu && !isPageBreadcrumbs,
+                  'sr-only': isPageBreadcrumbs,
                   'not-sr-only! ml-3!': isSideMenu,
                   uppercase: isMenuButtonUppercase,
                   'font-bold': isMenuButtonBold,
@@ -51,9 +54,10 @@
           <Transition name="chevron">
             <Icon
               v-if="
-                !isSidebarLeftMenu ||
-                sidebar.collapsed == false ||
-                sidebar.collapsedSwitch == false
+                !isPageBreadcrumbs &&
+                (!isSidebarLeftMenu ||
+                  sidebar.collapsed == false ||
+                  sidebar.collapsedSwitch == false)
               "
               class="right-3"
               :class="{
@@ -109,6 +113,10 @@ const isSidebarLeftMenu = computed(() => {
 
 const isSideMenu = computed(() => {
   return props.location === DropdownLocation.SIDE_MENU;
+});
+
+const isPageBreadcrumbs = computed(() => {
+  return props.location === DropdownLocation.PAGE_BREADCRUMBS;
 });
 
 const expandOnFocus = () => {
