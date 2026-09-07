@@ -53,12 +53,13 @@ const httpMocks = vi.hoisted(() => {
     put: fetchMock,
     del: fetchMock,
     fetchSession: fetchMock,
+    fetchImage: fetchMock,
   };
 });
 
 globalThis.httpMocks = httpMocks;
 globalThis.$fetch = httpMocks.fetchMock as typeof globalThis.$fetch;
-
+globalThis.$fetch.raw = httpMocks.fetchMock as typeof globalThis.$fetch.raw;
 // MARK: @pinia/colada Global Mocks (Stable References)
 
 interface MutationOptions<TResult, TVars, TContext = unknown> {

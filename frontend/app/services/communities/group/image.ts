@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { post, put } from "~/services/http";
-
 // MARK: Upload
 
 export async function uploadGroupImages(
@@ -9,6 +7,10 @@ export async function uploadGroupImages(
   sequences: number[] = []
 ): Promise<ContentImage[]> {
   try {
+    if (files.length === 0)
+      throw new AppError("No files provided", AppErrorCause.VALIDATION);
+    await validateImageUploadBatch(files.map((file) => file.file.size));
+
     const fd = new FormData();
     fd.append("entity_id", groupId);
     fd.append("entity_type", EntityMap.GROUP);
@@ -17,8 +19,7 @@ export async function uploadGroupImages(
 
     return await post<ContentImage[], FormData>(`/content/images`, fd);
   } catch (e) {
-    const err = errorHandler(e);
-    throw err;
+    throw errorHandler(e);
   }
 }
 

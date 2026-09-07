@@ -10,6 +10,7 @@ export interface HttpMocks {
   put: ReturnType<typeof vi.fn>;
   del: ReturnType<typeof vi.fn>;
   fetchSession: ReturnType<typeof vi.fn>;
+  fetchImage: ReturnType<typeof vi.fn>;
 }
 
 export function setupServiceTestMocks() {
@@ -21,6 +22,7 @@ export function setupServiceTestMocks() {
     mocks.put.mockReset();
     mocks.del.mockReset();
     mocks.fetchSession.mockReset();
+    mocks.fetchImage.mockReset();
   });
 
   return () => globalThis.httpMocks as HttpMocks;

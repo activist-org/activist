@@ -143,6 +143,8 @@ activist is very open to contributions from people in the early stages of their 
 
 > [!NOTE]
 > Windows users should be aware that Docker development requires [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/) version 2 or higher. The community would suggest that you clone the repository directly into your WSL environment.
+>
+> If you're on Windows, make sure the WSL2 integration is enabled in Docker Desktop (Settings → Resources → WSL Integration → toggle on your distro) before running any Docker commands from WSL. Also, clone the repository natively inside WSL (e.g. `~/activist`) rather than on the Windows filesystem (e.g. `C:\Users\...`) accessed through `/mnt/c/`. A Windows-side clone can still work, but the filesystem boundary between Windows and the Linux VM can cause inconsistent behavior — a blank grey page in the browser — that's easy to mistake for a bug in the project itself.
 
 1. First and foremost, please see the suggested IDE setup in the dropdown below to make sure that your editor is ready for development.
 

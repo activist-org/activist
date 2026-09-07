@@ -19,6 +19,18 @@ export function get<T>(url: string, options?: ServiceOptions) {
   });
 }
 
+export function getRaw<T>(url: string, options?: ServiceOptions) {
+  const headers = {
+    ...(options?.headers || {}),
+  };
+  return $fetch.raw<T>(url, {
+    baseURL: baseURL(!options?.withoutAuth),
+    method: "GET" as const,
+    ...options,
+    headers,
+  });
+}
+
 export function post<T, X extends AcceptedBody>(
   url: string,
   body?: X,
@@ -80,6 +92,21 @@ export const fetchSession = async (
 ) => {
   return $fetch(url, {
     baseURL: "/api/session",
+    data,
+    headers: {},
+    method,
+    body,
+  });
+};
+
+export const fetchImage = async (
+  url: string,
+  data: object | undefined,
+  method: "GET" | "POST" = "GET",
+  body?: object | undefined
+) => {
+  return $fetch(url, {
+    baseURL: "/api/images",
     data,
     headers: {},
     method,

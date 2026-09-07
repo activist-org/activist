@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 export const getKeyForLocation = (query: Record<string, string> | null) =>
   `user-location:${JSON.stringify(query)}`;
 export const useGetLocation = (

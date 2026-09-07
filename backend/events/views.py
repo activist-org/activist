@@ -780,31 +780,26 @@ class EventCalendarAPIView(APIView):
         cal = Calendar()
         cal.add("prodid", "-//Activist//EN")
         cal.add("version", "2.0")
-        ical_event = ICalEvent()
-        ical_event.add("summary", event.name)
-        ical_event.add("description", event.tagline or "")
+        for t in event.times.all():
+            cal_event = ICalEvent()
+            cal_event.add("summary", event.name)
+            cal_event.add("description", event.tagline or "")
+            cal_event.add("dtstart", t.start_time)
+            cal_event.add("dtend", t.end_time)
 
-        # Get the first event time if available.
-        if first_time := event.times.first():
-            ical_event.add("dtstart", first_time.start_time)
-            ical_event.add("dtend", first_time.end_time)
+            cal_event.add(
+                "location",
+                (
+                    event.online_location_link
+                    if event.location_type == "online"
+                    else event.physical_location.address_or_name  # type: ignore
+                ),
+            )
+            cal_event.add("uid", t.id)
+            cal.add_component(cal_event)
 
-        ical_event.add(
-            "location",
-            (
-                event.online_location_link
-                if event.location_type == "online"
-                else event.physical_location
-            ),
-        )
-        ical_event.add("uid", event.id)
-        cal.add_component(ical_event)
-
-        # Convert to lower camel case.
-        event_name = re.sub(r"[\t\n\r\f\v]+", " ", event.name)
-        event_file_identifier = (
-            "".join(filter(str.isalnum, event_name)).replace(" ", "_").lower()
-        )
+        alphanumeric_name_with_spaces = re.sub(r"[^\w\s]", "", event.name)
+        event_file_identifier = alphanumeric_name_with_spaces.replace(" ", "_").lower()
 
         response = HttpResponse(cal.to_ical(), content_type="text/calendar")
         response["Content-Disposition"] = (

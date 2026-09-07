@@ -83,4 +83,29 @@ describe("useOrganizationCache", () => {
       expect(key).toEqual(["organization", "org-123"]);
     });
   });
+
+  describe("getKeyForOrganizationEvents", () => {
+    it("generates the correct tuple array for organization events with filters", () => {
+      const { getKeyForOrganizationEvents } = useOrganizationCache();
+      const filters = { name: "cleanup" };
+
+      const key = getKeyForOrganizationEvents("org-123", filters);
+
+      expect(key).toEqual(["organization", "org-123", "events", { filters }]);
+    });
+  });
+
+  describe("invalidateOrganizationEvents", () => {
+    it("calls invalidateQueries with the organization events list key", async () => {
+      const { invalidateOrganizationEvents } = useOrganizationCache();
+
+      await invalidateOrganizationEvents("org-123");
+
+      const { invalidateQueries } = globalThis.useQueryCache();
+
+      expect(invalidateQueries).toHaveBeenCalledWith({
+        key: ["organization", "org-123", "events"],
+      });
+    });
+  });
 });

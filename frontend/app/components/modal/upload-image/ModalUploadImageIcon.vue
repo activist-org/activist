@@ -9,8 +9,15 @@
       </DialogTitle>
       <div class="mt-4">
         <ImageFileDropZone
-          v-if="fileImageIcon ? false : true"
-          @files-dropped="(file) => (fileImageIcon = getIconImage(file))"
+          v-if="!fileImageIcon"
+          @files-dropped="
+            (file) => {
+              const icon = getIconImage(file);
+              if (icon) {
+                fileImageIcon = icon;
+              }
+            }
+          "
         >
           <span>{{ t("i18n.components._global.drop_image") }}</span>
         </ImageFileDropZone>
@@ -89,8 +96,20 @@ const {
 });
 
 const { uploadIconImage: uploadEventIconImage, loading: loadingEvent } =
-  useEventImageIconMutations(entityId);
-const fileImageIcon = ref();
+  useEventImageIconMutations(entityId, {
+    upload: {
+      onSuccess() {
+        uploadError.value = false;
+        emit("upload-complete");
+        handleCloseModal();
+      },
+      onError() {
+        uploadError.value = true;
+        emit("upload-error");
+      },
+    },
+  });
+const fileImageIcon = ref<UploadableFile | null>(null);
 const { getIconImage } = useFileManager();
 const handleUpload = async () => {
   try {

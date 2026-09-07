@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 // MARK: Centralized Query Keys
 
 const ORGANIZATION_KEYS = {
@@ -12,6 +11,8 @@ const ORGANIZATION_KEYS = {
     [...ORGANIZATION_KEYS.root, "imageList", orgId] as const,
   listByUser: (userId: string, filters: unknown) =>
     [...ORGANIZATION_KEYS.root, "list", "user", userId, { filters }] as const,
+  eventsList: (orgId: string, filters: unknown) =>
+    [...ORGANIZATION_KEYS.root, orgId, "events", { filters }] as const,
 };
 
 export const useOrganizationCache = () => {
@@ -42,6 +43,12 @@ export const useOrganizationCache = () => {
     });
   };
 
+  const invalidateOrganizationEvents = async (orgId: string) => {
+    await invalidateQueries({
+      key: [...ORGANIZATION_KEYS.root, orgId, "events"],
+    });
+  };
+
   // Get cache entries for a single event.
   const organizationCacheEntries = (orgId: string) =>
     getEntries({ key: ORGANIZATION_KEYS.byId(orgId) });
@@ -55,17 +62,21 @@ export const useOrganizationCache = () => {
     ORGANIZATION_KEYS.byImageId(orgId);
   const getKeyForOrganizationListImage = (orgId: string) =>
     ORGANIZATION_KEYS.imageList(orgId);
+  const getKeyForOrganizationEvents = (orgId: string, filters: unknown) =>
+    ORGANIZATION_KEYS.eventsList(orgId, filters);
 
   return {
     invalidateOrganizationCache,
     invalidateOrganizationImageCache,
     invalidateOrganizationList,
     invalidateOrganizationsByUser,
+    invalidateOrganizationEvents,
     organizationCacheEntries,
     getKeyForOrganizations,
     getKeyForOrganization,
     getKeyForOrganizationsByUser,
     getKeyForOrganizationImage,
     getKeyForOrganizationListImage,
+    getKeyForOrganizationEvents,
   };
 };

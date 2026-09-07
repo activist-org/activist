@@ -3,6 +3,7 @@ import type { FetchOptions } from "ofetch";
 
 export type ServiceOptions = Omit<FetchOptions, "method"> & {
   withoutAuth?: boolean;
+  isImageRequest?: boolean;
 };
 export type ServiceOptionsWithBody = Omit<FetchOptions, "method" | "body"> & {
   withoutAuth?: boolean;

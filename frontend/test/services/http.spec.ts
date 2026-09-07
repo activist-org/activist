@@ -51,7 +51,40 @@ describe("services/http (mocked contract)", () => {
     });
   });
 
-  it("post() sends body through the post wrapper", async () => {
+  // MARK: Get Raw
+
+  it("getRaw() returns the full public response and respects withoutAuth", async () => {
+    const rawResponse = {
+      _data: new Blob(["calendar"]),
+      headers: new Headers({ "Content-Disposition": "attachment" }),
+      status: 200,
+    };
+
+    mocks().get.mockResolvedValueOnce(rawResponse);
+
+    const result = await getRaw<Blob>("/calendar", {
+      headers: { "X-Trace": "calendar-download" },
+      responseType: "blob",
+      withoutAuth: true,
+    });
+
+    expect(result).toBe(rawResponse);
+    expect(mocks().get).toHaveBeenCalledTimes(1);
+    const [url, opts] = mocks().get.mock.calls[0] as [
+      string,
+      Record<string, unknown>,
+    ];
+    expect(url).toBe("/calendar");
+    expect(opts.baseURL).toBe("/api/public");
+    expect(opts.method).toBe("GET");
+    expect(opts.responseType).toBe("blob");
+    expect(opts.withoutAuth).toBe(true);
+    expect(opts.headers).toEqual({ "X-Trace": "calendar-download" });
+  });
+
+  // MARK: Post
+
+  it("post() sends body and sets baseURL to /api/auth by default", async () => {
     mocks().post.mockResolvedValueOnce({ ok: true });
     const body = { a: 1 };
 

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 export const KEY_GET_TOPICS = ["topics"];
 
 export const useTopicCache = () => {
