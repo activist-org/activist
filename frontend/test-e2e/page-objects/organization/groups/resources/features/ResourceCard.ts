@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
 
@@ -74,6 +74,22 @@ export const ResourceCard = (page: Page) => {
         .getByTestId("resource-card")
         .nth(index)
         .getByTestId("icon-delete");
+    },
+
+    // MARK: Card by Name
+
+    // Prefer these over the index getters above when a test owns the resource
+    // it acts on: the suite runs fullyParallel, so nth() can drift.
+    resourceCardByName(name: string) {
+      return page.getByTestId("resource-card").filter({ hasText: name });
+    },
+
+    resourceEditButton(card: Locator) {
+      return card.getByTestId("icon-edit");
+    },
+
+    resourceDeleteButton(card: Locator) {
+      return card.getByTestId("icon-delete");
     },
 
     // MARK: Actions
