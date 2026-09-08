@@ -156,9 +156,37 @@ class OrganizationMember(models.Model):
 
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    role = models.CharField(
+        max_length=20,
+        choices=enums.MembershipRole.choices,
+        default=enums.MembershipRole.GUEST,
+    )
+    # Deprecated: use `role == enums.MembershipRole.ADMIN` instead.
+    # Retained temporarily for backward compatibility with existing call
+    # sites; remove once all reads/writes have migrated to `role`.
+
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["org", "user"], name="unique_org_membership"
+            )
+        ]
+
+    @property
+    def role_level(self) -> int:
+        """
+        Return the priority level of the user as per their role assigned.
+
+        Returns
+        -------
+        int
+            The numeric priority level corresponding to the member's role.
+        """
+        return enums.MEMBERSHIP_ROLE_LEVELS[enums.MembershipRole(self.role)]
 
     def __str__(self) -> str:
         return str(self.id)

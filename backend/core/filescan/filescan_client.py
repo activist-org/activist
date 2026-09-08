@@ -55,7 +55,7 @@ def scan_file(upload: UploadedFile[bytes]) -> dict[str, Any]:
 
     Parameters
     ----------
-    upload : UploadedFile
+    upload : UploadedFile[bytes]
         The uploaded file to send to the filescan service.
 
     Returns
