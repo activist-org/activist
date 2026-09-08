@@ -11,6 +11,7 @@ export enum LOCALE_NAME {
   PORTUGUESE = "Português",
   SPANISH = "Español",
   RUSSIAN = "Русский",
+  UKRAINIAN = "Українська",
 }
 
 export enum LOCALE_CODE {
@@ -23,6 +24,7 @@ export enum LOCALE_CODE {
   PORTUGUESE = "pt",
   SPANISH = "es",
   RUSSIAN = "ru",
+  UKRAINIAN = "uk",
 }
 
 type LocaleCodeType = (typeof LOCALE_CODE)[keyof typeof LOCALE_CODE];
@@ -72,6 +74,11 @@ export const locales: LocaleObject<LocaleCodeType>[] = [
     code: LOCALE_CODE.RUSSIAN,
     name: LOCALE_NAME.RUSSIAN,
     file: "ru.json",
+  },
+  {
+    code: LOCALE_CODE.UKRAINIAN,
+    name: LOCALE_NAME.UKRAINIAN,
+    file: "uk.json",
   },
 ];
 
