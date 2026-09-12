@@ -16,6 +16,11 @@ export interface UserActivist {
   socialLinks: string[];
 }
 
+export interface UserResponse {
+  id: string;
+  username: string;
+  supportedEvents: CommunityEvent[];
+}
 export const defaultUser: UserActivist = {
   id: "",
   userName: "",

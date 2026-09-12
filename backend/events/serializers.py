@@ -29,6 +29,7 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
+    EventSupport,
     EventText,
     EventTime,
     Format,
@@ -434,6 +435,72 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 
         return event
 
+# MARK: Support
+
+
+class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
+    """
+    Serializer for EventSupport model data.
+
+    Notes
+    -----
+    `supporter_user` is always set from the requesting user in the view,
+    so clients only ever provide the event (and only when the event id
+    isn't already in the URL).
+    """
+
+    class Meta:
+        model = EventSupport
+        fields = "__all__"
+        read_only_fields = ["supporter_user", "creation_date", "event"]
+    def create(self, validated_data: dict[str, Any]) -> EventSupport:
+        """
+        Create event support record.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Dictionary of validated data for creating the event support.
+
+        Returns
+        -------
+        EventSupport
+            Created EventSupport instance.
+        """
+        event_support = EventSupport.objects.create(**validated_data)
+        logger.info(f"Created EventSupport with id {event_support.id}")
+
+        return event_support
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+            logger.info(f"Event found for value: {value}")
+
+        except Event.DoesNotExist as e:
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
 
 # MARK: Event
 
@@ -454,6 +521,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     times = EventTimesSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
+    supporter_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
@@ -464,6 +532,11 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         fields = "__all__"
 
+    def get_supporter_count(self, obj: Event) -> int:
+        """
+        Return the supporter tally, using the queryset annotation when present.
+        """
+        return getattr(obj, "_supporter_count", None) or obj.supporters.count()
     def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
         Validate event data including time constraints and terms.
@@ -584,7 +657,6 @@ class EventFlagSerializers(serializers.ModelSerializer[EventFlag]):
     class Meta:
         model = EventFlag
         fields = "__all__"
-
 
 # MARK: Format
 

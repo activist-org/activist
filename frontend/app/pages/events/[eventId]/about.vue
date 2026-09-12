@@ -19,7 +19,7 @@
           :linkTo="event?.texts[0]?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
-        <!-- <BtnAction
+         <BtnAction
           class="w-max"
           :cta="true"
           label="i18n._global.support"
@@ -27,9 +27,10 @@
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
-          :counter="event.supportingUsers.length"
+          :counter="event?.supporterCount"
+          @click="createSupport"
           ariaLabel="i18n._global.support_event_aria_label"
-        /> -->
+        />
         <BtnAction
           @click="
             openModalSharePage({ event: event as unknown as CommunityEvent })
@@ -101,7 +102,11 @@ const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
-
+const { createSupport: createSupportEvent } = useEventSupportMutations(eventId);
+const createSupport = () => {
+  createSupportEvent();
+  // Implement the logic to create support for the event here
+};
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
