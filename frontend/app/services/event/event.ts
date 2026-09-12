@@ -23,6 +23,7 @@ export function mapEvent(res: EventResponse): EventResponse {
     creationDate: res.creationDate,
     orgs: res.orgs,
     texts: res.texts ?? [],
+    supporterCount: res.supporterCount ?? 0,
   };
 }
 

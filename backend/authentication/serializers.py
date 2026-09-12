@@ -13,6 +13,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from authentication.models import SessionModel, UserFlag, UserModel
+from events.models import Event, EventText
 
 logger = logging.getLogger(__name__)
 USER = get_user_model()
@@ -195,13 +196,29 @@ class SignInSerializer(serializers.Serializer[UserModel]):
             raise
 
         return data
+class UserSupportedEventTextSerializer(serializers.ModelSerializer["EventText"]):
+    """
+    Lightweight serializer for the texts associated with a user's supported events.
+    """
 
+    class Meta:
+        model = EventText  # resolved at module level; see import note below
+        fields = "__all__"
+class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
+    """
+    Lightweight event serializer for a user's supported events.
+    """
+    texts = UserSupportedEventTextSerializer(many=True, read_only=True)
+    class Meta:
+        model = Event  # resolved at module level; see import note below
+        fields = ["id", "name", "tagline", "type", "location_type", "creation_date", "texts"]
 
-class UserSerializer(serializers.ModelSerializer[UserModel]):
+class  UserSerializer(serializers.ModelSerializer[UserModel]):
     """
     Serializer for the user model.
     """
 
+    supported_events = UserSupportedEventSerializer(many=True, read_only=True)
     class Meta:
         model = UserModel
         fields = [
@@ -212,6 +229,7 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
             "is_active",
             "is_staff",
             "is_superuser",
+            "supported_events",
         ]
 
 
