@@ -35,6 +35,7 @@ from events.models import (
 )
 from utils.utils import (
     validate_creation_and_deprecation_dates,
+    validate_object_exists,
 )
 
 logger = logging.getLogger(__name__)
@@ -70,17 +71,7 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
         serializers.ValidationError
             If the event does not exist.
         """
-        if isinstance(value, Event):
-            return value
-
-        try:
-            event = Event.objects.get(id=value)
-            logger.info(f"Event found for value: {value}")
-
-        except Event.DoesNotExist as e:
-            raise serializers.ValidationError("Event not found.") from e
-
-        return event
+        return validate_object_exists(Event.objects, value, "Event not found.")
 
 
 # MARK: Resource
@@ -123,17 +114,7 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
         serializers.ValidationError
             If the event does not exist.
         """
-        if isinstance(value, Event):
-            return value
-
-        try:
-            event = Event.objects.get(id=value)
-            logger.info(f"Event found for value: {value}")
-
-        except Event.DoesNotExist as e:
-            raise serializers.ValidationError("Event not found.") from e
-
-        return event
+        return validate_object_exists(Event.objects, value, "Event not found.")
 
 
 # Mark: Times
@@ -180,17 +161,7 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
         serializers.ValidationError
             If the event does not exist.
         """
-        if isinstance(value, Event):
-            return value
-
-        try:
-            event = Event.objects.get(id=value)
-            logger.info(f"Event found for value: {value}")
-
-        except Event.DoesNotExist as e:
-            raise serializers.ValidationError("Event not found.") from e
-
-        return event
+        return validate_object_exists(Event.objects, value, "Event not found.")
 
 
 # MARK: Text
