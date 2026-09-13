@@ -35,7 +35,7 @@ from events.models import (
 )
 from utils.utils import (
     validate_creation_and_deprecation_dates,
-    validate_object_exists,
+    validate_entity_exists,
 )
 
 logger = logging.getLogger(__name__)
@@ -71,7 +71,9 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
         serializers.ValidationError
             If the event does not exist.
         """
-        return validate_object_exists(Event.objects, value, "Event not found.")
+        return validate_entity_exists(
+            manager=Event.objects, value=value, not_found_message="Event not found."
+        )
 
 
 # MARK: Resource
@@ -114,7 +116,9 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
         serializers.ValidationError
             If the event does not exist.
         """
-        return validate_object_exists(Event.objects, value, "Event not found.")
+        return validate_entity_exists(
+            manager=Event.objects, value=value, not_found_message="Event not found."
+        )
 
 
 # Mark: Times
@@ -161,7 +165,9 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
         serializers.ValidationError
             If the event does not exist.
         """
-        return validate_object_exists(Event.objects, value, "Event not found.")
+        return validate_entity_exists(
+            manager=Event.objects, value=value, not_found_message="Event not found."
+        )
 
 
 # MARK: Text

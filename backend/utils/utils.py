@@ -74,23 +74,24 @@ def validate_creation_and_deprecation_dates(data: Any) -> None:
         )
 
 
-def validate_object_exists(
+def validate_entity_exists(
     manager: "Manager[ModelT]", value: "ModelT | Any", not_found_message: str
 ) -> ModelT:
     """
-    Validate that a related object exists.
+    Validate that a related entity exists.
 
     Accepts either an already-resolved model instance or an id/UUID/string
     primary key. This centralizes a pattern that was previously duplicated
-    across several serializers (e.g. validating that a referenced Event
-    exists).
+    across serializers (e.g. validating that a referenced entity exists).
 
     Parameters
     ----------
     manager : Manager[ModelT]
-        The model manager to query against, e.g. ``Event.objects``.
+        The model manager to query against.
+
     value : ModelT | Any
         Either an already-resolved model instance, or an id to look up.
+
     not_found_message : str
         The error message to raise if no matching object is found.
 
