@@ -10,7 +10,7 @@
     <div class="h-65 mx-auto w-3/4">
       <ImageOrganization
         :alt="
-          $t('i18n._global.entity_logo', {
+          t('i18n._global.entity_logo', {
             entity_name: organization?.name,
           })
         "
@@ -45,8 +45,8 @@
           <p
             class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
-            <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
-            {{ $t(button.label) }}
+            <span class="sr-only">{{ t("i18n._global.navigate_to") }}</span>
+            {{ t(button.label) }}
           </p>
         </div>
       </MenuLinkWrapper>
@@ -65,12 +65,12 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const localePath = useLocalePath();
+
 const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string
 );
-
-const localePath = useLocalePath();
-
 const { organizationEntry } = useMenuEntriesState();
 
 const organizationButtons: MenuSelector[] = [];

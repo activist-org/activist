@@ -12,8 +12,8 @@ const createWrapper = (colorMode = "light", loading = true) =>
     props: { loading },
     global: {
       mocks: {
-        $colorMode: { value: colorMode },
-        $t: (key: string) => key,
+        colorMode: { value: colorMode },
+        t: (key: string) => key,
       },
       stubs: { Transition: false },
     },
@@ -113,7 +113,7 @@ describe("Loading Component", () => {
     it("hides content by default when loading prop is not passed", () => {
       wrapper = mount(Loading, {
         global: {
-          mocks: { $colorMode: { value: "light" }, $t: (k: string) => k },
+          mocks: { $colorMode: { value: "light" }, t: (k: string) => k },
         },
       });
       const container = wrapper.find(".flex.items-center.justify-center");

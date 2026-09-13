@@ -2,6 +2,7 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormTextEntity
+      v-if="texts"
       :formData="formData"
       getInvolvedLabel="i18n.components._global.participate"
       getInvolvedUrlLabel="i18n.components.modal_text_event.offer_to_help_link"
@@ -25,7 +26,17 @@ const props = defineProps<{
 const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
-const { updateTexts, loading } = useEventTextsMutations(eventId);
+const { updateTexts, loading } = useEventTextsMutations(eventId, {
+  update: {
+    onSuccess: () => {
+      handleCloseModal();
+    },
+  },
+});
+
+// The query resolves after the modal mounts, so rendering the form before the
+// texts arrive prefills blanks and submits against an undefined text id.
+const texts = computed(() => event.value?.texts[0]);
 
 const formData = ref<EventUpdateTextFormData>({
   description: "",
@@ -33,29 +44,28 @@ const formData = ref<EventUpdateTextFormData>({
   getInvolvedUrl: "",
 });
 
-onMounted(() => {
-  formData.value.description = event.value?.texts[0]?.description || "";
-  formData.value.getInvolved = event.value?.texts[0]?.getInvolved || "";
-  formData.value.getInvolvedUrl = event.value?.texts[0]?.getInvolvedUrl || "";
-});
-
 watch(
-  event,
+  texts,
   (newValues) => {
-    formData.value.description = newValues?.texts[0]?.description || "";
-    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
+    formData.value.description = newValues?.description || "";
+    formData.value.getInvolved = newValues?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
     deep: true,
+    immediate: true,
   }
 );
 
 async function handleSubmit(values: unknown) {
+  const textId = texts.value?.id;
+  if (!textId) {
+    return;
+  }
+
   updateTexts({
-    textId: String(event.value?.texts[0]?.id),
+    textId: String(textId),
     data: values as EventUpdateTextFormData,
   });
-  handleCloseModal();
 }
 </script>

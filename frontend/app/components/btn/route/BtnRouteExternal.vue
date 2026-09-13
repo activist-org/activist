@@ -2,7 +2,7 @@
 <template>
   <a
     :id="id"
-    :aria-label="$t(ariaLabel)"
+    :aria-label="t(ariaLabel)"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
     :href="linkTo"
@@ -24,4 +24,6 @@ import type { BtnRoute } from "#shared/types/components-props";
 const props = defineProps<BtnRoute>();
 
 const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
+
+const { t } = useI18n();
 </script>

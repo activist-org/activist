@@ -18,12 +18,12 @@
       class="space-y-4"
       :initial-values="initialLinkOnlineData"
       :schema="linkSchema"
-      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+      :submit-label="t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         :label="
-          $t(
+          t(
             'i18n.components.machine_steps_create_event_link_online.link_to_event'
           )
         "
@@ -36,7 +36,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="
-            $t(
+            t(
               'i18n.components.machine_steps_create_event_link_online.link_to_event'
             )
           "
@@ -49,6 +49,8 @@
 
 <script setup lang="ts">
 import { z } from "zod";
+
+const { t } = useI18n();
 
 const flow = inject<FlowControls>("flow");
 

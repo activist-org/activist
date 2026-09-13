@@ -20,7 +20,7 @@
               :style="{
                 color:
                   tab.id == props.selectedTab
-                    ? $colorMode.value === 'dark'
+                    ? colorMode.value === 'dark'
                       ? 'black !important'
                       : 'white !important'
                     : 'inherit',
@@ -44,7 +44,7 @@ const props = defineProps<{
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
-
+const colorMode = useColorMode();
 const nuxtApp = useNuxtApp();
 const router = useRouter();
 

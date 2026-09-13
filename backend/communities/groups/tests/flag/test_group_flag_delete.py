@@ -16,19 +16,18 @@ def test_group_flag_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
     user.is_staff = True
     user.save()
-    flag = GroupFlagFactory()
+    group_flag = GroupFlagFactory()
 
-    response = client.delete(path=f"/v1/communities/group_flags/{flag.id}")
-
+    response = client.delete(path=f"/v1/communities/group_flags/{group_flag.id}")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 def test_group_flag_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_flagged_group_uuid = uuid4()
+    invalid_flagged_group_flags_id = uuid4()
     response = client.delete(
-        path=f"/v1/communities/group_flags/{bad_flagged_group_uuid}"
+        path=f"/v1/communities/group_flags/{invalid_flagged_group_flags_id}"
     )
     response_body = response.json()
 

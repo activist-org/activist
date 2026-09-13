@@ -13,11 +13,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   // Allow intentional cross-path query navigation (e.g. post-creation redirects) to
   // preserve their query params. The flag is consumed immediately (one-time use).
-  const preserveNextQuery = useState("preserveNextQuery", () => false);
+  const preserveNextQuery = useState("preserveNextQuery", () => true);
   if (preserveNextQuery.value) {
-    preserveNextQuery.value = false;
     return;
   }
+  preserveNextQuery.value = true;
 
   // Path changed and destination has query - clear to prevent cross-route pollution.
   // Must check to.query (not from.query) to avoid infinite redirect.

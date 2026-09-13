@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 type ColorKey = `${EventType}_${"light" | "dark"}`;
 
-const colorByType: Record<ColorKey, ColorByEventTypeAndTheme> = {
+const colorByType: Record<ColorKey, ColorByEventTypeAndThemeType> = {
   learn_light: ColorByEventTypeAndTheme.LEARN_LIGHT,
   action_light: ColorByEventTypeAndTheme.ACTION_LIGHT,
   learn_dark: ColorByEventTypeAndTheme.LEARN_DARK,

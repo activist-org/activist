@@ -4,16 +4,16 @@
     <Head>
       <Title>
         {{ organization?.name }}
-        {{ $t("i18n.pages.organizations._global.events_lower") }}
+        {{ t("i18n.pages.organizations._global.events_lower") }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
       :header="
         organization?.name +
         ' ' +
-        $t('i18n.pages.organizations._global.events_lower')
+        t('i18n.pages.organizations._global.events_lower')
       "
-      :tagline="$t('i18n.pages.organizations._global.events_tagline')"
+      :tagline="t('i18n.pages.organizations._global.events_tagline')"
     >
       <div
         class="flex w-[75%] items-center space-x-2 lg:flex-row lg:items-center lg:justify-around lg:space-y-0"
@@ -23,9 +23,9 @@
             id="organization-events-search"
             v-model="name"
             :ariaLabel="
-              $t('i18n.pages.organizations.events.search_events_aria_label')
+              t('i18n.pages.organizations.events.search_events_aria_label')
             "
-            :label="$t('i18n._global.search')"
+            :label="t('i18n._global.search')"
             size="lg"
           />
           <div class="flex flex-col justify-end space-x-1">
@@ -33,14 +33,14 @@
               id="filter-date-label"
               class="hidden lg:block"
               for="filter-date-range"
-              :label="$t('i18n.pages.organizations.events.filter_by_date')"
+              :label="t('i18n.pages.organizations.events.filter_by_date')"
             />
             <FormDateTimeInput
               id="filter-date-range"
               v-model="dateRange"
               aria-labelledby="filter-date-label"
               class="flex items-center"
-              :label="$t('i18n.pages.organizations.events.filter_by_date')"
+              :label="t('i18n.pages.organizations.events.filter_by_date')"
             />
           </div>
         </div>
@@ -70,9 +70,12 @@
         </div>
       </div>
     </HeaderAppPageOrganization>
-    <Loading v-if="pending" :loading="pending" />
+    <Loading
+      v-if="pending && !loadingFetchMore"
+      :loading="pending && !loadingFetchMore"
+    />
     <div
-      v-if="events && (events ?? []).length > 0"
+      v-else-if="showEvents"
       class="space-y-3 py-4"
       data-testid="organization-events-list"
     >
@@ -82,33 +85,75 @@
         :event="e"
         :isReduced="true"
       />
+      <div ref="bottomSentinel" class="h-px">
+        <Loading
+          v-if="loadingFetchMore && pending"
+          :loading="loadingFetchMore && pending"
+        />
+      </div>
     </div>
     <EmptyState v-else class="py-4" pageType="events" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-const organizationId = useRoute().params.orgId as string;
+const { t } = useI18n();
+
+const { openModal } = useModalHandlers("ModalCreateEvent");
+
+const orgId = useRoute().params.orgId as string;
 
 const name = ref<string>("");
 const dateRange = ref<{ start?: Date; end?: Date }>({});
+const loadingFetchMore = ref(false);
 
 // format to YYYY-MM-DD for backend __date filter
 const toDateParam = (d?: Date) =>
   d ? d.toISOString().slice(0, 10) : undefined;
 
-const filters = computed(() => ({
+const filters = computed<OrganizationEventFilters>(() => ({
   name: name.value || undefined,
   startDate: toDateParam(dateRange.value.start),
   endDate: toDateParam(dateRange.value.end),
 }));
 
-const { data: organization } = useGetOrganization(organizationId);
-const { data: events, pending } = useGetOrganizationEvents(
-  organizationId,
-  filters
+watch(
+  filters,
+  () => {
+    loadingFetchMore.value = false;
+  },
+  { immediate: true, deep: true }
 );
 
-const { openModal } = useModalHandlers("ModalCreateEvent");
+const { data: organization } = useGetOrganization(orgId);
+const {
+  data: events,
+  pending,
+  getMore,
+} = useGetOrganizationEvents(orgId, filters);
+
+const bottomSentinel = ref<HTMLElement | null>(null);
+const canFetchMore = ref(true);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+
+useCustomInfiniteScroll({
+  sentinel: bottomSentinel as Ref<HTMLElement | null>,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
+
+const showEvents = computed(() => {
+  if ((events?.value ?? []).length > 0) {
+    if (loadingFetchMore.value) {
+      return true;
+    }
+    return !pending.value;
+  }
+  return false;
+});
+
 const downloadCalendarEntries = () => {};
 </script>

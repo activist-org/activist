@@ -23,7 +23,7 @@
           :iconName="opt.iconUrl"
           :isButton="false"
           :isSidebarLeftMenu="isSidebarLeftMenu"
-          :label="$t(`${opt.label}`)"
+          :label="t(`${opt.label}`)"
         />
       </MenuItem>
     </MenuLinkWrapper>
@@ -34,9 +34,11 @@
 import { MenuItem } from "@headlessui/vue";
 
 const props = defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
   options: MenuSelector[];
 }>();
+
+const { t } = useI18n();
 
 const isSidebarLeftMenu = computed(() => {
   return props.location === DropdownLocation.SIDE_LEFT_MENU;

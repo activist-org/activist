@@ -63,6 +63,7 @@ def test_healthcheck_returns_ok(monkeypatch) -> None:
 def test_scan_without_file_returns_400() -> None:
     response = client.post("/scan")
     assert response.status_code == 400
+
     body = response.json()
     assert "detail" in body
 
@@ -76,6 +77,7 @@ def test_scan_empty_file_treated_as_clean(monkeypatch) -> None:
         response = client.post("/scan", files={"file": ("empty.txt", f, "text/plain")})
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "empty.txt"
     assert body["malware_detected"] is False
@@ -89,6 +91,7 @@ def test_scan_clean_file_treated_as_clean(monkeypatch) -> None:
         response = client.post("/scan", files={"file": ("clean.txt", f, "text/plain")})
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "clean.txt"
     assert body["malware_detected"] is False
@@ -114,6 +117,7 @@ def test_scan_eicar_file_detects_malware(monkeypatch, tmp_path) -> None:
     )
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "eicar.txt"
     assert body["malware_detected"] is True
@@ -134,7 +138,9 @@ def test_scan_csam_detected(monkeypatch) -> None:
     )
     with (TEST_FILES_DIR / "clean.txt").open("rb") as f:
         response = client.post("/scan", files={"file": ("clean.txt", f, "text/plain")})
+
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "clean.txt"
     assert body["malware_detected"] is True
@@ -154,6 +160,7 @@ def test_scan_large_clean_file_treated_as_clean(monkeypatch) -> None:
         )
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "large_clean.txt"
     assert body["malware_detected"] is False
@@ -175,6 +182,7 @@ def test_scan_fake_binary_image_treated_as_clean(monkeypatch) -> None:
         )
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "fake.png"
     assert body["malware_detected"] is False

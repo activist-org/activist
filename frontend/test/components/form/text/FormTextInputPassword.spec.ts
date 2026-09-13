@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import FormTextInputPassword from "../../../../app/components/form/text/FormTextInputPassword.vue";
-import { IconMap } from "../../../../shared/types/icon-map";
+import { IconMap } from "../../../../shared/constants/iconMap";
 import { getEnglishText } from "../../../../shared/utils/i18n";
 import render from "../../../../test/render";
 

@@ -34,7 +34,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-days-ahead"
-        :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
+        :label="t('i18n.components.sidebar_left_filter_events.days_ahead')"
         name="days_ahead"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -49,7 +49,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-event-type"
-        :label="$t('i18n.components._global.event_type')"
+        :label="t('i18n.components._global.event_type')"
         name="type"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -64,7 +64,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
-        :label="$t('i18n.components._global.location_type')"
+        :label="t('i18n.components._global.location_type')"
         name="locationType"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -79,7 +79,7 @@
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         data-testid="events-filter-location"
-        :label="$t('i18n.components.sidebar_left_filter_events.location')"
+        :label="t('i18n.components.sidebar_left_filter_events.location')"
         name="location"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -88,13 +88,13 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :ariaLabel="
-            $t(
+            t(
               'i18n.components.sidebar_left_filter_events.search_button_aria_label'
             )
           "
           :hasError="!!errorMessage.value"
           :label="
-            $t('i18n.components.sidebar_left_filter_events.filter_by_location')
+            t('i18n.components.sidebar_left_filter_events.filter_by_location')
           "
           :modelValue="(value.value as string)"
         />
@@ -102,18 +102,18 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-topics"
-        :label="$t('i18n.components._global.topics')"
+        :label="t('i18n.components._global.topics')"
         name="topics"
       >
         <!-- prettier-ignore-attribute :selected-options -->
         <FormSelectorCombobox
           :id="id"
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as TopicEnum[])
+            (val: unknown) => handleChange(val as TopicMapType[])
           "
-          :label="$t('i18n.components._global.topics')"
+          :label="t('i18n.components._global.topics')"
           :options="optionsTopics"
-          :selected-options="((value.value ?? []) as TopicEnum[])"
+          :selected-options="((value.value ?? []) as TopicMapType[])"
         />
       </FormItem>
     </Form>
@@ -126,12 +126,14 @@ import type { LocationQueryRaw } from "vue-router";
 import { z } from "zod";
 
 const { t } = useI18n();
+const sidebar = useSidebar();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
   value: topic.topic,
   id: index,
 }));
+
 const schema = z.object({
   days_ahead: z.string().optional(),
   location: z.string().optional(),
@@ -140,7 +142,6 @@ const schema = z.object({
   locationType: z.string().optional(),
   viewType: z.string().optional(),
 });
-const sidebar = useSidebar();
 
 const optionViews = [
   {
@@ -229,9 +230,9 @@ const updateViewType = (
 ) => {
   if (
     typeof value === "string" &&
-    Object.values(ViewType).includes(value as ViewType)
+    Object.values(ViewType).includes(value as ViewTypeValueType)
   ) {
-    viewType.value = value as ViewType;
+    viewType.value = value as ViewTypeValueType;
     router.push({
       query: {
         ...route.query,
@@ -242,7 +243,7 @@ const updateViewType = (
   }
 };
 
-const viewType = ref(ViewType.LIST);
+const viewType = ref(ViewType.LIST as ViewTypeValueType);
 const formData = ref({});
 
 watch(
@@ -272,8 +273,8 @@ watch(
 
     viewType.value =
       typeof view === "string" &&
-      Object.values(ViewType).includes(view as ViewType)
-        ? (view as ViewType)
+      Object.values(ViewType).includes(view as ViewTypeValueType)
+        ? (view as ViewTypeValueType)
         : ViewType.LIST;
   },
   { immediate: true }

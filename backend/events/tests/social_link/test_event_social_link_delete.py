@@ -13,10 +13,10 @@ def test_event_social_link_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory(created_by=user)
-    social_links = EventSocialLinkFactory(event=event)
+    event_social_link = EventSocialLinkFactory(event=event)
 
     response = client.delete(
-        path=f"/v1/events/event_social_links/{social_links.id}",
+        path=f"/v1/events/event_social_links/{event_social_link.id}",
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -25,10 +25,10 @@ def test_event_social_link_delete_no_content_204(authenticated_client):
 def test_event_social_link_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_uuid = uuid4()
+    invalid_event_social_link_id = uuid4()
 
     response = client.delete(
-        path=f"/v1/events/event_social_links/{bad_uuid}",
+        path=f"/v1/events/event_social_links/{invalid_event_social_link_id}",
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -55,12 +55,10 @@ def test_event_social_link_delete_forbidden_403(authenticated_client) -> None:
 
     # Create an event with a different creator.
     event = EventFactory()
-    social_links = EventSocialLinkFactory(event=event)
-
-    test_id = social_links.id
+    event_social_link = EventSocialLinkFactory(event=event)
 
     response = client.delete(
-        path=f"/v1/events/event_social_links/{test_id}",
+        path=f"/v1/events/event_social_links/{event_social_link.id}",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN

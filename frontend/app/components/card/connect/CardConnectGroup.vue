@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  group: Group | null;
+  group?: Group;
 }>();
 
 // Use computed to ensure social links are reactive to store changes.

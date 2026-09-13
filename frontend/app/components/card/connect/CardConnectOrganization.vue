@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  organization: Organization | null;
+  organization?: Organization;
 }>();
 
 // Use computed to ensure social links are reactive to store changes.

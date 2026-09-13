@@ -19,11 +19,11 @@ def test_org_resource_delete_ok_200(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
-    resource = OrganizationResourceFactory(created_by=user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=user, org=org)
 
     # Delete the resource as the owner.
     response = client.delete(
-        path=f"/v1/communities/organization_resources/{resource.id}"
+        path=f"/v1/communities/organization_resources/{org_resource.id}"
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -54,7 +54,7 @@ def test_org_resource_delete_forbidden_403(authenticated_client):
     )
 
     org = OrganizationFactory(created_by=owner_user)
-    resource = OrganizationResourceFactory(created_by=owner_user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=owner_user, org=org)
 
     # Login as non-owner.
     login_response = client.post(
@@ -70,7 +70,7 @@ def test_org_resource_delete_forbidden_403(authenticated_client):
     # Try to delete the resource as non-owner.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/communities/organization_resources/{resource.id}"
+        path=f"/v1/communities/organization_resources/{org_resource.id}"
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -80,7 +80,7 @@ def test_org_resource_delete_not_found_404(authenticated_client):
     """
     Test deletion of non-existent organization resource returns 404.
     """
-    client, _ = authenticated_client
+    client, user = authenticated_client
 
     # Try to delete non-existent resource.
     fake_uuid = "00000000-0000-0000-0000-000000000000"
@@ -115,7 +115,7 @@ def test_org_resource_delete_staff_ok_200():
     )
 
     org = OrganizationFactory(created_by=owner_user)
-    resource = OrganizationResourceFactory(created_by=owner_user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=owner_user, org=org)
 
     # Login as staff.
     login_response = client.post(
@@ -131,7 +131,7 @@ def test_org_resource_delete_staff_ok_200():
     # Delete the resource as staff.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/communities/organization_resources/{resource.id}"
+        path=f"/v1/communities/organization_resources/{org_resource.id}"
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT

@@ -2,6 +2,7 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormTextEntity
+      v-if="texts"
       :formData="formData"
       getInvolvedLabel="i18n.components._global.get_involved"
       getInvolvedUrlLabel="i18n.components.modal_text_group.join_group_link"
@@ -24,7 +25,17 @@ const props = defineProps<{
 const groupId = computed(() => props.entityId);
 
 const { data: group } = useGetGroup(groupId);
-const { updateTexts } = useGroupTextsMutations(groupId);
+const { updateTexts } = useGroupTextsMutations(groupId, {
+  update: {
+    onSuccess: () => {
+      handleCloseModal();
+    },
+  },
+});
+
+// The query resolves after the modal mounts, so rendering the form before the
+// texts arrive prefills blanks and submits against an undefined text id.
+const texts = computed(() => group.value?.texts?.[0]);
 
 const formData = ref<GroupUpdateTextFormData>({
   description: "",
@@ -32,31 +43,28 @@ const formData = ref<GroupUpdateTextFormData>({
   getInvolvedUrl: "",
 });
 
-onMounted(() => {
-  formData.value.description = group.value?.texts[0]?.description || "";
-  formData.value.getInvolved = group.value?.texts[0]?.getInvolved || "";
-  formData.value.getInvolvedUrl = group.value?.texts[0]?.getInvolvedUrl || "";
-});
-
 watch(
-  group,
+  texts,
   (newValues) => {
-    formData.value.description = newValues?.texts[0]?.description || "";
-    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
+    formData.value.description = newValues?.description || "";
+    formData.value.getInvolved = newValues?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
     deep: true,
+    immediate: true,
   }
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await updateTexts(
-    values as GroupUpdateTextFormData,
-    String(group.value?.texts[0]?.id)
-  );
-  if (response) {
-    handleCloseModal();
+  const textId = texts.value?.id;
+  if (!textId) {
+    return;
   }
+
+  updateTexts({
+    textId: String(textId),
+    data: values as GroupUpdateTextFormData,
+  });
 }
 </script>

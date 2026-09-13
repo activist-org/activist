@@ -20,7 +20,7 @@ const createWrapper = (
 ): { wrapper: VueWrapper; flow: ReturnType<typeof createMockFlow> } => {
   const wrapper = mount(MachineStepsCreateEventType, {
     global: {
-      mocks: { $t: (key: string) => key },
+      mocks: { t: (key: string) => key },
       stubs: {
         Form: FormStub,
         FormItem: FormItemStub,
@@ -139,7 +139,7 @@ describe("MachineStepsCreateEventType component", () => {
     it("does not throw when flow is not provided and handlePrev is called", () => {
       const wrapper = mount(MachineStepsCreateEventType, {
         global: {
-          mocks: { $t: (key: string) => key },
+          mocks: { t: (key: string) => key },
           stubs: {
             Form: FormStub,
             FormItem: FormItemStub,
@@ -196,7 +196,7 @@ describe("MachineStepsCreateEventType component", () => {
     it("does not throw when flow is not provided and handleSubmit is called", () => {
       const wrapper = mount(MachineStepsCreateEventType, {
         global: {
-          mocks: { $t: (key: string) => key },
+          mocks: { t: (key: string) => key },
           stubs: {
             Form: FormStub,
             FormItem: FormItemStub,

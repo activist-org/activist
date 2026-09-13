@@ -2,11 +2,11 @@
 <template>
   <div id="home-page-main" class="bg-layer-0 px-4 pb-4 xl:px-8">
     <Head>
-      <Title>{{ $t("i18n._global.home") }}</Title>
+      <Title>{{ t("i18n._global.home") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('i18n.pages.home.index.header')"
-      :tagline="$t('i18n.pages.home.index.subheader')"
+      :header="t('i18n.pages.home.index.header')"
+      :tagline="t('i18n.pages.home.index.subheader')"
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
@@ -28,3 +28,7 @@
     </div> -->
   </div>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>

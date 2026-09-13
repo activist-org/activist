@@ -18,11 +18,11 @@ def test_org_resource_multiple_resources() -> None:
     Test multiple resources for a single organization.
     """
     org = OrganizationFactory()
-    resources = [OrganizationResourceFactory(org=org) for _ in range(3)]
+    org_resources = [OrganizationResourceFactory(org=org) for _ in range(3)]
 
-    org.resources.set(resources)
+    org.resources.set(org_resources)
 
-    assert len(resources) == 3
+    assert len(org_resources) == 3
 
-    for resource in resources:
+    for resource in org_resources:
         assert resource in org.resources.all()

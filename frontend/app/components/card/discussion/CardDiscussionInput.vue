@@ -114,7 +114,7 @@
             value="yes"
           />
           {{
-            $t("i18n.components.card_discussion_input.enable_markdown_support")
+            t("i18n.components.card_discussion_input.enable_markdown_support")
           }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>

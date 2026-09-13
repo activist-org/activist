@@ -8,7 +8,7 @@
         <Icon v-if="iconUrl" class="mb-1 h-5 w-5 shrink-0" :name="iconUrl" />
       </span>
       <p class="hover:menu-selection select-none whitespace-nowrap">
-        {{ $t(label) }}
+        {{ t(label) }}
       </p>
     </div>
   </MenuLinkWrapper>
@@ -22,4 +22,6 @@ defineProps<{
   selected: boolean;
   active: boolean;
 }>();
+
+const { t } = useI18n();
 </script>

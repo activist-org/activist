@@ -17,15 +17,15 @@ def test_event_resource_retrieve_ok_200():
 
     user = UserFactory()
     event = EventFactory(created_by=user)
-    resource = EventResourceFactory(created_by=user, event=event)
+    event_resource = EventResourceFactory(created_by=user, event=event)
 
-    response = client.get(path=f"/v1/events/event_resources/{resource.id}")
+    response = client.get(path=f"/v1/events/event_resources/{event_resource.id}")
     assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
-    assert response_body["id"] == str(resource.id)
-    assert response_body["name"] == resource.name
-    assert response_body["description"] == resource.description
+    assert response_body["id"] == str(event_resource.id)
+    assert response_body["name"] == event_resource.name
+    assert response_body["description"] == event_resource.description
 
 
 def test_event_resource_retrieve_not_found_404():

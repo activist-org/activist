@@ -77,27 +77,39 @@ def test_group_faq_update_forbidden_403(authenticated_client) -> None:
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save()
-    group = GroupFactory()
 
-    faqs = GroupFaqFactory(group=group)
-    test_id = faqs.id
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    group = GroupFactory()
+    group_faq = GroupFaqFactory(group=group)
+
+    original_values = (
+        group_faq.iso,
+        group_faq.primary,
+        group_faq.question,
+        group_faq.answer,
+        group_faq.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/group_faqs/{test_id}",
+        path=f"/v1/communities/group_faqs/{group_faq.id}",
         data={
-            "id": test_id,
+            "id": group_faq.id,
             "iso": "en",
             "primary": True,
-            "question": test_question,
-            "answer": test_answer,
-            "order": test_order,
+            "question": "Updated question",
+            "answer": "Updated answer",
+            "order": group_faq.order + 1,
         },
         format="json",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == "You are not authorized to update this FAQ."
+
+    group_faq.refresh_from_db()
+    assert (
+        group_faq.iso,
+        group_faq.primary,
+        group_faq.question,
+        group_faq.answer,
+        group_faq.order,
+    ) == original_values

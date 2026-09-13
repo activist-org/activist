@@ -143,6 +143,8 @@ activist is very open to contributions from people in the early stages of their 
 
 > [!NOTE]
 > Windows users should be aware that Docker development requires [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/) version 2 or higher. The community would suggest that you clone the repository directly into your WSL environment.
+>
+> If you're on Windows, make sure the WSL2 integration is enabled in Docker Desktop (Settings → Resources → WSL Integration → toggle on your distro) before running any Docker commands from WSL. Also, clone the repository natively inside WSL (e.g. `~/activist`) rather than on the Windows filesystem (e.g. `C:\Users\...`) accessed through `/mnt/c/`. A Windows-side clone can still work, but the filesystem boundary between Windows and the Linux VM can cause inconsistent behavior — a blank grey page in the browser — that's easy to mistake for a bug in the project itself.
 
 1. First and foremost, please see the suggested IDE setup in the dropdown below to make sure that your editor is ready for development.
 
@@ -365,7 +367,7 @@ Please see the [activist style guide](STYLEGUIDE.md) for details about how to fo
 
 For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
 
-For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support. [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) is enabled for function docstring rules in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs); whenever those rules apply, follow [Frontend JSDoc](#frontend-jsdoc) under [Documentation](#documentation). General comment conventions (sentence style, JSDoc as block comments) also appear under [Comments](STYLEGUIDE.md#comments) in the style guide.
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support. [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) is enabled for function docstring rules in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs); whenever those rules apply, follow [Frontend JSDoc docstrings](#frontend-jsdoc-docstrings) under [Documentation](#documentation). General comment conventions (sentence style, JSDoc as block comments) also appear under [Comments](STYLEGUIDE.md#comments) in the style guide.
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -640,7 +642,7 @@ Thank you for testing your PRs! 🎉
 
 ## Issues and projects
 
-The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
+The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [feature requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
 > [!NOTE]
 > Just because an issue is assigned on GitHub doesn't mean the team isn't open to your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
@@ -895,20 +897,6 @@ Once the above steps are finished you should be able to use tab to navigate web 
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
-
-> [!IMPORTANT]
-> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
->
-> ```ts
-> // frontend/types/vue-i18n.d.ts
-> // Attn: Fixes Property '$t' does not exist on type ... errors.
-> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
-> declare module "vue" {
->   interface ComponentCustomProperties {
->     $t: (key: string) => string;
->   }
-> }
-> ```
 
 ### i18n-check
 

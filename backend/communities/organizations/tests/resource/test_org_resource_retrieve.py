@@ -20,15 +20,17 @@ def test_org_resource_retrieve_ok_200():
 
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
-    resource = OrganizationResourceFactory(created_by=user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=user, org=org)
 
-    response = client.get(path=f"/v1/communities/organization_resources/{resource.id}")
+    response = client.get(
+        path=f"/v1/communities/organization_resources/{org_resource.id}"
+    )
     assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
-    assert response_body["id"] == str(resource.id)
-    assert response_body["name"] == resource.name
-    assert response_body["description"] == resource.description
+    assert response_body["id"] == str(org_resource.id)
+    assert response_body["name"] == org_resource.name
+    assert response_body["description"] == org_resource.description
 
 
 def test_org_resource_retrieve_not_found_404():

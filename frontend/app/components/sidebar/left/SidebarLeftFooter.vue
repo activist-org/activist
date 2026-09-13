@@ -20,17 +20,17 @@
         id="create"
         v-if="userIsSignedIn"
         class="w-full"
-        :location="DropdownLocation.SIDE_LEFT_MENU"
+        :location="dropdownLocationSideLeftMenu"
       />
       <DropdownInfo
         id="info"
         class="w-full"
-        :location="DropdownLocation.SIDE_LEFT_MENU"
+        :location="dropdownLocationSideLeftMenu"
       />
       <DropdownUserOptions
         id="user-options"
         class="w-full"
-        :location="DropdownLocation.SIDE_LEFT_MENU"
+        :location="dropdownLocationSideLeftMenu"
         :userIsSignedIn="userIsSignedIn"
       />
     </div>
@@ -43,4 +43,5 @@ defineProps<{
 }>();
 
 const { userIsSignedIn } = useUser();
+const dropdownLocationSideLeftMenu = DropdownLocation.SIDE_LEFT_MENU;
 </script>

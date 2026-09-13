@@ -31,6 +31,7 @@
           :counter="group.supporters"
         /> -->
         <BtnAction
+          v-if="group"
           @click="openModalSharePage({ group: group })"
           @keydown.enter="openModalSharePage({ group: group })"
           ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
@@ -66,7 +67,7 @@
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
             :entityId="group?.id || ''"
-            :entityType="EntityType.GROUP"
+            :entityType="EntityMap.GROUP"
             :images="images || []"
           />
         </div>

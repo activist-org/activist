@@ -23,10 +23,10 @@ def test_content_resource_flag_delete(authenticated_client):
 
 def test_content_resource_flag_delete_does_not_exist(authenticated_client):
     client, user = authenticated_client
-    bad_flagged_resource_uuid = uuid4()
+    invalid_flagged_resource_uuid = uuid4()
 
     response = client.delete(
-        path=f"/v1/content/resource_flags/{bad_flagged_resource_uuid}"
+        path=f"/v1/content/resource_flags/{invalid_flagged_resource_uuid}"
     )
     response_body = response.json()
 

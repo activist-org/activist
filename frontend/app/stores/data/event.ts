@@ -1,15 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { defineStore } from "pinia";
 
-import { createPaginationStore } from "../factories/pagination";
-
-// MARK: List Store
-
-export const useEventListStore = createPaginationStore<
-  CommunityEvent,
-  EventFilters
->("event-list");
-
 // MARK: Entity Store
 
 export const useEventStore = defineStore("event", {

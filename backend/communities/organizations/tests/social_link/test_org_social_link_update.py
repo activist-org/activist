@@ -77,9 +77,9 @@ def test_org_social_link_update_not_found_404(client: Client):
 
     assert login_details["status_code"] == status.HTTP_200_OK
 
-    bad_social_link_uuid = uuid4()
+    invalid_org_social_link_id = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_social_links/{bad_social_link_uuid}",
+        path=f"/v1/communities/organization_social_links/{invalid_org_social_link_id}",
         data={"link": test_link, "label": test_label, "order": test_order},
         headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
@@ -90,23 +90,26 @@ def test_org_social_link_update_not_found_404(client: Client):
     assert response_body["detail"] == "Social link not found."
 
 
-def test_org_social_link_update_not_creator_or_admin_forbidden_403(client: Client):
-    login_details = _get_login(client)
+def test_org_social_link_update_forbidden_403(authenticated_client):
+    client, user = authenticated_client
 
     org = OrganizationFactory()
 
-    social_links = OrganizationSocialLinkFactory(org=org)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
-
-    assert login_details["status_code"] == status.HTTP_200_OK
+    org_social_link = OrganizationSocialLinkFactory(org=org)
+    original_values = (
+        org_social_link.link,
+        org_social_link.label,
+        org_social_link.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/organization_social_links/{social_links.id}",
-        data={"link": test_link, "label": test_label, "order": test_order},
+        path=f"/v1/communities/organization_social_links/{org_social_link.id}",
+        data={
+            "link": "https://example.com/updated-social-link",
+            "label": "Updated label",
+            "order": org_social_link.order + 1,
+        },
         content_type="application/json",
-        headers={"Authorization": f"Token {login_details['access_token']}"},
     )
     response_body = response.json()
 
@@ -115,3 +118,9 @@ def test_org_social_link_update_not_creator_or_admin_forbidden_403(client: Clien
         response_body["detail"]
         == "You are not authorized to update the social links for this organization."
     )
+    org_social_link.refresh_from_db()
+    assert (
+        org_social_link.link,
+        org_social_link.label,
+        org_social_link.order,
+    ) == original_values

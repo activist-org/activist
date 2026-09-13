@@ -9,6 +9,7 @@ import pytest
 from rest_framework import status
 
 from communities.groups.factories import GroupFactory, GroupFaqFactory
+from communities.groups.models import GroupFaq
 
 pytestmark = pytest.mark.django_db
 
@@ -30,9 +31,9 @@ def test_group_faq_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-    faq = GroupFaqFactory(group=group)
+    group_faq = GroupFaqFactory(group=group)
 
-    response = client.delete(path=f"/v1/communities/group_faqs/{faq.id}")
+    response = client.delete(path=f"/v1/communities/group_faqs/{group_faq.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -53,10 +54,10 @@ def test_group_faq_delete_not_found_404(authenticated_client):
     """
     client, user = authenticated_client
 
-    bad_uuid = uuid4()
+    invalid_group_faq_id = uuid4()
 
     response = client.delete(
-        path=f"/v1/communities/group_faqs/{bad_uuid}",
+        path=f"/v1/communities/group_faqs/{invalid_group_faq_id}",
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -64,7 +65,7 @@ def test_group_faq_delete_not_found_404(authenticated_client):
 
 def test_group_faq_delete_forbidden_403(authenticated_client):
     """
-    Test unauthorized deletion of a group FAQ.
+    Test forbidden deletion of a group FAQ.
 
     Parameters
     ----------
@@ -79,10 +80,11 @@ def test_group_faq_delete_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory()
-    faq = GroupFaqFactory(group=group)
+    group_faq = GroupFaqFactory(group=group)
 
-    response = client.delete(path=f"/v1/communities/group_faqs/{faq.id}")
+    response = client.delete(path=f"/v1/communities/group_faqs/{group_faq.id}")
 
     response_body = response.json()
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response_body["detail"] == "You are not authorized to delete this FAQ."
+    assert GroupFaq.objects.filter(id=group_faq.id).exists()

@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import ModalAlert from "../../../app/components/modal/ModalAlert.vue";
 import { useModalHandlers } from "../../../app/composables/generic/useModalHandlers";
-import { IconMap } from "../../../shared/types/icon-map";
+import { IconMap } from "../../../shared/constants/iconMap";
 
 // MARK: Mocks
 
@@ -63,7 +62,7 @@ const createWrapper = (props: Partial<ModalAlertProps> = {}) => {
         BtnAction: BtnActionStub,
       },
       mocks: {
-        $t: (key: string) => key,
+        t: (key: string) => key,
       },
       config: {
         globalProperties: {

@@ -84,7 +84,7 @@ class UserCreationForm(forms.ModelForm):  # type: ignore[type-arg]
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
-            logger.info("Created new user via admin: %s", user.email)
+            logger.info(f"Created new user via admin: {user.email}")
 
         return user
 
@@ -151,10 +151,10 @@ class UserAdmin(BaseUserAdmin):  # type: ignore[type-arg]
         """
         super().save_model(request, obj, form, change)
         if change:
-            logger.info("Updated user via admin: %s (by %s)", obj.email, request.user)
+            logger.info(f"Updated user via admin: {obj.email} (by {request.user})")
 
         else:
-            logger.info("Created user via admin: %s (by %s)", obj.email, request.user)
+            logger.info(f"Created user via admin: {obj.email} (by {request.user})")
 
     def delete_model(self, request: HttpRequest, obj: UserModel) -> None:
         """
@@ -168,7 +168,7 @@ class UserAdmin(BaseUserAdmin):  # type: ignore[type-arg]
         obj : UserModel
             The user model associated with the request.
         """
-        logger.warning("Deleting user via admin: %s (by %s)", obj.email, request.user)
+        logger.warning(f"Deleting user via admin: {obj.email} (by {request.user})")
         super().delete_model(request, obj)
 
     # The fields to be used in displaying the User model.
@@ -256,18 +256,12 @@ class UserFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         super().save_model(request, obj, form, change)
         if change:
             logger.info(
-                "Updated user flag: %s -> %s (by %s)",
-                obj.user.email,
-                obj.created_by,
-                request.user,
+                f"Updated user flag: {obj.user.email} -> {obj.created_by} (by {request.user})"
             )
 
         else:
             logger.info(
-                "Created user flag: %s -> %s (by %s)",
-                obj.user.email,
-                obj.created_by,
-                request.user,
+                f"Created user flag: {obj.user.email} -> {obj.created_by} (by {request.user})"
             )
 
     def delete_model(self, request: HttpRequest, obj: UserFlag) -> None:
@@ -283,10 +277,7 @@ class UserFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
             The user flag model associated with the request.
         """
         logger.info(
-            "Deleted user flag: %s -> %s (by %s)",
-            obj.user.email,
-            obj.created_by,
-            request.user,
+            f"Deleted user flag: {obj.user.email} -> {obj.created_by} (by {request.user})"
         )
         super().delete_model(request, obj)
 

@@ -15,10 +15,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Event FAQ Page - Mobile", { tag: "@mobile" }, () => {
-  test.skip("User can reorder FAQ entries using drag and drop on mobile", async ({
+  test("User can reorder FAQ entries using drag and drop on mobile", async ({
     page,
   }) => {
-    // TODO: Known issue - cannot navigate to events on mobile yet
     const eventPage = newEventPage(page);
     const { faqPage } = eventPage;
 

@@ -10,7 +10,7 @@
         <h5 class="pl-2 font-bold">
           {{ discussionEntry.author }}
         </h5>
-        <p>{{ $t("i18n.components.card_discussion_entry.on") }}</p>
+        <p>{{ t("i18n.components.card_discussion_entry.on") }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -32,6 +32,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   isPrivate?: boolean;
   discussionEntry: DiscussionEntry;

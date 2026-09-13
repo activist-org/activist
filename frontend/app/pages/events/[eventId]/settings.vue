@@ -4,13 +4,13 @@
     <Head>
       <Title>
         {{ event.name }}&nbsp;{{
-          $t("i18n.pages._global.settings.settings_lower")
+          t("i18n.pages._global.settings.settings_lower")
         }}
       </Title>
     </Head>
     <HeaderAppPageEvent
       :header="
-        event.name + ' ' + $t('i18n.pages._global.settings.settings_lower')
+        event.name + ' ' + t('i18n.pages._global.settings.settings_lower')
       "
       :underDevelopment="true"
     >
@@ -26,10 +26,10 @@
     </HeaderAppPageEvent>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
-        :description="$t('i18n.pages.events.settings.danger_zone_event_description')"
-        :ctaBtnText="$t('i18n.pages.events.settings.danger_zone_event_cta_btn_text')"
+        :description="t('i18n.pages.events.settings.danger_zone_event_description')"
+        :ctaBtnText="t('i18n.pages.events.settings.danger_zone_event_cta_btn_text')"
         :ctaBtnAriaLabel="
-          $t('i18n.pages.events.settings.danger_zone_event_cta_btn_aria_label')
+          t('i18n.pages.events.settings.danger_zone_event_cta_btn_aria_label')
         "
       />
     </div> -->
@@ -40,4 +40,6 @@
 defineProps<{
   event: CommunityEvent;
 }>();
+
+const { t } = useI18n();
 </script>

@@ -7,3 +7,5 @@ export interface Entity {
   createdBy: User | string;
   creationDate?: string;
 }
+
+export type EntityMapType = (typeof EntityMap)[keyof typeof EntityMap];

@@ -11,6 +11,7 @@ from rest_framework import status
 
 from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory
+from communities.groups.models import Group
 
 pytestmark = pytest.mark.django_db
 
@@ -44,21 +45,16 @@ def _get_login(client: Client, staff_user=False):
     return (response_code, access_token, user)
 
 
-def test_group_delete_forbidden_403(client: Client) -> None:
+def test_group_delete_forbidden_403(authenticated_client) -> None:
     """
-    Un-Authorized user trying to delete group (not staff).
+    Authenticated non-owner trying to delete a group.
     """
+    client, user = authenticated_client
     group = GroupFactory()
-    login_details = _get_login(client)
-    group.created_by = login_details[2]
-
-    assert login_details[0] == status.HTTP_200_OK
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",
-        headers={"Authorization": f"Token {login_details[1]}"},
     )
-
     assert delete_response.status_code == status.HTTP_403_FORBIDDEN
 
     delete_response_json = delete_response.json()
@@ -66,6 +62,7 @@ def test_group_delete_forbidden_403(client: Client) -> None:
         delete_response_json["detail"]
         == "You are not authorized to perform this action."
     )
+    assert Group.objects.filter(id=group.id).exists()
 
 
 def test_group_delete_not_found_404(client: Client) -> None:
@@ -86,6 +83,7 @@ def test_group_delete_not_found_404(client: Client) -> None:
 
     delete_response_json = delete_response.json()
     assert delete_response_json["detail"] == "Group not found."
+
     delete_response_json = delete_response.json()
     assert delete_response_json["detail"] == "Group not found."
 

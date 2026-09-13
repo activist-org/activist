@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import * as reg from "../../shared/utils/imageURLRegistry.s";
+import * as reg from "../../shared/constants/imageURLRegistry.s";
 
-describe("utils/imageURLRegistry.s", () => {
+describe("constants/imageURLRegistry.s", () => {
   // MARK: URL Validation
 
   it("exports non-empty string URLs", () => {

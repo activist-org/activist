@@ -127,12 +127,28 @@ export function extractPasswordResetCode(body: string): string {
 const PWRESET_LINK_RE = /\/(?:[a-z]{2}\/)?auth\/pwreset\/[a-f0-9-]{36}/i;
 const CONFIRM_LINK_RE = /\/auth\/confirm\/[a-f0-9-]{36}/i;
 
+// Mailhog's `To` header is normally the plain address, but be tolerant of a
+// `Name <email>` form so a substring match still finds the right recipient.
+function messageIsTo(
+  item: MailhogMessageItem,
+  recipientEmail: string
+): boolean {
+  const to = item.Content?.Headers?.To?.[0] ?? "";
+  return to.toLowerCase().includes(recipientEmail.toLowerCase());
+}
+
+// Signup and password-reset e2e specs run in parallel Playwright workers and
+// both send mail matching these link patterns, so selection must be scoped to
+// the recipient. Without this, one spec can pick up (or wait on) the other's
+// message, since both only differ by contents, not by who they're addressed to.
 function newestPasswordResetEmail(
-  items: MailhogMessageItem[]
+  items: MailhogMessageItem[],
+  recipientEmail: string
 ): MailhogEmail | undefined {
   let best: { item: MailhogMessageItem; t: number } | null = null;
 
   for (const item of items) {
+    if (!messageIsTo(item, recipientEmail)) continue;
     const body = item.Content?.Body ?? "";
     const decoded = decodeQuotedPrintable(body);
     if (!PWRESET_LINK_RE.test(decoded)) continue;
@@ -145,11 +161,13 @@ function newestPasswordResetEmail(
 }
 
 function newestConfirmationEmail(
-  items: MailhogMessageItem[]
+  items: MailhogMessageItem[],
+  recipientEmail: string
 ): MailhogEmail | undefined {
   let best: { item: MailhogMessageItem; t: number } | null = null;
 
   for (const item of items) {
+    if (!messageIsTo(item, recipientEmail)) continue;
     const body = item.Content?.Body ?? "";
     const decoded = decodeQuotedPrintable(body);
     if (!CONFIRM_LINK_RE.test(decoded)) continue;
@@ -162,10 +180,11 @@ function newestConfirmationEmail(
 }
 
 /**
- * Poll Mailhog until a message whose body contains a password-reset link is found.
- * Returns the newest matching message (by Mailhog `Created` timestamp).
+ * Poll Mailhog until a password-reset message addressed to `recipientEmail`
+ * is found. Returns the newest matching message (by Mailhog `Created` timestamp).
  */
 export async function findPasswordResetEmail(
+  recipientEmail: string,
   maxAttempts = 40,
   pollIntervalMs = 500
 ): Promise<MailhogEmail> {
@@ -173,21 +192,27 @@ export async function findPasswordResetEmail(
     limit: 50,
     maxAttempts,
     pollIntervalMs,
-    select: newestPasswordResetEmail,
+    select: (items) => newestPasswordResetEmail(items, recipientEmail),
     errorMessage: (n) =>
-      `No password reset email found in Mailhog after ${n} attempts`,
+      `No password reset email addressed to ${recipientEmail} found in Mailhog after ${n} attempts`,
   });
 }
 
 /**
- * Waits for a password-reset email, then opens the reset form in the browser.
+ * Waits for a password-reset email addressed to `recipientEmail`, then opens
+ * the reset form in the browser.
  */
 export async function waitAndOpenPasswordResetLink(
   page: Page,
+  recipientEmail: string,
   maxAttempts = 40,
   pollIntervalMs = 500
 ): Promise<void> {
-  const email = await findPasswordResetEmail(maxAttempts, pollIntervalMs);
+  const email = await findPasswordResetEmail(
+    recipientEmail,
+    maxAttempts,
+    pollIntervalMs
+  );
   const decoded = decodeQuotedPrintable(email.body);
   const code = extractPasswordResetCodeFromDecoded(decoded);
   await page.goto(`/auth/pwreset/${code}`, { waitUntil: "domcontentloaded" });
@@ -199,21 +224,25 @@ export async function waitAndOpenPasswordResetLink(
 }
 
 /**
- * Waits for a verification email to arrive in Mailhog, then navigates the
- * Playwright page to the confirmation link from the email body. This exercises
- * the full frontend confirmation flow (auth/confirm/[code].vue → sign-in
- * redirect) rather than calling the backend API directly.
+ * Waits for a verification email addressed to `recipientEmail` to arrive in
+ * Mailhog, then navigates the Playwright page to the confirmation link from
+ * the email body. This exercises the full frontend confirmation flow
+ * (auth/confirm/[code].vue → sign-in redirect) rather than calling the
+ * backend API directly.
  *
- * Scans recent messages (`limit=50`) and picks the newest whose body contains
- * an `/auth/confirm/{uuid}` link so the correct mail is chosen when Mailhog
- * holds multiple messages.
+ * Scans recent messages (`limit=50`) and picks the newest one addressed to
+ * `recipientEmail` whose body contains an `/auth/confirm/{uuid}` link, so
+ * concurrently running specs that also send confirmation mail (e.g. the
+ * password-reset flow's own signup step) can never be picked up by mistake.
  *
  * @param page - Playwright page object
+ * @param recipientEmail - The email address this signup used, to disambiguate from other in-flight signups
  * @param maxAttempts - Maximum number of Mailhog polling attempts (default: 10)
  * @param pollIntervalMs - Milliseconds between each poll after fast polls (default: 500)
  */
 export async function waitAndConfirmEmail(
   page: Page,
+  recipientEmail: string,
   maxAttempts = 10,
   pollIntervalMs = 500
 ): Promise<void> {
@@ -221,9 +250,9 @@ export async function waitAndConfirmEmail(
     limit: 50,
     maxAttempts,
     pollIntervalMs,
-    select: newestConfirmationEmail,
+    select: (items) => newestConfirmationEmail(items, recipientEmail),
     errorMessage: (n) =>
-      `No verification email arrived in Mailhog after ${n} attempts`,
+      `No verification email addressed to ${recipientEmail} arrived in Mailhog after ${n} attempts`,
   });
 
   const decoded = decodeQuotedPrintable(email.body);

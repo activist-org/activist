@@ -16,11 +16,11 @@ def test_event_text_str_methods() -> None:
     Test string representation method for EventText model.
     """
     event = EventFactory.create()
-    event_text = EventText.objects.create(
+    event_texts = EventText.objects.create(
         event=event,
         iso="en",
         primary=True,
         description="Test description",
         get_involved="Get involved text",
     )
-    assert str(event_text) == f"{event_text.event} - {event_text.iso}"
+    assert str(event_texts) == f"{event_texts.event} - {event_texts.iso}"

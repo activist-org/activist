@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AppError } from "../../shared/utils/errorHandler";
 
 import { useAppError } from "../../app/composables";
-import { AppErrorCause } from "../../shared/types/error";
+import { AppErrorCause } from "../../shared/constants/error";
 import { createUseUserSessionMock } from "../mocks/composableMocks";
 
 const mocks = vi.hoisted(() => ({

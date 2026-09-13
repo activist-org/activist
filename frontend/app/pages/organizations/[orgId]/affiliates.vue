@@ -4,7 +4,7 @@
     <Head>
       <Title>
         {{ organization.name }}&nbsp;{{
-          $t("i18n.pages.organizations.affiliates.affiliates_lower")
+          t("i18n.pages.organizations.affiliates.affiliates_lower")
         }}
       </Title>
     </Head>
@@ -12,9 +12,9 @@
       :header="
         organization.name +
         ' ' +
-        $t('i18n.pages.organizations.affiliates.affiliates_lower')
+        t('i18n.pages.organizations.affiliates.affiliates_lower')
       "
-      :tagline="$t('i18n.pages.organizations.affiliates.tagline')"
+      :tagline="t('i18n.pages.organizations.affiliates.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3"></div>
@@ -40,4 +40,6 @@
 defineProps<{
   organization: Organization;
 }>();
+
+const { t } = useI18n();
 </script>

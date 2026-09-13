@@ -4,20 +4,20 @@
     <div class="flex flex-col lg:flex-row">
       <div class="flex items-center gap-5">
         <h3 class="text-left font-display">
-          {{ $t("i18n.components._global.get_involved") }}
+          {{ t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
           @click="
             () =>
               openModalTextOrganization({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
           @keydown.enter="
             () =>
               openModalTextOrganization({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
         />
@@ -50,7 +50,7 @@
         </p>
         <p v-else>
           {{
-            $t(
+            t(
               "i18n.components.card_get_involved_organization.working_groups_subtext",
               {
                 entity_name: organization.name,
@@ -66,7 +66,7 @@
         </p>
         <p v-else>
           {{
-            $t(
+            t(
               "i18n.components.card_get_involved_organization.join_organization_subtext",
               {
                 entity_name: organization.name,
@@ -78,7 +78,7 @@
       <div v-else>
         <p>
           {{
-            $t(
+            t(
               "i18n.components.card_get_involved_organization.join_organization_no_info",
               {
                 entity_name: organization?.name,
@@ -96,10 +96,11 @@ const { openModal: openModalTextOrganization } = useModalHandlers(
   "ModalTextOrganization"
 );
 
+const { t } = useI18n();
 const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
-const { data: organization } = useGetOrganization(orgId || "");
+const { data: organization } = useGetOrganization(orgId);
 </script>

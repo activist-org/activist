@@ -38,6 +38,7 @@ def test_scan_empty_file_integration() -> None:
         response = httpx.post(f"{BASE_URL}/scan", files=files, timeout=10.0)
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "empty.txt"
     # With a real ClamAV daemon, an empty file should be treated as clean.
@@ -53,6 +54,7 @@ def test_scan_clean_file_integration() -> None:
         response = httpx.post(f"{BASE_URL}/scan", files=files, timeout=10.0)
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "clean.txt"
     assert body["malware_detected"] is False
@@ -65,6 +67,7 @@ def test_scan_eicar_file_integration() -> None:
     response = httpx.post(f"{BASE_URL}/scan", files=files, timeout=10.0)
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "eicar.txt"
     assert body["malware_detected"] is True
@@ -81,6 +84,7 @@ def test_scan_fake_binary_image_integration() -> None:
         response = httpx.post(f"{BASE_URL}/scan", files=files, timeout=10.0)
 
     assert response.status_code == 200
+
     body = response.json()
     assert body["filename"] == "fake.png"
     assert body["malware_detected"] is False

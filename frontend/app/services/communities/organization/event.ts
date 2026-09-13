@@ -1,30 +1,23 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const fetchOrganizationEvents = async (
-  organizationId: string,
-  filters: {
-    startDate?: string;
-    endDate?: string;
-    name?: string;
-  }
-) => {
-  const query = new URLSearchParams();
-  if (filters.startDate) {
-    query.append("startDate", filters.startDate);
-  }
-  if (filters.endDate) {
-    query.append("endDate", filters.endDate);
-  }
-  if (filters.name) {
-    query.append("name", filters.name);
-  }
+// Organization events service: plain exported functions (no composables, no state).
 
+export async function listOrganizationEvents(
+  orgId: string,
+  filters: OrganizationEventFilters & Pagination = { page: 1, page_size: 10 }
+): Promise<EventsPaginatedResponse> {
   try {
-    const res = await get(
-      `/communities/organizations/${organizationId}/events?${query.toString()}`,
+    const query = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      query.append(key, String(value));
+    });
+
+    const res = await get<EventsResponseBody>(
+      `/communities/organizations/${orgId}/events?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.map(mapEvent);
+    return { data: res.results.map(mapEvent), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }
-};
+}

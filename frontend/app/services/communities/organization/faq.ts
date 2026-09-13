@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 // MARK: Create
 
 export async function createOrganizationFaq(
-  organizationId: string,
+  orgId: string,
   faq: FaqEntry
 ): Promise<void> {
   try {
@@ -14,7 +13,7 @@ export async function createOrganizationFaq(
         order: faq.order,
         question: faq.question,
         answer: faq.answer,
-        org: organizationId,
+        org: orgId,
       },
       { headers: { "Content-Type": "application/json" } }
     );

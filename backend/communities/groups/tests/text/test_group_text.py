@@ -14,8 +14,8 @@ def test_group_text_str() -> None:
     """
     Test string representation of GroupText model.
     """
-    group_text = GroupTextFactory.build()
-    assert hasattr(group_text, "description")
+    group_texts = GroupTextFactory.build()
+    assert hasattr(group_texts, "description")
 
 
 def test_group_text_languages() -> None:
@@ -25,7 +25,7 @@ def test_group_text_languages() -> None:
     group = GroupFactory()
 
     # Test primary language text.
-    primary_text = GroupTextFactory(
+    primary_group_texts = GroupTextFactory(
         group=group,
         iso="eng",
         primary=True,
@@ -33,12 +33,12 @@ def test_group_text_languages() -> None:
         get_involved="Get involved text",
         donate_prompt="Donation prompt",
     )
-    assert primary_text.primary is True
-    assert primary_text.iso == "eng"
-    assert primary_text.description == "Primary description"
+    assert primary_group_texts.primary is True
+    assert primary_group_texts.iso == "eng"
+    assert primary_group_texts.description == "Primary description"
 
     # Test secondary language text.
-    secondary_text = GroupTextFactory(
+    secondary_group_texts = GroupTextFactory(
         group=group,
         iso="spa",
         primary=False,
@@ -46,9 +46,9 @@ def test_group_text_languages() -> None:
         get_involved="How to participate",
         donate_prompt="Donation prompt",
     )
-    assert secondary_text.primary is False
-    assert secondary_text.iso == "spa"
-    assert secondary_text.description == "Description"
+    assert secondary_group_texts.primary is False
+    assert secondary_group_texts.iso == "spa"
+    assert secondary_group_texts.description == "Description"
 
 
 def test_group_text_str_representation() -> None:
@@ -56,6 +56,6 @@ def test_group_text_str_representation() -> None:
     Test string representation of GroupText model.
     """
     group = GroupFactory()
-    group_text = GroupTextFactory(group=group, iso="eng")
+    group_texts = GroupTextFactory(group=group, iso="eng")
 
-    assert str(group_text) == f"{group_text.group} - {group_text.iso}"
+    assert str(group_texts) == f"{group_texts.group} - {group_texts.iso}"

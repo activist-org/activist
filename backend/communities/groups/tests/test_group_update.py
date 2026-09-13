@@ -40,38 +40,21 @@ def _get_login(client: Client, staff_user=False):
     }
 
 
-def test_group_update_forbidden_403(client: Client) -> None:
+def test_group_update_forbidden_403(authenticated_client) -> None:
     """
-    Test for when the user is not authorized (not staff).
-
-    Parameters
-    ----------
-    client : Client
-        A Django test client used for making requests.
-
-    Returns
-    -------
-    None
-        This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
+    Test that an authenticated non-owner cannot update a group.
     """
+    client, user = authenticated_client
+
     group = GroupFactory()
-
-    login_details = _get_login(client)
-    assert login_details["login_status_code"] == status.HTTP_200_OK
-
-    group.created_by = login_details["user"]
-
-    response = client.get(path=f"/v1/communities/groups/{group.id}")
-    assert response.status_code == status.HTTP_200_OK
+    original_values = (group.name, group.category)
 
     request_body = client.put(
         path=f"/v1/communities/groups/{group.id}",
         data={
-            "groupName": "new_test_group",
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
     )
 
@@ -81,6 +64,8 @@ def test_group_update_forbidden_403(client: Client) -> None:
     assert (
         request_body_json["detail"] == "You are not authorized to perform this action."
     )
+    group.refresh_from_db()
+    assert (group.name, group.category) == original_values
 
 
 def test_group_update_ok_200(client: Client):

@@ -16,10 +16,10 @@ def test_event_resource_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory(created_by=user)
-    resource = EventResourceFactory(created_by=user, event=event)
+    event_resource = EventResourceFactory(created_by=user, event=event)
 
     # Delete the resource as the owner
-    response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
+    response = client.delete(path=f"/v1/events/event_resources/{event_resource.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -49,7 +49,7 @@ def test_event_resource_delete_forbidden_403(authenticated_client):
     )
 
     event = EventFactory(created_by=owner_user)
-    resource = EventResourceFactory(created_by=owner_user, event=event)
+    event_resource = EventResourceFactory(created_by=owner_user, event=event)
 
     # Login as non-owner.
     login_response = client.post(
@@ -64,7 +64,7 @@ def test_event_resource_delete_forbidden_403(authenticated_client):
 
     # Try to delete the resource as non-owner.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
+    response = client.delete(path=f"/v1/events/event_resources/{event_resource.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -73,7 +73,7 @@ def test_event_resource_delete_not_found_404(authenticated_client):
     """
     Test deletion of non-existent event resource returns 404.
     """
-    client, _ = authenticated_client
+    client, user = authenticated_client
 
     # Try to delete non-existent resource.
     fake_uuid = "00000000-0000-0000-0000-000000000000"
@@ -108,7 +108,7 @@ def test_event_resource_delete_staff_no_content_204():
     )
 
     event = EventFactory(created_by=owner_user)
-    resource = EventResourceFactory(created_by=owner_user, event=event)
+    event_resource = EventResourceFactory(created_by=owner_user, event=event)
 
     # Login as staff.
     login_response = client.post(
@@ -123,6 +123,6 @@ def test_event_resource_delete_staff_no_content_204():
 
     # Delete the resource as staff.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
+    response = client.delete(path=f"/v1/events/event_resources/{event_resource.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT

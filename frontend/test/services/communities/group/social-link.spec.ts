@@ -20,8 +20,8 @@ describe("services/communities/group/social-link", () => {
   const getMocks = setupServiceTestMocks();
 
   it("createGroupSocialLinks() POSTs each link with group", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { post } = getMocks();
+    post.mockResolvedValue({ ok: true });
     const links: SocialLinkFormData[] = [
       { link: "https://x", label: "x", order: 0 },
       { link: "https://y", label: "y", order: 1 },
@@ -29,8 +29,8 @@ describe("services/communities/group/social-link", () => {
 
     await createGroupSocialLinks("grp-1", links);
 
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expectJsonRequest(fetchMock, "/communities/group_social_links", "POST", {
+    expect(post).toHaveBeenCalledTimes(2);
+    expectJsonRequest(post, "/communities/group_social_links", "POST", {
       link: "https://x",
       label: "x",
       order: 0,
@@ -41,8 +41,8 @@ describe("services/communities/group/social-link", () => {
   // MARK: Update
 
   it("updateGroupSocialLink() PUTs JSON", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     await updateGroupSocialLink("sl-1", {
       link: "https://z",
       label: "z",
@@ -50,35 +50,30 @@ describe("services/communities/group/social-link", () => {
       group: "grp-2",
     });
 
-    expectJsonRequest(
-      fetchMock,
-      "/communities/group_social_links/sl-1",
-      "PUT",
-      {
-        link: "https://z",
-        label: "z",
-        order: 2,
-        group: "grp-2",
-      }
-    );
+    expectJsonRequest(put, "/communities/group_social_links/sl-1", "PUT", {
+      link: "https://z",
+      label: "z",
+      order: 2,
+      group: "grp-2",
+    });
   });
 
   it("deleteGroupSocialLink() issues DELETE", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValueOnce({ ok: true });
     await deleteGroupSocialLink("sl-2");
 
-    expectRequest(fetchMock, "/communities/group_social_links/sl-2", "DELETE");
+    expectRequest(del, "/communities/group_social_links/sl-2", "DELETE");
   });
 
   it("replaceAllGroupSocialLinks() DELETEs then recreates", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValue({ ok: true });
     await replaceAllGroupSocialLinks("grp-3", [
       { link: "https://a", label: "a", order: 0 },
     ]);
 
-    expectJsonRequest(fetchMock, "/communities/group_social_links", "DELETE", {
+    expectJsonRequest(del, "/communities/group_social_links", "DELETE", {
       group: "grp-3",
     });
   });
@@ -86,8 +81,8 @@ describe("services/communities/group/social-link", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(
       createGroupSocialLinks("grp-err", [
         {

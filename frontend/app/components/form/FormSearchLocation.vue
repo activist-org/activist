@@ -6,11 +6,11 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="locationSchema"
-      :submit-label="$t('i18n.components.form_search_location.search_location')"
+      :submit-label="t('i18n.components.form_search_location.search_location')"
     >
       <FormItem
         v-slot="{ id, handleChange, errorMessage, value }"
-        :label="$t('i18n._global.country')"
+        :label="t('i18n._global.country')"
         name="country"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -18,13 +18,13 @@
           :id="id"
           @update:selected-country="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.country')"
+          :label="t('i18n._global.country')"
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.city')"
+        :label="t('i18n.components._global.city')"
         name="city"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -33,13 +33,13 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components._global.city')"
+          :label="t('i18n.components._global.city')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.form_search_location.street_house_number')"
+        :label="t('i18n.components.form_search_location.street_house_number')"
         name="street"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -48,9 +48,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="
-            $t('i18n.components.form_search_location.street_house_number')
-          "
+          :label="t('i18n.components.form_search_location.street_house_number')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
@@ -60,9 +58,13 @@
 
 <script setup lang="ts">
 import { z } from "zod";
+
 defineProps<{
   handleSubmit: (values: unknown) => Promise<void> | void;
 }>();
+
+const { t } = useI18n();
+
 const locationSchema = z.object({
   country: z
     .string({

@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v6
@@ -36,8 +36,8 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install Dependencies
-        run: uv sync --frozen --all-extras
         working-directory: ./backend
+        run: uv sync --frozen --all-extras
 
       - name: Check Django Models Against TypeScript Interfaces
         run: |

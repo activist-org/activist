@@ -9,8 +9,8 @@ describe("services/communities/group/text", () => {
   const getMocks = setupServiceTestMocks();
 
   it("updateGroupTexts() PUTs to group_texts with JSON body", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
 
     const payload = {
       description: "d",
@@ -24,7 +24,7 @@ describe("services/communities/group/text", () => {
       payload as unknown as Parameters<typeof updateGroupTexts>[2]
     );
 
-    expectJsonRequest(fetchMock, "/communities/group_texts/txt-1", "PUT", {
+    expectJsonRequest(put, "/communities/group_texts/txt-1", "PUT", {
       primary: true,
       description: payload.description,
       getInvolved: payload.getInvolved,
@@ -38,8 +38,8 @@ describe("services/communities/group/text", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { put } = getMocks();
+    put.mockRejectedValueOnce(new Error("boom"));
     await expect(
       updateGroupTexts("grp-err", "txt-err", {
         description: "",

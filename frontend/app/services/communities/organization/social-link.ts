@@ -4,7 +4,7 @@ import { del, post, put } from "~/services/http";
 // MARK: Create
 
 export async function createOrganizationSocialLinks(
-  organizationId: string,
+  orgId: string,
   links: SocialLinkInput[]
 ): Promise<void> {
   try {
@@ -16,7 +16,7 @@ export async function createOrganizationSocialLinks(
             link: data.link,
             label: data.label,
             order: data.order,
-            org: organizationId,
+            org: orgId,
           },
           { headers: { "Content-Type": "application/json" } }
         )
@@ -31,7 +31,7 @@ export async function createOrganizationSocialLinks(
 // MARK: Update
 
 export async function updateOrganizationSocialLink(
-  organizationId: string,
+  orgId: string,
   linkId: string,
   data: { link: string; label: string; order: number }
 ): Promise<void> {
@@ -40,7 +40,7 @@ export async function updateOrganizationSocialLink(
       `/communities/organization_social_links/${linkId}`,
       {
         ...data,
-        org: organizationId,
+        org: orgId,
       },
       {
         headers: { "Content-Type": "application/json" },
@@ -69,7 +69,7 @@ export async function deleteOrganizationSocialLink(
 
 // Note: Deletes all links then recreates.
 export async function replaceAllOrganizationSocialLinks(
-  organizationId: string,
+  orgId: string,
   links: { link: string; label: string; order: number }[]
 ): Promise<void> {
   try {
@@ -80,10 +80,10 @@ export async function replaceAllOrganizationSocialLinks(
       body: {
         link: "https://www.example.com",
         label: "placeholder",
-        org: organizationId,
+        org: orgId,
       },
     });
-    await createOrganizationSocialLinks(organizationId, links);
+    await createOrganizationSocialLinks(orgId, links);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

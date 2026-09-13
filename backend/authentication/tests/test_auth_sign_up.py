@@ -4,6 +4,7 @@ from uuid import UUID
 
 import pytest
 from django.core import mail
+from django.test import override_settings
 from faker import Faker
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -114,6 +115,14 @@ def test_auth_sign_up_without_email_bad_request_400(client: APIClient) -> None:
     assert not UserModel.objects.filter(username=username).exists()
 
 
+@override_settings(
+    TASKS={
+        "default": {
+            "BACKEND": "django.tasks.backends.immediate.ImmediateBackend",
+            "QUEUES": ["default"],
+        }
+    }
+)
 def test_auth_sign_up_created_201(client: APIClient) -> None:
     """
     Test successful user registration.

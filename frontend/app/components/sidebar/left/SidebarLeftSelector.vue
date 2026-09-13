@@ -1,13 +1,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MenuLinkWrapper :id="id" :selected="selected" :to="routeUrl">
+  <MenuLinkWrapper
+    :id="id"
+    @click="handleClick"
+    :selected="selected"
+    :to="routeUrl"
+  >
     <div
       class="group relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >
       <span class="pl-1">
         <Icon
           v-if="iconUrl"
-          class="h-5 w-5 shrink-0"
+          class="h-5! w-5! block! shrink-0"
           :class="{
             'dark:group-hover:fill-cta-orange': !selected,
             'fill-layer-1': selected,
@@ -24,11 +29,11 @@
             'text-layer-1': selected,
           }"
         >
-          <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
-          {{ $t(label) }}
+          <span class="sr-only">{{ t("i18n._global.navigate_to") }}</span>
+          {{ t(label) }}
         </p>
         <p v-else class="sr-only">
-          {{ $t("i18n._global.navigate_to") }} {{ $t(label) }}
+          {{ t("i18n._global.navigate_to") }} {{ t(label) }}
         </p>
       </Transition>
     </div>
@@ -36,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   label: string;
   routeUrl: string;
   iconUrl: string;
@@ -44,7 +49,17 @@ defineProps<{
   id?: string;
 }>();
 
+const { t } = useI18n();
 const sidebar = useSidebar();
+const route = useRoute();
+const preserveNextQuery = useState("preserveNextQuery", () => true);
+
+const handleClick = () => {
+  const targetPath = props.routeUrl.split("?")[0];
+  if (targetPath !== route.path) {
+    preserveNextQuery.value = false;
+  }
+};
 </script>
 
 <style>

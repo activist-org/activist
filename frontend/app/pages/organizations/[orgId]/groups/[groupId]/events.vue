@@ -5,15 +5,15 @@
     <Head>
       <Title>
         {{ group?.name }}&nbsp;{{
-          $t("i18n.pages.organizations._global.events_lower")
+          t("i18n.pages.organizations._global.events_lower")
         }}
       </Title>
     </Head>
     <HeaderAppPageGroup
       :header="
-        group?.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
+        group?.name + ' ' + t('i18n.pages.organizations._global.events_lower')
       "
-      :tagline="$t('i18n.pages.organizations._global.events_tagline')"
+      :tagline="t('i18n.pages.organizations._global.events_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
@@ -55,13 +55,15 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
+const { openModal } = useModalHandlers("ModalCreateEvent");
+
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
 const groupTabs = useGetGroupTabs();
-
-const { openModal } = useModalHandlers("ModalCreateEvent");
 
 const downloadCalendarEntries = () => {};
 </script>

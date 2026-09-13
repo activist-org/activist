@@ -25,7 +25,18 @@ const props = defineProps<{
 const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
-const { updateFAQ, createFAQ, loading } = useEventFAQEntryMutations(eventId);
+const { updateFAQ, createFAQ, loading } = useEventFAQEntryMutations(eventId, {
+  create: {
+    onSuccess() {
+      handleCloseModal();
+    },
+  },
+  update: {
+    onSuccess() {
+      handleCloseModal();
+    },
+  },
+});
 
 const formData = ref({
   id: "",
@@ -63,9 +74,9 @@ watch(
 async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  if (isAddMode) await createFAQ(newValues as FaqEntry);
-  else await updateFAQ(newValues as FaqEntry);
-
-  handleCloseModal();
+  if (isAddMode) {
+    return createFAQ(newValues as FaqEntry);
+  }
+  updateFAQ(newValues as FaqEntry);
 }
 </script>

@@ -5,8 +5,8 @@
       <FormTextInput
         id="set-password-username"
         @input="userName = $event.target.value"
-        :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
-        :label="$t('i18n.pages.auth._global.enter_a_user_name')"
+        :data-testid="t('i18n.pages.auth._global.enter_a_user_name')"
+        :label="t('i18n.pages.auth._global.enter_a_user_name')"
         :value="userName"
       />
       <FormTextInputPassword
@@ -14,9 +14,9 @@
         @blur="isPasswordFocused = false"
         @focus="isPasswordFocused = true"
         @input="handlePasswordInput"
-        :data-testid="$t('i18n._global.enter_password')"
+        :data-testid="t('i18n._global.enter_password')"
         :hasError="showPasswordError.border"
-        :label="$t('i18n._global.enter_password')"
+        :label="t('i18n._global.enter_password')"
         :value="password"
       />
       <IndicatorPasswordStrength :password-value="password" />
@@ -27,8 +27,8 @@
       <FormTextInputPassword
         id="set-password-confirm-password"
         @input="confirmPassword = $event.target.value"
-        :data-testid="$t('i18n.pages.auth._global.repeat_password')"
-        :label="$t('i18n.pages.auth._global.repeat_password')"
+        :data-testid="t('i18n.pages.auth._global.repeat_password')"
+        :label="t('i18n.pages.auth._global.repeat_password')"
         :value="confirmPassword"
       >
         <template #icons>
@@ -43,8 +43,8 @@
             <title id="set-password-confirm-password-match" class="sr-only">
               {{
                 doPasswordsMatch
-                  ? $t("i18n.pages.auth._global.passwords_match")
-                  : $t("i18n.pages.auth._global.passwords_do_not_match")
+                  ? t("i18n.pages.auth._global.passwords_match")
+                  : t("i18n.pages.auth._global.passwords_do_not_match")
               }}
             </title>
           </span>
@@ -64,12 +64,13 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const { isPasswordMatch } = usePasswordRules();
+
 const userName = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const isPasswordFocused = ref(false);
-
-const { isPasswordMatch } = usePasswordRules();
 
 const doPasswordsMatch = computed<boolean>(() =>
   isPasswordMatch(password.value, confirmPassword.value)

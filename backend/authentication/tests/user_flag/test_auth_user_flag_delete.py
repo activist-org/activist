@@ -36,12 +36,12 @@ def test_auth_user_flag_delete_not_found_404(authenticated_client):
     logger.info("Starting test_user_flag_delete_does_not_exist")
 
     client, user = authenticated_client
-    bad_flagged_user_uuid = uuid4()
+    invalid_flagged_user_uuid = uuid4()
 
     logger.info(
-        f"Deleting flag non existent user with the following uuid: {bad_flagged_user_uuid}"
+        f"Deleting flag non existent user with the following uuid: {invalid_flagged_user_uuid}"
     )
-    response = client.delete(path=f"/v1/auth/user_flags/{bad_flagged_user_uuid}")
+    response = client.delete(path=f"/v1/auth/user_flags/{invalid_flagged_user_uuid}")
     response_body = response.json()
 
     assert response.status_code == status.HTTP_404_NOT_FOUND

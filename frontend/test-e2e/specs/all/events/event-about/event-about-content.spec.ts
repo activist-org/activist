@@ -4,6 +4,11 @@ import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 
+const errorToast = (page: Parameters<typeof newEventPage>[0]) =>
+  page.locator(
+    '[data-sonner-toast][data-type="error"][data-rich-colors="true"]'
+  );
+
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
   await navigateToEventSubpage(page, "about");
@@ -97,6 +102,53 @@ test.describe(
 
       // Verify modal is closed.
       await expect(editModal.modal).not.toBeVisible();
+    });
+
+    test("Shows error toast and keeps modal open when update texts returns 500", async ({
+      page,
+    }) => {
+      const eventPage = newEventPage(page);
+      const { aboutPage, editModal } = eventPage;
+
+      await page.route("**/api/auth/events/event_texts/**", async (route) => {
+        if (route.request().method() !== "PUT") {
+          await route.continue();
+          return;
+        }
+        await route.fulfill({
+          status: 500,
+          contentType: "application/json",
+          body: JSON.stringify({ detail: "E2E: event text update failed." }),
+        });
+      });
+
+      await expect(aboutPage.aboutCard).toBeVisible({ timeout: 15000 });
+      await expect(aboutPage.aboutCardEditIcon).toBeVisible();
+      await aboutPage.aboutCardEditIcon.click();
+
+      await expect(editModal.modal).toBeVisible();
+
+      const descriptionField = editModal.descriptionField(editModal.modal);
+      await expect(descriptionField).toBeVisible();
+      await descriptionField.clear();
+      await descriptionField.fill("Should not be lost when the save fails.");
+
+      // The form requires one of these two, so fill one to reach the request.
+      const getInvolvedField = editModal.getInvolvedField(editModal.modal);
+      await getInvolvedField.clear();
+      await getInvolvedField.fill("Should not be lost either.");
+
+      await editModal.submitButton(editModal.modal).click();
+
+      await expect(errorToast(page)).toBeVisible();
+
+      // The modal stays open so the edits survive a failed save.
+      await expect(editModal.modal).toBeVisible();
+      await expect(descriptionField).toHaveValue(
+        "Should not be lost when the save fails."
+      );
+
+      await page.unrouteAll();
     });
 
     test("User can expand and collapse About text", async ({ page }) => {

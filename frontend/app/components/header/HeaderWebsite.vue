@@ -30,27 +30,21 @@
             id="create"
             v-if="userIsSignedIn && devMode.active"
             class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
+            :location="dropdownLocation"
           />
           <DropdownInfo
             id="info"
             v-if="devMode.active"
             class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
+            :location="dropdownLocation"
           />
-          <DropdownTheme
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
-          <DropdownLanguage
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
+          <DropdownTheme class="w-full" :location="dropdownLocation" />
+          <DropdownLanguage class="w-full" :location="dropdownLocation" />
           <DropdownUserOptions
             id="user-options"
             v-if="devMode.active"
             class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
+            :location="dropdownLocation"
             :userIsSignedIn="userIsSignedIn"
           />
         </div>
@@ -144,7 +138,7 @@ const aboveLargeBP = useBreakpoint("lg");
 
 const devMode = useDevMode();
 devMode.check();
-
+const dropdownLocation = DropdownLocation.SIDE_MENU;
 const { userIsSignedIn } = useUser();
 
 const headerOpacity: Ref<number> = ref(1);

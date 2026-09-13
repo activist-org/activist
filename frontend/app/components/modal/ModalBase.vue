@@ -24,7 +24,7 @@
           v-if="imageModal"
           @click="closeModal()"
           :aria-label="
-            $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
+            t ? t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
           class="absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
           data-testid="modal-close-button"
@@ -37,7 +37,7 @@
             id="modal-close-button"
             @click="closeModal()"
             :aria-label="
-              $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
+              t ? t('i18n.components.modal_base.close_modal_aria_label') : ''
             "
             class="absolute right-0 cursor-pointer rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
             data-testid="modal-close-button"
@@ -51,7 +51,7 @@
           @click="closeModal()"
           @keypress.esc="closeModal()"
           :aria-label="
-            $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
+            t ? t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
           class="flex flex-col items-center justify-center focus-brand"
           role="button"
@@ -76,6 +76,8 @@ const props = defineProps<{
   modalName: string;
 }>();
 
+const { t } = useI18n();
+
 const emit = defineEmits(["closeModal"]);
 
 const route = useRoute();
@@ -89,7 +91,6 @@ onMounted(() => {
     modalIsOpen.value = modals.modals[modalName].isOpen;
   }
 });
-
 // Watch the reactive modalIsOpen ref and check if modalName exists in modals.modals.
 watch(
   () => modals.modals[modalName]?.isOpen,

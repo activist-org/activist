@@ -20,8 +20,8 @@ describe("services/communities/organization/social-link", () => {
   const getMocks = setupServiceTestMocks();
 
   it("createOrganizationSocialLinks() POSTs each link with org", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { post } = getMocks();
+    post.mockResolvedValue({ ok: true });
     const links: SocialLinkFormData[] = [
       { link: "https://x", label: "x", order: 0 },
       { link: "https://y", label: "y", order: 1 },
@@ -29,25 +29,20 @@ describe("services/communities/organization/social-link", () => {
 
     await createOrganizationSocialLinks("org-1", links);
 
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expectJsonRequest(
-      fetchMock,
-      "/communities/organization_social_links",
-      "POST",
-      {
-        link: "https://x",
-        label: "x",
-        order: 0,
-        org: "org-1",
-      }
-    );
+    expect(post).toHaveBeenCalledTimes(2);
+    expectJsonRequest(post, "/communities/organization_social_links", "POST", {
+      link: "https://x",
+      label: "x",
+      order: 0,
+      org: "org-1",
+    });
   });
 
   // MARK: Update
 
   it("updateOrganizationSocialLink() PUTs JSON with org", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     await updateOrganizationSocialLink("org-2", "sl-1", {
       link: "https://z",
       label: "z",
@@ -55,7 +50,7 @@ describe("services/communities/organization/social-link", () => {
     });
 
     expectJsonRequest(
-      fetchMock,
+      put,
       "/communities/organization_social_links/sl-1",
       "PUT",
       {
@@ -68,40 +63,31 @@ describe("services/communities/organization/social-link", () => {
   });
 
   it("deleteOrganizationSocialLink() issues DELETE", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValueOnce({ ok: true });
     await deleteOrganizationSocialLink("sl-2");
 
-    expectRequest(
-      fetchMock,
-      "/communities/organization_social_links/sl-2",
-      "DELETE"
-    );
+    expectRequest(del, "/communities/organization_social_links/sl-2", "DELETE");
   });
 
   it("replaceAllOrganizationSocialLinks() DELETEs then recreates", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValue({ ok: true });
     await replaceAllOrganizationSocialLinks("org-3", [
       { link: "https://a", label: "a", order: 0 },
     ]);
 
     // First delete call.
-    expectJsonRequest(
-      fetchMock,
-      "/communities/organization_social_links",
-      "DELETE",
-      {
-        org: "org-3",
-      }
-    );
+    expectJsonRequest(del, "/communities/organization_social_links", "DELETE", {
+      org: "org-3",
+    });
   });
 
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(
       createOrganizationSocialLinks("org-err", [
         {

@@ -11,11 +11,11 @@ def test_event_resource_create_ok_200(authenticated_client):
     client, user = authenticated_client
     event = EventFactory(created_by=user)
 
-    resource = EventResourceFactory(created_by=user, event_id=event.id)
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    event_resource = EventResourceFactory(created_by=user, event_id=event.id)
+    test_name = event_resource.name
+    test_desc = event_resource.description
+    test_url = event_resource.url
+    test_order = event_resource.order
 
     response = client.post(
         path="/v1/events/event_resources",
@@ -39,11 +39,11 @@ def test_event_resource_create_forbidden_403(authenticated_client):
 
     event = EventFactory()
 
-    resource = EventResourceFactory(created_by=user, event_id=event.id)
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    event_resource = EventResourceFactory(created_by=user, event_id=event.id)
+    test_name = event_resource.name
+    test_desc = event_resource.description
+    test_url = event_resource.url
+    test_order = event_resource.order
 
     response = client.post(
         path="/v1/events/event_resources",

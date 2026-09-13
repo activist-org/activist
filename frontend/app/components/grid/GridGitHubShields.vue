@@ -9,10 +9,10 @@
       <Icon :name="IconMap.GITHUB" size="2em" />
       <div class="ml-4 place-self-center pb-1">
         <div class="ml-0.5 text-xs font-semibold leading-4">
-          {{ $t("i18n.components.grid_git_hub_shields.visit_us") }}
+          {{ t("i18n.components.grid_git_hub_shields.visit_us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t("i18n.components._global.github") }}
+          {{ t("i18n.components._global.github") }}
         </div>
       </div>
     </ShieldGitHub>
@@ -21,7 +21,7 @@
       :count="GitHubData.stargazers_count"
       href="https://github.com/activist-org/activist/stargazers"
       :isLoading="isLoading"
-      :text="$t('i18n.components._global.star')"
+      :text="t('i18n.components._global.star')"
     >
       <Icon :name="IconMap.STAR" size="2em" />
     </ShieldGitHub>
@@ -30,7 +30,7 @@
       :count="GitHubData.forks_count"
       href="https://github.com/activist-org/activist/forks"
       :isLoading="isLoading"
-      :text="$t('i18n.components.grid_git_hub_shields.fork')"
+      :text="t('i18n.components.grid_git_hub_shields.fork')"
     >
       <Icon :name="IconMap.FORK" size="2em" />
     </ShieldGitHub>
@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const isLoading = ref(false);
 const GitHubData = reactive({
   forks_count: 0,

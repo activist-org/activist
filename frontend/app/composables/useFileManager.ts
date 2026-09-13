@@ -1,19 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// TODO: This file should be refactored to decouple the file management logic from the API calls, and to handle errors more robustly.
 export function useFileManager() {
-  const uploadError = ref(false);
-
-  async function deleteImage(imageId: string) {
-    if (!imageId) {
-      return;
-    }
-
-    try {
-      return del(`/content/images/${imageId}`, { withoutAuth: false });
-    } catch (error) {
-      void error;
-    }
-  }
+  const { handleError } = useAppError();
+  const { locale, t } = useI18n();
 
   const defaultImageUrls = computed(() => {
     const colorMode = useColorMode();
@@ -25,61 +13,160 @@ export function useFileManager() {
     ];
   });
 
-  function getIconImage(files: File[]) {
-    if (files[0]) {
-      return new UploadableFile(files[0]);
+  function formatMaxImageSize() {
+    const maxImageSizeInMB = MAX_IMAGE_SIZE_IN_BYTES / (1024 * 1024);
+    return `${new Intl.NumberFormat(locale.value, {
+      maximumFractionDigits: 1,
+    }).format(maxImageSizeInMB)} MB`;
+  }
+
+  function formatFileNames(fileNames: string[]) {
+    return new Intl.ListFormat(locale.value, {
+      style: "long",
+      type: "conjunction",
+    }).format(fileNames);
+  }
+
+  function getMessageForTooLargeFiles(files: File[]) {
+    const fileNames = files.map((file) => file.name);
+    const messageKey =
+      files.length === 1
+        ? "i18n.composables.use_file_manager.file_too_large"
+        : "i18n.composables.use_file_manager.files_too_large";
+    return {
+      fileNames,
+      messageKey,
+    };
+  }
+
+  function isImageWithinSizeLimit(file: File) {
+    return file.size <= MAX_IMAGE_SIZE_IN_BYTES;
+  }
+
+  function partitionImageFilesBySize(files: File[]) {
+    const validFiles: File[] = [];
+    const invalidFiles: File[] = [];
+
+    for (const file of files) {
+      if (isImageWithinSizeLimit(file)) {
+        validFiles.push(file);
+      } else {
+        invalidFiles.push(file);
+      }
     }
-    return new Error("No file provided to upload.");
+
+    return {
+      validFiles,
+      invalidFiles,
+    };
+  }
+
+  function getValidatedUploadableFile(file?: File) {
+    try {
+      if (!file) {
+        throw new AppError(
+          t("i18n.composables.use_file_manager.no_file_provided"),
+          AppErrorCause.VALIDATION
+        );
+      }
+
+      const { validFiles } = partitionImageFilesBySize([file]);
+      if (validFiles && !validFiles?.length) {
+        const { fileNames, messageKey } = getMessageForTooLargeFiles([file]);
+        throw new AppError(
+          t(messageKey, {
+            file_name: fileNames[0],
+            max_size: formatMaxImageSize(),
+          }),
+          AppErrorCause.VALIDATION
+        );
+      }
+      return new UploadableFile(validFiles[0] as File);
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error);
+      }
+      return null;
+    }
+  }
+
+  function getIconImage(files: File[]) {
+    return getValidatedUploadableFile(files[0]);
   }
 
   function handleAddFiles(newFiles: File[], files: FileUploadMix[]) {
     const allowedTypes = ["image/jpeg", "image/png"];
-    const validFiles = [...newFiles].filter((file) =>
+    const validImageFiles = [...newFiles].filter((file) =>
       allowedTypes.includes(file.type)
     );
-    const newUploadableFiles = validFiles
-      .map((file, index) => ({
-        type: "upload",
-        data: new UploadableFile(file),
-        sequence: index + files.length,
-      }))
-      .filter((file) => !fileExists(file.data.id, files)) as FileUploadMix[];
+    const { validFiles, invalidFiles } =
+      partitionImageFilesBySize(validImageFiles);
+    try {
+      if (invalidFiles.length > 0) {
+        const { fileNames, messageKey } =
+          getMessageForTooLargeFiles(invalidFiles);
+        throw new AppError(
+          t(messageKey, {
+            file_name: fileNames[0],
+            file_names: formatFileNames(fileNames),
+            max_size: formatMaxImageSize(),
+          }),
+          AppErrorCause.VALIDATION
+        );
+      }
+      const newUploadableFiles = validFiles
+        .map((file, index) => ({
+          type: "upload",
+          data: new UploadableFile(file),
+          sequence: index + files.length,
+        }))
+        .filter((file) => !fileExists(file.data.id, files)) as FileUploadMix[];
 
-    return [...files, ...newUploadableFiles];
+      return [...files, ...newUploadableFiles];
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error);
+        const newUploadableFiles = validFiles
+          .map((file, index) => ({
+            type: "upload",
+            data: new UploadableFile(file),
+            sequence: index + files.length,
+          }))
+          .filter(
+            (file) => !fileExists(file.data.id, files)
+          ) as FileUploadMix[];
+        return [...files, ...newUploadableFiles];
+      }
+      return files;
+    }
   }
 
   function fileExists(otherId: string, files: FileUploadMix[]) {
     return files.some((file: FileUploadMix) => file.data.id === otherId);
   }
 
-  async function removeFile(
+  // Removing a stored image from the list does not delete it: callers own that,
+  // so the delete goes through the entity's image mutations and invalidates.
+  function removeFile(
     files: FileUploadMix[],
     file: UploadableFile | ContentImage
   ) {
-    if (file instanceof UploadableFile) {
-      const index = files.findIndex(
-        (f) => f.type === "upload" && f.data === file
-      );
-      if (index > -1) {
-        files.splice(index, 1);
-      }
-    } else {
-      const index = files.findIndex(
-        (f) => f.type === "file" && f.data.id === file.id
-      );
-      await deleteImage(file.id);
-      if (index > -1) {
-        files.splice(index, 1);
-      }
+    const index =
+      file instanceof UploadableFile
+        ? files.findIndex((f) => f.type === "upload" && f.data === file)
+        : files.findIndex((f) => f.type === "file" && f.data.id === file.id);
+
+    if (index > -1) {
+      files.splice(index, 1);
     }
   }
 
   return {
-    uploadError,
     defaultImageUrls,
-    deleteImage,
     handleAddFiles,
     removeFile,
     getIconImage,
+    isImageWithinSizeLimit,
+    getValidatedUploadableFile,
   };
 }

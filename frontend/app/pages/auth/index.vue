@@ -3,7 +3,7 @@
   <div
     class="flex w-full flex-col items-center justify-center space-y-10 sm:pt-2 lg:pt-4"
   >
-    <h3>{{ $t("i18n.pages.auth.index.where_to_start") }}</h3>
+    <h3>{{ t("i18n.pages.auth.index.where_to_start") }}</h3>
     <div
       class="grid w-full max-w-[60%] grid-cols-1 grid-rows-2 gap-y-4 sm:max-w-[50%] md:max-w-[60%] xl:max-w-[50%]"
     >
@@ -26,3 +26,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>

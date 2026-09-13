@@ -26,7 +26,7 @@
       <FormItem
         v-slot="{ handleChange, value, errorMessage }"
         :label="
-          $t('i18n.components.machine_steps_create_event_time.event_schedule')
+          t('i18n.components.machine_steps_create_event_time.event_schedule')
         "
         name="dates"
       >
@@ -69,7 +69,7 @@
                   @update:model-value="handleChange"
                   :data-testid="`all-day-long-event-${idx}`"
                   :label="
-                    $t(
+                    t(
                       'i18n.components.machine_steps_create_event_time.all_day_long_event'
                     )
                   "
@@ -80,7 +80,7 @@
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
                 :label="
-                  $t(
+                  t(
                     'i18n.components.machine_steps_create_event_time.start_time'
                   )
                 "
@@ -92,7 +92,7 @@
                   :hasError="!!errorMessage.value"
                   is24Hr
                   :label="
-                    $t(
+                    t(
                       'i18n.components.machine_steps_create_event_time.start_time'
                     )
                   "
@@ -105,7 +105,7 @@
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
                 :label="
-                  $t('i18n.components.machine_steps_create_event_time.end_time')
+                  t('i18n.components.machine_steps_create_event_time.end_time')
                 "
                 :name="`times.${idx}.endTime`"
               >
@@ -114,7 +114,7 @@
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
                   :label="
-                    $t(
+                    t(
                       'i18n.components.machine_steps_create_event_time.end_time'
                     )
                   "
@@ -126,7 +126,7 @@
           </div>
           <p v-else class="text-sm italic">
             {{
-              $t(
+              t(
                 "i18n.components.machine_steps_create_event_time.select_a_date_range"
               )
             }}
@@ -141,7 +141,7 @@
           @update:model-value="handleChange"
           data-testid="create-another"
           :label="
-            $t(
+            t(
               'i18n.components.machine_steps_create_event_time.create_another_event'
             )
           "
@@ -154,6 +154,8 @@
 <script setup lang="ts">
 import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
 import { z } from "zod";
+
+const { t } = useI18n();
 
 const flow = inject<FlowControls>("flow");
 

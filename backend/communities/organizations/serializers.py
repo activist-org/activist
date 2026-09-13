@@ -65,7 +65,7 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
 
         try:
             org = Organization.objects.get(id=value)
-            logger.info("Organization found for value: %s", value)
+            logger.info(f"Organization found for value: {value}")
 
         except Organization.DoesNotExist as e:
             raise serializers.ValidationError("Organization not found.") from e
@@ -118,7 +118,7 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
 
         try:
             org = Organization.objects.get(id=value)
-            logger.info("Organization found for value: %s", value)
+            logger.info(f"Organization found for value: {value}")
 
         except Organization.DoesNotExist as e:
             raise serializers.ValidationError("Organization not found.") from e
@@ -164,7 +164,7 @@ class OrganizationSocialLinkSerializer(
 
         try:
             org = Organization.objects.get(id=value)
-            logger.info("Organization found for value: %s", value)
+            logger.info(f"Organization found for value: {value}")
 
         except Organization.DoesNotExist as e:
             raise serializers.ValidationError("Organization not found.") from e
@@ -255,7 +255,7 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
                 )
                 org.texts.set([org_text])
 
-                logger.info("Created Organization with id: %s", org.id)
+                logger.info(f"Created Organization with id: {org.id}")
 
                 return org
 
@@ -362,11 +362,11 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             A new  Organization instance.
         """
         org = Organization.objects.create(**validated_data)
-        logger.info("Created Organization with id: %s", org.id)
+        logger.info(f"Created Organization with id: {org.id}")
 
         if org:
             OrganizationText.objects.create(org=org)
-            logger.info("Created OrganizationText for Organization id: %s", org.id)
+            logger.info(f"Created OrganizationText for Organization id: {org.id}")
 
         return org
 

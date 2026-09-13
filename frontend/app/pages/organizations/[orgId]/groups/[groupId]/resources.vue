@@ -4,24 +4,24 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ group?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ group?.name }}&nbsp;{{ t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageGroup
-      :header="group?.name + ' ' + $t('i18n._global.resources_lower')"
-      :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
+      :header="group?.name + ' ' + t('i18n._global.resources_lower')"
+      :tagline="t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          :element="$t('i18n._global.resources_lower')"
+          :element="t('i18n._global.resources_lower')"
           :entity="group"
           label="i18n.pages._global.resources.add_new_resource"
           :onClick="
             () =>
               openModal({
-                entityId: group?.id,
+                entityId: paramsGroupId,
               })
           "
         />
@@ -38,7 +38,7 @@
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-4 pb-28 md:pb-0"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -46,8 +46,9 @@
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
+        :fallback-on-body="true"
         :fallback-tolerance="0"
-        :force-fallback="false"
+        :force-fallback="true"
         ghost-class="sortable-ghost"
         handle=".drag-handle"
         :invert-swap="false"
@@ -67,7 +68,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="group"
-            :entityType="EntityType.GROUP"
+            :entityType="EntityMap.GROUP"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(group) ? 0 : -1"
@@ -82,8 +83,10 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const { openModal } = useModalHandlers("ModalResourceGroup");
+const { t } = useI18n();
 const { canEdit } = useUser();
+
+const { openModal } = useModalHandlers("ModalResourceGroup");
 
 const route = useRoute();
 const paramsGroupId = (route.params.groupId as string | undefined) ?? "";
@@ -92,7 +95,7 @@ const { data: group } = useGetGroup(paramsGroupId);
 const resourceList = ref<Resource[]>([...(group.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
 const groupTabs = useGetGroupTabs();
-const { reorderResources } = useGroupResourcesMutations(paramsGroupId);
+const { reorderResources, loading } = useGroupResourcesMutations(paramsGroupId);
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
@@ -106,16 +109,17 @@ const { selectedIndex, onFocus, moveUp, moveDown } =
 export type CardExpose = {
   root: HTMLElement | null;
 };
-const onDragEnd = () => {
+const onDragEnd = async () => {
   resourceList.value = resourceList.value.map((resource, index) => ({
     ...resource,
     order: index,
   }));
-  reorderResources(resourceList.value);
+  await reorderResources(resourceList.value);
 };
 watch(
   () => group.value?.resources,
   (newResources) => {
+    if (loading.value) return;
     resourceList.value = [...(newResources || [])];
   },
   { deep: true }
@@ -139,11 +143,12 @@ watch(
 }
 
 .sortable-fallback {
-  display: none;
+  opacity: 0.95;
 }
 
-/* Ensure drag handles work properly. */
+/* Prevent the browser from treating the handle gesture as a page scroll. */
 .drag-handle {
+  touch-action: none;
   user-select: none;
 }
 

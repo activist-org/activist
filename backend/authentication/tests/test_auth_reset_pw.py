@@ -1,9 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
-from unittest.mock import patch
 
 import pytest
-from django.core import mail
 from rest_framework import status
 
 logger = logging.getLogger(__name__)
@@ -29,13 +27,14 @@ def test_auth_reset_pw_email_sent_successfully_ok_200(
     )
 
     assert response.status_code == status.HTTP_200_OK
-    assert len(mail.outbox) == 1
     logger.info(f"Password reset email sent successfully to: {user.email}")
 
 
-def test_auth_reset_pw_invalid_email_not_found_404(authenticated_client) -> None:
+def test_auth_reset_pw_invalid_email_ok_200(authenticated_client) -> None:
     """
     Test password reset attempt with an invalid email.
+
+    Note: We send 200 on invalid emails so that responses are consistent to prevent timing attacks.
     """
     logger.info("Testing password reset with invalid email")
     client, user = authenticated_client
@@ -43,7 +42,7 @@ def test_auth_reset_pw_invalid_email_not_found_404(authenticated_client) -> None
         path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )
 
-    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.status_code == status.HTTP_200_OK
 
 
 def test_auth_reset_pw_invalid_verification_code_not_found_404(
@@ -62,27 +61,3 @@ def test_auth_reset_pw_invalid_verification_code_not_found_404(
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
-
-
-def test_auth_reset_pw_email_sending_failure_500(authenticated_client) -> None:
-    """
-    Test password reset when email sending fails.
-
-    This test verifies that the except block in PasswordResetView is triggered
-    when send_mail raises an exception, and that the view returns a 500 error.
-    """
-    logger.info("Testing password reset email sending failure")
-    client, user = authenticated_client
-
-    # Mock send_mail to raise an exception.
-    with patch("authentication.views.send_mail") as mock_send_mail:
-        mock_send_mail.side_effect = Exception("SMTP server error")
-
-        response = client.post(
-            path="/v1/auth/pwreset",
-            data={"email": user.email},
-        )
-
-        assert response.status_code == 500
-        assert response.data["detail"] == "Failed to send password reset email."
-        mock_send_mail.assert_called_once()

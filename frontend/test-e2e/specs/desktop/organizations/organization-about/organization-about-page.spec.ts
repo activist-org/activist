@@ -50,13 +50,14 @@ test.describe("Organization About Page", { tag: "@desktop" }, () => {
     await organizationPage.menu.questionsOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/faq/);
 
+    // Note: The following pages are not enabled.
     // Navigate to Discussions section.
-    await organizationPage.menu.discussionsOption.click();
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/discussions/);
+    // await organizationPage.menu.discussionsOption.click();
+    // await expect(page).toHaveURL(/.*\/organizations\/.*\/discussions/);
 
     // Navigate to Affiliates section.
-    await organizationPage.menu.affiliatesOption.click();
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/affiliates/);
+    // await organizationPage.menu.affiliatesOption.click();
+    // await expect(page).toHaveURL(/.*\/organizations\/.*\/affiliates/);
 
     // Navigate back to About section.
     await organizationPage.menu.aboutOption.click();

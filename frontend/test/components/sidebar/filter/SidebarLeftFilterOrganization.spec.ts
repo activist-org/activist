@@ -36,7 +36,7 @@ describe("SidebarLeftFilterOrganization Route Query Sync", () => {
       const wrapper = mount(SidebarLeftFilterOrganization, {
         global: {
           stubs: { Icon: true },
-          mocks: { $t: (k: string) => k, $te: () => true },
+          mocks: { t: (k: string) => k, $te: () => true },
         },
       });
 

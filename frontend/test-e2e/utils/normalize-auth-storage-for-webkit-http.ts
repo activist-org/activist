@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import fs from "fs";
 
-/** Host-only or registrable-ish forms seen in Playwright exports. */
+/**
+ * Host-only or registrable-ish forms seen in Playwright exports.
+ */
 function isLoopbackCookieDomain(domainRaw: unknown): boolean {
   if (typeof domainRaw !== "string" || domainRaw.length === 0) return false;
 

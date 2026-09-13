@@ -5,10 +5,24 @@ import { ref } from "vue";
 import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
 
 import { useFileManager } from "../../app/composables/useFileManager";
+import { MAX_IMAGE_SIZE_IN_BYTES } from "../../shared/constants/uploadLimits";
 import { UploadableFile } from "../../shared/types/file";
 import { createUseColorModeSpy } from "../mocks/composableMocks";
 
 const mockFetch = vi.fn();
+const { toastError, toastInfo, toastSuccess } = vi.hoisted(() => ({
+  toastError: vi.fn(),
+  toastInfo: vi.fn(),
+  toastSuccess: vi.fn(),
+}));
+
+vi.mock("vue-sonner", () => ({
+  toast: {
+    error: toastError,
+    info: toastInfo,
+    success: toastSuccess,
+  },
+}));
 
 const createUploadEntry = (
   file: UploadableFile,
@@ -40,38 +54,15 @@ describe("useFileManager", () => {
     globalThis.useColorMode = createUseColorModeSpy("light", "light");
 
     mockFetch.mockReset();
+    toastError.mockReset();
+    toastInfo.mockReset();
+    toastSuccess.mockReset();
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
     vi.clearAllMocks();
   });
-  it("does nothing in deleteImage when imageId is empty", async () => {
-    const { deleteImage } = useFileManager();
-
-    await deleteImage("");
-
-    expect(mockFetch).not.toHaveBeenCalled();
-  });
-
-  it("calls backend DELETE when deleteImage is called with an id", async () => {
-    const { deleteImage } = useFileManager();
-
-    mockFetch.mockResolvedValueOnce({ ok: true });
-
-    await deleteImage("image-123");
-
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    const [url, opts] = mockFetch.mock.calls[0] as [
-      string,
-      { method: string; baseURL: string },
-    ];
-    expect(url).toBe("/content/images/image-123");
-    expect(opts.method).toBe("DELETE");
-    // Authorization is now added by server-side middleware, not the client.
-    expect(opts.baseURL).toBe("/api/auth");
-  });
-
   it("computes defaultImageUrls for light color mode", () => {
     // Make sure useColorMode returns "light" for this call.
     vi.stubGlobal(
@@ -101,25 +92,127 @@ describe("useFileManager", () => {
     });
   });
 
-  it("getIconImage returns UploadableFile when a file is provided", () => {
+  it("accepts a file smaller than the limit", () => {
     const { getIconImage } = useFileManager();
 
-    const file = new File(["dummy"], "logo.png", { type: "image/png" });
+    const file = new File([new Uint8Array(1)], "logo.png", {
+      type: "image/png",
+    });
     const result = getIconImage([file]);
 
     expect(result).toBeInstanceOf(UploadableFile);
+    expect(toastError).not.toHaveBeenCalled();
   });
 
-  it("getIconImage returns an Error when no file is provided", () => {
+  it("accepts a file exactly at the limit", () => {
     const { getIconImage } = useFileManager();
 
-    const result = getIconImage([]);
+    const file = new File(
+      [new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES)],
+      "exact-limit.png",
+      { type: "image/png" }
+    );
+    const result = getIconImage([file]);
 
-    expect(result).toBeInstanceOf(Error);
-    expect((result as Error).message).toBe("No file provided to upload.");
+    expect(result).toBeInstanceOf(UploadableFile);
+    expect(toastError).not.toHaveBeenCalled();
   });
 
-  it("handleAddFiles filters by allowed mime types and appends upload entries", () => {
+  it("rejects a file larger than the limit", () => {
+    const { getIconImage } = useFileManager();
+
+    const file = new File(
+      [new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES + 1)],
+      "too-large.png",
+      { type: "image/png" }
+    );
+    const result = getIconImage([file]);
+
+    expect(result).toBeNull();
+    expect(toastError).toHaveBeenCalledTimes(1);
+    expect(toastError).toHaveBeenCalledWith(
+      "The file 'too-large.png' is too large. The maximum allowed size is 5 MB."
+    );
+  });
+
+  it("accepts multiple valid images", () => {
+    const { handleAddFiles } = useFileManager();
+
+    const newFiles: File[] = [
+      new File([new Uint8Array(1)], "photo-1.png", { type: "image/png" }),
+      new File([new Uint8Array(2)], "photo-2.jpg", { type: "image/jpeg" }),
+    ];
+
+    const result = handleAddFiles(newFiles, []);
+
+    expect(result).toHaveLength(2);
+    expect(result.map((entry) => entry.data.name)).toEqual([
+      "photo-1.png",
+      "photo-2.jpg",
+    ]);
+    expect(toastError).not.toHaveBeenCalled();
+  });
+
+  it("accepts valid images and rejects oversized ones in a mixed selection", () => {
+    const { handleAddFiles } = useFileManager();
+
+    const validFile = new File([new Uint8Array(1)], "image1.jpg", {
+      type: "image/jpeg",
+    });
+    const oversizedFile = new File(
+      [new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES + 1)],
+      "image2.jpg",
+      { type: "image/jpeg" }
+    );
+    const secondValidFile = new File([new Uint8Array(3)], "image3.jpg", {
+      type: "image/jpeg",
+    });
+    const secondOversizedFile = new File(
+      [new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES + 2)],
+      "image4.jpg",
+      { type: "image/jpeg" }
+    );
+
+    const result = handleAddFiles(
+      [validFile, oversizedFile, secondValidFile, secondOversizedFile],
+      []
+    );
+
+    expect(result).toHaveLength(2);
+    expect(result.map((entry) => entry.data.name)).toEqual([
+      "image1.jpg",
+      "image3.jpg",
+    ]);
+    expect(toastError).toHaveBeenCalledTimes(1);
+    expect(toastError).toHaveBeenCalledWith(
+      "The files image2.jpg and image4.jpg are too large. The maximum allowed size is 5 MB."
+    );
+  });
+
+  it("rejects multiple oversized images and reports all of them", () => {
+    const { handleAddFiles } = useFileManager();
+
+    const oversizedOne = new File(
+      [new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES + 1)],
+      "image2.jpg",
+      { type: "image/jpeg" }
+    );
+    const oversizedTwo = new File(
+      [new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES + 2)],
+      "image4.jpg",
+      { type: "image/jpeg" }
+    );
+
+    const result = handleAddFiles([oversizedOne, oversizedTwo], []);
+
+    expect(result).toHaveLength(0);
+    expect(toastError).toHaveBeenCalledTimes(1);
+    expect(toastError).toHaveBeenCalledWith(
+      "The files image2.jpg and image4.jpg are too large. The maximum allowed size is 5 MB."
+    );
+  });
+
+  it("preserves existing files while adding valid uploads", () => {
     const { handleAddFiles } = useFileManager();
 
     const existingUploadFile = new UploadableFile(
@@ -132,24 +225,24 @@ describe("useFileManager", () => {
     const newFiles: File[] = [
       new File(["jpeg"], "photo.jpeg", { type: "image/jpeg" }),
       new File(["png"], "photo.png", { type: "image/png" }),
-      new File(["txt"], "readme.txt", { type: "text/plain" }), // invalid type
-      new File(["gif"], "animation.gif", { type: "image/gif" }), // invalid type
+      new File(["txt"], "readme.txt", { type: "text/plain" }),
+      new File([new Uint8Array(MAX_IMAGE_SIZE_IN_BYTES + 1)], "too-big.png", {
+        type: "image/png",
+      }),
     ];
 
     const result = handleAddFiles(newFiles, existingFiles);
 
     expect(result).toHaveLength(3);
-
-    const newEntries = result.slice(1); // skip the existing one
-    newEntries.forEach((entry, idx) => {
-      expect(entry.type).toBe("upload");
-      expect(entry.sequence).toBe(idx + existingFiles.length);
-      // Data is an UploadableFile instance.
-      expect(entry.data).toBeInstanceOf(UploadableFile);
-    });
+    expect(result[0]).toBe(existingFiles[0]);
+    expect(result.slice(1).map((entry) => entry.data.name)).toEqual([
+      "photo.jpeg",
+      "photo.png",
+    ]);
+    expect(toastError).toHaveBeenCalledTimes(1);
   });
 
-  it("removeFile removes an UploadableFile from the list without calling backend", async () => {
+  it("removeFile removes an UploadableFile from the list without calling backend", () => {
     const { removeFile } = useFileManager();
 
     const uploadFile = new UploadableFile(
@@ -168,14 +261,14 @@ describe("useFileManager", () => {
 
     expect(files).toHaveLength(2);
 
-    await removeFile(files, uploadFile);
+    removeFile(files, uploadFile);
 
     expect(files).toHaveLength(1);
     expect(files[0].data).not.toBe(uploadFile);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  it("removeFile removes a ContentImage and calls deleteImage (backend)", async () => {
+  it("removeFile removes a ContentImage without deleting it on the backend", () => {
     const { removeFile } = useFileManager();
 
     const contentImage = {
@@ -196,29 +289,12 @@ describe("useFileManager", () => {
       ),
     ];
 
-    mockFetch.mockResolvedValueOnce({ ok: true });
-
     expect(files).toHaveLength(2);
 
-    await removeFile(files, contentImage);
+    removeFile(files, contentImage);
 
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    const [url, opts] = mockFetch.mock.calls[0] as [
-      string,
-      { method: string; baseURL: string },
-    ];
-    expect(url).toBe("/content/images/backend-image-1");
-    expect(opts.method).toBe("DELETE");
-    // Authorization is now added by server-side middleware, not the client.
-    expect(opts.baseURL).toBe("/api/auth");
-
+    expect(mockFetch).not.toHaveBeenCalled();
     expect(files).toHaveLength(1);
     expect((files[0].data as ContentImage).id).toBe("backend-image-2");
-  });
-
-  it("exposes uploadError ref and initializes it to false", () => {
-    const { uploadError } = useFileManager();
-
-    expect(uploadError.value).toBe(false);
   });
 });

@@ -8,7 +8,7 @@
     <DisclosureButton class="rounded-md px-4 py-2 focus-brand">
       <div class="flex select-none items-center gap-3 text-primary-text">
         <Icon v-if="icon" class="fill-primary-text" :name="icon" />
-        <p>{{ $t(title) }}</p>
+        <p>{{ t(title) }}</p>
         <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
         <Icon v-else :name="IconMap.CHEVRON_DOWN" />
       </div>
@@ -31,4 +31,6 @@ defineProps<{
   text: string;
   icon?: string;
 }>();
+
+const { t } = useI18n();
 </script>

@@ -17,16 +17,16 @@ pytestmark = pytest.mark.django_db
 def test_org_resource_update_ok_200(authenticated_client):
     client, user = authenticated_client
     org = OrganizationFactory(created_by=user)
-    resource = OrganizationResourceFactory(created_by=user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=user, org=org)
     topic = Topic.objects.create(type="test_type", active=True)
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = org_resource.name
+    test_desc = org_resource.description
+    test_url = org_resource.url
+    test_order = org_resource.order
 
     response = client.put(
-        path=f"/v1/communities/organization_resources/{resource.id}",
+        path=f"/v1/communities/organization_resources/{org_resource.id}",
         data={
             "name": test_name,
             "description": test_desc,
@@ -47,21 +47,23 @@ def test_org_resource_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory()
-    resource = OrganizationResourceFactory(created_by=user, org=org)
-    topic = TopicFactory()
+    org_resource = OrganizationResourceFactory(org=org)
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    topic = TopicFactory()
+    original_values = (
+        org_resource.name,
+        org_resource.description,
+        org_resource.url,
+        org_resource.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/organization_resources/{resource.id}",
+        path=f"/v1/communities/organization_resources/{org_resource.id}",
         data={
-            "name": test_name,
-            "description": test_desc,
-            "url": test_url,
-            "order": test_order,
+            "name": "Updated resource name",
+            "description": "Updated resource description",
+            "url": "https://example.com/updated-resource",
+            "order": org_resource.order + 1,
             "org": org.id,
             "topic": [topic.type],
         },
@@ -72,23 +74,31 @@ def test_org_resource_update_forbidden_403(authenticated_client):
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response_body["detail"] == "You are not authorized to update this resource."
 
+    org_resource.refresh_from_db()
+    assert (
+        org_resource.name,
+        org_resource.description,
+        org_resource.url,
+        org_resource.order,
+    ) == original_values
+
 
 def test_org_resource_update_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_resource_id = uuid4()
+    invalid_org_resource_id = uuid4()
 
     org = OrganizationFactory()
-    resource = OrganizationResourceFactory(created_by=user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=user, org=org)
     topic = TopicFactory()
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = org_resource.name
+    test_desc = org_resource.description
+    test_url = org_resource.url
+    test_order = org_resource.order
 
     response = client.put(
-        path=f"/v1/communities/organization_resources/{bad_resource_id}",
+        path=f"/v1/communities/organization_resources/{invalid_org_resource_id}",
         data={
             "name": test_name,
             "description": test_desc,
@@ -100,6 +110,5 @@ def test_org_resource_update_not_found_404(authenticated_client):
     )
 
     response_body = response.json()
-
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Resource not found."

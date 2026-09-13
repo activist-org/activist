@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 export const searchLocationNomatim = async (
   filters: Record<string, unknown>
 ) => {
@@ -16,8 +15,7 @@ export const searchLocationNomatim = async (
     if (!response.ok) {
       throw new Error("Failed to fetch location data");
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     const err = errorHandler(error);
     throw err;

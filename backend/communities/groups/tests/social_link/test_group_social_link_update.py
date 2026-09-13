@@ -28,13 +28,13 @@ def test_group_social_link_update_ok_200_and_not_found_404(
 
     group = GroupFactory(created_by=user)
 
-    social_links = GroupSocialLinkFactory(group=group)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
+    group_social_link = GroupSocialLinkFactory(group=group)
+    test_link = group_social_link.link
+    test_label = group_social_link.label
+    test_order = group_social_link.order
 
     response = client.put(
-        path=f"/v1/communities/group_social_links/{social_links.id}",
+        path=f"/v1/communities/group_social_links/{group_social_link.id}",
         data={
             "link": test_link,
             "label": test_label,
@@ -66,21 +66,27 @@ def test_group_social_link_update_ok_200_and_not_found_404(
     assert response_body["detail"] == "Social link not found."
 
 
-def test_group_social_link_update_not_creator_or_admin_forbidden_403(
+def test_group_social_link_update_forbidden_403(
     authenticated_client,
 ):
     client, user = authenticated_client
 
     group = GroupFactory()
+    group_social_link = GroupSocialLinkFactory(group=group)
 
-    social_links = GroupSocialLinkFactory(group=group)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
+    original_values = (
+        group_social_link.link,
+        group_social_link.label,
+        group_social_link.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/group_social_links/{social_links.id}",
-        data={"link": test_link, "label": test_label, "order": test_order},
+        path=f"/v1/communities/group_social_links/{group_social_link.id}",
+        data={
+            "link": "https://example.com/updated-social-link",
+            "label": "Updated label",
+            "order": group_social_link.order + 1,
+        },
         content_type="application/json",
     )
     response_body = response.json()
@@ -90,3 +96,10 @@ def test_group_social_link_update_not_creator_or_admin_forbidden_403(
         response_body["detail"]
         == "You are not authorized to update the social links for this group."
     )
+
+    group_social_link.refresh_from_db()
+    assert (
+        group_social_link.link,
+        group_social_link.label,
+        group_social_link.order,
+    ) == original_values

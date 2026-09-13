@@ -3,7 +3,7 @@
   <div class="card-style px-5 py-5" data-testid="card-connect">
     <div class="flex items-center gap-5">
       <h3 class="text-left font-display">
-        {{ $t("i18n.components._global.connect") }}
+        {{ t("i18n.components._global.connect") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -68,6 +68,8 @@ const props = defineProps<{
   pageType: "organization" | "group" | "event";
   entity?: Entity | null;
 }>();
+
+const { t } = useI18n();
 
 const { openModal: openModalSocialLinks } = useModalHandlers(
   `ModalSocialLinks${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`

@@ -14,8 +14,6 @@ def test_org_flag_delete_no_content_204(authenticated_client):
     Test to delete a flag of an organization.
     """
     client, user = authenticated_client
-
-    # Set user as staff to have permission to delete flags
     user.is_staff = True
     user.save()
 
@@ -29,9 +27,9 @@ def test_org_flag_delete_no_content_204(authenticated_client):
 def test_org_flag_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_flagged_org_uuid = uuid4()
+    invalid_flagged_org_uuid = uuid4()
     response = client.delete(
-        path=f"/v1/communities/organization_flags/{bad_flagged_org_uuid}"
+        path=f"/v1/communities/organization_flags/{invalid_flagged_org_uuid}"
     )
     response_body = response.json()
 

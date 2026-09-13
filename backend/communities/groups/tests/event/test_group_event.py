@@ -17,14 +17,14 @@ def test_group_event_multiple_events() -> None:
     Test multiple events for a single group.
     """
     group = GroupFactory.create()
-    events = EventFactory.create_batch(3)
+    group_events = EventFactory.create_batch(3)
 
-    group.events.set(events)
+    group.events.set(group_events)
 
     group = Group.objects.get(id=group.id)
-    group_events = group.events.all()
+    all_group_events = group.events.all()
 
-    assert len(events) == len(group_events)
+    assert len(group_events) == len(all_group_events)
 
-    for event in events:
+    for event in group_events:
         assert event in group_events

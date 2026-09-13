@@ -52,8 +52,8 @@ const createWrapper = (
     },
     global: {
       mocks: {
-        $t: (key: string) => key,
-        $colorMode: { value: "dark" },
+        t: (key: string) => key,
+        colorMode: { value: "dark" },
       },
       stubs: {
         TabGroup: {
@@ -145,7 +145,7 @@ describe("Tabs component", () => {
       wrapper = mount(Tabs, {
         props: { tabs: testTabs, selectedTab: 0 },
         global: {
-          mocks: { $t: (key: string) => key, $colorMode: { value: "light" } },
+          mocks: { t: (key: string) => key, colorMode: { value: "light" } },
           stubs: {
             TabGroup: {
               props: ["selectedIndex", "manual"],

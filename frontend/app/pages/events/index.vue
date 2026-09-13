@@ -2,13 +2,13 @@
 <template>
   <div class="bg-layer-0 px-8">
     <Head>
-      <Title>{{ $t("i18n.pages.events.index.header_title") }} </Title>
+      <Title>{{ t("i18n.pages.events.index.header_title") }} </Title>
     </Head>
     <HeaderAppPageList
       @filter-click="removeFilter"
       :filters="listFilters"
-      :header="$t('i18n.pages.events.index.header_title')"
-      :tagline="$t('i18n.pages.events.index.subheader')"
+      :header="t('i18n.pages.events.index.header_title')"
+      :tagline="t('i18n.pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <ComboboxTopics
@@ -22,11 +22,11 @@
       :loading="pending && !loadingFetchMore"
     />
     <div v-else-if="showEvents">
-      <EventsList v-if="viewType === ViewType.LIST" :events="events" />
-      <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
+      <EventsList v-if="viewType === LIST_VIEW" :events="data ?? []" />
+      <EventsMap v-else-if="viewType === MAP_VIEW" :events="data ?? []" />
       <EventsCalendar
-        v-else-if="viewType === ViewType.CALENDAR"
-        :events="events"
+        v-else-if="viewType === CALENDAR_VIEW"
+        :events="data ?? []"
       />
       <!-- The bottom sentinel for Intersection Observer. -->
       <div ref="bottomSentinel" class="h-px">
@@ -43,8 +43,16 @@
 <script setup lang="ts">
 import type { LocationQueryRaw } from "vue-router";
 
+const { t } = useI18n();
 const route = useRoute();
-const viewType = ref<ViewType>((route.query.view as ViewType) || ViewType.LIST);
+
+const LIST_VIEW = ViewType.LIST;
+const MAP_VIEW = ViewType.MAP;
+const CALENDAR_VIEW = ViewType.CALENDAR;
+
+const viewType = ref<ViewTypeValueType>(
+  (route.query.view as ViewTypeValueType) || ViewType.LIST
+);
 const router = useRouter();
 const loadingFetchMore = ref(false);
 const { getLabelByKey } = useGetLabelByKeyFilter();
@@ -53,7 +61,9 @@ const filters = computed<EventFilters>(() => {
   const normalizedFilters: EventFilters = rest as unknown as EventFilters;
 
   // Normalize topics to always be an array (Vue Router returns string for single value).
-  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
+  normalizedFilters.topics = normalizeArrayFromURLQuery(
+    topics
+  ) as TopicMapType[];
 
   if (normalizedFilters.days_ahead) {
     normalizedFilters.days_ahead = +normalizedFilters.days_ahead;
@@ -110,15 +120,15 @@ const removeFilter = (option: {
   router.replace({ query: rest as LocationQueryRaw });
 };
 
-const selectedTopics = ref<TopicEnum[]>([]);
+const selectedTopics = ref<TopicMapType[]>([]);
 watch(
   () => route.query.topics,
   (newVal) => {
-    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicMapType[];
   },
   { immediate: true }
 );
-const handleSelectedTopicsUpdate = (selectedTopics: TopicEnum[]) => {
+const handleSelectedTopicsUpdate = (selectedTopics: TopicMapType[]) => {
   const query = { ...route.query };
   if (selectedTopics.length > 0) {
     query.topics = selectedTopics;
@@ -136,7 +146,7 @@ watch(
   },
   { immediate: true, deep: true }
 );
-const { data: events, pending, getMore } = useGetEvents(filters);
+const { data, pending, getMore } = useGetEvents(filters);
 
 const bottomSentinel = ref<HTMLElement | null>(null);
 const canFetchMore = computed(() => viewType.value === ViewType.LIST);
@@ -152,7 +162,7 @@ useCustomInfiniteScroll({
 });
 
 const showEvents = computed(() => {
-  if (events.value.length > 0) {
+  if ((data?.value ?? []).length > 0) {
     if (loadingFetchMore.value) {
       return true;
     }
@@ -165,9 +175,9 @@ watchEffect(() => {
   const q = route.query.view;
   if (
     typeof q === "string" &&
-    Object.values(ViewType).includes(q as ViewType)
+    Object.values(ViewType).includes(q as ViewTypeValueType)
   ) {
-    viewType.value = q as ViewType;
+    viewType.value = q as ViewTypeValueType;
   }
 });
 </script>
