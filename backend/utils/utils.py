@@ -6,6 +6,7 @@ Utility functions for date formatting and logic validation as well as other comm
 import logging
 from typing import Any, TypeVar
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Manager, Model
 from rest_framework import serializers
 
@@ -77,11 +78,12 @@ def validate_object_exists(
     manager: "Manager[ModelT]", value: "ModelT | Any", not_found_message: str
 ) -> ModelT:
     """
-    Validate that a related object exists, accepting either a model instance
-    or its id/UUID/string primary key.
+    Validate that a related object exists.
 
-    This centralizes a pattern that was previously duplicated across several
-    serializers (e.g. validating that a referenced Event exists).
+    Accepts either an already-resolved model instance or an id/UUID/string
+    primary key. This centralizes a pattern that was previously duplicated
+    across several serializers (e.g. validating that a referenced Event
+    exists).
 
     Parameters
     ----------
@@ -111,7 +113,7 @@ def validate_object_exists(
         obj = manager.get(id=value)
         logger.info(f"{model_cls.__name__} found for value: {value}")
 
-    except model_cls.DoesNotExist as e:
+    except ObjectDoesNotExist as e:
         raise serializers.ValidationError(not_found_message) from e
 
     return obj
