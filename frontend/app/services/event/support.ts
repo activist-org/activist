@@ -28,9 +28,9 @@ export async function createEventSupport(
 
 // MARK: Delete
 
-export async function deleteEventSupport(supportId: string): Promise<void> {
+export async function deleteEventSupport(eventId: string): Promise<void> {
   try {
-    await del(`/events/event_supports/${supportId}`);
+    await del(`/events/event_supports/${eventId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

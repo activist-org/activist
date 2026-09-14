@@ -5,7 +5,7 @@
       <Title>{{ t("i18n._global.home") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="t('i18n.pages.home.index.header')"
+      :header="t('i18n.pages.home.index.header', { username: data?.username ?? '' })"
       :tagline="t('i18n.pages.home.index.subheader')"
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
@@ -32,12 +32,8 @@
 </template>
 
 <script setup lang="ts">
+
 const { t } = useI18n();
 const { data } = useGetUser();
-watch(
-  () => data,
-  (newData) => {
-    console.log(newData, 'Updated user data');
-  }
-);
+
 </script>
