@@ -1,19 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <div class="spa-loading-container">
-  <img
-    class="img-light-mode"
-    src="/icons/activist/activist_icon_light.png"
-    height="160"
-    width="160"
-    alt="activist - loading the platform"
-  />
-  <img
-    class="img-dark-mode"
-    src="/icons/activist/activist_icon_dark.png"
-    height="160"
-    width="160"
-    alt="activist - loading the platform"
-  />
+  <picture>
+    <source
+      srcset="/icons/activist/activist_icon_dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <img
+      src="/icons/activist/activist_icon_light.png"
+      height="160"
+      width="160"
+      alt="activist - loading the platform"
+    />
+  </picture>
 </div>
 
 <style>
@@ -30,25 +28,9 @@
     z-index: 99999;
   }
 
-  .img-dark-mode {
-    display: none;
-  }
-
-  .img-light-mode {
-    display: block;
-  }
-
   @media (prefers-color-scheme: dark) {
     .spa-loading-container {
       background-color: #161b22;
-    }
-
-    .img-dark-mode {
-      display: block;
-    }
-
-    .img-light-mode {
-      display: none;
     }
   }
 </style>
