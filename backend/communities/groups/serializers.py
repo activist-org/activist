@@ -24,6 +24,7 @@ from communities.organizations.models import Organization
 from content.models import Location, Topic
 from content.serializers import LocationSerializer, TopicSerializer
 from events.serializers import EventSerializer
+from utils.utils import validate_entity_exists
 
 logger = logging.getLogger(__name__)
 
@@ -58,17 +59,9 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
         serializers.ValidationError
             If the group does not exist.
         """
-        if isinstance(value, Group):
-            return value
-
-        try:
-            group = Group.objects.get(id=value)
-            logger.info(f"Group found for value: {value}")
-
-        except Group.DoesNotExist as e:
-            raise serializers.ValidationError("Group not found.") from e
-
-        return group
+        return validate_entity_exists(
+            manager=Group.objects, value=value, not_found_message="Group not found."
+        )
 
 
 # MARK: Resource
@@ -111,17 +104,9 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
         serializers.ValidationError
             If the group does not exist.
         """
-        if isinstance(value, Group):
-            return value
-
-        try:
-            group = Group.objects.get(id=value)
-            logger.info(f"Group found for value: {value}")
-
-        except Group.DoesNotExist as e:
-            raise serializers.ValidationError("Group not found.") from e
-
-        return group
+        return validate_entity_exists(
+            manager=Group.objects, value=value, not_found_message="Group not found."
+        )
 
 
 # MARK: Social Link
@@ -155,17 +140,9 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
         serializers.ValidationError
             If the group does not exist.
         """
-        if isinstance(value, Group):
-            return value
-
-        try:
-            group = Group.objects.get(id=value)
-            logger.info(f"Group found for value: {value}")
-
-        except Group.DoesNotExist as e:
-            raise serializers.ValidationError("Group not found.") from e
-
-        return group
+        return validate_entity_exists(
+            manager=Group.objects, value=value, not_found_message="Group not found."
+        )
 
 
 # MARK: Text

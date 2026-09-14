@@ -29,6 +29,7 @@ export default defineNuxtConfig({
 
   modules: process.env.VITEST ? [] : modules,
   ssr: false,
+  spaLoadingTemplate: true,
 
   devtools: {
     enabled: true,

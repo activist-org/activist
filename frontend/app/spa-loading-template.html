@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<div>
+<div class="spa-loading-container">
   <img
     class="img-light-mode"
     src="/icons/activist/activist_icon_light.png"
@@ -17,41 +17,29 @@
 </div>
 
 <style>
-  html,
-  body {
-    height: 100%;
-    overflow-y: hidden;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-  }
-
-  div {
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
-
-  div img {
-    position: absolute;
+  .spa-loading-container {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
   }
 
   .img-dark-mode {
     display: none;
   }
 
+  .img-light-mode {
+    display: block;
+  }
+
   @media (prefers-color-scheme: dark) {
-    html,
-    body {
-      height: 100%;
-      overflow-y: hidden;
-      margin: 0;
-      padding: 0;
+    .spa-loading-container {
       background-color: #161b22;
     }
 
