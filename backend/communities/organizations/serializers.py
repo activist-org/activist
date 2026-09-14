@@ -26,6 +26,7 @@ from communities.organizations.models import (
 from content.models import Location, Topic
 from content.serializers import ImageSerializer, LocationSerializer, TopicSerializer
 from events.serializers import EventSerializer
+from utils.utils import validate_entity_exists
 
 logger = logging.getLogger(__name__)
 
@@ -60,17 +61,11 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
         serializers.ValidationError
             If the organization does not exist.
         """
-        if isinstance(value, Organization):
-            return value
-
-        try:
-            org = Organization.objects.get(id=value)
-            logger.info(f"Organization found for value: {value}")
-
-        except Organization.DoesNotExist as e:
-            raise serializers.ValidationError("Organization not found.") from e
-
-        return org
+        return validate_entity_exists(
+            manager=Organization.objects,
+            value=value,
+            not_found_message="Organization not found.",
+        )
 
 
 # MARK: Resource
@@ -113,17 +108,11 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
         serializers.ValidationError
             If the organization does not exist.
         """
-        if isinstance(value, Organization):
-            return value
-
-        try:
-            org = Organization.objects.get(id=value)
-            logger.info(f"Organization found for value: {value}")
-
-        except Organization.DoesNotExist as e:
-            raise serializers.ValidationError("Organization not found.") from e
-
-        return org
+        return validate_entity_exists(
+            manager=Organization.objects,
+            value=value,
+            not_found_message="Organization not found.",
+        )
 
 
 # MARK: Social Link
@@ -159,17 +148,11 @@ class OrganizationSocialLinkSerializer(
         serializers.ValidationError
             If the organization does not exist.
         """
-        if isinstance(value, Organization):
-            return value
-
-        try:
-            org = Organization.objects.get(id=value)
-            logger.info(f"Organization found for value: {value}")
-
-        except Organization.DoesNotExist as e:
-            raise serializers.ValidationError("Organization not found.") from e
-
-        return org
+        return validate_entity_exists(
+            manager=Organization.objects,
+            value=value,
+            not_found_message="Organization not found.",
+        )
 
 
 # MARK: Text

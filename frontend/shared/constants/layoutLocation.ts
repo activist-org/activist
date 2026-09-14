@@ -3,6 +3,7 @@ export const DropdownLocation = {
   SIDEBAR: "sidebar",
   SIDE_MENU: "sideMenu",
   SIDE_LEFT_MENU: "sideLeftMenu",
+  PAGE_BREADCRUMBS: "pageBreadcrumbs",
 } as const;
 
 export const SearchBarLocation = {

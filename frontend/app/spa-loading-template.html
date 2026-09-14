@@ -1,66 +1,38 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<div>
-  <img
-    class="img-light-mode"
-    src="/icons/activist/activist_icon_light.png"
-    height="160"
-    width="160"
-    alt="activist - loading the platform"
-  />
-  <img
-    class="img-dark-mode"
-    src="/icons/activist/activist_icon_dark.png"
-    height="160"
-    width="160"
-    alt="activist - loading the platform"
-  />
+<div class="spa-loading-container">
+  <picture>
+    <source
+      srcset="/icons/activist/activist_icon_dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <img
+      src="/icons/activist/activist_icon_light.png"
+      height="160"
+      width="160"
+      alt="activist - loading the platform"
+    />
+  </picture>
 </div>
 
 <style>
-  html,
-  body {
-    height: 100%;
-    overflow-y: hidden;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-  }
+  .spa-loading-container {
+    position: fixed;
 
-  div {
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
-
-  div img {
-    position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-  }
+    width: 100vw;
+    height: 100vh;
 
-  .img-dark-mode {
-    display: none;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
   }
 
   @media (prefers-color-scheme: dark) {
-    html,
-    body {
-      height: 100%;
-      overflow-y: hidden;
-      margin: 0;
-      padding: 0;
+    .spa-loading-container {
       background-color: #161b22;
-    }
-
-    .img-dark-mode {
-      display: block;
-    }
-
-    .img-light-mode {
-      display: none;
     }
   }
 </style>
