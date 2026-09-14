@@ -48,7 +48,7 @@ jobs:
           echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖⬆️" > reports.md
           echo "\n" >> reports.md
           echo "> [!NOTE]" >> reports.md
-          echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
+          echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR. Please also limit the number of dependencies that are being updated in each PR to make it easy for maintainers to merge." >> reports.md
 
           BACKEND_CAPS=$(echo "$BACKEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
           FRONTEND_CAPS=$(echo "$FRONTEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
