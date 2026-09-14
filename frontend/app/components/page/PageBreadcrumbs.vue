@@ -74,7 +74,7 @@
           </li>
         </ul>
       </nav>
-      <div class="flex shrink-0 items-center gap-1">
+      <div class="flex shrink-0 items-center gap-2">
         <DropdownTheme :location="dropdownLocation" />
         <DropdownLanguage :location="dropdownLocation" />
       </div>
