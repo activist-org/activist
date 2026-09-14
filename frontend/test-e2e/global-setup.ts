@@ -128,6 +128,9 @@ async function createAuthState(
  * Creates authenticated sessions for each account used in the test suite.
  */
 async function globalSetup(config: FullConfig) {
+  // The coverage gate only reads source files, so it needs no server or session.
+  if (process.env.E2E_COVERAGE_ONLY) return;
+
   const baseURL = config.projects[0]?.use.baseURL;
 
   if (!baseURL) {
