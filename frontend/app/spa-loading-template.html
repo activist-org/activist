@@ -1,31 +1,40 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<picture class="spa-loading-container">
-  <source
-    srcset="/icons/activist/activist_icon_dark.png"
-    media="(prefers-color-scheme: dark)"
-  />
-  <img
-    src="/icons/activist/activist_icon_light.png"
-    height="160"
-    width="160"
-    alt="activist - loading the platform"
-  />
-</picture>
-
+<div class="loader"></div>
 <style>
-  .spa-loading-container {
-    width: 100vw;
-    height: 100vh;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
+  .loader {
+    display: block;
+    position: fixed;
+    z-index: 1031;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    border-top-color: #000;
+    border-left-color: #000;
+    border-bottom-color: #efefef;
+    border-right-color: #efefef;
+    border-radius: 50%;
+    -webkit-animation: loader 400ms linear infinite;
+    animation: loader 400ms linear infinite;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .spa-loading-container {
-      background-color: #161b22;
+  @-webkit-keyframes loader {
+    0% {
+      -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
     }
   }
 </style>
