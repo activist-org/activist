@@ -17,6 +17,7 @@ export function useEventSocialLinksMutations(
     mutateAsync: updateLinkAsync,
     isLoading: loadingUpdateLink,
   } = useMutation({
+    ...options.update,
     mutation: async (linkData: {
       id: string;
       link: string;
@@ -32,7 +33,6 @@ export function useEventSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Create multiple social links.

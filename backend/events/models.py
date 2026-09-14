@@ -64,7 +64,13 @@ class Event(models.Model):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
-    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag", related_name="flagged_events")
+    supporters: Any = models.ManyToManyField(
+        "authentication.UserModel",
+        through="EventSupport",
+        through_fields=("event", "supporter_user"),
+        related_name="supported_events",
+    )
 
     def save(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -173,6 +179,8 @@ class EventFaq(Faq):
         ordering = ["order"]
 
 
+
+
 # MARK: Flag
 
 
@@ -185,6 +193,45 @@ class EventFlag(models.Model):
     event = models.ForeignKey("Event", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now=True)
+
+
+# MARK: Support
+
+
+
+class EventSupport(models.Model):
+    """
+    Model for support received by an event.
+
+    Notes
+    -----
+    Only users can support events, so the supporter is a plain FK.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    event = models.ForeignKey(
+        "Event",
+        on_delete=models.CASCADE,
+        related_name="supports_received",
+    )
+    supporter_user = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="event_supports_given",
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            # A user can support a given event at most once.
+            models.UniqueConstraint(
+                fields=["event", "supporter_user"],
+                name="unique_event_support_per_user",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.supporter_user} supports {self.event}"
 
 
 # MARK: Format

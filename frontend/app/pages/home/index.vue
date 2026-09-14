@@ -5,11 +5,13 @@
       <Title>{{ t("i18n._global.home") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="t('i18n.pages.home.index.header')"
+      :header="t('i18n.pages.home.index.header', { username: data?.username ?? '' })"
       :tagline="t('i18n.pages.home.index.subheader')"
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
+    <h2>Events:</h2>
+    <EventsList :events="data?.supportedEvents ?? []"/>
     <!-- <div class="space-y-6 pb-6">
       <div
         class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"
@@ -30,5 +32,8 @@
 </template>
 
 <script setup lang="ts">
+
 const { t } = useI18n();
+const { data } = useGetUser();
+
 </script>

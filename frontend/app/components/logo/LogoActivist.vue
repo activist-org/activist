@@ -3,7 +3,7 @@
   <NuxtLink
     :aria-label="t('i18n.components.logo_activist.aria_label')"
     class="logo-activist focus-brand"
-    :to="localePath('/')"
+    :to="userIsSignedIn ? localePath('/home') : localePath('/')"
   >
     <svg
       aria-hidden="true"
@@ -29,7 +29,7 @@ defineProps<{
   color?: string;
   isMobile?: boolean;
 }>();
-
+const { userIsSignedIn } = useUser();
 const { t } = useI18n();
 const localePath = useLocalePath();
 </script>

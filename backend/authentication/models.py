@@ -135,59 +135,6 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
             logger.exception(f"Failed to create user {username}: {str(e)}")
             raise
 
-
-# MARK: Support
-
-
-class SupportEntityType(models.Model):
-    """
-    Represents a type of support entity, such as organization, group, event, or user.
-
-    Notes
-    -----
-    This model is used in the `Support` relationship to define the type of entity
-    involved in the support system.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class Support(models.Model):
-    """
-    Represents a support relationship between two entities.
-
-    Notes
-    -----
-    A `Support` connects a supporter entity (like an organization) to a supported entity.
-    Both entities are represented by their type and specific instances.
-    """
-
-    supporter_type = models.ForeignKey(
-        "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
-    )
-    supporter_entity = models.ForeignKey(
-        "communities.Organization",
-        on_delete=models.CASCADE,
-        related_name="supporter",
-    )
-    supported_type = models.ForeignKey(
-        "SupportEntityType", on_delete=models.CASCADE, related_name="supported"
-    )
-    supported_entity = models.ForeignKey(
-        "communities.Organization",
-        on_delete=models.CASCADE,
-        related_name="supported",
-    )
-    creation_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return str(self.id)
-
-
 # MARK: Session
 
 
@@ -258,6 +205,7 @@ class UserModel(AbstractUser, PermissionsMixin):
         through="authentication.UserFlag",
     )
 
+
     def __str__(self) -> str:
         return self.username
 
@@ -275,3 +223,4 @@ class UserFlag(models.Model):
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now=True)
+
