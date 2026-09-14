@@ -1,21 +1,24 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<picture class="spa-loading-container">
-  <source
-    srcset="/icons/activist/activist_icon_dark.png"
-    media="(prefers-color-scheme: dark)"
-  />
-  <img
-    src="/icons/activist/activist_icon_light.png"
-    height="160"
-    width="160"
-    alt="activist - loading the platform"
-  />
-</picture>
+<div class="spa-loading-container"></div>
+  <picture>
+    <source
+      srcset="/icons/activist/activist_icon_dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <img
+      src="/icons/activist/activist_icon_light.png"
+      height="160"
+      width="160"
+      alt="activist - loading the platform"
+    />
+  </picture>
+</div>
 
 <style>
   html,
   body,
-  #__nuxt {
+  #__nuxt,
+  #__nuxt_loader {
     margin: 0;
     padding: 0;
     width: 100%;
