@@ -8,6 +8,7 @@ import id from "~~/i18n/locales/id.json" with { type: "json" };
 import it from "~~/i18n/locales/it.json" with { type: "json" };
 import pt from "~~/i18n/locales/pt.json" with { type: "json" };
 import ru from "~~/i18n/locales/ru.json" with { type: "json" };
+import uk from "~~/i18n/locales/uk.json" with { type: "json" };
 
 import { LOCALE_CODE } from "#shared/utils/locales";
 
@@ -23,6 +24,7 @@ const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
   [LOCALE_CODE.SPANISH]: es,
   [LOCALE_CODE.PORTUGUESE]: pt,
   [LOCALE_CODE.RUSSIAN]: ru,
+  [LOCALE_CODE.UKRAINIAN]: uk,
 };
 
 export function getLocaleText(locale?: LOCALE_CODE): LocaleFile {
