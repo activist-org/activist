@@ -30,7 +30,7 @@ jobs:
       # Note: The dependencies and versions here are passed to compare_backend_versions.py.
       BACKEND_MAX_VERSIONS: "{}"
       # Note: Set these values in yarn.config.cjs to enforce the version constraints.
-      FRONTEND_MAX_VERSIONS: '{"typescript": "6.0.3"}'
+      FRONTEND_MAX_VERSIONS: "{}" # '{"typescript": "6.0.3"}'
 
     steps:
       - name: Checkout Repository
