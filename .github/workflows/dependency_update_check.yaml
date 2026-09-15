@@ -30,7 +30,7 @@ jobs:
       # Note: The dependencies and versions here are passed to compare_backend_versions.py.
       BACKEND_MAX_VERSIONS: "{}"
       # Note: Set these values in yarn.config.cjs to enforce the version constraints.
-      FRONTEND_MAX_VERSIONS: "{}" # '{"typescript": "6.0.3"}'
+      FRONTEND_MAX_VERSIONS: '{"typescript": "6.0.3"}'
 
     steps:
       - name: Checkout Repository
@@ -46,7 +46,7 @@ jobs:
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖⬆️" > reports.md
-          echo "\n" >> reports.md
+          echo "" >> reports.md
           echo "> [!NOTE]" >> reports.md
           echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR. Please also limit the number of dependencies that are being updated in each PR to make it easy for maintainers to merge." >> reports.md
 
@@ -54,7 +54,7 @@ jobs:
           FRONTEND_CAPS=$(echo "$FRONTEND_MAX_VERSIONS" | jq -r 'to_entries | map("\(.key)@\(.value)") | join(", ")')
 
           if [ -n "$BACKEND_CAPS" ] || [ -n "$FRONTEND_CAPS" ]; then
-            echo "\n" >> reports.md
+            echo "" >> reports.md
             echo "> [!WARNING]" >> reports.md
             echo "> Note that the following dependencies have maximum versions set in the [dependency_update_check.yaml](https://github.com/activist-org/activist/blob/main/.github/workflows/dependency_update_check.yaml) workflow:" >> reports.md
             echo ">" >> reports.md
@@ -62,7 +62,7 @@ jobs:
             [ -n "$FRONTEND_CAPS" ] && echo "> - Frontend: $FRONTEND_CAPS" >> reports.md
             echo ">" >> reports.md
             echo "> Please check whether maximum version restrictions can be removed and rerun the workflow without them if they can be." >> reports.md
-            echo "\n" >> reports.md
+            echo "" >> reports.md
           fi
 
           echo "## Available Dependency Updates" >> reports.md
@@ -131,8 +131,15 @@ jobs:
           yarn add npm-check-updates
 
           chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
+
+          REJECT_LIST=$(echo "$FRONTEND_MAX_VERSIONS" | jq -r 'keys | join(",")')
+
           # Note: We don't install versions that are younger than seven days (three to seven days is conservative age).
-          yarn ncu -u -p yarn -c 7d  # npm-check-updates
+          if [ -n "$REJECT_LIST" ] && [ "$REJECT_LIST" != "null" ]; then
+            yarn ncu -u -p yarn -c 7d -x "$REJECT_LIST"  # npm-check-updates
+          else
+            yarn ncu -u -p yarn -c 7d
+          fi
 
           # Attn: Max versions are set via the yarn.config.cjs file.
           # See: https://yarnpkg.com/features/constraints
@@ -152,7 +159,7 @@ jobs:
         run: |
           cd backend
 
-          echo "\n" >> ../reports.md
+          echo "" >> ../reports.md
           echo "## Backend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
@@ -187,7 +194,7 @@ jobs:
         working-directory: ./frontend
         continue-on-error: true
         run: |
-          echo "\n" >> ../reports.md
+          echo "" >> ../reports.md
           echo "## Frontend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
