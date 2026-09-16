@@ -1,8 +1,26 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Site origin used for absolute URLs in social-graph meta tags.
+// In dev this is `http://localhost:3000` (from VITE_FRONTEND_URL), so link
+// previews and crawlers pointed at the local build can resolve every URL.
+// In production it defaults to the canonical activist.org domain.
+const siteUrl =
+  (import.meta.env.VITE_FRONTEND_URL as string | undefined)?.replace(
+    /\/+$/,
+    ""
+  ) || "https://activist.org";
+
+const absolute = (path: string): string =>
+  /^https?:\/\//i.test(path)
+    ? path
+    : `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
+
 export default {
   charset: "utf-8",
   viewport: "width=device-width, initial-scale=1",
   title: "activist",
+  htmlAttrs: {
+    lang: "en",
+  },
   meta: [
     {
       hid: "description",
@@ -10,12 +28,18 @@ export default {
       content:
         "A global platform for activism where movements grow and people are inspired join in political actions.",
     },
+    {
+      hid: "theme-color",
+      name: "theme-color",
+      content: "#ffffff",
+    },
     { property: "og:site_name", content: "activist" },
+    { property: "og:locale", content: "en" },
     { hid: "og:type", property: "og:type", content: "website" },
     {
       hid: "og:url",
       property: "og:url",
-      content: "https://activist.org",
+      content: siteUrl,
     },
     {
       hid: "og:title",
@@ -30,16 +54,28 @@ export default {
     {
       hid: "og:image",
       property: "og:image",
-      content: "/images/activist/activistOpenGraphImage.png",
+      content: absolute("/images/activist/activistOpenGraphImage.png"),
     },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
+    { property: "og:image:type", content: "image/png" },
+    {
+      hid: "og:image:secure_url",
+      property: "og:image:secure_url",
+      content: absolute("/images/activist/activistOpenGraphImage.png"),
+    },
+    {
+      hid: "og:image:alt",
+      property: "og:image:alt",
+      content:
+        "activist — a global platform for activism where movements grow and people are inspired to join in political action.",
+    },
     { name: "twitter:site", content: "@activist_org" },
     { name: "twitter:card", content: "summary_large_image" },
     {
       hid: "twitter:url",
       name: "twitter:url",
-      content: "https://activist.org",
+      content: siteUrl,
     },
     {
       hid: "twitter:title",
@@ -54,7 +90,13 @@ export default {
     {
       hid: "twitter:image",
       name: "twitter:image",
-      content: "/images/activist/activistTwitterOpenGraphImage.png",
+      content: absolute("/images/activist/activistTwitterOpenGraphImage.png"),
+    },
+    {
+      hid: "twitter:image:alt",
+      name: "twitter:image:alt",
+      content:
+        "activist — a global platform for activism where movements grow and people are inspired to join in political action.",
     },
     // For OpenStreetMap via MapLibre.
     { name: "referrer", content: "strict-origin-when-cross-origin" },
@@ -93,7 +135,7 @@ export default {
     {
       hid: "canonical",
       rel: "canonical",
-      href: "https://activist.org",
+      href: siteUrl,
     },
   ],
 };
