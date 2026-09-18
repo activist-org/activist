@@ -28,7 +28,7 @@
           {{ t("i18n._global.about") }}
         </h3>
         <IconEdit
-          v-if="userIsSignedIn"
+          v-if="isUserSignedIn"
           @click="
             () =>
               openModalTextOrganization({
@@ -110,7 +110,7 @@
 <script setup lang="ts">
 const { t } = useI18n();
 const { $countryName } = useNuxtApp();
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const { openModal: openModalTextOrganization } = useModalHandlers(
   "ModalTextOrganization"

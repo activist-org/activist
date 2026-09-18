@@ -25,7 +25,7 @@
           class="w-max"
           :counter="event?.supporterCount"
           :cta="true"
-          :disabled="!userIsSignedIn"
+          :disabled="!isUserSignedIn"
           fontSize="sm"
           :hideLabelOnMobile="true"
           iconSize="1.45em"
@@ -105,7 +105,7 @@ const { toggle, state: toggleState } = useToggle(false);
 const { data: event } = useGetEvent(eventId);
 const { createSupport: createSupportEvent, deleteSupport: deleteSupportEvent } =
   useEventSupportMutations(eventId);
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 const { downloadEventCalendar } = useDownloadEventCalendar();
 
 // MARK: Support Event Functions

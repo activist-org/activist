@@ -19,16 +19,21 @@
           :linkTo="organization.texts[0]?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
-        <!-- <BtnAction
-          class="flex w-full justify-center sm:w-max"
-          :cta="true"
-          label="i18n._global.support"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.45em"
-          :counter="organization.supporters.length"
+        <BtnAction
+          @click="handleSupport"
           ariaLabel="i18n._global.support_organization_aria_label"
-        /> -->
+          class="flex w-full justify-center sm:w-max"
+          :counter="
+            (organization?.supporterOrgCount ?? 0) +
+            (organization?.supporterUserCount ?? 0)
+          "
+          :cta="true"
+          :disabled="!isUserSignedIn"
+          fontSize="sm"
+          iconSize="1.45em"
+          label="i18n._global.support"
+          leftIcon="IconSupport"
+        />
         <BtnAction
           v-if="organization"
           @click="
@@ -97,6 +102,22 @@ const { data: images } = useGetOrganizationImages(orgId);
 const aboveLargeBP = useBreakpoint("lg");
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
+
+const { createSupport, deleteSupport } = useOrganizationSupportMutations(orgId);
+const { isUserSignedIn } = useUser();
+const { toggle, state: toggleState } = useToggle();
+// MARK: Support Event Functions
+const createSupportEvent = () => {
+  createSupport("user");
+};
+const deleteSupportEvent = () => {
+  deleteSupport("user");
+};
+const handleSupport = () => {
+  toggle();
+  if (toggleState.value) return createSupportEvent();
+  deleteSupportEvent();
+};
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

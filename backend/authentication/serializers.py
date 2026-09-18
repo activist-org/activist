@@ -13,7 +13,11 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from authentication.models import SessionModel, UserFlag, UserModel
-from events.models import Event, EventText
+from communities.organizations.models import Organization
+from communities.organizations.serializers import OrganizationTextSerializer
+from content.models import Topic
+from events.models import Event
+from events.serializers import EventTextSerializer
 
 logger = logging.getLogger(__name__)
 USER = get_user_model()
@@ -196,29 +200,71 @@ class SignInSerializer(serializers.Serializer[UserModel]):
             raise
 
         return data
-class UserSupportedEventTextSerializer(serializers.ModelSerializer["EventText"]):
+
+
+class UserSupportedOrganizationSerializer(serializers.ModelSerializer["Organization"]):
     """
-    Lightweight serializer for the texts associated with a user's supported events.
+    Lightweight serializer for a user's supported organizations.
     """
 
+    texts = OrganizationTextSerializer(many=True, read_only=True)
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
     class Meta:
-        model = EventText  # resolved at module level; see import note below
-        fields = "__all__"
+        model = Organization  # resolved at module level; see import note below
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "texts",
+            "topics",
+        ]
+
+
 class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
     """
     Lightweight event serializer for a user's supported events.
     """
-    texts = UserSupportedEventTextSerializer(many=True, read_only=True)
+
+    texts = EventTextSerializer(many=True, read_only=True)
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
     class Meta:
         model = Event  # resolved at module level; see import note below
-        fields = ["id", "name", "tagline", "type", "location_type", "creation_date", "texts"]
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "type",
+            "location_type",
+            "creation_date",
+            "texts",
+            "topics",
+        ]
 
-class  UserSerializer(serializers.ModelSerializer[UserModel]):
+
+class UserSerializer(serializers.ModelSerializer[UserModel]):
     """
     Serializer for the user model.
     """
 
     supported_events = UserSupportedEventSerializer(many=True, read_only=True)
+    supported_organizations = UserSupportedOrganizationSerializer(
+        many=True, read_only=True
+    )
+
     class Meta:
         model = UserModel
         fields = [
@@ -230,6 +276,25 @@ class  UserSerializer(serializers.ModelSerializer[UserModel]):
             "is_staff",
             "is_superuser",
             "supported_events",
+            "supported_organizations",
+        ]
+
+
+class UserSessionSerializer(serializers.ModelSerializer[UserModel]):
+    """
+    Lightweight serializer for a user's session.
+    """
+
+    class Meta:
+        model = UserModel
+        fields = [
+            "id",
+            "username",
+            "email",
+            "is_admin",
+            "is_active",
+            "is_staff",
+            "is_superuser",
         ]
 
 
@@ -238,7 +303,7 @@ class SessionSerializer(serializers.ModelSerializer[SessionModel]):
     Serializer for the session model.
     """
 
-    user = UserSerializer(read_only=True)
+    user = UserSessionSerializer(read_only=True)
 
     class Meta:
         model = SessionModel

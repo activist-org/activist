@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export default defineNuxtRouteMiddleware(async () => {
-  const { userIsAdmin, userIsSignedIn } = useUser();
+  const { userIsAdmin, isUserSignedIn } = useUser();
   const localePath = useLocalePath();
 
-  if (!userIsAdmin && userIsSignedIn) {
+  if (!userIsAdmin && isUserSignedIn) {
     return navigateTo(localePath("/home"));
   }
 });

@@ -6,7 +6,7 @@
         {{ t("i18n.components._global.connect") }}
       </h3>
       <IconEdit
-        v-if="userIsSignedIn"
+        v-if="isUserSignedIn"
         @click="
           () =>
             openModalSocialLinks({
@@ -75,5 +75,5 @@ const { openModal: openModalSocialLinks } = useModalHandlers(
   `ModalSocialLinks${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`
 );
 
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 </script>

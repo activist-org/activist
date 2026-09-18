@@ -38,6 +38,11 @@ router.register(
     viewset=EventSocialLinkViewSet,
     basename="event-social-links",
 )
+router.register(
+    prefix=r"event_supports",
+    viewset=EventSupportDetailAPIView,
+    basename="event-supports",
+)
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -48,5 +53,4 @@ urlpatterns = [
     path("event_calendar", EventCalendarAPIView.as_view()),
     path("event_texts/<uuid:id>", EventTextViewSet.as_view()),
     path("event_supports", EventSupportAPIView.as_view()),
-    path("event_supports/<uuid:id>", EventSupportDetailAPIView.as_view()),
 ]

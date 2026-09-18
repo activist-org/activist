@@ -506,8 +506,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         extra_kwargs = {
             "created_by": {"read_only": True},
         }
-
-        fields = "__all__"
+        exclude = ["supporters"]
 
     def get_supporter_count(self, obj: Event) -> int:
         """

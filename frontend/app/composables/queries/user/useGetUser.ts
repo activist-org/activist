@@ -4,15 +4,16 @@
 export function useGetUser() {
   const { user } = useUser()
   const userId = computed(() => String(user.value?.id)) ;
-  const enabled = computed(() => !!userId.value);
+  const enabled = computed(() => !!user.value?.id);
   const { getKeyForUser } = useUserCache();
 
   const { data, isLoading, error, refresh } = useQuery({
     key: () => getKeyForUser(userId.value),
     query: async () => {
-      const userData = await getUser(userId.value);
-      console.log(userData, 'Fetched user data');
-      return userData;
+      if (!userId.value) {
+        return null;
+      }
+      return await getUser(userId.value);
     },
     enabled,
   });

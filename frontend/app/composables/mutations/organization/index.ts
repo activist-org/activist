@@ -5,3 +5,4 @@ export * from "./useOrganizationMutations";
 export * from "./useOrganizationResourcesMutations";
 export * from "./useOrganizationSocialLinksMutations";
 export * from "./useOrganizationTextsMutations";
+export * from "./useOrganizationSupportMutations";

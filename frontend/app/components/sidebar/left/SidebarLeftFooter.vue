@@ -18,7 +18,7 @@
     >
       <DropdownCreate
         id="create"
-        v-if="userIsSignedIn"
+        v-if="isUserSignedIn"
         class="w-full"
         :location="dropdownLocationSideLeftMenu"
       />
@@ -31,7 +31,7 @@
         id="user-options"
         class="w-full"
         :location="dropdownLocationSideLeftMenu"
-        :userIsSignedIn="userIsSignedIn"
+        :isUserSignedIn="isUserSignedIn"
       />
     </div>
   </footer>
@@ -42,6 +42,6 @@ defineProps<{
   sidebarContentScrollable: boolean;
 }>();
 
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 const dropdownLocationSideLeftMenu = DropdownLocation.SIDE_LEFT_MENU;
 </script>

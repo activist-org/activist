@@ -4,6 +4,7 @@ Serializers for organizations in the communities app.
 """
 
 import logging
+from multiprocessing import Event
 from typing import Any
 from uuid import UUID
 
@@ -20,6 +21,7 @@ from communities.organizations.models import (
     OrganizationMember,
     OrganizationResource,
     OrganizationSocialLink,
+    OrganizationSupport,
     OrganizationTask,
     OrganizationText,
 )
@@ -182,7 +184,7 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
     topics = TopicSerializer(many=True, required=False)
     country_code = serializers.CharField(max_length=3, default="en")
     city = serializers.CharField(max_length=255)
-
+    
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Validate the data being posted.
@@ -297,6 +299,14 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     events = EventSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
+    supporter_user_count = serializers.SerializerMethodField()
+    supporter_org_count = serializers.SerializerMethodField()
+
+    def get_supporter_user_count(self, obj: Organization) -> int:
+            return getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+    def get_supporter_org_count(self, obj: Organization) -> int:
+            return getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+
 
     class Meta:
         model = Organization
@@ -366,6 +376,70 @@ class OrganizationFlagSerializer(serializers.ModelSerializer[OrganizationFlag]):
         model = OrganizationFlag
         fields = "__all__"
 
+# MARK: Support
+class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupport]):
+    """
+    Serializer for OrganizationSupport model data.
+
+    Notes
+    -----
+    `supporter_user` is always set from the requesting user in the view,
+    so clients only ever provide the organization (and only when the organization id
+    isn't already in the URL).
+    """
+
+    class Meta:
+        model = OrganizationSupport
+        fields = "__all__"
+        read_only_fields = ["supporter_user", "supporter_org", "creation_date", "organization"]
+    def create(self, validated_data: dict[str, Any]) -> OrganizationSupport:
+        """
+        Create an organization support record.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Dictionary of validated data for creating the organization support.
+
+        Returns
+        -------
+        OrganizationSupport
+            Created OrganizationSupport instance.
+        """
+        org_support = OrganizationSupport.objects.create(**validated_data)
+        logger.info(f"Created OrganizationSupport with id {org_support.id}")
+
+        return org_support
+    def validate_organization(self, value: Organization | UUID | str) -> Organization:
+        """
+        Validate that the organization exists.
+
+        Parameters
+        ----------
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
+
+        Returns
+        -------
+        Organization
+            The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
+        """
+        if isinstance(value, Organization):
+            return value
+
+        try:
+            org = Organization.objects.get(id=value)
+            logger.info(f"Organization found for value: {value}")
+
+        except Organization.DoesNotExist as e:
+            raise serializers.ValidationError("Organization not found.") from e
+
+        return org
 
 # MARK: Application
 

@@ -28,7 +28,7 @@
         <div class="flex-col space-y-2">
           <DropdownCreate
             id="create"
-            v-if="userIsSignedIn && devMode.active"
+            v-if="isUserSignedIn && devMode.active"
             class="w-full"
             :location="dropdownLocation"
           />
@@ -45,7 +45,7 @@
             v-if="devMode.active"
             class="w-full"
             :location="dropdownLocation"
-            :userIsSignedIn="userIsSignedIn"
+            :isUserSignedIn="isUserSignedIn"
           />
         </div>
       </SidebarRight>
@@ -139,7 +139,7 @@ const aboveLargeBP = useBreakpoint("lg");
 const devMode = useDevMode();
 devMode.check();
 const dropdownLocation = DropdownLocation.SIDE_MENU;
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
