@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export function isTokenExpired(token: string): boolean {
   try {
     const payloadBase64 = token.split(".")[1] ?? "";
