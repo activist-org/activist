@@ -18,9 +18,9 @@ const { data: topics } = useGetTopics();
 
 const options = ref<{ label: string; value: TopicMapType; id: string }[]>([]);
 options.value = (topics?.value || []).map((topic: Topic) => ({
-  label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
-  value: topic.type as TopicMapType,
-  id: topic.id,
+  label: t(GLOBAL_TOPICS.find((t) => t.topic === topic?.type)?.label || ""),
+  value: topic?.type as TopicMapType,
+  id: topic?.id,
 }));
 
 interface Props {
