@@ -113,10 +113,10 @@ const options = computed<{ label: string; value: TopicMapType; id: string }[]>(
     const topicsOptions = (topics.value || [])
       .map((topic: Topic) => ({
         label: t(
-          GLOBAL_TOPICS.find((t) => t.topic === topic?.type)?.label || ""
+          GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""
         ),
-        value: topic?.type as TopicMapType,
-        id: topic?.id,
+        value: topic.type as TopicMapType,
+        id: topic.id,
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
     return topicsOptions.sort((a, b) => {
