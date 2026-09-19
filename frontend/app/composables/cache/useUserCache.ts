@@ -8,7 +8,7 @@ const USER_KEYS = {
 
 export const useUserCache = () => {
   const { invalidateQueries, getEntries } = useQueryCache();
-  const { session } = useUserSession()
+  const { session } = useUserSession();
   // Invalidate a single user by ID.
   const invalidateUserCache = async () => {
     if (!session.value?.user?.id) return null;

@@ -31,7 +31,6 @@
         id="user-options"
         class="w-full"
         :location="dropdownLocationSideLeftMenu"
-        :isUserSignedIn="isUserSignedIn"
       />
     </div>
   </footer>

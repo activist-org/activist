@@ -66,8 +66,7 @@ watch(
   { immediate: true }
 );
 const handleSubmit = (_values: unknown) => {
-  if (!currentRoutePathIncludes("home", route.name?.toString() ?? ""))
-    return;
+  if (!currentRoutePathIncludes("home", route.name?.toString() ?? "")) return;
   const values: LocationQueryRaw = {};
   const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
   Object.keys(input).forEach((key) => {
@@ -83,7 +82,8 @@ const handleSubmit = (_values: unknown) => {
       return;
     }
     values[key] = input[key];
-    if (route.query.name && route.query.name !== "") values["name"] = route.query.name;
+    if (route.query.name && route.query.name !== "")
+      values["name"] = route.query.name;
   });
   router.push({
     query: values, // use the normalized values object

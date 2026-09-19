@@ -2,8 +2,8 @@
 // Read a single organization with Pinia Colada. Store-first, then fetch if missing.
 
 export function useGetUser() {
-  const { user } = useUser()
-  const userId = computed(() => String(user.value?.id)) ;
+  const { user } = useUser();
+  const userId = computed(() => String(user.value?.id));
   const enabled = computed(() => !!user.value?.id);
   const { getKeyForUser } = useUserCache();
 

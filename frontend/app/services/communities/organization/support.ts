@@ -13,13 +13,14 @@ export async function listOrganizationSupports(): Promise<Support[]> {
 // MARK: Create
 
 export async function createOrganizationSupport(
-  orgId: string, supporterType: "user" | "org"
+  orgId: string,
+  supporterType: "user" | "org"
 ): Promise<Support> {
   try {
     return await post(
       `/communities/org_supports/${orgId}`,
       { supporterType },
-      { headers: { "Content-Type": "application/json" }  },
+      { headers: { "Content-Type": "application/json" } }
     );
   } catch (e) {
     const err = errorHandler(e);

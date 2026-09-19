@@ -128,7 +128,7 @@ const isEventPage = computed(() =>
 
 const pathToSidebarMap = [
   // { path: "search", type: SidebarMap.SEARCH },
-   { path: "home", type: SidebarMap.HOME },
+  { path: "home", type: SidebarMap.HOME },
   {
     path: "organizations",
     type: isOrgPage.value

@@ -1,7 +1,7 @@
 export const useSessionCache = () => {
-  const { session, fetch:refresh } = useUserSession();
+  const { session, fetch: refresh } = useUserSession();
   const invalidateSessionCache = async () => {
-      await refresh();
+    await refresh();
   };
   const getSessionCache = () => {
     return session.value;

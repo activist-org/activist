@@ -12,14 +12,11 @@ export async function listEventSupports(): Promise<Support[]> {
 }
 // MARK: Create
 
-export async function createEventSupport(
-  eventId: string
-): Promise<Support> {
+export async function createEventSupport(eventId: string): Promise<Support> {
   try {
-    return await post(
-      `/events/event_supports/${eventId}`,
-      { headers: { "Content-Type": "application/json" } }
-    );
+    return await post(`/events/event_supports/${eventId}`, {
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (e) {
     const err = errorHandler(e);
     throw err;

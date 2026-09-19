@@ -38,7 +38,6 @@
               id="user-options"
               class="w-full"
               :location="dropdownLocation"
-              :isUserSignedIn="isUserSignedIn"
             />
           </div>
         </SidebarRight>

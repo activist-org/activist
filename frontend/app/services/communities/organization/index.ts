@@ -6,4 +6,4 @@ export * from "./organization";
 export * from "./resource";
 export * from "./social-link";
 export * from "./text";
-export * from "./support"
+export * from "./support";

@@ -25,7 +25,7 @@ export function mapEvent(res: EventResponse): EventResponse {
     texts: res.texts ?? [],
     topics: res.topics ?? [],
     supporterCount: res.supporterCount ?? 0,
-    isSupportedByUser: res.isSupportedByUser ?? false
+    isSupportedByUser: res.isSupportedByUser ?? false,
   };
 }
 

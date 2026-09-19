@@ -45,7 +45,6 @@
             v-if="devMode.active"
             class="w-full"
             :location="dropdownLocation"
-            :isUserSignedIn="isUserSignedIn"
           />
         </div>
       </SidebarRight>

@@ -25,7 +25,9 @@ const sidebarHomePage = SidebarMap.HOME;
 
 const props = defineProps<{
   sidebarType:
-    typeof SidebarMap.EVENTS_PAGE | typeof SidebarMap.ORGANIZATIONS_PAGE | typeof SidebarMap.HOME;
+    | typeof SidebarMap.EVENTS_PAGE
+    | typeof SidebarMap.ORGANIZATIONS_PAGE
+    | typeof SidebarMap.HOME;
   logoUrl?: string;
 }>();
 const logoUrl = ref(props.logoUrl);
