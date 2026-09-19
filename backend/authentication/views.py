@@ -535,14 +535,14 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
 
+
 class UserDetailAPIView(GenericAPIView[UserModel]):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
     def get(self, request: Request, id: str | uuid.UUID) -> Response:
-        logger.info(
-            f"User detail requested: ID {id} by user {request.user.username}"
-        )
+        logger.info(f"User detail requested: ID {id} by user {request.user.username}")
         try:
             user = UserModel.objects.get(id=id)
 

@@ -135,6 +135,7 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
             logger.exception(f"Failed to create user {username}: {str(e)}")
             raise
 
+
 # MARK: Session
 
 
@@ -205,7 +206,6 @@ class UserModel(AbstractUser, PermissionsMixin):
         through="authentication.UserFlag",
     )
 
-
     def __str__(self) -> str:
         return self.username
 
@@ -223,4 +223,3 @@ class UserFlag(models.Model):
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now=True)
-

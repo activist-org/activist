@@ -4,7 +4,6 @@ Serializers for organizations in the communities app.
 """
 
 import logging
-from multiprocessing import Event
 from typing import Any
 from uuid import UUID
 
@@ -304,17 +303,63 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     is_supported_by_user = serializers.SerializerMethodField()
 
     def get_supporter_user_count(self, obj: Organization) -> int:
-            return getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+        """
+        Get the count of users who support the organization.
+
+        Parameters
+        ----------
+        obj : Organization
+            The organization to check support for.
+
+        Returns
+        -------
+        int
+            The total users that support the organization.
+        """
+        return (
+            getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+        )
+
     def get_supporter_org_count(self, obj: Organization) -> int:
-            return getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+        """
+        Get the count of organizations who support the organization.
+
+        Parameters
+        ----------
+        obj : Organization
+            The organization to check support for.
+
+        Returns
+        -------
+        int
+            The total organizations that support the organization.
+        """
+        return getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+
     def get_is_supported_by_user(self, obj: Organization) -> bool:
+        """
+        Check whether an organization is supported by a user that is derived via a request.
+
+        Parameters
+        ----------
+        obj : Organization
+            The organization to check supporters for.
+
+        Returns
+        -------
+        bool
+            Whether the included user in the request supports the organization or not.
+        """
         annotated = obj.supporters_users.exists()
         if annotated is None:
             return False
+
         request = self.context.get("request")
         if request is None or not request.user.id:
             return False
+
         return obj.supporters_users.filter(pk=request.user.pk).exists()
+
     class Meta:
         model = Organization
 
@@ -383,6 +428,7 @@ class OrganizationFlagSerializer(serializers.ModelSerializer[OrganizationFlag]):
         model = OrganizationFlag
         fields = "__all__"
 
+
 # MARK: Support
 class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupport]):
     """
@@ -398,7 +444,13 @@ class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupp
     class Meta:
         model = OrganizationSupport
         fields = "__all__"
-        read_only_fields = ["supporter_user", "supporter_org", "creation_date", "organization"]
+        read_only_fields = [
+            "supporter_user",
+            "supporter_org",
+            "creation_date",
+            "organization",
+        ]
+
     def create(self, validated_data: dict[str, Any]) -> OrganizationSupport:
         """
         Create an organization support record.
@@ -417,6 +469,7 @@ class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupp
         logger.info(f"Created OrganizationSupport with id {org_support.id}")
 
         return org_support
+
     def validate_organization(self, value: Organization | UUID | str) -> Organization:
         """
         Validate that the organization exists.
@@ -447,6 +500,7 @@ class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupp
             raise serializers.ValidationError("Organization not found.") from e
 
         return org
+
 
 # MARK: Application
 

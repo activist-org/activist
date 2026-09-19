@@ -202,9 +202,6 @@ class SignInSerializer(serializers.Serializer[UserModel]):
         return data
 
 
-
-
-
 class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
     """
     Lightweight event serializer for a user's supported events.
@@ -232,6 +229,7 @@ class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
             "topics",
         ]
 
+
 class UserSupportedOrganizationSerializer(serializers.ModelSerializer["Organization"]):
     """
     Lightweight serializer for a user's supported organizations.
@@ -246,16 +244,11 @@ class UserSupportedOrganizationSerializer(serializers.ModelSerializer["Organizat
         allow_null=True,
     )
     events = UserSupportedEventSerializer(many=True, read_only=True)
+
     class Meta:
         model = Organization  # resolved at module level; see import note below
-        fields = [
-            "id",
-            "name",
-            "tagline",
-            "texts",
-            "topics",
-            "events"
-        ]
+        fields = ["id", "name", "tagline", "texts", "topics", "events"]
+
 
 class UserSerializer(serializers.ModelSerializer[UserModel]):
     """
@@ -266,6 +259,7 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
     supported_organizations = UserSupportedOrganizationSerializer(
         many=True, read_only=True
     )
+
     class Meta:
         model = UserModel
         fields = [

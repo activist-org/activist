@@ -177,6 +177,7 @@ class EventAPIView(GenericAPIView[Event]):
 class EventDetailAPIView(APIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
     def get_permissions(self) -> Sequence[Any]:
         """
         Return permissions based on the HTTP method.
@@ -247,7 +248,9 @@ class EventDetailAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.serializer_class(event, data=request.data, partial=True, context={"request": request})
+        serializer = self.serializer_class(
+            event, data=request.data, partial=True, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -397,6 +400,7 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
 
+
 # MARK: Support
 
 
@@ -431,14 +435,17 @@ class EventSupportAPIView(GenericAPIView[EventSupport]):
             EventSupportSerializer(support, many=True).data, status=status.HTTP_200_OK
         )
 
+
 class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
     """
     API view for retrieving, updating, and deleting a specific event support.
     Only the supporter user or staff can delete the support.
     """
+
     serializer_class = EventSupportSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = EventSupport.objects.all()
+
     @extend_schema(
         responses={
             201: EventSupportSerializer,
@@ -461,7 +468,7 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
                     status=status.HTTP_404_NOT_FOUND,
                 )
             event = Event.objects.get(id=event_id)
-            serializer.save(supporter_user=request.user,event=event)
+            serializer.save(supporter_user=request.user, event=event)
             logger.info(f"EventSupport created by user {request.user.id}")
 
         except (IntegrityError, OperationalError) as e:
@@ -493,12 +500,17 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
             )
 
         try:
-            support = EventSupport.objects.get(event__id=pk, supporter_user=request.user)
+            support = EventSupport.objects.get(
+                event__id=pk, supporter_user=request.user
+            )
 
         except EventSupport.DoesNotExist as e:
-            logger.exception(f"EventSupport for event id {pk} does not exist for delete: {e}")
+            logger.exception(
+                f"EventSupport for event id {pk} does not exist for delete: {e}"
+            )
             return Response(
-                {"detail": "Support for this event not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Support for this event not found."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         if support.supporter_user.id != request.user.id and not request.user.is_staff:
@@ -513,6 +525,8 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
             {"message": "Support deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
 # MARK: FAQ
 
 

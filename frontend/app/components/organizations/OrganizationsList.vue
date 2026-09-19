@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     v-for="org in organizations"
@@ -10,6 +11,7 @@
     />
   </div>
 </template>
+
 <script setup lang="ts">
 defineProps<{
   organizations: Organization[];

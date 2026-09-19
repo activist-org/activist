@@ -7,7 +7,6 @@ from typing import Any
 from uuid import uuid4
 
 from django.db import models
-from django.db.models import Q
 
 from authentication import enums
 from content.models import Faq, Resource, SocialLink, Text
@@ -58,7 +57,7 @@ class Organization(models.Model):
         through="OrganizationFlag",
     )
     supporters_users: Any = models.ManyToManyField(
-            "authentication.UserModel",
+        "authentication.UserModel",
         through="OrganizationSupport",
         through_fields=("organization", "user_supporter"),
         related_name="supported_organizations",
@@ -69,8 +68,10 @@ class Organization(models.Model):
         through_fields=("organization", "org_supporter"),
         related_name="supported_organizations_by_org",
     )
+
     def __str__(self) -> str:
         return self.name
+
 
 class OrganizationSupport(models.Model):
     """
@@ -129,12 +130,18 @@ class OrganizationSupport(models.Model):
     @property
     def supporter(self) -> Any:
         """
-        Returns the actual supporter instance, regardless of type.
+        Return the actual supporter instance, regardless of type.
+
+        Returns
+        -------
+        Any
+            The instance of a user or organization.
         """
         return self.user_supporter or self.org_supporter
 
     def __str__(self) -> str:
         return f"{self.supporter} supports {self.organization}"
+
 
 # MARK: Application
 

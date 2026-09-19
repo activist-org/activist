@@ -64,7 +64,9 @@ class Event(models.Model):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
-    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag", related_name="flagged_events")
+    flags: Any = models.ManyToManyField(
+        "authentication.UserModel", through="EventFlag", related_name="flagged_events"
+    )
     supporters: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="EventSupport",
@@ -179,8 +181,6 @@ class EventFaq(Faq):
         ordering = ["order"]
 
 
-
-
 # MARK: Flag
 
 
@@ -196,7 +196,6 @@ class EventFlag(models.Model):
 
 
 # MARK: Support
-
 
 
 class EventSupport(models.Model):

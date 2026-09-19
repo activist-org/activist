@@ -412,6 +412,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 
         return event
 
+
 # MARK: Support
 
 
@@ -430,6 +431,7 @@ class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
         model = EventSupport
         fields = "__all__"
         read_only_fields = ["supporter_user", "creation_date", "event"]
+
     def create(self, validated_data: dict[str, Any]) -> EventSupport:
         """
         Create event support record.
@@ -448,6 +450,7 @@ class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
         logger.info(f"Created EventSupport with id {event_support.id}")
 
         return event_support
+
     def validate_event(self, value: Event | UUID | str) -> Event:
         """
         Validate that the event exists.
@@ -479,6 +482,7 @@ class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
 
         return event
 
+
 # MARK: Event
 
 
@@ -500,6 +504,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     icon_url = ImageSerializer(required=False)
     supporter_count = serializers.SerializerMethodField()
     is_supported_by_user = serializers.SerializerMethodField()
+
     class Meta:
         model = Event
 
@@ -507,20 +512,47 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "created_by": {"read_only": True},
         }
         exclude = ["supporters"]
+
     def get_is_supported_by_user(self, obj: Event) -> bool:
+        """
+        Check whether an event is supported by a user that is derived via a request.
+
+        Parameters
+        ----------
+        obj : Event
+            The event to check supporters for.
+
+        Returns
+        -------
+        bool
+            Whether the included user in the request supports the event or not.
+        """
         annotated = obj.supporters.exists()
         if annotated is None:
             return False
+
         request = self.context.get("request")
         if request is None or request.user.id is None:
             return False
+
         return obj.supporters.filter(pk=request.user.id).exists()
 
     def get_supporter_count(self, obj: Event) -> int:
         """
         Return the supporter tally, using the queryset annotation when present.
+
+        Parameters
+        ----------
+        obj : Event
+            The event that the total supporters should be returned for.
+
+        Returns
+        -------
+        int
+            The total supporters of the event.
         """
         return obj.supporters.count()
+
     def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
         Validate event data including time constraints and terms.
@@ -641,6 +673,7 @@ class EventFlagSerializers(serializers.ModelSerializer[EventFlag]):
     class Meta:
         model = EventFlag
         fields = "__all__"
+
 
 # MARK: Format
 
