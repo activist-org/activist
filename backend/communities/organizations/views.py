@@ -446,7 +446,7 @@ class OrganizationDetailAPIView(APIView):
 
         try:
             org = Organization.objects.get(id=id)
-            serializer = OrganizationSerializer(org)
+            serializer = OrganizationSerializer(org, context={"request": request})
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Organization.DoesNotExist:
@@ -497,6 +497,7 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
+        context = {"request": request}
         if id is None:
             return Response(
                 {"detail": "Organization ID is required."},
@@ -518,7 +519,7 @@ class OrganizationDetailAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.serializer_class(org, data=request.data, partial=True)
+        serializer = self.serializer_class(org, data=request.data, partial=True, context=context)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

@@ -19,9 +19,11 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const {isUserSignedIn} = useUser();
+const { isUserSignedIn } = useUser();
 const menuItemsForSidebar = computed(() => {
-  return isUserSignedIn.value ? menuItems : menuItems.filter(item => item.label !== 'Home');
+  return isUserSignedIn.value
+    ? menuItems
+    : menuItems.filter((item) => item.routeUrl !== "/home");
 });
 const isActive = (routeUrl: string) => {
   return isTopLevelRouteActive(routeUrl, route.path);
@@ -31,7 +33,7 @@ const getSelectorId = (label: string) => {
   const idMap: Record<string, string> = {
     organizations: "organizations",
     events: "events",
-    home: "home"
+    home: "home",
   };
 
   const key = Object.keys(idMap).find((k) => label.includes(k));

@@ -24,6 +24,7 @@ export function mapOrganization(res: OrganizationResponse): Organization {
     texts: res.texts ?? [],
     supporterUserCount: res.supporterUserCount ?? 0,
     supporterOrgCount: res.supporterOrgCount ?? 0,
+    isSupportedByUser: res.isSupportedByUser ?? false,
   };
 }
 

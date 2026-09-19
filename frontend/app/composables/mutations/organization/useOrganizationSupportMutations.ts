@@ -22,6 +22,7 @@ export function useOrganizationSupportMutations(orgId:MaybeRef<string>, options:
       if (previousOrganization) {
         if (vars === "user") {
           previousOrganization.supporterUserCount = (previousOrganization.supporterUserCount ?? 0) + 1;
+          previousOrganization.isSupportedByUser = true;
         } else if (vars === "org") {
           previousOrganization.supporterOrgCount = (previousOrganization.supporterOrgCount ?? 0) + 1;
         }
@@ -62,6 +63,7 @@ export function useOrganizationSupportMutations(orgId:MaybeRef<string>, options:
           previousOrganization.supporterUserCount = (previousOrganization.supporterUserCount ?? 0) - 1;
         } else if (vars === "org") {
           previousOrganization.supporterOrgCount = (previousOrganization.supporterOrgCount ?? 0) - 1;
+          previousOrganization.isSupportedByUser = false;
         }
         queryCache.setQueryData(key, {
           ...previousOrganization,

@@ -499,7 +499,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
     icon_url = ImageSerializer(required=False)
     supporter_count = serializers.SerializerMethodField()
-
+    is_supported_by_user = serializers.SerializerMethodField()
     class Meta:
         model = Event
 
@@ -507,12 +507,20 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "created_by": {"read_only": True},
         }
         exclude = ["supporters"]
+    def get_is_supported_by_user(self, obj: Event) -> bool:
+        annotated = obj.supporters.exists()
+        if annotated is None:
+            return False
+        request = self.context.get("request")
+        if request is None or request.user.id is None:
+            return False
+        return obj.supporters.filter(pk=request.user.id).exists()
 
     def get_supporter_count(self, obj: Event) -> int:
         """
         Return the supporter tally, using the queryset annotation when present.
         """
-        return getattr(obj, "_supporter_count", None) or obj.supporters.count()
+        return obj.supporters.count()
     def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
         Validate event data including time constraints and terms.

@@ -23,7 +23,9 @@ export function mapEvent(res: EventResponse): EventResponse {
     creationDate: res.creationDate,
     orgs: res.orgs,
     texts: res.texts ?? [],
+    topics: res.topics ?? [],
     supporterCount: res.supporterCount ?? 0,
+    isSupportedByUser: res.isSupportedByUser ?? false
   };
 }
 

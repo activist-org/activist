@@ -184,7 +184,7 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
     topics = TopicSerializer(many=True, required=False)
     country_code = serializers.CharField(max_length=3, default="en")
     city = serializers.CharField(max_length=255)
-    
+
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Validate the data being posted.
@@ -301,13 +301,20 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     icon_url = ImageSerializer(required=False)
     supporter_user_count = serializers.SerializerMethodField()
     supporter_org_count = serializers.SerializerMethodField()
+    is_supported_by_user = serializers.SerializerMethodField()
 
     def get_supporter_user_count(self, obj: Organization) -> int:
             return getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
     def get_supporter_org_count(self, obj: Organization) -> int:
             return getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
-
-
+    def get_is_supported_by_user(self, obj: Organization) -> bool:
+        annotated = obj.supporters_users.exists()
+        if annotated is None:
+            return False
+        request = self.context.get("request")
+        if request is None or not request.user.id:
+            return False
+        return obj.supporters_users.filter(pk=request.user.pk).exists()
     class Meta:
         model = Organization
 

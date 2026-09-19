@@ -105,7 +105,9 @@ const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const { createSupport, deleteSupport } = useOrganizationSupportMutations(orgId);
 const { isUserSignedIn } = useUser();
-const { toggle, state: toggleState } = useToggle();
+const isOrganizationSupportedByUser = computed(() => {
+  return organization?.value?.isSupportedByUser || false;
+});
 // MARK: Support Event Functions
 const createSupportEvent = () => {
   createSupport("user");
@@ -114,9 +116,8 @@ const deleteSupportEvent = () => {
   deleteSupport("user");
 };
 const handleSupport = () => {
-  toggle();
-  if (toggleState.value) return createSupportEvent();
-  deleteSupportEvent();
+  if (isOrganizationSupportedByUser.value) return deleteSupportEvent();
+  createSupportEvent();
 };
 
 const textExpanded = ref(false);

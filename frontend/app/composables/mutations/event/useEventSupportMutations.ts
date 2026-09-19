@@ -22,6 +22,7 @@ export function useEventSupportMutations(eventId:MaybeRef<string>, options: Opti
         queryCache.setQueryData(key, {
           ...previousEvent,
           supporterCount: (previousEvent.supporterCount ?? 0) + 1,
+          isSupportedByUser: true,
         });
       }
       return { previousEvent };
@@ -56,6 +57,7 @@ export function useEventSupportMutations(eventId:MaybeRef<string>, options: Opti
         queryCache.setQueryData(key, {
           ...previousEvent,
           supporterCount: previousEvent.supporterCount ?? 0 ? (previousEvent.supporterCount ?? 0) - 1 : 0,
+          isSupportedByUser: false,
         });
       }
       return { previousEvent };

@@ -101,11 +101,11 @@ const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
-const { toggle, state: toggleState } = useToggle(false);
 const { data: event } = useGetEvent(eventId);
 const { createSupport: createSupportEvent, deleteSupport: deleteSupportEvent } =
   useEventSupportMutations(eventId);
 const { isUserSignedIn } = useUser();
+const isEventSupported = computed(() => event.value?.isSupportedByUser);
 const { downloadEventCalendar } = useDownloadEventCalendar();
 
 // MARK: Support Event Functions
@@ -116,9 +116,8 @@ const deleteSupport = () => {
   deleteSupportEvent();
 };
 const handleSupport = () => {
-  toggle();
-  if (toggleState.value) return createSupport();
-  deleteSupport();
+  if (isEventSupported.value) return deleteSupport();
+  createSupport();
 };
 
 // MARK: Text Expansion Functions

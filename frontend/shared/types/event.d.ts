@@ -18,6 +18,7 @@ interface EventBase extends Entity {
   resources?: Resource[];
   supporterCount?: number;
   topics: TopicMapType[];
+  isSupportedByUser?: boolean;
   // task?: Task[];
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];

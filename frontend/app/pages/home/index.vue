@@ -40,10 +40,25 @@ const selectedTopics = ref<TopicMapType[]>([]);
 const { t } = useI18n();
 const { data } = useGetUser();
 const route = useRoute();
+const router = useRouter();
 
-const onSelectedTopicsUpdate = (topics: TopicMapType[]) => {
-  selectedTopics.value = topics;
+watch(
+  () => route.query.topics,
+  (newVal) => {
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicMapType[];
+  },
+  { immediate: true }
+);
+const onSelectedTopicsUpdate = (selectedTopics: TopicMapType[]) => {
+  const query = { ...route.query };
+  if (selectedTopics.length > 0) {
+    query.topics = selectedTopics;
+  } else {
+    delete query.topics;
+  }
+  router.replace({ query });
 };
+
 const filterBySelectedTopics = <T extends { topics?: TopicMapType[] }>(items: T[]) => {
   return items.filter(item => selectedTopics.value.length === 0 || (item?.topics ?? []).some(topic => selectedTopics.value.includes(topic)));
 };

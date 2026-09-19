@@ -206,7 +206,7 @@ class EventDetailAPIView(APIView):
 
         try:
             event = self.queryset.get(id=id)
-            serializer = self.serializer_class(event)
+            serializer = self.serializer_class(event, context={"request": request})
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Event.DoesNotExist as e:
@@ -247,7 +247,7 @@ class EventDetailAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.serializer_class(event, data=request.data, partial=True)
+        serializer = self.serializer_class(event, data=request.data, partial=True, context={"request": request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

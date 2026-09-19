@@ -11,19 +11,23 @@
       v-if="sidebarTypeToDisplay === sidebarOrganizationPage"
       :logo-url="logoUrl"
     />
+    <SidebarLeftFilterHome
+      v-if="sidebarTypeToDisplay === sidebarHomePage"
+      :logo-url="logoUrl"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 const sidebarOrganizationPage = SidebarMap.ORGANIZATIONS_PAGE;
 const sidebarEventPage = SidebarMap.EVENTS_PAGE;
+const sidebarHomePage = SidebarMap.HOME;
 
 const props = defineProps<{
   sidebarType:
-    typeof SidebarMap.EVENTS_PAGE | typeof SidebarMap.ORGANIZATIONS_PAGE;
+    typeof SidebarMap.EVENTS_PAGE | typeof SidebarMap.ORGANIZATIONS_PAGE | typeof SidebarMap.HOME;
   logoUrl?: string;
 }>();
-
 const logoUrl = ref(props.logoUrl);
 
 const sidebarTypeToDisplay = computed(() => props.sidebarType);

@@ -25,6 +25,8 @@ interface OrganizationBase extends Entity {
   images?: ContentImage[];
   // task?: Task[];
   topics?: TopicMapType[];
+  events?: CommunityEvent[];
+  isSupportedByUser?: boolean;
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
 }

@@ -4,3 +4,7 @@ export interface Support {
   id: string;
   event: string;
 }
+ export interface SupportOrganizationAndEventFilters {
+  name?: string;
+  topics?: TopicMapType[];
+}
