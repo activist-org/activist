@@ -49,6 +49,7 @@ dependencies = [
     "types-pyyaml>=6.0.12.20260906",
     "typing-extensions>=4.16.0",
     "tzdata>=2026.4",
+    "pysentry-rs>=0.5.0",
 ]
 
 [dependency-groups]

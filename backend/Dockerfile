@@ -13,6 +13,9 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 ENV UV_LINK_MODE=copy
 ENV UV_SYSTEM_PYTHON=true
 
+# Install system dependencies (build-base is required for some Python packages).
+RUN apk add --no-cache build-base
+
 # Install dependencies.
 COPY ./pyproject.toml ./uv.lock* ./
 RUN uv sync --frozen --no-dev
