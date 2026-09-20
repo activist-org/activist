@@ -10,7 +10,7 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_user_retrieve_ok_200(authenticated_client):
+def test_auth_user_retrieve_ok_200(authenticated_client):
     client, user = authenticated_client
 
     response = client.get(path=f"/v1/auth/users/{user.id}")
@@ -22,7 +22,7 @@ def test_user_retrieve_ok_200(authenticated_client):
     assert response_body["email"] == user.email
 
 
-def test_user_retrieve_unauthenticated_ok_200():
+def test_auth_user_retrieve_unauthenticated_ok_200():
     client = APIClient()
     user = UserFactory()
 
@@ -31,7 +31,7 @@ def test_user_retrieve_unauthenticated_ok_200():
     assert response.status_code == status.HTTP_200_OK
 
 
-def test_user_retrieve_not_found_404(authenticated_client):
+def test_auth_user_retrieve_not_found_404(authenticated_client):
     client, user = authenticated_client
 
     response = client.get(path=f"/v1/auth/users/{uuid4()}")
