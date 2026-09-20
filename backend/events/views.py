@@ -425,7 +425,12 @@ class EventSupportAPIView(GenericAPIView[EventSupport]):
     )
     def get(self, request: Request) -> Response:
         try:
-            support = EventSupport.objects.filter(user_supporter__id=request.user.id)
+            if not request.user.is_authenticated:
+                return Response(
+                    {"detail": "Authentication credentials were not provided."},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+            support = EventSupport.objects.filter(supporter_user__id=request.user.id)
         except EventSupport.DoesNotExist:
             return Response(
                 {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
@@ -498,7 +503,11 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
                 {"detail": "Event ID is required to delete support."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
         try:
             support = EventSupport.objects.get(
                 event__id=pk, supporter_user=request.user

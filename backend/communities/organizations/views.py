@@ -180,6 +180,11 @@ class OrganizationSupportAPIView(GenericAPIView[OrganizationSupport]):
         },
     )
     def get(self, request: Request) -> Response:
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
         try:
             support = OrganizationSupport.objects.filter(
                 user_supporter__id=request.user.id
@@ -231,7 +236,7 @@ class OrganizationSupportDetailAPIView(viewsets.ModelViewSet[OrganizationSupport
                 )
 
             organization = Organization.objects.get(id=organization_id)
-            type_support = request.data.get("supporter_type")
+            type_support: str | None = request.data.get("supporter_type") if isinstance(request.data, dict) else None
             if type_support is None:
                 return Response(
                     {"detail": "Type of support is required."},
@@ -250,10 +255,10 @@ class OrganizationSupportDetailAPIView(viewsets.ModelViewSet[OrganizationSupport
 
             elif type_support == "org":
                 serializer.save(
-                    org_supporter=request.user.organization, organization=organization
+                    org_supporter=request.user.id, organization=organization
                 )
                 logger.info(
-                    f"OrganizationSupport created by organization {request.user.organization.id}"
+                    f"OrganizationSupport created by organization {request.user.id}"
                 )
 
         except (IntegrityError, OperationalError) as e:
@@ -284,11 +289,11 @@ class OrganizationSupportDetailAPIView(viewsets.ModelViewSet[OrganizationSupport
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        org = request.data.get("org")
+        org = request.data.get("org") if isinstance(request.data, dict) else None
         try:
             support = OrganizationSupport.objects.get(
-                Q(organization__id=pk, user_supporter=request.user)
-                | Q(organization__id=pk, org_supporter=org)
+                Q(organization__id=pk, org_supporter=org)
+                | Q(organization__id=pk, user_supporter=request.user)
             )
 
         except OrganizationSupport.DoesNotExist as e:

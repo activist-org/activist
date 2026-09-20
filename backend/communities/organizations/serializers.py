@@ -316,7 +316,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         int
             The total users that support the organization.
         """
-        return (
+        return int(
             getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
         )
 
@@ -334,7 +334,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         int
             The total organizations that support the organization.
         """
-        return getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+        return int(getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count())
 
     def get_is_supported_by_user(self, obj: Organization) -> bool:
         """
@@ -358,7 +358,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         if request is None or not request.user.id:
             return False
 
-        return obj.supporters_users.filter(pk=request.user.pk).exists()
+        return bool(obj.supporters_users.filter(pk=request.user.pk).exists())
 
     class Meta:
         model = Organization
@@ -436,17 +436,16 @@ class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupp
 
     Notes
     -----
-    `supporter_user` is always set from the requesting user in the view,
-    so clients only ever provide the organization (and only when the organization id
-    isn't already in the URL).
+    `user_supporter` / `org_supporter` / `organization` are set by the view
+    (from the URL and requesting user), never from client payload.
     """
 
     class Meta:
         model = OrganizationSupport
         fields = "__all__"
         read_only_fields = [
-            "supporter_user",
-            "supporter_org",
+            "user_supporter",
+            "org_supporter",
             "creation_date",
             "organization",
         ]
@@ -466,40 +465,9 @@ class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupp
             Created OrganizationSupport instance.
         """
         org_support = OrganizationSupport.objects.create(**validated_data)
-        logger.info(f"Created OrganizationSupport with id {org_support.id}")
+        logger.info(f"OrganizationSupport created with id {org_support.id}")
 
         return org_support
-
-    def validate_organization(self, value: Organization | UUID | str) -> Organization:
-        """
-        Validate that the organization exists.
-
-        Parameters
-        ----------
-        value : Organization | UUID | str
-            The value to validate: an Organization instance, UUID, or string id.
-
-        Returns
-        -------
-        Organization
-            The validated Organization instance.
-
-        Raises
-        ------
-        serializers.ValidationError
-            If the organization does not exist.
-        """
-        if isinstance(value, Organization):
-            return value
-
-        try:
-            org = Organization.objects.get(id=value)
-            logger.info(f"Organization found for value: {value}")
-
-        except Organization.DoesNotExist as e:
-            raise serializers.ValidationError("Organization not found.") from e
-
-        return org
 
 
 # MARK: Application

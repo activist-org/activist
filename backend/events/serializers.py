@@ -535,7 +535,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         if request is None or request.user.id is None:
             return False
 
-        return obj.supporters.filter(pk=request.user.id).exists()
+        return bool(obj.supporters.filter(pk=request.user.id).exists())
 
     def get_supporter_count(self, obj: Event) -> int:
         """
@@ -551,7 +551,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         int
             The total supporters of the event.
         """
-        return obj.supporters.count()
+        return int(obj.supporters.count())
 
     def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
