@@ -1,8 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div
-    class="mx-1 rounded-md bg-layer-2 pb-1 pt-1 transition-all duration-500 elem-shadow-sm"
-  >
+  <div class="card-style mx-1 pb-1 pt-1 transition-all duration-500">
     <SidebarLeftFilterEvents
       v-if="sidebarTypeToDisplay === sidebarEventPage"
       :logo-url="logoUrl"
