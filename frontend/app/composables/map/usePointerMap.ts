@@ -2,7 +2,7 @@
 import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 
 export const usePointerMap = () => {
   const {
