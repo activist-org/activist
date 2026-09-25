@@ -61,7 +61,9 @@ def test_auth_user_flag_create_unauthorized_401():
 
 
 @pytest.mark.parametrize("database_error", [IntegrityError, OperationalError])
-def test_auth_user_flag_create_database_error_400(authenticated_client, database_error):
+def test_auth_user_flag_create_database_error_bad_request_400(
+    authenticated_client, database_error
+):
     client, user = authenticated_client
     serializer = MagicMock()
     serializer.is_valid.return_value = None

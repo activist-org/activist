@@ -45,7 +45,9 @@ def test_auth_reset_pw_invalid_email_ok_200(authenticated_client) -> None:
     assert response.status_code == status.HTTP_200_OK
 
 
-def test_auth_reset_pw_invalid_payload_format_400(authenticated_client) -> None:
+def test_auth_reset_pw_invalid_payload_format_bad_request_400(
+    authenticated_client,
+) -> None:
     client, user = authenticated_client
 
     response = client.post(path="/v1/auth/pwreset", data=["invalid"], format="json")

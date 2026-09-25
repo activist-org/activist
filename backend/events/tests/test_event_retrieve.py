@@ -61,7 +61,7 @@ def test_event_retrieve_not_found_404(client: Client) -> None:
     assert response_body["detail"] == "Event Not Found."
 
 
-def test_event_serializer_support_methods():
+def test_event_retrieve_serializer_support_methods():
     event = EventFactory()
     serializer = EventSerializer(event)
 

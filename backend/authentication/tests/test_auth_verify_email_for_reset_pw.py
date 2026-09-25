@@ -46,7 +46,7 @@ def test_auth_verify_email_for_reset_pw_invalid_code_not_found_404(
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_verify_email_for_reset_pw_invalid_payload_format_400(
+def test_auth_verify_email_for_reset_pw_invalid_payload_format_bad_request_400(
     authenticated_client,
 ) -> None:
     client, user = authenticated_client
