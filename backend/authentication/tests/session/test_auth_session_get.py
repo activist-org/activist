@@ -32,7 +32,7 @@ def test_auth_session_get_unauthorized_401():
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_auth_session_view_get_anonymous_user_unauthorized_401():
+def test_auth_session_get_view_anonymous_user_unauthorized_401():
     request = APIRequestFactory().get("/v1/auth/sessions")
     request.user = AnonymousUser()
 
