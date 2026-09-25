@@ -45,6 +45,18 @@ def test_auth_reset_pw_invalid_email_ok_200(authenticated_client) -> None:
     assert response.status_code == status.HTTP_200_OK
 
 
+def test_auth_reset_pw_invalid_payload_format_400(authenticated_client) -> None:
+    client, user = authenticated_client
+
+    response = client.post(path="/v1/auth/pwreset", data=["invalid"], format="json")
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert (
+        response.data["detail"]
+        == "Invalid payload format for request. Expected a JSON object."
+    )
+
+
 def test_auth_reset_pw_invalid_verification_code_not_found_404(
     authenticated_client,
 ) -> None:

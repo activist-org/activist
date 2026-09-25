@@ -13,7 +13,7 @@
       <ComboboxTopics
         @update:selected-topics="onSelectedTopicsUpdate"
         class="pb-3 lg:pb-4"
-        :selected-topics="selectedTopics"
+        :receivedSelectedTopics="selectedTopics"
       />
     </HeaderAppPage>
     <h2>

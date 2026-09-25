@@ -31,4 +31,3 @@ def test_auth_str_methods() -> None:
     user = UserFactory.build()
 
     assert str(user) == user.username
-

@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
+from unittest.mock import MagicMock, patch
 
 import pytest
+from django.db.utils import IntegrityError, OperationalError
 from rest_framework import status
 from rest_framework.test import APIClient
 
@@ -56,3 +58,24 @@ def test_auth_user_flag_create_unauthorized_401():
     logger.info(
         f"Authentication error correctly returned, status: {response.status_code}"
     )
+
+
+@pytest.mark.parametrize("database_error", [IntegrityError, OperationalError])
+def test_auth_user_flag_create_database_error_400(authenticated_client, database_error):
+    client, user = authenticated_client
+    serializer = MagicMock()
+    serializer.is_valid.return_value = None
+    serializer.save.side_effect = database_error("Database error")
+    serializer_class = MagicMock(return_value=serializer)
+
+    with patch(
+        "authentication.views.UserFlagAPIView.get_serializer_class",
+        return_value=serializer_class,
+    ):
+        response = client.post(
+            path="/v1/auth/user_flags",
+            data={"user": user.id, "created_by": user.id},
+        )
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.data["detail"] == "Failed to create flag."
