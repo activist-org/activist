@@ -142,9 +142,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         responses={
             200: GroupSerializer,
             400: OpenApiResponse(response={"detail": "Group ID is required."}),
-            401: OpenApiResponse(
-                response={"detail": "You are not authorized to update this group."}
-            ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to perform this action."}
             ),
@@ -177,11 +174,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
     @extend_schema(
         responses={
-            200: OpenApiResponse(response={"message": "Group deleted successfully."}),
+            204: OpenApiResponse(response={"message": "Group deleted successfully."}),
             400: OpenApiResponse(response={"detail": "Group ID is required."}),
-            401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this group."}
-            ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to perform this action."}
             ),
@@ -294,9 +288,6 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     @extend_schema(
         responses={
             204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
-            401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this flag."}
-            ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
             ),
