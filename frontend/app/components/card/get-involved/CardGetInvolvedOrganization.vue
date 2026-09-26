@@ -7,7 +7,7 @@
           {{ t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit
-          v-if="userIsSignedIn"
+          v-if="isUserSignedIn"
           @click="
             () =>
               openModalTextOrganization({
@@ -97,7 +97,7 @@ const { openModal: openModalTextOrganization } = useModalHandlers(
 );
 
 const { t } = useI18n();
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";

@@ -103,6 +103,23 @@ class TestSignUpSerializer:
         assert not serializer.is_valid()
         assert serializer.errors["email"][0].code == "required"
 
+    def test_auth_serializers_create_exception(self) -> None:
+        data = {
+            "username": "serializer_error_user",
+            "password": "StrongPass!123",
+            "password_confirmed": "StrongPass!123",
+            "email": "serializer_error_user@example.com",
+        }
+        serializer = SignUpSerializer(data=data)
+        assert serializer.is_valid()
+
+        with patch(
+            "authentication.serializers.UserModel.objects.create_user",
+            side_effect=ValueError("User creation failed"),
+        ):
+            with pytest.raises(ValueError, match="User creation failed"):
+                serializer.save()
+
 
 @pytest.mark.django_db
 class TestSignInSerializer:
@@ -163,6 +180,20 @@ class TestSignInSerializer:
 
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "email_not_confirmed"
+
+    @patch("authentication.serializers.RefreshToken.for_user")
+    @patch("authentication.serializers.authenticate")
+    def test_auth_serializers_token_creation_exception(
+        self, mock_authenticate, mock_for_user, _user
+    ) -> None:
+        mock_authenticate.return_value = _user
+        mock_for_user.side_effect = ValueError("Token creation failed")
+        serializer = SignInSerializer(
+            data={"email": _user.email, "password": "ValidPass!123"}
+        )
+
+        with pytest.raises(ValueError, match="Token creation failed"):
+            serializer.is_valid(raise_exception=True)
 
 
 @pytest.mark.django_db

@@ -7,7 +7,7 @@
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
-      userIsSignedIn
+      isUserSignedIn
         ? t('i18n.components.dropdown_user_options.username')
         : t('i18n.components.dropdown_user_options.join_activist')
     "
@@ -15,7 +15,7 @@
   >
     <DropdownItemsLayout
       :location="location"
-      :options="userIsSignedIn ? userOptionsSignedIn : userOptionsSignedOut"
+      :options="isUserSignedIn ? userOptionsSignedIn : userOptionsSignedOut"
     />
   </DropdownBase>
 </template>
@@ -27,7 +27,7 @@ defineProps<{
 
 const { t } = useI18n();
 const { clear } = useUserSession();
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const { openModal: openModalCreateEvent } =
   useModalHandlers("ModalCreateEvent");

@@ -15,14 +15,3 @@ class StatusTypes(Enum):
     ACTIVE = 2
     SUSPENDED = 3
     BANNED = 4
-
-
-class SupportEntityTypes(Enum):
-    """
-    Defines the types of entities that can support users.
-    """
-
-    ORGANIZATION = 1
-    GROUP = 2
-    EVENT = 3
-    USER = 4

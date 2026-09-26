@@ -46,6 +46,24 @@ def test_auth_verify_email_for_reset_pw_invalid_code_not_found_404(
     assert response.data["detail"] == "User does not exist."
 
 
+def test_auth_verify_email_for_reset_pw_invalid_payload_format_bad_request_400(
+    authenticated_client,
+) -> None:
+    client, user = authenticated_client
+
+    response = client.post(
+        path=f"/v1/auth/verify_email_password/{user.verification_code}",
+        data=["invalid"],
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert (
+        response.data["detail"]
+        == "Invalid payload format for request. Expected a JSON object."
+    )
+
+
 def test_auth_verify_email_for_reset_pw_reused_code_not_found_404(
     authenticated_client,
 ) -> None:
