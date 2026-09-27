@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useMap } from "../../../app/composables";
@@ -79,12 +79,6 @@ vi.mock("../../../app/composables/map/useRoutingMap", () => {
 
 vi.mock("maplibre-gl", () => {
   return {
-    default: {
-      Map: MockMap,
-      NavigationControl: MockNavigationControl,
-      FullscreenControl: MockFullscreenControl,
-      GeolocateControl: MockGeolocateControl,
-    },
     Map: MockMap,
     NavigationControl: MockNavigationControl,
     FullscreenControl: MockFullscreenControl,

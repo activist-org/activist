@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type maplibregl from "maplibre-gl";
+import type * as maplibregl from "maplibre-gl";
 import type { LayerSpecification } from "maplibre-gl";
 
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
