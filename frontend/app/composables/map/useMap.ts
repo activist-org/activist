@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import maplibregl, { type LayerSpecification } from "maplibre-gl";
+import type { LayerSpecification } from "maplibre-gl";
+
+import * as maplibregl from "maplibre-gl";
 
 export const useMap = () => {
   const { t } = useI18n();

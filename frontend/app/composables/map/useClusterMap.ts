@@ -3,7 +3,7 @@ import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import type { Feature, GeoJsonProperties, Point } from "geojson";
 
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 
 export const useClusterMap = () => {
   const { createPointerMarker } = usePointerMap();
@@ -408,7 +408,7 @@ export const useClusterMap = () => {
       const markers: { [key: string]: maplibregl.Marker } = {};
       let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
 
-      map.on("zoomed", () => {
+      map.on("zoom", () => {
         const currentZoom = map.getZoom();
 
         if (currentZoom < DECLUSTER_ZOOM) {
