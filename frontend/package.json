@@ -125,7 +125,7 @@
     "vue-sonner": "2.0.9",
     "vuedraggable": "4.1.0",
     "wait-on": "9.0.10",
-    "zod": "3.25.76",
+    "zod": "4.5.4",
     "zxcvbn": "4.4.2"
   },
   "resolutions": {
