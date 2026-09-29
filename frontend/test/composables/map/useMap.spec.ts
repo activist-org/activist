@@ -83,6 +83,7 @@ vi.mock("maplibre-gl", () => {
     NavigationControl: MockNavigationControl,
     FullscreenControl: MockFullscreenControl,
     GeolocateControl: MockGeolocateControl,
+    setWorkerUrl: vi.fn(),
   };
 });
 

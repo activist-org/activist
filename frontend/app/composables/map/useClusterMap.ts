@@ -418,18 +418,7 @@ export const useClusterMap = () => {
           map.setLayoutProperty("clusters", "visibility", "none");
           map.setLayoutProperty("unclustered-points", "visibility", "visible");
         }
-
-        // Force re-render of markers.
-        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
-          map,
-          markers,
-          markersOnScreen,
-          directions,
-          clusterTooltipCreate,
-          clusterProperties,
-          pointerTooltipCreate
-        );
-        markersOnScreen = newMarkersOnScreen;
+        // Note: Markers are updated on moveend, as updating them on every zoom frame duplicates them.
       });
 
       map.on("moveend", () => {

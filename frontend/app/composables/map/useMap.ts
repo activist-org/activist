@@ -2,6 +2,7 @@
 import type { LayerSpecification } from "maplibre-gl";
 
 import * as maplibregl from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 
 export const useMap = () => {
   const { t } = useI18n();
@@ -103,6 +104,8 @@ export const useMap = () => {
   };
 
   const createMap = (mapLayers: LayerSpecification[]) => {
+    // Note: maplibre-gl v6 can't locate its worker once bundled by Vite.
+    maplibregl.setWorkerUrl(workerUrl);
     const map = new maplibregl.Map({
       container: "map",
       style: {
