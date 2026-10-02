@@ -1,12 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="relative flex rounded-md elem-shadow-sm md:absolute xl:rounded-lg"
+    class="relative flex rounded-md elem-shadow-sm sm:rounded-lg md:absolute"
   >
     <button
       @click.stop="emit('main-btn-clicked')"
       :aria-label="t(ariaLabel)"
-      class="btn-base-class rounded-l-md rounded-r-none shadow-none xl:rounded-l-lg"
+      class="btn-base-class rounded-l-md rounded-r-none shadow-none sm:rounded-l-lg"
       :class="btnDynamicClass"
     >
       <BtnIconsLabel
@@ -19,13 +19,13 @@
     <Menu as="div" class="relative">
       <MenuButton
         :aria-label="t(ariaLabelDropdown)"
-        class="btn-base-class rounded-l-none rounded-r-md border-l-0 shadow-none xl:rounded-r-lg"
+        class="btn-base-class rounded-l-none rounded-r-md border-l-0 shadow-none sm:rounded-r-lg"
         :class="btnDynamicClass"
       >
         <Icon :name="dropdownIcon" :size="iconSize" />
       </MenuButton>
       <MenuItems
-        class="elem-shadow-lg z-100 absolute right-0 top-full mt-2 flex w-max flex-col gap-2 rounded-md bg-layer-1 p-2 ring-1 ring-black/5 focus:outline-none"
+        class="elem-shadow-lg z-100 absolute right-0 top-full mt-2 flex w-max flex-col gap-2 rounded-md bg-layer-1 p-2 ring-1 ring-black/5 focus:outline-none sm:rounded-lg"
       >
         <MenuItem
           v-for="option in dropdownOptions"

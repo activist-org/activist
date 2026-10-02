@@ -18,7 +18,9 @@
       <div
         class="flex w-[75%] items-center space-x-2 lg:flex-row lg:items-center lg:justify-around lg:space-y-0"
       >
-        <div class="flex w-full items-end justify-around lg:space-x-3">
+        <div
+          class="card-style flex w-full items-end justify-around p-3 lg:space-x-3"
+        >
           <FormTextInputSearch
             id="organization-events-search"
             v-model="name"
