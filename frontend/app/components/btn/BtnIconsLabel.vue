@@ -38,3 +38,14 @@ defineProps<{
 
 const { t } = useI18n();
 </script>
+<docs>
+### Usage
+
+A button component that supports a label, optional left and right icons, and an optional counter.
+
+```vue
+<BtnIconsLabel
+  label="Notifications"
+  leftIcon="bell"
+  :counter="5"
+/>
