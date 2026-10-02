@@ -5986,25 +5986,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:14.3.0":
-  version: 14.3.0
-  resolution: "@vueuse/core@npm:14.3.0"
+"@vueuse/core@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@vueuse/core@npm:14.4.0"
   dependencies:
     "@types/web-bluetooth": "npm:^0.0.21"
-    "@vueuse/metadata": "npm:14.3.0"
-    "@vueuse/shared": "npm:14.3.0"
+    "@vueuse/metadata": "npm:14.4.0"
+    "@vueuse/shared": "npm:14.4.0"
   peerDependencies:
     vue: ^3.5.0
-  checksum: 10c0/05693b2c9eb30d2aa6dad4f6b066c114e8ae81592f43d2a171bdd469e0b422a8fbaa924b3994d5f3dc19db3e4011b5630142e78e8e93235c2a22bfa2d2227dad
+  checksum: 10c0/3f1b61d0669ea118db9b22d8f71748d6b72a3d7a84e1e08343b02568097a43c32aa0cd65912df95cd923156e2b93adccd40b0f1f54fb34a24315ba5814ef3055
   languageName: node
   linkType: hard
 
-"@vueuse/integrations@npm:14.3.0":
-  version: 14.3.0
-  resolution: "@vueuse/integrations@npm:14.3.0"
+"@vueuse/integrations@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@vueuse/integrations@npm:14.4.0"
   dependencies:
-    "@vueuse/core": "npm:14.3.0"
-    "@vueuse/shared": "npm:14.3.0"
+    "@vueuse/core": "npm:14.4.0"
+    "@vueuse/shared": "npm:14.4.0"
   peerDependencies:
     async-validator: ^4
     axios: ^1
@@ -6044,49 +6044,49 @@ __metadata:
       optional: true
     universal-cookie:
       optional: true
-  checksum: 10c0/33034e65c8c2135b2c347b44c80213a1c0fc6e8706e791009e869e9e835591624c14bfa55e65a15a691c5900bb11b7e387f3188d177b4699b9be3a335fb37091
+  checksum: 10c0/8b0b2a6cca4338c42ce57875d49167dc9fe51a9bdbb619fa4212f9ce7f496a16a226a84a7af762ce7bb2aa6be9014f950ee5d09259005306b23c638b881173cd
   languageName: node
   linkType: hard
 
-"@vueuse/math@npm:14.3.0":
-  version: 14.3.0
-  resolution: "@vueuse/math@npm:14.3.0"
+"@vueuse/math@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@vueuse/math@npm:14.4.0"
   dependencies:
-    "@vueuse/shared": "npm:14.3.0"
+    "@vueuse/shared": "npm:14.4.0"
   peerDependencies:
     vue: ^3.5.0
-  checksum: 10c0/acc899beddbb6a8b6b63edb5996b44bfd2477a2886ce6cdedd7af77ae0f03da0001fd1316cfbdeca9157b2c10c0fa0a899a074b962ace49c9839db90b6b2ffde
+  checksum: 10c0/07df8a2a28f1b3adca8a672c411654f5f81c92b670b5811eaf7ef09217193afc76820a90a6289deb911baa9824d53f1742a1f164d46ff1a438c378595a04e45f
   languageName: node
   linkType: hard
 
-"@vueuse/metadata@npm:14.3.0":
-  version: 14.3.0
-  resolution: "@vueuse/metadata@npm:14.3.0"
-  checksum: 10c0/2b2c34057ecd0116ad80ba96170491575f4e5f5ee4d94b48dddc68ed156f4167cbbc9716107913b931ab1466591dd0f5962fdfb99bd455449a2e2af304a58936
+"@vueuse/metadata@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@vueuse/metadata@npm:14.4.0"
+  checksum: 10c0/f68e8213c9744be5d5b90554854db9a0707a07c343229484edf76e9877ed8f2dd0c323486fea001ab771df4d1d805d2ab1f079155219aae28bb593d7605acc7a
   languageName: node
   linkType: hard
 
-"@vueuse/nuxt@npm:14.3.0":
-  version: 14.3.0
-  resolution: "@vueuse/nuxt@npm:14.3.0"
+"@vueuse/nuxt@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@vueuse/nuxt@npm:14.4.0"
   dependencies:
-    "@nuxt/kit": "npm:^4.4.4"
-    "@vueuse/core": "npm:14.3.0"
-    "@vueuse/metadata": "npm:14.3.0"
-    local-pkg: "npm:^1.1.2"
+    "@nuxt/kit": "npm:^4.5.1"
+    "@vueuse/core": "npm:14.4.0"
+    "@vueuse/metadata": "npm:14.4.0"
+    local-pkg: "npm:^1.2.1"
   peerDependencies:
-    nuxt: ^3.0.0 || ^4.0.0-0
+    nuxt: ^3.0.0 || ^4.0.0-0 || ^5.0.0-0
     vue: ^3.5.0
-  checksum: 10c0/4d790640242a84c4a4446d066bea911111c89ea49648ad5485ab0b75102025ac7580eff0abfa62b2b3b9847ef20a4ac7dd90dd8c04cf5f15d82a36da5249baa4
+  checksum: 10c0/a5691dd0c71af44d30d9a2bd63eb6e6015eba64ca6e738e4f049e34abb598808b94a60e22f0501c1b3a7ed2b44b098fcb6b4fee41ef5a73a42f1bbbd5732a357
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:14.3.0":
-  version: 14.3.0
-  resolution: "@vueuse/shared@npm:14.3.0"
+"@vueuse/shared@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@vueuse/shared@npm:14.4.0"
   peerDependencies:
     vue: ^3.5.0
-  checksum: 10c0/9dc349d4a5f5023cf810eb99d904561eeda9dd33a6c455102b3e9aa7003e67cc1002927bb9f3e396ddc07f34fbeadb9e80b44a77336e2a248869fc2e26d621e4
+  checksum: 10c0/c26228253864134bb6a7a43d8204a4a7234711178406c5ff9735bff4151e901c0196b55017bff0c8d1f9bdb0a466edf1d26152cac9d67aa79e98c8965d16a743
   languageName: node
   linkType: hard
 
@@ -6198,10 +6198,10 @@ __metadata:
     "@vitest/coverage-v8": "npm:4.1.10"
     "@vue/devtools-api": "npm:8.2.1"
     "@vue/test-utils": "npm:2.4.11"
-    "@vueuse/core": "npm:14.3.0"
-    "@vueuse/integrations": "npm:14.3.0"
-    "@vueuse/math": "npm:14.3.0"
-    "@vueuse/nuxt": "npm:14.3.0"
+    "@vueuse/core": "npm:14.4.0"
+    "@vueuse/integrations": "npm:14.4.0"
+    "@vueuse/math": "npm:14.4.0"
+    "@vueuse/nuxt": "npm:14.4.0"
     autoprefixer: "npm:10.5.2"
     axe-core: "npm:4.12.1"
     axe-html-reporter: "npm:2.2.11"
