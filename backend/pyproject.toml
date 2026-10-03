@@ -22,20 +22,20 @@ dependencies = [
     "pillow>=12.3.0",
     "psycopg2-binary>=2.9.12",
     "pyyaml>=6.0.3",
-    "python-dotenv>=1.2.2",
+    "python-dotenv>=1.2.4",
 ]
 
 [dependency-groups]
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.21.0",
-    "mypy>=2.3.1",
+    "mypy>=2.4.0",
     "numpydoc>=1.10.0",
-    "prek>=0.4.13",
+    "prek>=0.5.4",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.14.0",
-    "ruff>=0.16.3",
+    "ruff>=0.16.10",
     "ts-backend-check>=1.6.1",
     "types-icalendar>=6.3.2.20260712",
 ]
@@ -44,11 +44,11 @@ dev = [
 # from source. Install it explicitly with `--group complexity` where needed.
 complexity = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "complexipy>=7.0.1",
+    "complexipy>=8.0.1",
 ]
 audit = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "pysentry-rs>=0.4.9",
+    "pysentry-rs>=0.5.0",
 ]
 
 [tool.ruff]
