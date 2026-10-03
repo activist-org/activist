@@ -55,9 +55,14 @@ const passwordStrengthMap: Record<PasswordIndexKey, { color: string }> = {
 
 const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15];
 
+const zxcvbnResult = computed(() => {
+  if (!password.value) return null;
+  return zxcvbn(password.value as string);
+})
+
 const score = computed((): PasswordIndexKey => {
-  if (!password.value) return 0;
-  const result = zxcvbn(password.value as string);
+  const result=zxcvbnResult.value
+  if (!result.value) return 0;
   const guessLog: number = result.guesses_log10;
   const scoreIndex = SCORE_THRESHOLDS.findIndex(
     (threshold) => guessLog < threshold
@@ -71,8 +76,8 @@ const width = computed(() => (score.value + 1) * 20);
 const color = computed(() => passwordStrengthMap[score.value].color);
 
 const crackTimeDisplay = computed(() => {
-  if (!password.value) return "";
-  const result = zxcvbn(password.value as string);
+  const result = zxcvbnResult.value;
+  if (!result.value) return "";
   return result.crack_times_display.offline_slow_hashing_1e4_per_second;
 });
 </script>
