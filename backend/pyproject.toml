@@ -22,47 +22,20 @@ dependencies = [
     "pillow>=12.3.0",
     "psycopg2-binary>=2.9.12",
     "pyyaml>=6.0.3",
-    "python-dotenv>=1.2.2",
-    "asgiref>=3.12.1",
-    "anyio>=4.15.1",
-    "ast-serialize>=0.11.2",
-    "attrs>=26.1.0",
-    "certifi>=2026.7.22",
-    "charset-normalizer>=3.5.1",
-    "complexipy>=8.0.1",
-    "coverage>=7.16.1",
-    "faker>=40.39.0",
-    "idna>=3.20",
-    "imagesize>=2.0.1",
-    "librt>=0.15.0",
-    "markdown-it-py>=4.2.0",
-    "numpydoc>=1.11.0",
-    "pathspec>=1.1.1",
-    "prek>=0.5.3",
-    "pygments>=2.21.0",
-    "pyjwt>=2.14.0",
-    "rpds-py>=2026.6.3",
-    "ruff>=0.16.8",
-    "snowballstemmer>=3.1.1",
-    "types-python-dateutil>=2.9.0.20260807",
-    "types-pytz>=2026.3.1.20260727",
-    "types-pyyaml>=6.0.12.20260906",
-    "typing-extensions>=4.16.0",
-    "tzdata>=2026.4",
-    "pysentry-rs>=0.5.0",
+    "python-dotenv>=1.2.4",
 ]
 
 [dependency-groups]
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.21.0",
-    "mypy>=2.3.1",
+    "mypy>=2.4.0",
     "numpydoc>=1.10.0",
-    "prek>=0.4.13",
+    "prek>=0.5.4",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.14.0",
-    "ruff>=0.16.3",
+    "ruff>=0.16.10",
     "ts-backend-check>=1.6.1",
     "types-icalendar>=6.3.2.20260712",
 ]
@@ -71,11 +44,11 @@ dev = [
 # from source. Install it explicitly with `--group complexity` where needed.
 complexity = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "complexipy>=7.0.1",
+    "complexipy>=8.0.1",
 ]
 audit = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "pysentry-rs>=0.4.9",
+    "pysentry-rs>=0.5.0",
 ]
 
 [tool.ruff]
