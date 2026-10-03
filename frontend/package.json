@@ -74,7 +74,7 @@
   "dependencies": {
     "@axe-core/playwright": "4.12.1",
     "@floating-ui/dom": "1.8.0",
-    "@maplibre/maplibre-gl-directions": "0.9.1",
+    "@maplibre/maplibre-gl-directions": "0.10.1",
     "@opentelemetry/api": "1.9.1",
     "@pinia/colada": "1.4.2",
     "@popperjs/core": "2.11.8",
@@ -104,7 +104,7 @@
     "eslint-flat-config-utils": "3.2.0",
     "floating-vue": "5.2.2",
     "i18n-iso-countries": "7.14.0",
-    "maplibre-gl": "5.24.0",
+    "maplibre-gl": "6.11.2",
     "pinia": "4.0.3",
     "pinia-plugin-persistedstate": "4.7.1",
     "postcss": "8.5.23",
@@ -134,5 +134,5 @@
     "commander": "15.0.0",
     "glob": "^13.0.6"
   },
-  "packageManager": "yarn@4.18.0"
+  "packageManager": "yarn@4.18.1"
 }
