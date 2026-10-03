@@ -6208,7 +6208,7 @@ __metadata:
     axios: "npm:1.20.0"
     commander: "npm:15.0.0"
     cross-env: "npm:10.1.0"
-    dompurify: "npm:3.4.13"
+    dompurify: "npm:3.4.16"
     dotenv: "npm:17.4.2"
     env-cmd: "npm:11.0.0"
     eslint: "npm:10.6.0"
@@ -7587,17 +7587,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devalue@npm:^5.8.0":
-  version: 5.8.1
-  resolution: "devalue@npm:5.8.1"
-  checksum: 10c0/fad0c5aeb615e0ddea3385923389991652b285cd2adcd84e10f07a930f735127d94621751f7ef5249a7fe2c7c666ec7c02bb95c3901da337c91f45ef4da18dea
-  languageName: node
-  linkType: hard
-
-"devalue@npm:^5.9.0":
-  version: 5.9.1
-  resolution: "devalue@npm:5.9.1"
-  checksum: 10c0/051254fbd21cd3ee90de325e038a76ea84d2102d27344043a0f861c7d5c8212dbda63979f053ac2d627d83cf33c42b62d301b0b82b4e6a4c6ea539d8feba87e7
+"devalue@npm:^5.8.0, devalue@npm:^5.9.0":
+  version: 5.9.4
+  resolution: "devalue@npm:5.9.4"
+  checksum: 10c0/d621083acce13d7812418ed07d99f027f83ee00ba591a2d2eab4c9436e1491ebce7bc1a92aa4c1fb7903c31c0e3c0a3cdf8662bf31644742202e003c04c17e33
   languageName: node
   linkType: hard
 
@@ -7678,15 +7671,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:3.4.13":
-  version: 3.4.13
-  resolution: "dompurify@npm:3.4.13"
+"dompurify@npm:3.4.16":
+  version: 3.4.16
+  resolution: "dompurify@npm:3.4.16"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10c0/9c2a1a71e1a1d8b77953db7a39ffc935ef4ed4f10fe40770232128c2cbfd4c3dc677d3d7bae51eb24cc52d9ff3548612dc540ecb4343e89b26e809d2be2e0cfe
+  checksum: 10c0/65a901c6b6d489d3e898f67223d81dac66d613cda48f5785f0ed52a4ae320c4b2745490a58c14161e29f0273080fea0a0cb234a9ef892650e1a9b2a7befa07a5
   languageName: node
   linkType: hard
 
