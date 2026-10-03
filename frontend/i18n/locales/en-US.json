@@ -21,6 +21,8 @@
   "i18n._global.join_organization_aria_label": "Start the process of joining the organization",
   "i18n._global.learn": "Learn",
   "i18n._global.name": "Name",
+  "i18n.components.indicator_password_strength.time_to_crack_password": "Time to crack: {time}",
+  "i18n.components.indicator_password_strength.invalid": "Invalid",
   "i18n._global.navigate_to": "Navigate to",
   "i18n._global.new_event": "New event",
   "i18n._global.new_group": "New group",
