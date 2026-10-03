@@ -8,18 +8,12 @@
       <div
         class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
       >
-        <BtnRouteExternal
-          v-if="organization?.texts[0]?.getInvolvedUrl"
-          ariaLabel="i18n._global.join_organization_aria_label"
-          class="flex w-full justify-center sm:w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.45em"
-          label="i18n._global.join_organization"
-          :linkTo="organization.texts[0]?.getInvolvedUrl"
-          :rightIcon="IconMap.ARROW_RIGHT"
-        />
         <BtnAction
+          v-tooltip="
+            isUserSignedIn
+              ? ''
+              : t('i18n.pages._global.about.sign_in_to_support')
+          "
           @click="handleSupport"
           ariaLabel="i18n._global.support_organization_aria_label"
           class="flex w-full justify-center sm:w-max"
@@ -33,6 +27,17 @@
           iconSize="1.45em"
           label="i18n._global.support"
           leftIcon="IconSupport"
+        />
+        <BtnRouteExternal
+          v-if="organization?.texts[0]?.getInvolvedUrl"
+          ariaLabel="i18n._global.join_organization_aria_label"
+          class="flex w-full justify-center sm:w-max"
+          :cta="true"
+          fontSize="sm"
+          iconSize="1.45em"
+          label="i18n._global.join_organization"
+          :linkTo="organization.texts[0]?.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
         <BtnAction
           v-if="organization"
@@ -108,6 +113,8 @@ const { isUserSignedIn } = useUser();
 const isOrganizationSupportedByUser = computed(() => {
   return organization?.value?.isSupportedByUser || false;
 });
+const { t } = useI18n();
+
 // MARK: Support Event Functions
 const createSupportEvent = () => {
   createSupport("user");

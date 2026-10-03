@@ -31,16 +31,6 @@
           label="i18n.components.card_get_involved_organization.view_all_groups"
           :linkTo="'/organizations/' + orgId + '/groups'"
         />
-        <BtnRouteInternal
-          v-if="organization?.texts[0]?.getInvolvedUrl"
-          ariaLabel="i18n._global.join_organization_aria_label"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.45em"
-          label="i18n._global.join_organization"
-          :linkTo="organization.texts[0]?.getInvolvedUrl"
-          :rightIcon="IconMap.ARROW_RIGHT"
-        />
       </div>
     </div>
     <div class="mt-4">

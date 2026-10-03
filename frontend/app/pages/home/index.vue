@@ -8,7 +8,7 @@
       :header="
         t('i18n.pages.home.index.header', { username: data?.username ?? '' })
       "
-      :tagline="t('i18n.pages.home.index.subheader')"
+      :tagline="t('i18n.pages.home.index.supported_events_and_organizations')"
     >
       <ComboboxTopics
         @update:selected-topics="onSelectedTopicsUpdate"
@@ -17,10 +17,12 @@
       />
     </HeaderAppPage>
     <h2>
-      {{ t("i18n.pages.home.index.supported_events_and_organizations") }}:
+      {{ t("i18n._global.organizations") }}
     </h2>
     <OrganizationsList :organizations="organizations" />
-
+    <h2>
+      {{ t("i18n._global.events") }}
+    </h2>
     <EventsList :events="events" />
     <!-- <div class="space-y-6 pb-6">
       <div

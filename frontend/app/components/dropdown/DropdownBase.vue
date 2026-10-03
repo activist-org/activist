@@ -1,80 +1,80 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Menu as="div" class="relative inline-block text-left">
-    <div>
-      <MenuButton
-        v-slot="{ open }"
-        @focus="expandOnFocus"
-        :aria-label="t(`${menuButtonAriaLabel}`)"
-        class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md border-none px-4 py-2 font-semibold"
-        :class="{
+    <MenuButton
+      v-slot="{ open }"
+      @focus="expandOnFocus"
+      :aria-label="t(`${menuButtonAriaLabel}`)"
+      class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md border-none px-4 py-2 font-semibold"
+      :class="[
+        props.customButtonClass,
+        {
           'pl-6': isSideMenu,
           'style-menu-option-cta flex items-center rounded-md pl-1':
             isSidebarLeftMenu,
           'px-2 py-1': isPageBreadcrumbs,
+        },
+      ]"
+      :data-testid="dataTestId"
+    >
+      <div
+        class="flex items-center justify-between space-x-2 text-sm"
+        :class="{
+          'relative z-0 w-full pl-2.5 text-left font-medium': isSidebarLeftMenu,
         }"
-        :data-testid="dataTestId"
       >
-        <div
-          class="flex items-center justify-between space-x-2 text-sm"
-          :class="{
-            'relative z-0 w-full pl-2.5 text-left font-medium':
-              isSidebarLeftMenu,
-          }"
-        >
-          <div class="flex items-center space-x-2">
-            <Icon
-              :class="{
-                'h-5 w-5 shrink-0 text-center': isSidebarLeftMenu,
-              }"
-              :name="menuButtonIcon"
-              :size="isSidebarLeftMenu ? '1em' : ''"
-            />
-            <Transition name="text">
-              <p
-                v-if="
-                  !isSidebarLeftMenu ||
-                  sidebar.collapsed == false ||
-                  sidebar.collapsedSwitch == false
-                "
-                :class="{
-                  'sr-only lg:not-sr-only':
-                    !isSidebarLeftMenu && !isPageBreadcrumbs,
-                  'sr-only': isPageBreadcrumbs,
-                  'not-sr-only! ml-3!': isSideMenu,
-                  uppercase: isMenuButtonUppercase,
-                  'font-bold': isMenuButtonBold,
-                  'select-none': isSidebarLeftMenu,
-                }"
-              >
-                {{ menuButtonLabel }}
-              </p>
-            </Transition>
-          </div>
-          <Transition name="chevron">
-            <Icon
+        <div class="flex items-center space-x-2">
+          <Icon
+            :class="{
+              'h-5 w-5 shrink-0 text-center': isSidebarLeftMenu,
+            }"
+            :name="menuButtonIcon"
+            :size="isSidebarLeftMenu ? '1em' : ''"
+          />
+          <Transition name="text">
+            <p
               v-if="
                 !isSidebarLeftMenu ||
                 sidebar.collapsed == false ||
                 sidebar.collapsedSwitch == false
               "
-              class="right-3"
               :class="{
-                'rotate-180 transform': open,
-                absolute: isSideMenu,
-                'absolute right-2': isSidebarLeftMenu,
+                'sr-only lg:not-sr-only':
+                  !isSidebarLeftMenu && !isPageBreadcrumbs,
+                'sr-only': isPageBreadcrumbs,
+                'not-sr-only! ml-3!': isSideMenu,
+                uppercase: isMenuButtonUppercase,
+                'font-bold': isMenuButtonBold,
+                'select-none': isSidebarLeftMenu,
               }"
-              :name="
-                isSidebarLeftMenu
-                  ? `${IconMap.CHEVRON_UP}`
-                  : `${IconMap.CHEVRON_DOWN}`
-              "
-              :size="isSidebarLeftMenu ? '1rem' : ''"
-            />
+            >
+              {{ menuButtonLabel }}
+            </p>
           </Transition>
         </div>
-      </MenuButton>
-    </div>
+        <Transition name="chevron">
+          <Icon
+            v-if="
+              !isSidebarLeftMenu ||
+              sidebar.collapsed == false ||
+              sidebar.collapsedSwitch == false
+            "
+            class="right-3"
+            :class="{
+              'rotate-180 transform': open,
+              absolute: isSideMenu,
+              'absolute right-2': isSidebarLeftMenu,
+            }"
+            :name="
+              isSidebarLeftMenu
+                ? `${IconMap.CHEVRON_UP}`
+                : `${IconMap.CHEVRON_DOWN}`
+            "
+            :size="isSidebarLeftMenu ? '1rem' : ''"
+          />
+        </Transition>
+      </div>
+    </MenuButton>
     <MenuItems
       class="rounded-md focus-brand"
       :class="{
@@ -100,6 +100,7 @@ const props = defineProps<{
   isMenuButtonBold?: boolean;
   menuButtonLabel: string;
   dataTestId?: string;
+  customButtonClass?: string;
 }>();
 
 const { t } = useI18n();

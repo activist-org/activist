@@ -8,18 +8,12 @@
       <div
         class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
       >
-        <BtnRouteExternal
-          v-if="event?.texts[0]?.getInvolvedUrl"
-          ariaLabel="i18n._global.offer_to_help_aria_label"
-          class="w-full sm:w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.45em"
-          label="i18n._global.offer_to_help"
-          :linkTo="event?.texts[0]?.getInvolvedUrl"
-          :rightIcon="IconMap.ARROW_RIGHT"
-        />
         <BtnAction
+          v-tooltip="
+            isUserSignedIn
+              ? ''
+              : t('i18n.pages._global.about.sign_in_to_support')
+          "
           @click="handleSupport"
           ariaLabel="i18n._global.support_event_aria_label"
           class="w-max"
@@ -31,6 +25,17 @@
           iconSize="1.45em"
           label="i18n._global.support"
           leftIcon="IconSupport"
+        />
+        <BtnRouteExternal
+          v-if="event?.texts[0]?.getInvolvedUrl"
+          ariaLabel="i18n._global.offer_to_help_aria_label"
+          class="w-full sm:w-max"
+          :cta="true"
+          fontSize="sm"
+          iconSize="1.45em"
+          label="i18n._global.offer_to_help"
+          :linkTo="event?.texts[0]?.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
         <BtnAction
           @click="
@@ -107,6 +112,7 @@ const { createSupport: createSupportEvent, deleteSupport: deleteSupportEvent } =
 const { isUserSignedIn } = useUser();
 const isEventSupported = computed(() => event.value?.isSupportedByUser);
 const { downloadEventCalendar } = useDownloadEventCalendar();
+const { t } = useI18n();
 
 // MARK: Support Event Functions
 const createSupport = () => {
