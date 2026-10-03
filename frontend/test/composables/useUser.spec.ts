@@ -12,7 +12,7 @@ beforeEach(() => {
 describe("useUser composable", () => {
   it("returns correct values when no user is signed in", () => {
     const user = useUser();
-    expect(user.userIsSignedIn.value).toBe(false);
+    expect(user.isUserSignedIn.value).toBe(false);
     expect(user.userIsAdmin.value).toBe(false);
     expect(user.canEdit()).toBe(false);
     expect(user.canDelete()).toBe(false);
@@ -27,7 +27,7 @@ describe("useUser composable", () => {
       isAdmin: true,
     });
     const user = useUser();
-    expect(user.userIsSignedIn.value).toBe(true);
+    expect(user.isUserSignedIn.value).toBe(true);
     expect(user.userIsAdmin.value).toBe(true);
     expect(user.canEdit({ createdBy: 99 })).toBe(true);
     expect(user.canDelete({ createdBy: 99 })).toBe(true);
@@ -41,7 +41,7 @@ describe("useUser composable", () => {
       isAdmin: false,
     });
     const user = useUser();
-    expect(user.userIsSignedIn.value).toBe(true);
+    expect(user.isUserSignedIn.value).toBe(true);
     expect(user.userIsAdmin.value).toBe(false);
     expect(user.canEdit({ createdBy: 42 })).toBe(true);
     expect(user.canDelete({ createdBy: 42 })).toBe(true);

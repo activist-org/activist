@@ -28,6 +28,8 @@ from communities.organizations.views import (
     OrganizationImageViewSet,
     OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
+    OrganizationSupportAPIView,
+    OrganizationSupportDetailAPIView,
     OrganizationTextViewSet,
 )
 from communities.views import StatusViewSet
@@ -92,6 +94,11 @@ router.register(
     viewset=OrganizationEventViewSet,
     basename="organization-events",
 )
+router.register(
+    prefix=r"org_supports",
+    viewset=OrganizationSupportDetailAPIView,
+    basename="org-supports",
+)
 
 # MARK: URL Patterns
 
@@ -111,4 +118,5 @@ urlpatterns = [
     ),
     path("organization_texts/<uuid:id>", OrganizationTextViewSet.as_view()),
     path("organizations_by_user/<uuid:user_id>", OrganizationByUserAPIView.as_view()),
+    path("org_supports", OrganizationSupportAPIView.as_view()),
 ]

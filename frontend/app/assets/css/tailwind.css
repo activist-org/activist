@@ -222,7 +222,7 @@ MARK: Base
   }
 
   .style-cta:disabled {
-    @apply cursor-not-allowed border-primary-text/50 bg-cta-orange/50 fill-primary-text/50 text-primary-text/50 shadow-none dark:border-cta-orange/50 dark:bg-cta-orange/10 dark:fill-cta-orange/50 dark:text-cta-orange/50;
+    @apply cursor-not-allowed border-primary-text/50 bg-cta-orange/50 fill-primary-text/50 text-primary-text/50 dark:border-cta-orange/50 dark:bg-cta-orange/10 dark:fill-cta-orange/50 dark:text-cta-orange/50;
   }
 
   .style-cta-secondary {
@@ -230,7 +230,7 @@ MARK: Base
   }
 
   .style-cta-secondary:disabled {
-    @apply cursor-not-allowed border-primary-text/50 bg-layer-2/75 fill-primary-text/50 text-primary-text/50 shadow-none;
+    @apply cursor-not-allowed border-primary-text/50 bg-layer-2/75 fill-primary-text/50 text-primary-text/50;
   }
 
   .style-menu-option {

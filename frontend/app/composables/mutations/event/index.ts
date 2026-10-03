@@ -5,3 +5,4 @@ export * from "./useEventMutations";
 export * from "./useEventResourcesMutations";
 export * from "./useEventSocialLinksMutations";
 export * from "./useEventTextsMutations";
+export * from "./useEventSupportMutations";
