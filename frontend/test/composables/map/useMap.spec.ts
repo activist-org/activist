@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import maplibregl from "maplibre-gl";
+import {
+  Map,
+  FullscreenControl,
+  NavigationControl,
+  GeolocateControl,
+  setWorkerUrl,
+} from "maplibre-gl";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useMap } from "../../../app/composables";
@@ -89,6 +95,7 @@ vi.mock("maplibre-gl", () => {
     NavigationControl: MockNavigationControl,
     FullscreenControl: MockFullscreenControl,
     GeolocateControl: MockGeolocateControl,
+    setWorkerUrl: vi.fn(),
   };
 });
 
@@ -167,7 +174,7 @@ describe("useMap", () => {
       const layers = [{ id: "test-layer" }] as never;
       const map = createMap(layers);
 
-      expect(maplibregl.Map).toHaveBeenCalledWith(
+      expect(Map).toHaveBeenCalledWith(
         expect.objectContaining({
           container: "map",
           center: [0, 20],
@@ -178,6 +185,7 @@ describe("useMap", () => {
         })
       );
       expect(map).toBeDefined();
+      expect(setWorkerUrl).toHaveBeenCalledTimes(1);
     });
 
     it("triggers resize on map load", () => {
@@ -191,7 +199,7 @@ describe("useMap", () => {
     it("creates a new FullscreenControl instance", () => {
       const { createFullScreenControl } = useMap();
       createFullScreenControl();
-      expect(maplibregl.FullscreenControl).toHaveBeenCalled();
+      expect(FullscreenControl).toHaveBeenCalled();
     });
   });
 
@@ -207,7 +215,7 @@ describe("useMap", () => {
         ".maplibregl-ctrl-geolocate": { title: "" },
       };
 
-      const mockMapInstance = new maplibregl.Map({} as never);
+      const mockMapInstance = new Map({} as never);
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn((selector: string) => mockElements[selector]),
       })) as never;
@@ -215,11 +223,11 @@ describe("useMap", () => {
       addDefaultControls(mockMapInstance);
 
       expect(mockMapInstance.addControl).toHaveBeenCalledTimes(3);
-      expect(maplibregl.FullscreenControl).toHaveBeenCalled();
-      expect(maplibregl.NavigationControl).toHaveBeenCalledWith(
+      expect(FullscreenControl).toHaveBeenCalled();
+      expect(NavigationControl).toHaveBeenCalledWith(
         expect.objectContaining({ visualizePitch: true })
       );
-      expect(maplibregl.GeolocateControl).toHaveBeenCalledWith(
+      expect(GeolocateControl).toHaveBeenCalledWith(
         expect.objectContaining({ trackUserLocation: true })
       );
 
@@ -252,7 +260,7 @@ describe("useMap", () => {
 
     it("handles missing DOM elements gracefully for all buttons", () => {
       const { addDefaultControls } = useMap();
-      const mockMapInstance = new maplibregl.Map({} as never);
+      const mockMapInstance = new Map({} as never);
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn().mockReturnValue(null),
       })) as never;
