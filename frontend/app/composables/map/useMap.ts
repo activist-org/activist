@@ -6,12 +6,11 @@ export const useMap = () => {
   const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
 
-  function isWebglSupported() {
-    if (window.WebGLRenderingContext) {
+  function isWebgl2Supported() {
+    if (window.WebGL2RenderingContext) {
       const canvas = document.createElement("canvas");
       try {
-        const context =
-          canvas.getContext("webgl2") || canvas.getContext("webgl");
+        const context = canvas.getContext("webgl2");
         if (context && typeof context.getParameter == "function") {
           return true;
         }
@@ -148,7 +147,7 @@ export const useMap = () => {
   };
 
   return {
-    isWebglSupported,
+    isWebgl2Supported,
     createMap,
     createFullScreenControl,
     createMapForPointerTypeMap,

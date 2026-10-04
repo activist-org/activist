@@ -105,7 +105,7 @@ describe("useMap", () => {
     vi.stubGlobal("document", {
       createElement: vi.fn(() => ({
         getContext: vi.fn((type) => {
-          if (type === "webgl2" || type === "webgl") {
+          if (type === "webgl2") {
             return { getParameter: vi.fn() };
           }
           return null;
@@ -114,13 +114,13 @@ describe("useMap", () => {
     });
 
     vi.stubGlobal("window", {
-      WebGLRenderingContext: true,
+      WebGL2RenderingContext: true,
     });
   });
 
   it("should expose expected functions and integrated composables", () => {
     const mapComposable = useMap();
-    expect(mapComposable.isWebglSupported).toBeDefined();
+    expect(mapComposable.isWebgl2Supported).toBeDefined();
     expect(mapComposable.createMap).toBeDefined();
     expect(mapComposable.createFullScreenControl).toBeDefined();
     expect(mapComposable.createMapForPointerTypeMap).toBe(
@@ -132,16 +132,32 @@ describe("useMap", () => {
     expect(mapComposable.addDefaultControls).toBeDefined();
   });
 
-  describe("isWebglSupported", () => {
-    it("returns true when WebGL is available", () => {
-      const { isWebglSupported } = useMap();
-      expect(isWebglSupported()).toBe(true);
+  describe("isWebgl2Supported", () => {
+    it("returns true when WebGL2 is available", () => {
+      const { isWebgl2Supported } = useMap();
+      expect(isWebgl2Supported()).toBe(true);
     });
 
-    it("returns false when WebGLRenderingContext is missing", () => {
-      vi.stubGlobal("window", { WebGLRenderingContext: undefined });
-      const { isWebglSupported } = useMap();
-      expect(isWebglSupported()).toBe(false);
+    it("returns false when WebGL2RenderingContext is missing", () => {
+      vi.stubGlobal("window", { WebGL2RenderingContext: undefined });
+      const { isWebgl2Supported } = useMap();
+      expect(isWebgl2Supported()).toBe(false);
+    });
+
+    it("returns false when only a WebGL1 context can be created", () => {
+      vi.stubGlobal("window", {
+        WebGLRenderingContext: true,
+        WebGL2RenderingContext: true,
+      });
+      vi.stubGlobal("document", {
+        createElement: vi.fn(() => ({
+          getContext: vi.fn((type) =>
+            type === "webgl" ? { getParameter: vi.fn() } : null
+          ),
+        })),
+      });
+      const { isWebgl2Supported } = useMap();
+      expect(isWebgl2Supported()).toBe(false);
     });
   });
 
