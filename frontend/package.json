@@ -29,8 +29,8 @@
   "devDependencies": {
     "@headlessui/vue": "1.7.23",
     "@nuxt/devtools": "3.4.2",
-    "@nuxt/eslint": "1.16.0",
-    "@nuxt/eslint-config": "1.16.0",
+    "@nuxt/eslint": "1.17.0",
+    "@nuxt/eslint-config": "1.17.0",
     "@nuxt/icon": "2.2.5",
     "@nuxt/test-utils": "4.0.3",
     "@nuxtjs/color-mode": "4.0.1",
@@ -50,10 +50,10 @@
     "axe-html-reporter": "2.2.11",
     "cross-env": "10.1.0",
     "env-cmd": "11.0.0",
-    "eslint": "10.6.0",
-    "eslint-plugin-perfectionist": "5.9.1",
-    "eslint-plugin-vue": "10.9.2",
-    "eslint-plugin-vuejs-accessibility": "2.5.0",
+    "eslint": "10.10.0",
+    "eslint-plugin-perfectionist": "5.11.0",
+    "eslint-plugin-vue": "10.11.0",
+    "eslint-plugin-vuejs-accessibility": "2.6.0",
     "happy-dom": "20.10.6",
     "kill-port": "2.0.1",
     "lint-staged": "17.0.8",
@@ -132,7 +132,8 @@
     "chokidar": "3.6.0",
     "playwright-core": "1.62.1",
     "commander": "15.0.0",
-    "glob": "^13.0.6"
+    "glob": "^13.0.6",
+    "eslint-plugin-vue": "10.11.0"
   },
   "packageManager": "yarn@4.18.0"
 }
