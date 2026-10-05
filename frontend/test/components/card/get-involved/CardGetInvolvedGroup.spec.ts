@@ -25,9 +25,9 @@ const stubs = {
   },
 };
 
-const { groupData, mockUserIsSignedIn } = vi.hoisted(() => ({
+const { groupData, mockisUserSignedIn } = vi.hoisted(() => ({
   groupData: { value: null as ReturnType<typeof createMockGroup> | null },
-  mockUserIsSignedIn: { value: false },
+  mockisUserSignedIn: { value: false },
 }));
 
 mockNuxtImport("useGetGroup", async () => {
@@ -38,7 +38,7 @@ mockNuxtImport("useModalHandlers", () => () => ({ openModal: vi.fn() }));
 mockNuxtImport("useUser", async () => {
   const { ref } = await import("vue");
   return () => ({
-    userIsSignedIn: ref(mockUserIsSignedIn.value),
+    isUserSignedIn: ref(mockisUserSignedIn.value),
     canEdit: () => false,
     canView: () => true,
     canCreate: () => false,
@@ -50,7 +50,7 @@ mockNuxtImport("useUser", async () => {
 
 beforeEach(() => {
   groupData.value = null;
-  mockUserIsSignedIn.value = false;
+  mockisUserSignedIn.value = false;
   vi.stubGlobal("useRoute", createUseRouteMock({ groupId: "group-1" }));
 });
 
@@ -104,7 +104,7 @@ describe("CardGetInvolvedGroup", () => {
   });
 
   it("shows the edit icon when the user is signed in", async () => {
-    mockUserIsSignedIn.value = true;
+    mockisUserSignedIn.value = true;
 
     await render(CardGetInvolvedGroup, { global: { stubs } });
 

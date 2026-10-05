@@ -4,3 +4,4 @@ export * from "./group";
 export * from "./organization";
 export * from "./useGetLocation";
 export * from "./useGetTopics";
+export * from "./user";
