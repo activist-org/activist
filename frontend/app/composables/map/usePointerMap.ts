@@ -2,7 +2,7 @@
 import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import { type Map, Marker, Popup } from "maplibre-gl";
 
 export const usePointerMap = () => {
   const {
@@ -17,7 +17,7 @@ export const usePointerMap = () => {
     pointer: Pointer,
     directions: MapLibreGlDirections | undefined = undefined
   ) => {
-    const marker = new maplibregl.Marker({
+    const marker = new Marker({
       color: pointer.color,
     });
     const element = marker.getElement();
@@ -29,7 +29,7 @@ export const usePointerMap = () => {
       parseFloat(pointer.location.lat),
     ]);
     if (pointer.popup) {
-      const popup = new maplibregl.Popup({
+      const popup = new Popup({
         offset: 25,
         maxWidth: "260px",
       }).setDOMContent(pointer.popup);
@@ -49,7 +49,7 @@ export const usePointerMap = () => {
   };
 
   const createMapForPointerTypeMap = (
-    map: maplibregl.Map,
+    map: Map,
     pointer: Pointer,
     isTouchDevice: boolean
   ) => {
