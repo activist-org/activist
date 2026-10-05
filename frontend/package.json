@@ -52,6 +52,7 @@
     "env-cmd": "11.0.0",
     "eslint": "10.10.0",
     "eslint-plugin-perfectionist": "5.11.0",
+    "eslint-plugin-tailwindcss": "4.4.0",
     "eslint-plugin-vue": "10.11.0",
     "eslint-plugin-vuejs-accessibility": "2.6.0",
     "happy-dom": "20.10.6",

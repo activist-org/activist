@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import prettier from "eslint-config-prettier";
 import perfectionist from "eslint-plugin-perfectionist";
+import tailwindcss from "eslint-plugin-tailwindcss";
 import vue from "eslint-plugin-vue";
 import vueA11y from "eslint-plugin-vuejs-accessibility";
 
@@ -18,6 +19,13 @@ export default withNuxt(
       "vuejs-accessibility": vueA11y,
       perfectionist,
       prettier,
+      tailwindcss,
+    },
+
+    settings: {
+      tailwindcss: {
+        cssConfigPath: "./app/assets/css/tailwind.css",
+      },
     },
 
     rules: {
@@ -91,6 +99,9 @@ export default withNuxt(
           order: "asc",
         },
       ],
+
+      // tailwindcss rules
+      "tailwindcss/no-contradicting-classname": "error",
     },
   }
 );
