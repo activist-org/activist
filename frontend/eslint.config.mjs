@@ -102,6 +102,8 @@ export default withNuxt(
 
       // tailwindcss rules
       "tailwindcss/no-contradicting-classname": "error",
+      "tailwindcss/no-unnecessary-arbitrary-value": "error",
+      "tailwindcss/enforces-shorthand": "error",
     },
   }
 );
