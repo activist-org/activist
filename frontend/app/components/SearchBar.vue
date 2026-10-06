@@ -99,7 +99,6 @@
 
 <script setup lang="ts">
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
-import { defineEmits, defineProps, withDefaults } from "vue";
 
 export interface Props {
   location: SearchBarLocationType;

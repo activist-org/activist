@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
-import { defineProps, withDefaults } from "vue";
 
 export interface Props {
   placeholder?: string;

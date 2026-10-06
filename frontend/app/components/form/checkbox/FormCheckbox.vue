@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
-import { defineEmits, defineProps, withDefaults } from "vue";
 
 export interface Props {
   label?: string;
