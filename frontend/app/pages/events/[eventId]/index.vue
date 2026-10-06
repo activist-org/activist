@@ -7,7 +7,7 @@
     <Head>
       <Title>{{ event?.name }} </Title>
     </Head>
-    <div class="mx-auto h-65 w-3/4">
+    <div class="h-65 mx-auto w-3/4">
       <ImageEvent
         :alt="
           t('i18n._global.entity_logo', {
