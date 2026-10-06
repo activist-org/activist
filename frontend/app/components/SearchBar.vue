@@ -72,7 +72,7 @@
   <div
     id="search"
     v-else
-    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-3 pr-2.5 text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
+    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-3 pr-[10px] text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
   >
     <Icon
       id="search-toggle"
@@ -99,6 +99,7 @@
 
 <script setup lang="ts">
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
+import { defineEmits, defineProps, withDefaults } from "vue";
 
 export interface Props {
   location: SearchBarLocationType;

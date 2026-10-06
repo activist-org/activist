@@ -5,7 +5,7 @@
       :id="uuid"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
-      class="size-5.5 peer mb-0 cursor-pointer appearance-none rounded-sm border border-menu-selection bg-layer-0 focus-brand"
+      class="peer mb-0 size-[22px] cursor-pointer appearance-none rounded-sm border border-menu-selection bg-layer-0 focus-brand"
       type="checkbox"
     />
     <div
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
+import { defineEmits, defineProps, withDefaults } from "vue";
 
 export interface Props {
   label?: string;

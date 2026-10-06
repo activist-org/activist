@@ -13,9 +13,9 @@
       >
         {{ error.statusCode }}
       </p>
-      <div class="w-30 md:h-50 h-0.5 bg-distinct-text md:w-0.5"></div>
+      <div class="w-30 h-[2px] bg-distinct-text md:h-[200px] md:w-0.5"></div>
       <div
-        class="max-w-87.5 flex flex-col items-center text-left md:items-start"
+        class="flex max-w-[350px] flex-col items-center text-left md:items-start"
       >
         <p
           class="mt-4 flex flex-wrap font-['Copperplate_Gothic_Light'] text-lg md:mt-0 md:text-xl"

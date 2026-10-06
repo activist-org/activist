@@ -18,7 +18,7 @@
         <div
           class="flex items-center justify-between space-x-2 text-sm"
           :class="{
-            'relative z-0 w-full pl-2.5 text-left font-medium':
+            'relative z-0 w-full pl-[10px] text-left font-medium':
               isSidebarLeftMenu,
           }"
         >
