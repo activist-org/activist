@@ -95,7 +95,7 @@ describe("Shield GitHub Visual & Responsive Styling", () => {
     const countClasses = count.classList;
 
     // Responsive height and width.
-    const expectedClasses = ["h-9", "md:h-10", "w-9", "md:w-10"];
+    const expectedClasses = ["md:size-10", "size-9"];
     expectedClasses.forEach((className) => {
       expect(countClasses.contains(className)).toBeTruthy();
     });
