@@ -6,7 +6,7 @@
     @click="handleOpenModal()"
     @keydown.enter="handleOpenModal()"
     :aria-label="t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
-    class="elem-on-card-style absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-primary-text focus-brand sm:h-16 sm:w-16"
+    class="elem-on-card-style absolute right-0 flex size-10 cursor-pointer items-center justify-center rounded-md text-primary-text focus-brand sm:size-16"
   >
     <div class="sm:hidden">
       <Icon

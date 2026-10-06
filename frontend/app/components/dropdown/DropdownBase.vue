@@ -25,7 +25,7 @@
           <div class="flex items-center space-x-2">
             <Icon
               :class="{
-                'h-5 w-5 shrink-0 text-center': isSidebarLeftMenu,
+                'size-5 shrink-0 text-center': isSidebarLeftMenu,
               }"
               :name="menuButtonIcon"
               :size="isSidebarLeftMenu ? '1em' : ''"

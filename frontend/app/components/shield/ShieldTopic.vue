@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="style-cta flex h-max w-max cursor-pointer items-center justify-between space-x-2 border elem-shadow-sm"
+    class="style-cta flex size-max cursor-pointer items-center justify-between space-x-2 border elem-shadow-sm"
     :class="{
       'style-cta': active,
       'style-cta-secondary': !active,
@@ -11,7 +11,7 @@
     tabindex="0"
   >
     <div class="flex items-center" :class="{ 'max-sm:grow': isSelector }">
-      <Icon class="my-1 h-5 w-5 shrink-0" :name="IconMap.GLOBE" size="1em" />
+      <Icon class="my-1 size-5 shrink-0" :name="IconMap.GLOBE" size="1em" />
       <p class="select-none pl-2 text-center text-base font-bold">
         {{ t(topic) }}
       </p>

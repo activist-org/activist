@@ -2,12 +2,12 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
+    class="flex flex-col items-center justify-between gap-8 bg-layer-0 p-8"
   >
     <Head>
       <Title>{{ event?.name }} </Title>
     </Head>
-    <div class="mx-auto h-[260px] w-3/4">
+    <div class="mx-auto h-65 w-3/4">
       <ImageEvent
         :alt="
           t('i18n._global.entity_logo', {
@@ -39,7 +39,7 @@
           <span class="width-1/6">
             <Icon
               v-if="button.iconUrl"
-              class="h-5 w-5 shrink-0"
+              class="size-5 shrink-0"
               :name="button.iconUrl"
             />
           </span>

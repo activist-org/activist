@@ -38,7 +38,7 @@
           <span class="width-1/6">
             <Icon
               v-if="button.iconUrl"
-              class="h-5 w-5 shrink-0"
+              class="size-5 shrink-0"
               :name="button.iconUrl"
             />
           </span>

@@ -10,7 +10,7 @@
     :menuButtonIcon="menuButtonIcon"
     :menuButtonLabel="t('i18n.components.dropdown_theme.label')"
   >
-    <div class="px-2 py-2">
+    <div class="p-2">
       <MenuItem
         v-for="opt in labelsOpt"
         :key="opt.optColorMode"

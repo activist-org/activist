@@ -63,7 +63,7 @@
           }"
           :group="group"
         />
-        <div class="h-full w-full">
+        <div class="size-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
             :entityId="group?.id || ''"

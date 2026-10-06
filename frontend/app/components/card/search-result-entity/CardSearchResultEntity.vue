@@ -20,7 +20,7 @@
                 class="flex items-center justify-center text-primary-text"
                 :class="[imageSizeClass]"
               >
-                <Icon class="h-[75%] w-[75%]" :name="iconName || 'default'" />
+                <Icon class="size-[75%]" :name="iconName || 'default'" />
               </div>
             </slot>
           </div>
@@ -70,7 +70,7 @@
           @{{ entityName }}
         </NuxtLink>
         <p
-          class="justify-center md:justify-start md:px-0 md:py-0"
+          class="justify-center md:justify-start md:p-0"
           :class="{
             'line-clamp-3 lg:line-clamp-4': isReduced,
             'line-clamp-4 lg:line-clamp-5': !isReduced,

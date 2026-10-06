@@ -67,7 +67,7 @@
             'lg:col-span-3': textExpanded,
           }"
         />
-        <div class="h-full w-full">
+        <div class="size-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
             :entityId="organization?.id || ''"

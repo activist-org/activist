@@ -14,7 +14,7 @@
         id="modal"
         :class="{
           'flex flex-col items-center': imageModal,
-          'container h-full max-h-[90vh] w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto md:max-h-[90vh]':
+          'container size-full max-h-[90vh] max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto md:max-h-[90vh]':
             !imageModal,
         }"
         :data-testid="`modal-${modalName}`"
@@ -30,7 +30,7 @@
           data-testid="modal-close-button"
           role="button"
         >
-          <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
+          <Icon class="size-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
         <div v-else class="relative">
           <button
@@ -43,7 +43,7 @@
             data-testid="modal-close-button"
             role="button"
           >
-            <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
+            <Icon class="size-10" :name="IconMap.CIRCLE_X_FILL" />
           </button>
         </div>
         <div
