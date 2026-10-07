@@ -12,12 +12,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
   // Override to run without authentication (tests sign-in menu).
-  test.use({ storageState: undefined });
-
-  // Explicitly clear all cookies to ensure unauthenticated state.
-  test.beforeEach(async ({ context }) => {
-    await context.clearCookies();
-  });
+  test.use({ storageState: { cookies: [], origins: [] } });
 
   test("User can open searchbar", async ({ page }) => {
     const searchbar = newSearchbar(page);
@@ -29,14 +24,14 @@ test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
     await expect(searchbar.input).not.toBeVisible();
   });
 
-  test("Navigation main options: Home, Events, and Organizations", async ({
+  test("Navigation main options: Home, Events and Organizations", async ({
     page,
   }) => {
     const { homeLink, eventsLink, organizationsLink } = newMainNavOptions(page);
 
     const links = [
-      { link: eventsLink, path: "/events" },
       { link: organizationsLink, path: "/organizations" },
+      { link: eventsLink, path: "/events" },
       { link: homeLink, path: "/auth/sign-in" },
     ];
 
@@ -93,6 +88,6 @@ test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
     page,
   }) => {
     await page.goto("/home");
-    await page.waitForURL("**/auth/sign-in**");
+    await expect(page).toHaveURL(/\/auth\/sign-in/);
   });
 });

@@ -17,12 +17,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
   // Override to run without authentication (tests sign-in menu).
-  test.use({ storageState: undefined });
-
-  // Explicitly clear all cookies to ensure unauthenticated state.
-  test.beforeEach(async ({ context }) => {
-    await context.clearCookies();
-  });
+  test.use({ storageState: { cookies: [], origins: [] } });
 
   test("User can open searchbar", async ({ page }) => {
     const sidebarLeft = newSidebarLeft(page);
@@ -56,14 +51,14 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     await expect(searchbar.input).not.toBeVisible();
   });
 
-  test("Navigation main options: Events, and Organizations", async ({
+  test("Navigation main options: Events and Organizations", async ({
     page,
   }) => {
     const { eventsLink, organizationsLink } = newMainNavOptions(page);
 
     const links = [
-      { link: eventsLink, path: "/events" },
       { link: organizationsLink, path: "/organizations" },
+      { link: eventsLink, path: "/events" },
     ];
 
     for (const { link, path } of links) {
@@ -71,8 +66,6 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
 
       await page.waitForURL(`**${path}`);
       expect(page.url()).toContain(path);
-
-      await page.goto("/events");
     }
   });
 
@@ -152,6 +145,6 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     page,
   }) => {
     await page.goto("/home");
-    await page.waitForURL("**/auth/sign-in**");
+    await expect(page).toHaveURL(/\/auth\/sign-in/);
   });
 });
