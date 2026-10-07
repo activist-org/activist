@@ -8,7 +8,7 @@ import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/events");
 
   // SidebarLeft automatically expands because the mouse starts in the top left.
   const sidebar = newSidebarLeft(page);
@@ -56,7 +56,7 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     await expect(searchbar.input).not.toBeVisible();
   });
 
-  test("Navigation main options: Events and Organizations", async ({
+  test("Navigation main options: Events, and Organizations", async ({
     page,
   }) => {
     const { eventsLink, organizationsLink } = newMainNavOptions(page);
@@ -72,7 +72,7 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
       await page.waitForURL(`**${path}`);
       expect(page.url()).toContain(path);
 
-      await page.goto("/home");
+      await page.goto("/events");
     }
   });
 
@@ -105,7 +105,7 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
         await page.waitForURL(`**${path}`);
         expect(page.url()).toContain(path);
 
-        await page.goto("/home");
+        await page.goto("/events");
       }
     }
   });
@@ -146,5 +146,12 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     await sidebarLeft.expectIsCollapsed(
       "should collapse on mouse leave when unlocked"
     );
+  });
+
+  test("Signed-out users are redirected to sign in from Home", async ({
+    page,
+  }) => {
+    await page.goto("/home");
+    await page.waitForURL("**/auth/sign-in**");
   });
 });

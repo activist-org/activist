@@ -316,8 +316,8 @@ test.describe(
     test.use({ storageState: { cookies: [], origins: [] } });
 
     test.beforeEach(async ({ page }) => {
-      await page.goto("/home");
-      await page.waitForURL("**/home**");
+      await page.goto("/events");
+      await page.waitForURL("**/events**");
     });
 
     test("Create control is not shown in left sidebar footer", async ({
@@ -341,8 +341,8 @@ test.describe(
     test.use({ storageState: { cookies: [], origins: [] } });
 
     test.beforeEach(async ({ page }) => {
-      await page.goto("/home");
-      await page.waitForURL("**/home**");
+      await page.goto("/events");
+      await page.waitForURL("**/events**");
     });
 
     test("Create control is not shown in header drawer menu", async ({

@@ -7,7 +7,7 @@ import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/events");
 });
 
 test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
@@ -37,7 +37,7 @@ test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
     const links = [
       { link: eventsLink, path: "/events" },
       { link: organizationsLink, path: "/organizations" },
-      { link: homeLink, path: "/home" },
+      { link: homeLink, path: "/auth/sign-in" },
     ];
 
     for (const { link, path } of links) {
@@ -49,7 +49,7 @@ test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
       await page.waitForURL(`**${path}`);
       expect(page.url()).toContain(path);
 
-      await page.goto("/home");
+      await page.goto("/events");
     }
   });
 
@@ -84,8 +84,15 @@ test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
         await page.waitForURL(`**${path}`);
         expect(page.url()).toContain(path);
 
-        await page.goto("/home");
+        await page.goto("/events");
       }
     }
+  });
+
+  test("Signed-out users are redirected to sign in from Home", async ({
+    page,
+  }) => {
+    await page.goto("/home");
+    await page.waitForURL("**/auth/sign-in**");
   });
 });
