@@ -20,7 +20,7 @@
     />
     <p
       v-if="reasonForSuggesting"
-      class="mt-0.5 text-xs italic text-distinct-text"
+      class="mt-[2px] text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
@@ -51,7 +51,7 @@
     />
     <p
       v-if="reasonForSuggesting"
-      class="mt-0.5 text-xs italic text-distinct-text"
+      class="mt-[2px] text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
@@ -60,8 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from "vue";
-
 import { useI18n } from "vue-i18n";
 import {
   SEmail,

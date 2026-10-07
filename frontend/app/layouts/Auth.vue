@@ -7,7 +7,7 @@
       <Title>{{ t(page.title) }}</Title>
     </Head>
     <div v-if="aboveMediumBP" class="relative">
-      <div class="flex h-full w-full items-center justify-center">
+      <div class="flex size-full items-center justify-center">
         <div
           class="relative z-0 mb-6 h-16 w-64 overflow-y-hidden xl:h-24 xl:w-96"
         >

@@ -6,7 +6,7 @@
     <div>
       <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
         <div
-          class="my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
+          class="my-[10px] flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
         >
           <Icon class="text-black" :name="IconMap.SEARCH" size="1em" />
           <!-- MARK: Search text input. -->

@@ -45,7 +45,7 @@
       />
     </div>
     <!-- Note: image right of content. -->
-    <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
+    <div class="hidden size-60 lg:block xl:size-72">
       <img
         v-if="colorMode.value == 'light'"
         :alt="t(imageAltText)"
@@ -63,7 +63,7 @@
     class="flex items-center justify-center bg-layer-2 py-8 sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <!-- Note: image left of content. -->
-    <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
+    <div class="hidden size-60 lg:block xl:size-72">
       <img
         v-if="colorMode.value == 'light'"
         :alt="t(imageAltText)"

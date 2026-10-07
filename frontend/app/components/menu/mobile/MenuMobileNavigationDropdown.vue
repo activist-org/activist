@@ -11,7 +11,7 @@
       >
         <Icon
           aria-hidden="true"
-          class="mr-4 h-5 w-5 align-middle"
+          class="mr-4 size-5 align-middle"
           :name="selectedMenuItem.iconUrl"
         />
         <span>{{ t(selectedMenuItem.label) }}</span>
@@ -20,7 +20,7 @@
         >
           <Icon
             aria-hidden="true"
-            class="mr-2 h-5 w-5 align-middle"
+            class="mr-2 size-5 align-middle"
             :name="IconMap.CHEVRON_EXPAND"
         /></span>
       </ListboxButton>
@@ -54,7 +54,7 @@
               >
                 <Icon
                   aria-hidden="true"
-                  class="mr-4 h-5 w-5 align-middle"
+                  class="mr-4 size-5 align-middle"
                   :name="menuEntry.iconUrl"
                 />
                 <span

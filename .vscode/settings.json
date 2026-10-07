@@ -1,17 +1,18 @@
 {
+  "css.customData": [
+    ".vscode/tailwind.json"
+  ],
+  "eslint.useFlatConfig": true,
   "eslint.validate": [
     "javascript",
     "typescript",
     "vue"
   ],
-  "eslint.useFlatConfig": true,
-  "typescript.tsdk": "./frontend/node_modules/typescript/lib",
-  "css.customData": [
-    ".vscode/tailwind.json"
-  ],
+  "js/ts.tsdk.path": "frontend/node_modules/typescript/lib",
   "playwright.env": {
     "SKIP_WEBSERVER": "true",
     "TEST_ENV": "local"
   },
-  "playwright.reuseBrowser": true
+  "playwright.reuseBrowser": true,
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore"
 }

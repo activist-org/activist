@@ -29,7 +29,7 @@
       <Icon
         v-if="option.isIcon"
         :aria-hidden="true"
-        class="h-6 w-6"
+        class="size-6"
         :name="option.content as string"
       />
       <span v-else class="text-sm font-medium" :class="option.class">

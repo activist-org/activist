@@ -17,7 +17,7 @@
     <Icon
       v-if="iconName"
       :class="{
-        'h-5 w-5 shrink-0': isSidebarLeftMenu,
+        'size-5 shrink-0': isSidebarLeftMenu,
       }"
       :name="iconName"
       size="1em"

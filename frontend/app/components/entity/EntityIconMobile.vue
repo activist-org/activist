@@ -6,9 +6,9 @@
     data-testid="entity-logo-mobile"
   >
     <div class="flex items-center gap-3">
-      <div class="relative h-16 w-16 shrink-0">
+      <div class="relative size-16 shrink-0">
         <div
-          class="flex h-full w-full justify-center overflow-hidden rounded-md border border-section-div bg-layer-0 elem-shadow-sm"
+          class="flex size-full justify-center overflow-hidden rounded-md border border-section-div bg-layer-0 elem-shadow-sm"
         >
           <div
             v-if="accentClass"

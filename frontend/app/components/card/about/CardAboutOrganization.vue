@@ -20,7 +20,7 @@
       "
       class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
     >
-      <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
+      <Icon class="size-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
