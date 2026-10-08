@@ -8,7 +8,7 @@ import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/events");
 
   // SidebarLeft automatically expands because the mouse starts in the top left.
   const sidebar = newSidebarLeft(page);
@@ -17,12 +17,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
   // Override to run without authentication (tests sign-in menu).
-  test.use({ storageState: undefined });
-
-  // Explicitly clear all cookies to ensure unauthenticated state.
-  test.beforeEach(async ({ context }) => {
-    await context.clearCookies();
-  });
+  test.use({ storageState: { cookies: [], origins: [] } });
 
   test("User can open searchbar", async ({ page }) => {
     const sidebarLeft = newSidebarLeft(page);
@@ -62,8 +57,8 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     const { eventsLink, organizationsLink } = newMainNavOptions(page);
 
     const links = [
-      { link: eventsLink, path: "/events" },
       { link: organizationsLink, path: "/organizations" },
+      { link: eventsLink, path: "/events" },
     ];
 
     for (const { link, path } of links) {
@@ -71,8 +66,6 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
 
       await page.waitForURL(`**${path}`);
       expect(page.url()).toContain(path);
-
-      await page.goto("/home");
     }
   });
 
@@ -105,7 +98,7 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
         await page.waitForURL(`**${path}`);
         expect(page.url()).toContain(path);
 
-        await page.goto("/home");
+        await page.goto("/events");
       }
     }
   });
@@ -146,5 +139,12 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     await sidebarLeft.expectIsCollapsed(
       "should collapse on mouse leave when unlocked"
     );
+  });
+
+  test("Signed-out users are redirected to sign in from Home", async ({
+    page,
+  }) => {
+    await page.goto("/home");
+    await expect(page).toHaveURL(/\/auth\/sign-in/);
   });
 });
