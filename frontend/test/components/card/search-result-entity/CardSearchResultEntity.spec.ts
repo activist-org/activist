@@ -153,15 +153,15 @@ describe("CardSearchResultEntity", () => {
     it("applies reduced size classes when isReduced is true", () => {
       wrapper = createWrapper({ isReduced: true, imageUrl: "/test.jpg" });
       const img = wrapper.find("img");
-      expect(img.classes()).toContain("h-[150px]");
-      expect(img.classes()).toContain("w-[150px]");
+      expect(img.classes()).toContain("h-[9.375rem]");
+      expect(img.classes()).toContain("w-[9.375rem]");
     });
 
     it("applies normal size classes when isReduced is false", () => {
       wrapper = createWrapper({ isReduced: false, imageUrl: "/test.jpg" });
       const img = wrapper.find("img");
-      expect(img.classes()).toContain("h-[200px]");
-      expect(img.classes()).toContain("w-[200px]");
+      expect(img.classes()).toContain("h-[12.5rem]");
+      expect(img.classes()).toContain("w-[12.5rem]");
     });
 
     it("applies line-clamp classes to description when isReduced", () => {

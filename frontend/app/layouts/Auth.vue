@@ -23,7 +23,7 @@
         <BtnRouteInternal
           v-if="page.route != 'index'"
           :ariaLabel="page.btnAriaLabel"
-          class="flex max-h-[30px] items-center lg:max-h-[38px]"
+          class="flex max-h-[1.875rem] items-center lg:max-h-[2.375rem]"
           :cta="true"
           fontSize="lg"
           :label="page.btnLabel"
