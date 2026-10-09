@@ -253,6 +253,13 @@ export default defineConfig({
             },
           },
         ]),
+    {
+      name: "Coverage",
+      grep: /@coverage/,
+      testMatch: "**/specs/all/e2e-coverage/*.spec.ts",
+      retries: 0,
+      workers: 1,
+    },
   ],
 
   /* Run your local dev server before starting the tests. */
