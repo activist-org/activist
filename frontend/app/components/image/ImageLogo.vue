@@ -2,26 +2,26 @@
 <template>
   <a class="group rounded-xl focus-brand" :href="imageLink" target="_blank">
     <div
-      class="relative z-0 size-[200px] rounded-xl bg-layer-1 group-hover:bg-highlight group-hover:fill-primary-text lg:size-[250px]"
+      class="relative z-0 size-[12.5rem] rounded-xl bg-layer-1 group-hover:bg-highlight group-hover:fill-primary-text lg:size-[15.625rem]"
     >
       <div
         class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
       >
         <div v-if="imageName == 'WikimediaDE'">
           <LogoWikimediaDE
-            class="size-[200px] group-hover:fill-primary-text lg:size-[250px]"
+            class="size-[12.5rem] group-hover:fill-primary-text lg:size-[15.625rem]"
           />
           <span class="sr-only">Wikimedia Germany</span>
         </div>
         <div v-if="imageName == 'WikimediaRS'">
           <LogoWikimediaRS
-            class="size-[200px] scale-[0.7] group-hover:fill-primary-text lg:size-[250px]"
+            class="size-[12.5rem] scale-[0.7] group-hover:fill-primary-text lg:size-[15.625rem]"
           />
           <span class="sr-only">Wikimedia Serbia</span>
         </div>
         <div v-if="imageName == 'ImpactHub'">
           <LogoImpactHub
-            class="size-[200px] scale-[0.7] rounded-md group-hover:fill-primary-text lg:size-[250px] lg:rounded-lg"
+            class="size-[12.5rem] scale-[0.7] rounded-md group-hover:fill-primary-text lg:size-[15.625rem] lg:rounded-lg"
           />
           <span class="sr-only">ImpactHub</span>
         </div>

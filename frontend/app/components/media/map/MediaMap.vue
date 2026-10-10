@@ -116,9 +116,9 @@ onMounted(() => {
   position: absolute;
   top: 0px;
   right: 0px;
-  font-size: 16px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
+  font-size: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
 }
 </style>

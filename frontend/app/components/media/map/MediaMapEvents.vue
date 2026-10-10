@@ -29,7 +29,7 @@ const { events = [] } = props;
 
 const buildExpandedTooltipPointer = (pointer: unknown) => {
   const root = document.createElement("div");
-  root.className = "w-[220px] cursor-pointer font-sans";
+  root.className = "w-[13.75rem] cursor-pointer font-sans";
   const event = pointer as {
     id: string;
     name: string;
@@ -54,17 +54,17 @@ const buildExpandedTooltipPointer = (pointer: unknown) => {
             <div class="px-3 py-1">
               <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${event.name}</h3>
 
-              <div class="flex items-center text-xs text-black mb-[6px] font-semibold space-x-2">
+              <div class="flex items-center text-xs text-black mb-[0.375rem] font-semibold space-x-2">
                 <img src="${organizationIcon}" alt=""/>
                 <span>${organization}</span>
               </div>
 
-              <div class="flex items-center text-xs text-black mb-[6px] font-semibold space-x-2">
+              <div class="flex items-center text-xs text-black mb-[0.375rem] font-semibold space-x-2">
                 <img src="${calendarIcon}" alt=""/>
                 <span>${datetime}</span>
               </div>
 
-              <div class="flex items-start text-xs text-black mb-[6px] font-semibold space-x-2">
+              <div class="flex items-start text-xs text-black mb-[0.375rem] font-semibold space-x-2">
                 <img src="${locationIcon}" alt=""/>
                 <span>${event.location}</span>
               </div>
@@ -78,7 +78,7 @@ const buildExpandedTooltipPointer = (pointer: unknown) => {
 const buildExpandedTooltipCluster = (pointer: unknown) => {
   const opts = pointer as { learn: number; action: number };
   const root = document.createElement("div");
-  root.className = "w-[220px] cursor-pointer font-sans";
+  root.className = "w-[13.75rem] cursor-pointer font-sans";
 
   let tooltipClass = "overflow-hidden bg-white rounded-sm border-l-8 border-l";
 
@@ -100,7 +100,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
   const learnEvents = t("i18n.components.media_map_events.learn_events");
   if (opts.learn > 0) {
     clusterTooltipHTML += `
-        <div class="flex items-center text-xs text-black mb-[6px] font-semibold space-x-2">
+        <div class="flex items-center text-xs text-black mb-[0.375rem] font-semibold space-x-2">
           <span>${learnEvents}: ${opts.learn}</span>
         </div>
       `;
@@ -109,7 +109,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
   const actionEvents = t("i18n.components.media_map_events.action_events");
   if (opts.action > 0) {
     clusterTooltipHTML += `
-        <div class="flex items-center text-xs text-black mb-[6px] font-semibold space-x-2">
+        <div class="flex items-center text-xs text-black mb-[0.375rem] font-semibold space-x-2">
           <span>${actionEvents}: ${opts.action}</span>
         </div>
       `;
