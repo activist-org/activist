@@ -5972,7 +5972,7 @@ __metadata:
     lint-staged: "npm:17.0.8"
     maplibre-gl: "npm:6.12.0"
     nuxt: "npm:4.5.2"
-    nuxt-auth-utils: "npm:0.5.29"
+    nuxt-auth-utils: "npm:0.5.30"
     nuxt-security: "npm:2.6.0"
     pinia: "npm:4.0.3"
     pinia-plugin-persistedstate: "npm:4.7.1"
@@ -11168,9 +11168,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-auth-utils@npm:0.5.29":
-  version: 0.5.29
-  resolution: "nuxt-auth-utils@npm:0.5.29"
+"nuxt-auth-utils@npm:0.5.30":
+  version: 0.5.30
+  resolution: "nuxt-auth-utils@npm:0.5.30"
   dependencies:
     "@adonisjs/hash": "npm:^9.1.1"
     "@nuxt/kit": "npm:^4.3.1"
@@ -11197,7 +11197,7 @@ __metadata:
       optional: true
     "@simplewebauthn/server":
       optional: true
-  checksum: 10c0/ebd39037c66dc79e592b5783bdc4c133bc57ea38f9d0fa2df4f48668f66d0ddfd66960f131e86b02391386c2e64d12cea657aabb954094172a6cb4ea7f588f25
+  checksum: 10c0/e92fae61e53925a8e8dd51dfbe0343f745870a94bd874306273ba8ed08424560775aaef077c7c33e6fa6267f79b6d3560375afcd93539e501e619bb3751462d3
   languageName: node
   linkType: hard
 
