@@ -35,7 +35,7 @@
     "@nuxt/test-utils": "4.3.2",
     "@nuxtjs/color-mode": "4.0.1",
     "@nuxtjs/device": "4.0.0",
-    "@nuxtjs/i18n": "10.4.0",
+    "@nuxtjs/i18n": "10.6.0",
     "@pinia/colada-nuxt": "1.0.2",
     "@pinia/nuxt": "1.0.2",
     "@playwright/test": "1.62.1",
