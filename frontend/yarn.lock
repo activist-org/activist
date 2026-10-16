@@ -477,6 +477,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@clack/core@npm:1.5.1":
+  version: 1.5.1
+  resolution: "@clack/core@npm:1.5.1"
+  dependencies:
+    fast-wrap-ansi: "npm:^0.2.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10c0/6dca93ff5a34bfe8c150367519bc40a847e9172cb1a78b18c88da0507cb6ad899debe1ad5cfcb9796e439108f12f003cf06fd002e2293bc85ff500975e45ff13
+  languageName: node
+  linkType: hard
+
 "@clack/prompts@npm:1.2.0":
   version: 1.2.0
   resolution: "@clack/prompts@npm:1.2.0"
@@ -489,7 +499,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@clack/prompts@npm:1.7.0, @clack/prompts@npm:^1.7.0":
+"@clack/prompts@npm:1.8.1":
+  version: 1.8.1
+  resolution: "@clack/prompts@npm:1.8.1"
+  dependencies:
+    "@clack/core": "npm:1.5.1"
+    fast-string-width: "npm:^3.0.2"
+    fast-wrap-ansi: "npm:^0.2.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10c0/ed38748acde0cb1e7ebdac1242470c78bd90380cbdde1e5560e0828881e3c74e2676de666086cf8183c8d4d3f1fc6e489f15a004f0d9f8ee294a3aa744de2093
+  languageName: node
+  linkType: hard
+
+"@clack/prompts@npm:^1.7.0":
   version: 1.7.0
   resolution: "@clack/prompts@npm:1.7.0"
   dependencies:
@@ -2248,35 +2270,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:^3.21.11":
-  version: 3.21.11
-  resolution: "@nuxt/kit@npm:3.21.11"
-  dependencies:
-    c12: "npm:^3.3.4"
-    consola: "npm:^3.4.2"
-    defu: "npm:^6.1.7"
-    destr: "npm:^2.0.5"
-    errx: "npm:^0.1.2"
-    exsolve: "npm:^1.1.1"
-    ignore: "npm:^7.0.6"
-    jiti: "npm:^2.7.0"
-    klona: "npm:^2.0.6"
-    knitwork: "npm:^1.3.0"
-    mlly: "npm:^1.8.2"
-    ohash: "npm:^2.0.11"
-    pathe: "npm:^2.0.3"
-    pkg-types: "npm:^2.3.1"
-    rc9: "npm:^3.0.1"
-    scule: "npm:^1.3.0"
-    semver: "npm:^7.8.5"
-    tinyglobby: "npm:^0.2.17"
-    ufo: "npm:^1.6.4"
-    unctx: "npm:^2.5.0"
-    untyped: "npm:^2.0.0"
-  checksum: 10c0/ed7ad107766b589b1a343a3218725bfed01c586cdfbbd0863181539eaac53f75ae8018e5490707701f3565466094078edcb3a07aa55a5317024cf78493dcb476
-  languageName: node
-  linkType: hard
-
 "@nuxt/nitro-server@npm:4.5.2":
   version: 4.5.2
   resolution: "@nuxt/nitro-server@npm:4.5.2"
@@ -2356,49 +2349,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/test-utils@npm:4.3.2":
-  version: 4.3.2
-  resolution: "@nuxt/test-utils@npm:4.3.2"
+"@nuxt/test-utils@npm:4.3.3":
+  version: 4.3.3
+  resolution: "@nuxt/test-utils@npm:4.3.3"
   dependencies:
-    "@clack/prompts": "npm:1.7.0"
-    "@nuxt/devtools-kit": "npm:^2.7.0"
-    "@nuxt/kit": "npm:^3.21.11"
-    c12: "npm:^3.3.4"
+    "@clack/prompts": "npm:1.8.1"
+    "@nuxt/devtools-kit": "npm:^3.4.2"
+    "@nuxt/kit": "npm:^4.5.2"
     consola: "npm:^3.4.2"
     defu: "npm:^6.1.7"
-    destr: "npm:^2.0.5"
-    estree-walker: "npm:^3.0.3"
     exsolve: "npm:^1.1.1"
     fake-indexeddb: "npm:^6.2.5"
     get-port-please: "npm:^3.2.0"
-    h3: "npm:^1.15.11"
-    local-pkg: "npm:^1.2.1"
-    magic-string: "npm:^1.2.3"
-    node-fetch-native: "npm:^1.6.7"
-    node-mock-http: "npm:^1.0.5"
-    nypm: "npm:^0.6.9"
+    magic-string: "npm:^1.4.2"
     ofetch: "npm:^1.5.1"
+    oxc-walker: "npm:^1.1.1"
+    package-manager-detector: "npm:^1.8.0"
     pathe: "npm:^2.0.3"
     perfect-debounce: "npm:^2.1.0"
     radix3: "npm:^1.1.2"
-    scule: "npm:^1.3.0"
     std-env: "npm:^4.2.0"
     tinyexec: "npm:^1.3.1"
     ufo: "npm:^1.6.4"
-    unplugin: "npm:^3.3.0"
+    unplugin: "npm:^3.4.0"
     vitest-environment-nuxt: "npm:2.0.0"
-    vue: "npm:^3.5.42"
   peerDependencies:
     "@cucumber/cucumber": ">=11.0.0"
     "@jest/globals": ">=30.0.0"
     "@playwright/test": ^1.43.1
     "@testing-library/vue": ^8.0.1
     "@vue/test-utils": ^2.4.2
-    h3-next: ">=2.0.1-rc.22"
+    h3: ^1.15.0 || ^2.0.0-0
     happy-dom: ">=20.0.11"
     jsdom: ">=27.4.0"
+    nuxt: ^3.21.0 || ^4.0.0 || ^5.0.0-0
     playwright-core: ^1.43.1
     vitest: ^4.0.2 || ^5.0.0
+    vue: ^3.5.0
   peerDependenciesMeta:
     "@cucumber/cucumber":
       optional: true
@@ -2412,17 +2399,19 @@ __metadata:
       optional: true
     "@vue/test-utils":
       optional: true
-    h3-next:
+    h3:
       optional: true
     happy-dom:
       optional: true
     jsdom:
       optional: true
+    nuxt:
+      optional: true
     playwright-core:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/1f3613cf779a1bc43de21873b961504226b97f50eb8a0b3f312d2ac1f6c0361cf72824b3afd056a50df019e509820b789420334c29b57c4c25ea34f212ffc0ec
+  checksum: 10c0/22722ba212db98f6f27fbd6521d4d30ae26f00aac452928b69768183d8ea88162e8bf91cbe176c86632343e03e619b42dad03526258a90d2593803dc02227bcd
   languageName: node
   linkType: hard
 
@@ -5721,7 +5710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-sfc@npm:3.5.43, @vue/compiler-sfc@npm:^3.5.40":
+"@vue/compiler-sfc@npm:^3.5.40":
   version: 3.5.43
   resolution: "@vue/compiler-sfc@npm:3.5.43"
   dependencies:
@@ -5881,15 +5870,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/reactivity@npm:3.5.43":
-  version: 3.5.43
-  resolution: "@vue/reactivity@npm:3.5.43"
-  dependencies:
-    "@vue/shared": "npm:3.5.43"
-  checksum: 10c0/30818da249137848a5a01c2eefbaaaba83abc2cb7c65d2521aa4ef6f1b1a677573dc063db95c5242829c7c1b287438cdeb343bd73cd7dce180de4d3234b988f0
-  languageName: node
-  linkType: hard
-
 "@vue/runtime-core@npm:3.5.39":
   version: 3.5.39
   resolution: "@vue/runtime-core@npm:3.5.39"
@@ -5907,16 +5887,6 @@ __metadata:
     "@vue/reactivity": "npm:3.5.41"
     "@vue/shared": "npm:3.5.41"
   checksum: 10c0/b3771950b138c70baa350928711dacc188d163a00838d6d08aee0b1e33c809bb0e634e28854460c6d4e80c2f3158d4de5bbf610bb72ad54859209d38ad41b57f
-  languageName: node
-  linkType: hard
-
-"@vue/runtime-core@npm:3.5.43":
-  version: 3.5.43
-  resolution: "@vue/runtime-core@npm:3.5.43"
-  dependencies:
-    "@vue/reactivity": "npm:3.5.43"
-    "@vue/shared": "npm:3.5.43"
-  checksum: 10c0/f023832140f650994bc1cb9b3145ca2635e2661e6bccac40162f77103e3e9b6ae1f67e18fb9a32ac261888491c3429ef22e853775cac6a7ce0ef24f1fba90805
   languageName: node
   linkType: hard
 
@@ -5944,18 +5914,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/runtime-dom@npm:3.5.43":
-  version: 3.5.43
-  resolution: "@vue/runtime-dom@npm:3.5.43"
-  dependencies:
-    "@vue/reactivity": "npm:3.5.43"
-    "@vue/runtime-core": "npm:3.5.43"
-    "@vue/shared": "npm:3.5.43"
-    csstype: "npm:^3.2.3"
-  checksum: 10c0/7c4844d19570e379e5a7b07f1b694f5f36d069d38293272b0e2011984bcde9f87844b3ac1325e67ed608bf278709a1b13a4c470c52746e83c0de60fd14427335
-  languageName: node
-  linkType: hard
-
 "@vue/server-renderer@npm:3.5.39":
   version: 3.5.39
   resolution: "@vue/server-renderer@npm:3.5.39"
@@ -5976,17 +5934,6 @@ __metadata:
     "@vue/runtime-dom": "npm:3.5.41"
     "@vue/shared": "npm:3.5.41"
   checksum: 10c0/588eb3fb84fce2dbe1fd084d961d192f702ee63175bb837926f490aa691fbb85687411dce9ba73fde380b325b07a996817c62c10c82a16f28bc05c5222a618b0
-  languageName: node
-  linkType: hard
-
-"@vue/server-renderer@npm:3.5.43":
-  version: 3.5.43
-  resolution: "@vue/server-renderer@npm:3.5.43"
-  dependencies:
-    "@vue/compiler-ssr": "npm:3.5.43"
-    "@vue/runtime-dom": "npm:3.5.43"
-    "@vue/shared": "npm:3.5.43"
-  checksum: 10c0/bc3fa8227db943987dae28c271c8ef7c09e42e0777480bca49d89446b51aa4d76c6c71b8169a48ccb2d7ade51e4add3bdee50106c7df73b17a65558a6d7d7f7d
   languageName: node
   linkType: hard
 
@@ -6201,7 +6148,7 @@ __metadata:
     "@nuxt/eslint": "npm:1.17.0"
     "@nuxt/eslint-config": "npm:1.17.0"
     "@nuxt/icon": "npm:2.5.1"
-    "@nuxt/test-utils": "npm:4.3.2"
+    "@nuxt/test-utils": "npm:4.3.3"
     "@nuxtjs/color-mode": "npm:4.0.1"
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.6.0"
@@ -10784,7 +10731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^1.2.3, magic-string@npm:^1.4.3":
+"magic-string@npm:^1.4.2, magic-string@npm:^1.4.3":
   version: 1.4.3
   resolution: "magic-string@npm:1.4.3"
   dependencies:
@@ -11417,13 +11364,6 @@ __metadata:
   version: 1.0.4
   resolution: "node-mock-http@npm:1.0.4"
   checksum: 10c0/86e3f7453cf07ad6b8bd17cf89ff91d45f486a861cf6d891618cf29647d559cbcde1d1f90c9cc02e014ff9f7900b2fb21c96b03ea4b4a415dbe2d65badadceba
-  languageName: node
-  linkType: hard
-
-"node-mock-http@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "node-mock-http@npm:1.0.5"
-  checksum: 10c0/14a36b28423953af95e4659aa1e07208b5a38daaa89c1aac28a193f5420744a2511eb288503019b2fc8de582c70612d2e475d0df1d1a0e44fe3dfd7fc8f5399c
   languageName: node
   linkType: hard
 
@@ -16038,24 +15978,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 10c0/356fa6d56ff1aa5c436d5db8f9d257e548b0af6c8fb9c6aee0e8eda17f8adc8db846d36c10a3854c7325ac99e825c904bbb61cd710fd8101da144b055e6f7dcf
-  languageName: node
-  linkType: hard
-
-"vue@npm:^3.5.42":
-  version: 3.5.43
-  resolution: "vue@npm:3.5.43"
-  dependencies:
-    "@vue/compiler-dom": "npm:3.5.43"
-    "@vue/compiler-sfc": "npm:3.5.43"
-    "@vue/runtime-dom": "npm:3.5.43"
-    "@vue/server-renderer": "npm:3.5.43"
-    "@vue/shared": "npm:3.5.43"
-  peerDependencies:
-    typescript: "*"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/0b065772363e6f6358c70958d99cee8f5e8cc5dc773676380a06c737714b9a162721cade9c16fe9ff87aea569e2ce5cd2da2f1db5f510357b69d575f9542ded9
   languageName: node
   linkType: hard
 

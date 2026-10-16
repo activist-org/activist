@@ -32,7 +32,7 @@
     "@nuxt/eslint": "1.17.0",
     "@nuxt/eslint-config": "1.17.0",
     "@nuxt/icon": "2.5.1",
-    "@nuxt/test-utils": "4.3.2",
+    "@nuxt/test-utils": "4.3.3",
     "@nuxtjs/color-mode": "4.0.1",
     "@nuxtjs/device": "4.0.0",
     "@nuxtjs/i18n": "10.6.0",
