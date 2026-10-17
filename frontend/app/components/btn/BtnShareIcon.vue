@@ -20,7 +20,7 @@
     />
     <p
       v-if="reasonForSuggesting"
-      class="mt-0.5 text-xs italic text-distinct-text"
+      class="mt-[2px] text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
@@ -47,11 +47,11 @@
       class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
       :iconName="IconMap.SQUARE_CHECK"
       :iconSize="iconSize"
-      :text="$t('i18n.components.btn_share_icon.url_copied')"
+      :text="t('i18n.components.btn_share_icon.url_copied')"
     />
     <p
       v-if="reasonForSuggesting"
-      class="mt-0.5 text-xs italic text-distinct-text"
+      class="mt-[2px] text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
@@ -60,8 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from "vue";
-
 import { useI18n } from "vue-i18n";
 import {
   SEmail,
@@ -119,8 +117,10 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const contentCopied = ref(false);
 const { showToastInfo } = useToaster();
+
+const contentCopied = ref(false);
+
 type ShareKeys = "signal" | "matrix" | "instagram";
 
 const getCurrentI18n: Record<ShareKeys, string> = {

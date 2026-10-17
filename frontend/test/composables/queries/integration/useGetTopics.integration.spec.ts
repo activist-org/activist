@@ -247,11 +247,11 @@ describe("useGetTopics Integration", () => {
 
   describe("Cache Key", () => {
     it("getKeyForGetTopics returns consistent key", async () => {
-      const { getKeyForGetTopics } =
-        await import("../../../../app/composables/queries/useGetTopics");
-
-      expect(getKeyForGetTopics()).toBe("topics-list");
-      expect(getKeyForGetTopics()).toBe(getKeyForGetTopics());
+      const { useTopicCache } =
+        await import("../../../../app/composables/cache/useTopicCache");
+      const { getKeyForTopics } = useTopicCache();
+      expect(getKeyForTopics()).toStrictEqual(["topics"]);
+      expect(getKeyForTopics()).toStrictEqual(getKeyForTopics());
     });
   });
 });

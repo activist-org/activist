@@ -25,7 +25,13 @@ const props = defineProps<{
 const groupId = computed(() => props.entityId);
 
 const { data: group } = useGetGroup(groupId);
-const { updateTexts } = useGroupTextsMutations(groupId);
+const { updateTexts } = useGroupTextsMutations(groupId, {
+  update: {
+    onSuccess: () => {
+      handleCloseModal();
+    },
+  },
+});
 
 // The query resolves after the modal mounts, so rendering the form before the
 // texts arrive prefills blanks and submits against an undefined text id.
@@ -56,12 +62,9 @@ async function handleSubmit(values: unknown) {
     return;
   }
 
-  const response = await updateTexts({
+  updateTexts({
     textId: String(textId),
     data: values as GroupUpdateTextFormData,
   });
-  if (response) {
-    handleCloseModal();
-  }
 }
 </script>

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { defaultOrganizationText } from "../../../../app/constants/organization";
 import {
   createOrganization,
   deleteOrganization,
@@ -9,6 +8,7 @@ import {
   listOrganizations,
   mapOrganization,
 } from "../../../../app/services/communities/organization/organization";
+import { defaultOrganizationText } from "../../../../shared/constants/organization";
 import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
@@ -23,7 +23,7 @@ describe("services/communities/organization", () => {
   // MARK: Get
 
   it("getOrganization() requests by ID with withoutAuth and maps response", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const response = {
       id: "org-1",
       orgName: "Org1",
@@ -42,13 +42,13 @@ describe("services/communities/organization", () => {
       faqEntries: [],
       texts: [defaultOrganizationText],
     };
-    fetchMock.mockResolvedValueOnce(response);
+    get.mockResolvedValueOnce(response);
 
     const result = await getOrganization("org-1");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/communities\/organizations\/org-1$/, "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    expectRequest(get, /\/communities\/organizations\/org-1$/, "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result.id).toBe("org-1");
@@ -58,7 +58,7 @@ describe("services/communities/organization", () => {
   // MARK: List
 
   it("listOrganizations() builds query from filters, uses withoutAuth, and maps items", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     type ApiItem = Parameters<typeof mapOrganization>[0];
     const apiItem = {
       id: "org-2",
@@ -84,13 +84,13 @@ describe("services/communities/organization", () => {
       previous: null,
       results: [apiItem],
     };
-    fetchMock.mockResolvedValueOnce(responseBody);
+    get.mockResolvedValueOnce(responseBody);
 
     const result = await listOrganizations({ name: "abc" as unknown as never });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/communities\/organizations\?name=abc$/, "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    expectRequest(get, /\/communities\/organizations\?name=abc$/, "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result.data).toHaveLength(1);
@@ -102,7 +102,7 @@ describe("services/communities/organization", () => {
   // MARK: Create
 
   it("createOrganization() builds payload and returns created id", async () => {
-    const { fetchMock } = getMocks();
+    const { post } = getMocks();
     const form = {
       name: "New Org",
       country_code: "US",
@@ -113,14 +113,14 @@ describe("services/communities/organization", () => {
     } as const;
 
     const created = { id: "org-3" };
-    fetchMock.mockResolvedValueOnce(created);
+    post.mockResolvedValueOnce(created);
 
     const org = await createOrganization({ ...form } as unknown as Parameters<
       typeof createOrganization
     >[0]);
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectJsonRequest(fetchMock, "/communities/organizations", "POST", {
+    expect(post).toHaveBeenCalledTimes(1);
+    expectJsonRequest(post, "/communities/organizations", "POST", {
       name: form.name,
       tagline: form.tagline,
       description: form.description,
@@ -132,20 +132,20 @@ describe("services/communities/organization", () => {
   // MARK: Delete
 
   it("deleteOrganization() calls DELETE on the endpoint", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValueOnce({ ok: true });
 
     await deleteOrganization("org-4");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/communities\/organizations\/org-4$/, "DELETE");
+    expect(del).toHaveBeenCalledTimes(1);
+    expectRequest(del, /\/communities\/organizations\/org-4$/, "DELETE");
   });
 
   // MARK: Error Handling
 
   it("propagates AppError via errorHandler on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { get } = getMocks();
+    get.mockRejectedValueOnce(new Error("boom"));
     await expect(getOrganization("org-err")).rejects.toBeInstanceOf(AppError);
   });
 

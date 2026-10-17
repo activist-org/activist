@@ -36,7 +36,7 @@ const createWrapper = (props: Partial<ModalProps> = {}, slots = {}) =>
     props: { modalName: "testModal", ...props },
     slots,
     global: {
-      mocks: { $t: (key: string) => key },
+      mocks: { t: (key: string) => key },
       stubs: {
         // Stub teleport to render content inline so wrapper.find() still works.
         teleport: true,
@@ -265,7 +265,7 @@ describe("ModalBase component", () => {
     it("applies standard modal responsive classes", () => {
       wrapper = createWrapper({ imageModal: false });
       const panel = wrapper.find('[data-testid="modal-testModal"]');
-      ["max-w-4xl", "overflow-y-auto", "h-full"].forEach((c) =>
+      ["max-w-4xl", "overflow-y-auto", "size-full"].forEach((c) =>
         expect(panel.classes()).toContain(c)
       );
       expect(panel.html()).toContain("md:h-auto");

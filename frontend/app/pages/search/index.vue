@@ -2,11 +2,11 @@
 <template>
   <div class="bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ $t("i18n._global.search") }}</Title>
+      <Title>{{ t("i18n._global.search") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('i18n.pages.search.index.header')"
-      :tagline="$t('i18n.pages.search.index.subheader')"
+      :header="t('i18n.pages.search.index.header')"
+      :tagline="t('i18n.pages.search.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <ShieldTopic topic="My topics dropdown" />
@@ -15,3 +15,7 @@
     <GridFilterTags class="mt-3" :tags="['Berlin', 'Activism', 'Eco']" />
   </div>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>

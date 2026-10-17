@@ -3,7 +3,13 @@ import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import type { Feature, GeoJsonProperties, Point } from "geojson";
 
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import {
+  type Map,
+  type GeoJSONSource,
+  Marker,
+  Popup,
+  LngLatBounds,
+} from "maplibre-gl";
 
 export const useClusterMap = () => {
   const { createPointerMarker } = usePointerMap();
@@ -104,15 +110,15 @@ export const useClusterMap = () => {
 
   // TODO: Refactor function to make it more readable.
   const updateMarkers = (
-    map: maplibregl.Map,
-    markers: { [key: string]: maplibregl.Marker },
-    markersOnScreen: { [key: string]: maplibregl.Marker } = {},
+    map: Map,
+    markers: { [key: string]: Marker },
+    markersOnScreen: { [key: string]: Marker } = {},
     directions: MapLibreGlDirections,
     popupCreate: (props: GeoJsonProperties) => PopupContent,
     clusterProperties: ClusterProperties,
     pointerTooltipCreate: (props: GeoJsonProperties) => PopupContent
   ) => {
-    const newMarkers: { [key: string]: maplibregl.Marker } = {};
+    const newMarkers: { [key: string]: Marker } = {};
     const features = map.querySourceFeatures("pointers");
     // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
@@ -127,9 +133,7 @@ export const useClusterMap = () => {
           const id = props.cluster_id;
           if (currentZoom >= DECLUSTER_ZOOM) {
             // Show individual markers for clusters at high zoom.
-            const source = map.getSource(
-              "pointers"
-            ) as maplibregl.GeoJSONSource;
+            const source = map.getSource("pointers") as GeoJSONSource;
 
             source.getClusterLeaves(id, props.point_count, 0).then((leaves) => {
               leaves?.forEach((leaf) => {
@@ -175,11 +179,11 @@ export const useClusterMap = () => {
 
               const el = createDonutChart(multipleDonutProps, id);
               const popUpContent = popupCreate(props);
-              const popUp = new maplibregl.Popup({
+              const popUp = new Popup({
                 offset: 25,
                 maxWidth: "260px",
               }).setDOMContent(popUpContent);
-              marker = markers[id] = new maplibregl.Marker({
+              marker = markers[id] = new Marker({
                 element: el,
               })
                 .setLngLat(coords)
@@ -201,11 +205,11 @@ export const useClusterMap = () => {
                 clusterProperties?.getIndividualDonutProps(props);
               const el = createDonutChart(individualDonutProps, props.id);
               const popUpContent = popupCreate(props);
-              const popUp = new maplibregl.Popup({
+              const popUp = new Popup({
                 offset: 25,
                 maxWidth: "260px",
               }).setDOMContent(popUpContent);
-              const marker = new maplibregl.Marker({
+              const marker = new Marker({
                 element: el,
               })
                 .setLngLat(coords)
@@ -261,7 +265,7 @@ export const useClusterMap = () => {
   };
 
   const createMapForClusterTypeMap = (
-    map: maplibregl.Map,
+    map: Map,
     pointers: PointerCluster[],
     isTouchDevice: boolean,
     clusterProperties: ClusterProperties,
@@ -385,7 +389,7 @@ export const useClusterMap = () => {
         const bounds = features.reduce(
           (acc, feature) =>
             acc.extend(feature.geometry.coordinates as [number, number]),
-          new maplibregl.LngLatBounds()
+          new LngLatBounds()
         );
         // Add stable bounds check.
         if (bounds.isEmpty()) {
@@ -405,10 +409,10 @@ export const useClusterMap = () => {
         });
       }
       // Optional: Add custom HTML markers for clusters.
-      const markers: { [key: string]: maplibregl.Marker } = {};
-      let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
+      const markers: { [key: string]: Marker } = {};
+      let markersOnScreen: { [key: string]: Marker } = {};
 
-      map.on("zoomed", () => {
+      map.on("zoomend", () => {
         const currentZoom = map.getZoom();
 
         if (currentZoom < DECLUSTER_ZOOM) {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { ContentImage } from "../../../../shared/types/file-type";
 
@@ -9,6 +9,7 @@ import {
   uploadOrganizationIconImage,
   uploadOrganizationImages,
 } from "../../../../app/services/communities/organization/image";
+import { AppErrorCause } from "../../../../shared/constants/error";
 import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
@@ -17,6 +18,13 @@ import {
   setupServiceTestMocks,
 } from "../../helpers";
 
+const validateImageUploadBatch = vi.fn();
+
+vi.mock("../../../../app/services/content/image", () => ({
+  validateImageUploadBatch: (...args: unknown[]) =>
+    validateImageUploadBatch(...args),
+}));
+
 function isFormData(value: unknown): value is FormData {
   return typeof FormData !== "undefined" && value instanceof FormData;
 }
@@ -24,15 +32,20 @@ function isFormData(value: unknown): value is FormData {
 describe("services/communities/organization/image", () => {
   const getMocks = setupServiceTestMocks();
 
+  beforeEach(() => {
+    validateImageUploadBatch.mockReset();
+    validateImageUploadBatch.mockResolvedValue(undefined);
+  });
+
   it("uploadOrganizationIconImage() posts FormData to image_icon", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { post } = getMocks();
+    post.mockResolvedValueOnce({ ok: true });
 
     const file = new File(["abc"], "x.png", { type: "image/png" });
     await uploadOrganizationIconImage("org-1", { file });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = getFetchCall(fetchMock);
+    expect(post).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(post);
     expect(url).toBe("/content/image_icon");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
@@ -42,8 +55,8 @@ describe("services/communities/organization/image", () => {
   // MARK: Update
 
   it("updateOrganizationImage() puts JSON with content-type header", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     const img: ContentImage = {
       id: "img-1",
       url: "u",
@@ -55,7 +68,7 @@ describe("services/communities/organization/image", () => {
     await updateOrganizationImage("org-1", img);
 
     expectJsonRequest(
-      fetchMock,
+      put,
       "/communities/organization/org-1/images/img-1",
       "PUT",
       img
@@ -63,23 +76,23 @@ describe("services/communities/organization/image", () => {
   });
 
   it("fetchOrganizationImages() gets images using authenticated client", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const returned: ContentImage[] = [];
-    fetchMock.mockResolvedValueOnce(returned);
+    get.mockResolvedValueOnce(returned);
 
     const res = await fetchOrganizationImages("org-2");
     expect(res).toBe(returned);
 
-    expectRequest(fetchMock, "/communities/organization/org-2/images", "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expectRequest(get, "/communities/organization/org-2/images");
+    const [, opts] = getFetchCall(get);
     // Authorization is now added by server-side middleware, not the client helper.
     expect(opts.baseURL).toBe("/api/public");
   });
 
-  it("uploadOrganizationImages() posts FormData with sequences and files", async () => {
-    const { fetchMock } = getMocks();
+  it("uploadOrganizationImages() validates the batch before posting FormData", async () => {
+    const { post } = getMocks();
     const files = [new File(["a"], "a.png"), new File(["b"], "b.png")];
-    fetchMock.mockResolvedValueOnce([]);
+    post.mockResolvedValueOnce([]);
 
     await uploadOrganizationImages(
       "org-3",
@@ -87,18 +100,40 @@ describe("services/communities/organization/image", () => {
       [0, 1]
     );
 
-    const [url, opts] = getFetchCall(fetchMock);
+    expect(validateImageUploadBatch).toHaveBeenCalledWith([
+      files[0].size,
+      files[1].size,
+    ]);
+    const [url, opts] = getFetchCall(post);
     expect(url).toBe("/content/images");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
     expect(isFormData(opts.body)).toBe(true);
   });
 
+  it("uploadOrganizationImages() does not upload when batch validation fails", async () => {
+    const { fetchImage } = getMocks();
+    validateImageUploadBatch.mockRejectedValueOnce(
+      new AppError("batch too large", AppErrorCause.VALIDATION)
+    );
+    const files = [new File(["a"], "a.png")];
+
+    await expect(
+      uploadOrganizationImages(
+        "org-3",
+        files.map((f) => ({ file: f }))
+      )
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(validateImageUploadBatch).toHaveBeenCalledTimes(1);
+    expect(fetchImage).not.toHaveBeenCalled();
+  });
+
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(
       uploadOrganizationIconImage("org-err", { file: new File(["x"], "x.png") })
     ).rejects.toBeInstanceOf(AppError);

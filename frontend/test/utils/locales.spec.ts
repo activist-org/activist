@@ -18,6 +18,7 @@ describe("utils/locales", () => {
       LOCALE_CODE.PORTUGUESE,
       LOCALE_CODE.SPANISH,
       LOCALE_CODE.RUSSIAN,
+      LOCALE_CODE.UKRAINIAN,
     ]);
     expect(locales.find((l) => l.code === LOCALE_CODE.ENGLISH)!.name).toBe(
       LOCALE_NAME.ENGLISH

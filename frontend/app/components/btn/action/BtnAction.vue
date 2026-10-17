@@ -2,7 +2,7 @@
 <template>
   <button
     :id="id"
-    :aria-label="$t(ariaLabel)"
+    :aria-label="t(ariaLabel)"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
   >
@@ -33,8 +33,9 @@ function loadBtnDynamicClass() {
 }
 
 let btnDynamicClass = loadBtnDynamicClass();
-
 watchEffect(() => {
   btnDynamicClass = loadBtnDynamicClass();
 });
+
+const { t } = useI18n();
 </script>

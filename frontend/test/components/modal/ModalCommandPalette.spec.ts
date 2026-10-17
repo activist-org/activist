@@ -5,7 +5,7 @@ import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import ModalCommandPalette from "../../../app/components/modal/ModalCommandPalette.vue";
-import { IconMap } from "../../../shared/types/icon-map";
+import { IconMap } from "../../../shared/constants/iconMap";
 
 // Mock vue-router's useRouter so we can intercept router.push calls.
 // The component imports useRouter directly from "vue-router", so this module path must be mocked.
@@ -104,7 +104,7 @@ const createWrapper = (props: { paletteData?: Command[] } = {}): VueWrapper =>
     },
     global: {
       mocks: {
-        $t: (key: string) => key,
+        t: (key: string) => key,
       },
       stubs: {
         ModalBase: ModalBaseStub,

@@ -13,13 +13,13 @@ describe("services/event/image", () => {
   const getMocks = setupServiceTestMocks();
 
   it("uploadEventIconImage() posts FormData to image_icon", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { post } = getMocks();
+    post.mockResolvedValueOnce({ ok: true });
     const file = new File(["x"], "x.png", { type: "image/png" });
 
     await uploadEventIconImage("evt-1", { file });
 
-    const [url, opts] = getFetchCall(fetchMock);
+    const [url, opts] = getFetchCall(post);
     expect(url).toBe("/content/image_icon");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
@@ -29,8 +29,8 @@ describe("services/event/image", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(
       uploadEventIconImage("evt-err", { file: new File(["x"], "x.png") })
     ).rejects.toBeInstanceOf(AppError);

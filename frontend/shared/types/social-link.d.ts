@@ -13,6 +13,12 @@ export type SocialLinkInput = Omit<
   "id" | "creationDate" | "lastUpdated"
 > & { id?: string };
 
-export interface SocialLinkFormData {
+export interface SocialLinksFormData {
   socialLinks: SocialLinkInput[];
+}
+export interface SocialLinkFormData {
+  id?: string;
+  link: string;
+  label: string;
+  order: number;
 }

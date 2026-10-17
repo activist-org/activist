@@ -21,6 +21,11 @@ interface EventBase extends Entity {
   // supportingUsers?: User[];
 }
 
+export interface EventCalendarFile {
+  blob: Blob;
+  contentDisposition: string | null;
+}
+
 export type EventType = "action" | "learn";
 // Note: CommunityEvent is used in the frontend to refer to events since "event" is a reserved word in JS.
 export interface CommunityEvent extends EventBase {
@@ -53,6 +58,12 @@ export interface EventFilters {
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
   days_ahead?: number; // number of days in the future
+}
+
+export interface OrganizationEventFilters {
+  startDate?: string;
+  endDate?: string;
+  name?: string;
 }
 
 export interface EventSocialLink extends SocialLink {

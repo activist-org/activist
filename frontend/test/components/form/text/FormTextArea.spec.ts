@@ -378,7 +378,7 @@ describe("FormTextArea component", () => {
     expect(classes).toContain("bg-transparent");
     expect(classes).toContain("py-2");
     expect(classes).toContain("pl-3");
-    expect(classes).toContain("pr-2.5");
+    expect(classes).toContain("pr-[10px]");
     expect(classes).toContain("text-left");
     expect(classes).toContain("placeholder-primary-text");
     expect(classes).toContain("outline-none");

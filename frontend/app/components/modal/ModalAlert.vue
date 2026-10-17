@@ -8,7 +8,7 @@
           :name="IconMap.WARN_OCTAGON"
           size="1.4em"
         />
-        <p>{{ $t(message || "") }}</p>
+        <p>{{ t(message || "") }}</p>
       </div>
       <div class="flex gap-2">
         <BtnAction
@@ -44,6 +44,8 @@ const props = withDefaults(
     modalName: "ModalAlert",
   }
 );
+
+const { t } = useI18n();
 
 const modalAlertName = computed(() => props.modalName);
 const { handleCloseModal } = useModalHandlers<{

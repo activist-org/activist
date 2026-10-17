@@ -47,7 +47,7 @@ const createWrapper = (propsOverrides: Partial<EntityProps> = {}, slots = {}) =>
     slots,
     global: {
       mocks: {
-        $t: (key: string) => key,
+        t: (key: string) => key,
       },
       stubs: {
         NuxtLink: {

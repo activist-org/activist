@@ -2,14 +2,14 @@
 <template>
   <RadioGroup
     v-model="value"
-    :aria-label="$t('i18n.components.form_selector_radio.title_aria_label')"
+    :aria-label="t('i18n.components.form_selector_radio.title_aria_label')"
     class="flex h-10 w-full px-1"
   >
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
       @click.capture="onOptionClick($event, option)"
-      :aria-label="$t(option.aria_label)"
+      :aria-label="t(option.aria_label)"
       class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
         {
@@ -29,7 +29,7 @@
       <Icon
         v-if="option.isIcon"
         :aria-hidden="true"
-        class="h-6 w-6"
+        class="size-6"
         :name="option.content as string"
       />
       <span v-else class="text-sm font-medium" :class="option.class">
@@ -58,6 +58,8 @@ const props = defineProps<{
   options: Option[];
   toggleable?: boolean;
 }>();
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: typeof props.modelValue): void;

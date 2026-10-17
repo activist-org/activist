@@ -5,42 +5,42 @@
     data-testid="empty-state"
   >
     <PageContent
-      :imgUrl="BOOTSTRAP_CLOUD_MOON_URL"
+      :imgUrl="bootstrap"
       imgAltText="i18n.components.empty_state.img_alt_text"
     >
       <div>
         <!-- Header -->
         <h2 v-if="pageType == 'organizations'">
-          {{ $t("i18n.components.empty_state.organizations_header") }}
+          {{ t("i18n.components.empty_state.organizations_header") }}
         </h2>
         <h2 v-if="pageType == 'groups'">
-          {{ $t("i18n.components.empty_state.groups_header") }}
+          {{ t("i18n.components.empty_state.groups_header") }}
         </h2>
         <h2 v-if="pageType == 'events'">
-          {{ $t("i18n.components.empty_state.events_header") }}
+          {{ t("i18n.components.empty_state.events_header") }}
         </h2>
         <h2 v-if="pageType == 'resources'">
-          {{ $t("i18n.components.empty_state.resources_header") }}
+          {{ t("i18n.components.empty_state.resources_header") }}
         </h2>
         <h2 v-if="pageType == 'faq'">
-          {{ $t("i18n.components.empty_state.faq_header") }}
+          {{ t("i18n.components.empty_state.faq_header") }}
         </h2>
         <h2 v-if="pageType == 'team'">
-          {{ $t("i18n.components.empty_state.team_header") }}
+          {{ t("i18n.components.empty_state.team_header") }}
         </h2>
         <h2 v-if="pageType == 'affiliates'">
-          {{ $t("i18n.components.empty_state.affiliates_header") }}
+          {{ t("i18n.components.empty_state.affiliates_header") }}
         </h2>
         <h2 v-if="pageType == 'tasks'">
-          {{ $t("i18n.components.empty_state.tasks_header") }}
+          {{ t("i18n.components.empty_state.tasks_header") }}
         </h2>
         <h2 v-if="pageType == 'discussions'">
-          {{ $t("i18n.components.empty_state.discussions_header") }}
+          {{ t("i18n.components.empty_state.discussions_header") }}
         </h2>
         <!-- Message -->
         <div v-if="!permission" class="flex flex-col space-y-6 py-6">
           <h4>
-            {{ $t("i18n.components.empty_state.message_no_permission") }}
+            {{ t("i18n.components.empty_state.message_no_permission") }}
           </h4>
           <PageCommunityFooter
             header="i18n.components.empty_state.cta_header_no_permission"
@@ -57,7 +57,7 @@
         </div>
         <div v-else class="flex flex-col space-y-6 py-6">
           <h4>
-            {{ $t("i18n.components.empty_state.message_with_permission") }}
+            {{ t("i18n.components.empty_state.message_with_permission") }}
           </h4>
           <div
             class="mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 pb-6 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[50%] xl:gap-x-8 2xl:max-w-[80%]"
@@ -132,4 +132,8 @@ defineProps<{
     | "discussions";
   permission: boolean;
 }>();
+
+const { t } = useI18n();
+
+const bootstrap = BOOTSTRAP_CLOUD_MOON_URL;
 </script>

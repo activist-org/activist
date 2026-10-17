@@ -4,10 +4,10 @@
   <HeaderWebsite v-if="!aboveMediumBP" />
   <div class="grid h-screen grid-cols-1 md:grid-cols-2">
     <Head>
-      <Title>{{ $t(page.title) }}</Title>
+      <Title>{{ t(page.title) }}</Title>
     </Head>
     <div v-if="aboveMediumBP" class="relative">
-      <div class="flex h-full w-full items-center justify-center">
+      <div class="flex size-full items-center justify-center">
         <div
           class="relative z-0 mb-6 h-16 w-64 overflow-y-hidden xl:h-24 xl:w-96"
         >
@@ -33,7 +33,7 @@
       <div class="w-full flex-1 space-y-4 pb-4 pt-16 md:pb-8 md:pt-28">
         <div class="flex items-center justify-center p-4">
           <h1 class="text-center font-display font-bold">
-            {{ $t(page.message) }}
+            {{ t(page.message) }}
           </h1>
         </div>
       </div>
@@ -43,8 +43,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
 const route = useRoute();
-
 const aboveMediumBP = useBreakpoint("md");
 
 const page = computed(() => {

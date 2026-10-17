@@ -4,15 +4,15 @@
     @submit="handleSubmit"
     :initial-values="formData as undefined"
     :schema="schema"
-    :submit-label="$t(submitLabel)"
+    :submit-label="t(submitLabel)"
   >
     <h2 v-if="title">
-      {{ $t(title) }}
+      {{ t(title) }}
     </h2>
     <div class="flex flex-col space-y-7">
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.form_resource.name')"
+        :label="t('i18n.components.form_resource.name')"
         name="name"
         :required="true"
       >
@@ -22,13 +22,13 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.form_resource.name')"
+          :label="t('i18n.components.form_resource.name')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.form_resource.description')"
+        :label="t('i18n.components.form_resource.description')"
         name="description"
         :required="true"
       >
@@ -38,14 +38,14 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :placeholder="
-            $t('i18n.components.form_resource.description_placeholder')
+            t('i18n.components.form_resource.description_placeholder')
           "
           :value="value.value"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.form_resource.link')"
+        :label="t('i18n.components.form_resource.link')"
         name="url"
         :required="true"
       >
@@ -55,24 +55,24 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.form_resource.link_placeholder')"
+          :label="t('i18n.components.form_resource.link_placeholder')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        :label="$t('i18n.components._global.topics')"
+        :label="t('i18n.components._global.topics')"
         name="topics"
       >
         <!-- prettier-ignore-attribute :selected-topics -->
         <FormSelectorComboboxTopics
           :id="id"
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as TopicEnum[])
+            (val: unknown) => handleChange(val as TopicMapType[])
           "
           :hasColOptions="false"
-          :label="$t('i18n.components._global.topics')"
-          :selected-topics="(value.value as TopicEnum[])"
+          :label="t('i18n.components._global.topics')"
+          :selected-topics="(value.value as TopicMapType[])"
         />
       </FormItem>
     </div>
@@ -115,9 +115,12 @@ const schema = z.object({
     .array(
       z
         .string()
-        .refine((val) => Object.values(TopicEnum).includes(val as TopicEnum), {
-          message: t("i18n.components.form_resource.invalid_topic"),
-        })
+        .refine(
+          (val) => Object.values(TopicMap).includes(val as TopicMapType),
+          {
+            message: t("i18n.components.form_resource.invalid_topic"),
+          }
+        )
     )
     .optional(),
 });

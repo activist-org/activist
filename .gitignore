@@ -56,8 +56,6 @@ node_modules
 
 # Vue/Nuxt
 frontend/.data
-# i18n fix
-vue-i18n.d.ts
 
 # Yarn
 frontend/.pnp.*

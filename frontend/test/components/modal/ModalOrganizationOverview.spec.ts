@@ -55,7 +55,7 @@ const createWrapper = (props: { event?: CommunityEvent } = {}): VueWrapper =>
   mount(ModalOrganizationOverview, {
     props: { ...props },
     global: {
-      mocks: { $t: (key: string) => key },
+      mocks: { t: (key: string) => key },
       stubs: {
         ModalBase: ModalBaseStub,
         DialogTitle: DialogTitleStub,

@@ -4,15 +4,14 @@
     <div
       class="relative"
       :class="{
-        'h-32 w-32':
+        'size-32':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'h-10 w-10':
-          sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        'size-10': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
       <ImageOrganization
         :alt="
-          $t('i18n._global.entity_logo', {
+          t('i18n._global.entity_logo', {
             entity_name: name,
           })
         "
@@ -32,10 +31,10 @@
         @click="
           openModal({
             entityId: organization?.id,
-            entityType: EntityType.ORGANIZATION,
+            entityType: EntityMap.ORGANIZATION,
           })
         "
-        :aria-label="$t('i18n.components._global.edit_aria_label')"
+        :aria-label="t('i18n.components._global.edit_aria_label')"
         class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
       />
     </div>
@@ -66,11 +65,13 @@ const props = defineProps<{
   logoUrl?: string;
 }>();
 
-const logoUrl = ref(props.logoUrl);
-
-const { openModal } = useModalHandlers("ModalUploadImageIcon");
+const { t } = useI18n();
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+const logoUrl = ref(props.logoUrl);
 
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""

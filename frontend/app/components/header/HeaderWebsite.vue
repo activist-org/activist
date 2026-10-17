@@ -14,7 +14,7 @@
     <div id="mobile-header" v-if="!aboveMediumBP" class="flex px-4 py-3">
       <div class="z-0 mx-auto">
         <div
-          class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
+          class="absolute left-0 top-0 z-0 flex size-full items-center justify-center"
         >
           <div>
             <LogoActivist
@@ -30,27 +30,21 @@
             id="create"
             v-if="userIsSignedIn && devMode.active"
             class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
+            :location="dropdownLocation"
           />
           <DropdownInfo
             id="info"
             v-if="devMode.active"
             class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
+            :location="dropdownLocation"
           />
-          <DropdownTheme
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
-          <DropdownLanguage
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
+          <DropdownTheme class="w-full" :location="dropdownLocation" />
+          <DropdownLanguage class="w-full" :location="dropdownLocation" />
           <DropdownUserOptions
             id="user-options"
             v-if="devMode.active"
             class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
+            :location="dropdownLocation"
             :userIsSignedIn="userIsSignedIn"
           />
         </div>
@@ -144,7 +138,7 @@ const aboveLargeBP = useBreakpoint("lg");
 
 const devMode = useDevMode();
 devMode.check();
-
+const dropdownLocation = DropdownLocation.SIDE_MENU;
 const { userIsSignedIn } = useUser();
 
 const headerOpacity: Ref<number> = ref(1);

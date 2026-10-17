@@ -9,8 +9,8 @@ describe("services/communities/organization/text", () => {
   const getMocks = setupServiceTestMocks();
 
   it("updateOrganizationTexts() PUTs to organization_texts with JSON body", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
 
     const payload = {
       description: "d",
@@ -24,27 +24,22 @@ describe("services/communities/organization/text", () => {
       payload as unknown as Parameters<typeof updateOrganizationTexts>[2]
     );
 
-    expectJsonRequest(
-      fetchMock,
-      "/communities/organization_texts/txt-1",
-      "PUT",
-      {
-        primary: true,
-        description: payload.description,
-        getInvolved: payload.getInvolved,
-        getInvolvedUrl: payload.getInvolvedUrl,
-        donate_prompt: "",
-        orgId: "org-1",
-        iso: "en",
-      }
-    );
+    expectJsonRequest(put, "/communities/organization_texts/txt-1", "PUT", {
+      primary: true,
+      description: payload.description,
+      getInvolved: payload.getInvolved,
+      getInvolvedUrl: payload.getInvolvedUrl,
+      donate_prompt: "",
+      orgId: "org-1",
+      iso: "en",
+    });
   });
 
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { put } = getMocks();
+    put.mockRejectedValueOnce(new Error("boom"));
     await expect(
       updateOrganizationTexts("org-err", "txt-err", {
         description: "",

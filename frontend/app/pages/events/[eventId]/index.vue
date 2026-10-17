@@ -2,15 +2,15 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
+    class="flex flex-col items-center justify-between gap-8 bg-layer-0 p-8"
   >
     <Head>
       <Title>{{ event?.name }} </Title>
     </Head>
-    <div class="mx-auto h-[260px] w-3/4">
+    <div class="h-65 mx-auto w-3/4">
       <ImageEvent
         :alt="
-          $t('i18n._global.entity_logo', {
+          t('i18n._global.entity_logo', {
             entity_name: event?.name,
           })
         "
@@ -39,15 +39,15 @@
           <span class="width-1/6">
             <Icon
               v-if="button.iconUrl"
-              class="h-5 w-5 shrink-0"
+              class="size-5 shrink-0"
               :name="button.iconUrl"
             />
           </span>
           <p
             class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
-            <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
-            {{ $t(button.label) }}
+            <span class="sr-only">{{ t("i18n._global.navigate_to") }}</span>
+            {{ t(button.label) }}
           </p>
         </div>
       </MenuLinkWrapper>
@@ -70,8 +70,8 @@ const props = defineProps<{
   event: CommunityEvent;
 }>();
 
+const { t } = useI18n();
 const localPath = useLocalePath();
-
 const { eventEntry } = useMenuEntriesState();
 
 const eventButtons: MenuSelector[] = [];

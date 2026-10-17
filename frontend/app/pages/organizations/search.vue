@@ -2,14 +2,18 @@
 <template>
   <div class="bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ $t("i18n.pages.organizations.search.header_title") }}</Title>
+      <Title>{{ t("i18n.pages.organizations.search.header_title") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('i18n.pages.organizations.search.header_title')"
-      :tagline="$t('i18n.pages.organizations.search.subheader')"
+      :header="t('i18n.pages.organizations.search.header_title')"
+      :tagline="t('i18n.pages.organizations.search.subheader')"
     >
       <ComboboxTopics />
     </HeaderAppPage>
     <GridFilterTags class="mt-3" :tags="['Berlin', 'Activism', 'Eco']" />
   </div>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>

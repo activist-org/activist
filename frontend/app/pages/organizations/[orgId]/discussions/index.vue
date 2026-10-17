@@ -4,15 +4,15 @@
     <Head>
       <Title>
         {{ organization.name }}&nbsp;{{
-          $t("i18n.pages._global.discussions_lower")
+          t("i18n.pages._global.discussions_lower")
         }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
       :header="
-        organization.name + ' ' + $t('i18n.pages._global.discussions_lower')
+        organization.name + ' ' + t('i18n.pages._global.discussions_lower')
       "
-      :tagline="$t('i18n.pages.organizations.discussions.index.tagline')"
+      :tagline="t('i18n.pages.organizations.discussions.index.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -42,9 +42,10 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-
 defineProps<{
   organization: Organization;
 }>();
+
+const { t } = useI18n();
+const aboveMediumBP = useBreakpoint("md");
 </script>

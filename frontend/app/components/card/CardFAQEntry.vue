@@ -10,8 +10,8 @@
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
               <IconDraggableEdit
-                :aria-label="$t('i18n.components._global.draggable_element')"
-                class="drag-handle -mr-2 cursor-grab select-none"
+                :aria-label="t('i18n.components._global.draggable_element')"
+                class="drag-handle -mr-2 cursor-grab touch-none select-none"
                 data-testid="faq-drag-handle"
                 :entity="entity"
                 size="1em"
@@ -59,7 +59,7 @@
                 faqEntryId: faqEntry.id,
               })
             "
-            :aria-label="$t('i18n.components.card_faq_entry.delete_aria_label')"
+            :aria-label="t('i18n.components.card_faq_entry.delete_aria_label')"
             class="flex"
             data-testid="faq-delete-button"
           />
@@ -86,10 +86,12 @@ defineOptions({
 
 const props = defineProps<{
   faqEntry: FaqEntry;
-  pageType: EntityType;
+  pageType: EntityMapType;
   entity?: Entity | null;
   tabindex?: number;
 }>();
+
+const { t } = useI18n();
 
 const modalName = computed(
   () =>

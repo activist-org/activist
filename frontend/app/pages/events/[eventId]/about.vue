@@ -48,7 +48,6 @@
         />
         <BtnAction
           @click="downloadCalendarEntry"
-          @keydown.enter="downloadCalendarEntry"
           ariaLabel="i18n._global.subscribe_to_event_aria_label"
           class="w-full sm:w-max"
           :cta="true"
@@ -121,7 +120,8 @@ function updateShareBtnLabel() {
   }
 }
 
-const downloadCalendarEntry = () => {};
+const { downloadEventCalendar } = useDownloadEventCalendar();
+const downloadCalendarEntry = () => downloadEventCalendar(eventId);
 
 onMounted(() => {
   window.addEventListener("resize", updateShareBtnLabel);

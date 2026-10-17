@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLink
-    :aria-label="$t('i18n.components.logo_activist.aria_label')"
+    :aria-label="t('i18n.components.logo_activist.aria_label')"
     class="logo-activist focus-brand"
     :to="localePath('/')"
   >
@@ -19,16 +19,17 @@
       />
     </svg>
     <span class="sr-only">
-      {{ $t("i18n.components._global.navigate_to_start") }}
+      {{ t("i18n.components._global.navigate_to_start") }}
     </span>
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
-const localePath = useLocalePath();
-
 defineProps<{
   color?: string;
   isMobile?: boolean;
 }>();
+
+const { t } = useI18n();
+const localePath = useLocalePath();
 </script>

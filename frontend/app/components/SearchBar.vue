@@ -2,11 +2,11 @@
 <template>
   <div
     id="search"
-    v-if="location == SearchBarLocation.SIDEBAR"
+    v-if="location == searchBarLocation"
     class="mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-3 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
-      <Icon class="my-1 h-4 w-4 shrink-0" :name="IconMap.SEARCH" size="1em" />
+      <Icon class="my-1 size-4 shrink-0" :name="IconMap.SEARCH" size="1em" />
       <Transition name="search">
         <div
           v-show="
@@ -14,7 +14,7 @@
           "
         >
           <label class="sr-only" for="input-search">
-            {{ $t("i18n._global.search") }}
+            {{ t("i18n._global.search") }}
           </label>
           <input
             id="input-search"
@@ -24,7 +24,7 @@
             @input="handleChange"
             class="h-5 w-16 bg-transparent outline-none"
             :class="{ 'focus:w-5/6': isInputFocused }"
-            :placeholder="$t('i18n._global.search')"
+            :placeholder="t('i18n._global.search')"
             type="text"
             :value="localValue"
           />
@@ -38,7 +38,7 @@
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
         <div
-          v-tooltip="$t('i18n.components.search_bar.slash_tooltip_label')"
+          v-tooltip="t('i18n.components.search_bar.slash_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -48,7 +48,7 @@
         </div>
         <div
           v-if="isMacOS"
-          v-tooltip="$t('i18n.components.search_bar.command_tooltip_label')"
+          v-tooltip="t('i18n.components.search_bar.command_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -58,7 +58,7 @@
         </div>
         <div
           v-else
-          v-tooltip="$t('i18n.components.search_bar.control_tooltip_label')"
+          v-tooltip="t('i18n.components.search_bar.control_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -72,24 +72,24 @@
   <div
     id="search"
     v-else
-    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-3 pr-2.5 text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
+    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-3 pr-[10px] text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
   >
     <Icon
       id="search-toggle"
       @click="emit('on-search-toggle')"
-      class="my-1 h-4 w-4 shrink-0"
+      class="my-1 size-4 shrink-0"
       :name="expanded ? `${IconMap.X_LG}` : `${IconMap.SEARCH}`"
       size="1em"
     />
     <label class="hidden md:block" for="input-search">
-      {{ $t("i18n._global.search") }}
+      {{ t("i18n._global.search") }}
     </label>
     <input
       id="input-search"
       @input="handleChange"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
-      :placeholder="$t('i18n._global.search')"
+      :placeholder="t('i18n._global.search')"
       type="text"
       :value="localValue"
     />
@@ -101,15 +101,20 @@
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
 
 export interface Props {
-  location: SearchBarLocation;
+  location: SearchBarLocationType;
   expanded?: boolean;
   modelValue?: string;
 }
 
+const { t } = useI18n();
+const sidebar = useSidebar();
+const { isMacOS } = useDevice();
+const activeElement = useActiveElement();
+
 const props = withDefaults(defineProps<Props>(), {
   expanded: false,
 });
-
+const searchBarLocation = SearchBarLocation.SIDEBAR;
 const localValue = ref(props.modelValue || "");
 watch(
   props,
@@ -118,11 +123,8 @@ watch(
   },
   { immediate: true }
 );
-const sidebar = useSidebar();
-const { isMacOS } = useDevice();
 
 const input = ref();
-const activeElement = useActiveElement();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const notUsingTextEditor = computed(

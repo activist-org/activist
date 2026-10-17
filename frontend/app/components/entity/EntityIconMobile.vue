@@ -6,9 +6,9 @@
     data-testid="entity-logo-mobile"
   >
     <div class="flex items-center gap-3">
-      <div class="relative h-16 w-16 shrink-0">
+      <div class="relative size-16 shrink-0">
         <div
-          class="flex h-full w-full justify-center overflow-hidden rounded-md border border-section-div bg-layer-0 elem-shadow-sm"
+          class="flex size-full justify-center overflow-hidden rounded-md border border-section-div bg-layer-0 elem-shadow-sm"
         >
           <div
             v-if="accentClass"
@@ -62,9 +62,9 @@ const props = defineProps<{
   tagline?: string;
 }>();
 
-const emit = defineEmits(["edit"]);
-const { canEdit } = useUser();
 const { t } = useI18n();
+const { canEdit } = useUser();
+const emit = defineEmits(["edit"]);
 
 const canEditEntity = computed(() => canEdit(props.entity));
 const imageClass = computed(() => (props.accentClass ? "w-[80%]" : "w-full"));

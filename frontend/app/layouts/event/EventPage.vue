@@ -1,14 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <SidebarLeft
-      v-if="aboveMediumBP"
-      @blur="sidebarHover = false"
-      @focus="sidebarHover = true"
-      @mouseleave="sidebarHover = false"
-      @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
-    />
+    <SidebarLeft v-if="aboveMediumBP" class="fixed top-0 z-20 h-screen" />
     <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
       <div
         class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
@@ -36,6 +29,8 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
 const route = useRoute();
 const paramsEventId = route.params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
@@ -60,18 +55,14 @@ const showMobileEntityShortcut = computed(
     !normalizedRoutePath.value.endsWith(`/events/${eventId}`)
 );
 
-const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
   useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
-  sidebarContentScrollable.value,
-  sidebarHover
+  sidebarContentScrollable.value
 );
 
-const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
-
-const { openModal } = useModalHandlers("ModalUploadImageIcon");
+const sidebarFooterDynamicClass = getSidebarFooterDynamicClass();
 
 function handleEditEventIcon(): void {
   if (!event.value?.id) {
@@ -80,7 +71,7 @@ function handleEditEventIcon(): void {
 
   openModal({
     entityId: event.value.id,
-    entityType: EntityType.EVENT,
+    entityType: EntityMap.EVENT,
   });
 }
 </script>

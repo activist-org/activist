@@ -8,7 +8,6 @@ import {
 } from "~/test-e2e/page-objects/PasswordResetPage";
 import { newSignUpPage } from "~/test-e2e/page-objects/SignUpPage";
 import {
-  clearEmails,
   waitAndConfirmEmail,
   waitAndOpenPasswordResetLink,
 } from "~/test-e2e/utils/mailhog";
@@ -25,10 +24,6 @@ test.describe.serial(
       await context.clearCookies();
     });
 
-    test.afterEach(async () => {
-      await clearEmails();
-    });
-
     test("User can reset password via email and sign in with new password", async ({
       page,
     }, testInfo) => {
@@ -40,8 +35,6 @@ test.describe.serial(
       const newPassword = "Activist456!?New";
 
       const signUpPage = newSignUpPage(page);
-
-      await clearEmails();
 
       await withTestStep(testInfo, "Register and confirm email", async () => {
         await page.goto("/auth/sign-up");
@@ -57,10 +50,8 @@ test.describe.serial(
         await expect(page).toHaveURL(/\/auth\/confirm\/email/, {
           timeout: 10000,
         });
-        await waitAndConfirmEmail(page);
+        await waitAndConfirmEmail(page, email);
       });
-
-      await clearEmails();
 
       await withTestStep(testInfo, "Request password reset email", async () => {
         await page.goto("/auth/pwreset/email");
@@ -85,7 +76,7 @@ test.describe.serial(
       });
 
       await withTestStep(testInfo, "Open reset link from MailHog", async () => {
-        await waitAndOpenPasswordResetLink(page);
+        await waitAndOpenPasswordResetLink(page, email);
       });
 
       await withTestStep(testInfo, "Set new password", async () => {

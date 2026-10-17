@@ -15,10 +15,10 @@
         @click="changeInputType"
         :aria-label="
           isPassword
-            ? $t(
+            ? t(
                 'i18n.components.form_text_input_password.show_password_aria_label'
               )
-            : $t(
+            : t(
                 'i18n.components.form_text_input_password.hide_password_aria_label'
               )
         "
@@ -46,6 +46,8 @@ withDefaults(defineProps<Props>(), {
   hasError: false,
   modelValue: "",
 });
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;

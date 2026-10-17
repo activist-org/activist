@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { defaultEventText } from "../../../app/constants/event";
 import {
   createEvent,
   deleteEvent,
   getEvent,
+  getEventCalendarFile,
   listEvents,
   mapEvent,
 } from "../../../app/services/event/event";
+import { defaultEventText } from "../../../shared/constants/event";
 import { AppError } from "../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
@@ -23,7 +24,7 @@ describe("services/event", () => {
   // MARK: Get
 
   it("getEvent() requests by ID with withoutAuth and maps response", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const response = {
       id: "evt-1",
       name: "Event One",
@@ -42,13 +43,13 @@ describe("services/event", () => {
       orgs: { id: "org1", name: "Org" },
       texts: [defaultEventText],
     };
-    fetchMock.mockResolvedValueOnce(response);
+    get.mockResolvedValueOnce(response);
 
     const result = await getEvent("evt-1");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/events\/events\/evt-1$/, "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    expectRequest(get, /\/events\/events\/evt-1$/, "GET");
+    const [, opts] = getFetchCall(get);
     // withoutAuth: true should omit Authorization.
     expect(opts.headers?.Authorization).toBeUndefined();
 
@@ -56,10 +57,47 @@ describe("services/event", () => {
     expect(result.texts).toEqual([defaultEventText]);
   });
 
+  it("getEventCalendarFile() returns the calendar Blob and response filename header", async () => {
+    const { get } = getMocks();
+    const blob = new Blob(["BEGIN:VCALENDAR"], { type: "text/calendar" });
+    get.mockResolvedValueOnce({
+      _data: blob,
+      headers: new Headers({
+        "Content-Disposition": "attachment; filename=activist_event_test.ics",
+      }),
+      status: 200,
+    });
+
+    const result = await getEventCalendarFile("event-id");
+
+    expect(result).toEqual({
+      blob,
+      contentDisposition: "attachment; filename=activist_event_test.ics",
+    });
+    const [url, opts] = get.mock.calls[0];
+    expect(url).toBe("/events/event_calendar");
+    expect(opts.baseURL).toBe("/api/public");
+    expect(opts.query).toEqual({ event_id: "event-id" });
+    expect(opts.responseType).toBe("blob");
+  });
+
+  it("getEventCalendarFile() rejects an empty response as an AppError", async () => {
+    const { get } = getMocks();
+    get.mockResolvedValueOnce({
+      _data: undefined,
+      headers: new Headers(),
+      status: 200,
+    });
+
+    await expect(getEventCalendarFile("event-id")).rejects.toBeInstanceOf(
+      AppError
+    );
+  });
+
   // MARK: List
 
   it("listEvents() builds query from filters, uses withoutAuth, and maps items", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     type ApiItem = Parameters<typeof mapEvent>[0];
     const apiItem = {
       id: "evt-2",
@@ -86,13 +124,13 @@ describe("services/event", () => {
       previous: null,
       results: [apiItem],
     };
-    fetchMock.mockResolvedValueOnce(responseBody);
+    get.mockResolvedValueOnce(responseBody);
 
     const result = await listEvents({ name: "abc" });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/events\/events\?name=abc$/, "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    expectRequest(get, /\/events\/events\?name=abc$/, "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result.data).toHaveLength(1);
@@ -104,7 +142,7 @@ describe("services/event", () => {
   // MARK: Create
 
   it("createEvent() builds payload and returns created id", async () => {
-    const { fetchMock } = getMocks();
+    const { post } = getMocks();
     const newEventInput = {
       name: "Community Garden Workshop",
       tagline: "Learn to grow your own food",
@@ -133,39 +171,39 @@ describe("services/event", () => {
     } as const;
 
     const created = "evt-3";
-    fetchMock.mockResolvedValueOnce(created);
+    post.mockResolvedValueOnce({ id: created, ...newEventInput });
 
-    const id = await createEvent({ ...newEventInput });
+    const createdEvent = await createEvent({ ...newEventInput });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(post).toHaveBeenCalledTimes(1);
     // The service constructs a specific payload subset.
-    expectJsonRequest(fetchMock, "/events/events", "POST", {
+    expectJsonRequest(post, "/events/events", "POST", {
       name: newEventInput.name,
       location: newEventInput.location,
       tagline: newEventInput.tagline,
       description: newEventInput.description,
       topics: newEventInput.topics,
     });
-    expect(id).toBe("evt-3");
+    expect(createdEvent.id).toBe("evt-3");
   });
 
   // MARK: Delete
 
   it("deleteEvent() calls DELETE on the event endpoint", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValueOnce({ ok: true });
 
     await deleteEvent("evt-4");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/events\/events\/evt-4$/, "DELETE");
+    expect(del).toHaveBeenCalledTimes(1);
+    expectRequest(del, /\/events\/events\/evt-4$/, "DELETE");
   });
 
   // MARK: Error Handling
 
   it("propagates AppError via errorHandler on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { get } = getMocks();
+    get.mockRejectedValueOnce(new Error("boom"));
 
     await expect(getEvent("evt-err")).rejects.toBeInstanceOf(AppError);
   });

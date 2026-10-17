@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Locator, Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 
 /**
  * Drag and drop utility functions for testing reorderable lists
@@ -42,160 +42,263 @@ export async function getFAQCardOrder(page: Page): Promise<string[]> {
   );
 }
 
+async function getReorderableListOrder(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const resources = Array.from(
+      document.querySelectorAll('[data-testid="resource-card"]')
+    )
+      .map((card) => card.querySelector("h3")?.textContent?.trim() ?? "")
+      .filter(Boolean);
+    if (resources.length) {
+      return resources;
+    }
+
+    return Array.from(document.querySelectorAll('[data-testid="faq-card"]'))
+      .map(
+        (card) =>
+          card
+            .querySelector('[data-testid="faq-question"]')
+            ?.textContent?.trim() ?? ""
+      )
+      .filter(Boolean);
+  });
+}
+
 // MARK: Drag and Drop Actions
 
 /**
- * Performs a drag and drop operation from source to target.
- *
- * @remarks
- * Two strategies are used depending on whether the browser context has touch
- * emulation enabled (`hasTouch`):
- *
- * **Desktop** (`hasTouch: false`): Uses `page.mouse` move/down/up. Sortable.js
- * listens to mouse events in non-touch mode and this is the most reliable path.
- *
- * **Mobile** (`hasTouch: true`): Uses `PointerEvent`s dispatched directly via
- * `page.evaluate`. When `hasTouch` is enabled, Chromium enters touch emulation
- * mode and Sortable.js switches to its pointer/touch event path, ignoring
- * `page.mouse` MouseEvents entirely. Dispatching PointerEvents via
- * `dispatchEvent` bypasses this — Sortable.js listens to `pointerdown`,
- * `pointermove`, and `pointerup` on all platforms.
- *
- * `dragTo()` is not used because it dispatches a single jump with no
- * intermediate moves, which is too fast for Sortable.js to register a swap.
- *
- * @param page - Playwright page object
- * @param sourceLocator - The locator for the element to drag (typically a drag handle)
- * @param targetLocator - The locator for the target position (typically another drag handle)
- * @param steps - Number of intermediate move steps (default: 20)
+ * Measures the sticky mobile header, submenu dropdown, and bottom nav so drag
+ * targets can be kept clear of real chrome instead of guessing fixed pixel
+ * insets. Falls back to 0 for any element not rendered (e.g. on desktop).
  */
-export async function performDragAndDrop(
+async function getStickyChromeInsets(
+  page: Page
+): Promise<{ top: number; bottom: number }> {
+  const [headerBox, submenuBox, bottomNavBox] = await Promise.all([
+    page
+      .locator("#mobile-header")
+      .boundingBox()
+      .catch(() => null),
+    page
+      .locator("#submenu")
+      .boundingBox()
+      .catch(() => null),
+    page
+      .locator('[data-testid="mobile-bottom-nav"]')
+      .boundingBox()
+      .catch(() => null),
+  ]);
+
+  const top = Math.max(
+    headerBox ? headerBox.y + headerBox.height : 0,
+    submenuBox ? submenuBox.y + submenuBox.height : 0
+  );
+
+  return {
+    top,
+    bottom: bottomNavBox ? bottomNavBox.height : 0,
+  };
+}
+
+async function scrollHandlesClearOfChrome(
   page: Page,
   sourceLocator: Locator,
-  targetLocator: Locator,
-  steps = 20
+  targetLocator: Locator
 ): Promise<void> {
-  const sourceBox = await sourceLocator.boundingBox();
-  const targetBox = await targetLocator.boundingBox();
+  const { top: topChrome, bottom: bottomChrome } =
+    await getStickyChromeInsets(page);
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const sourceBox = await sourceLocator.boundingBox();
+    const targetBox = await targetLocator.boundingBox();
+    if (!sourceBox || !targetBox) {
+      throw new Error(
+        "Could not get bounding boxes for drag and drop elements"
+      );
+    }
 
-  if (!sourceBox || !targetBox) {
-    throw new Error("Could not get bounding boxes for drag and drop elements");
-  }
-
-  const startX = sourceBox.x + sourceBox.width / 2;
-  const startY = sourceBox.y + sourceBox.height / 2;
-  const endX = targetBox.x + targetBox.width / 2;
-  const endY = targetBox.y + targetBox.height / 2;
-
-  const hasTouch = await page.evaluate(() => navigator.maxTouchPoints > 0);
-
-  if (hasTouch) {
-    await page.evaluate(
-      async ({
-        startX,
-        startY,
-        endX,
-        endY,
-        steps,
-      }: {
-        startX: number;
-        startY: number;
-        endX: number;
-        endY: number;
-        steps: number;
-      }) => {
-        const rAF = () =>
-          new Promise<void>((r) => requestAnimationFrame(() => r()));
-
-        const dispatch = (type: string, x: number, y: number) => {
-          const el = document.elementFromPoint(x, y);
-          if (!el) return;
-          el.dispatchEvent(
-            new PointerEvent(type, {
-              bubbles: true,
-              cancelable: true,
-              pointerId: 1,
-              pointerType: "mouse",
-              clientX: x,
-              clientY: y,
-              screenX: x,
-              screenY: y,
-              buttons: type === "pointerup" ? 0 : 1,
-              pressure: type === "pointerup" ? 0 : 0.5,
-            })
-          );
-        };
-
-        dispatch("pointerdown", startX, startY);
-        await rAF();
-        await rAF();
-
-        const dx = endX - startX;
-        const dy = endY - startY;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        dispatch(
-          "pointermove",
-          startX + (dx / dist) * 8,
-          startY + (dy / dist) * 8
-        );
-        await rAF();
-
-        for (let i = 1; i <= steps; i++) {
-          const t = i / steps;
-          dispatch("pointermove", startX + dx * t, startY + dy * t);
-          await rAF();
-        }
-
-        dispatch("pointerup", endX, endY);
-        await rAF();
-      },
-      { startX, startY, endX, endY, steps }
+    const viewportHeight = page.viewportSize()?.height ?? 0;
+    const top = Math.min(sourceBox.y, targetBox.y);
+    const bottom = Math.max(
+      sourceBox.y + sourceBox.height,
+      targetBox.y + targetBox.height
     );
-  } else {
-    await page.mouse.move(startX, startY);
-    await page.mouse.down();
+    if (top >= topChrome && bottom <= viewportHeight - bottomChrome) {
+      return;
+    }
 
+    const mid = (top + bottom) / 2;
+    const desired = topChrome + (viewportHeight - topChrome - bottomChrome) / 2;
+    const deltaY = mid - desired;
+    if (Math.abs(deltaY) < 2) {
+      return;
+    }
+
+    await page.evaluate((scrollY) => window.scrollBy(0, scrollY), deltaY);
+    await page.evaluate(
+      () => new Promise<void>((r) => requestAnimationFrame(() => r()))
+    );
+  }
+}
+
+async function mouseDrag(
+  page: Page,
+  startX: number,
+  startY: number,
+  endX: number,
+  endY: number,
+  steps: number
+): Promise<void> {
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+  await page.mouse.move(startX, startY);
+  await page.mouse.down();
+  await page.evaluate(
+    () =>
+      new Promise<void>((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => r()))
+      )
+  );
+  // Nudge past Sortable's `distance` threshold before the main drag.
+  await page.mouse.move(startX + (dx / dist) * 8, startY + (dy / dist) * 8);
+  await page.evaluate(() => new Promise(requestAnimationFrame));
+  for (let i = 1; i <= steps; i++) {
+    const t = i / steps;
+    await page.mouse.move(startX + dx * t, startY + dy * t);
+    await page.evaluate(() => new Promise(requestAnimationFrame));
+  }
+  await page.mouse.up();
+}
+
+async function touchDrag(
+  page: Page,
+  startX: number,
+  startY: number,
+  endX: number,
+  endY: number,
+  steps: number
+): Promise<void> {
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const client = await page.context().newCDPSession(page);
+
+  try {
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: startX, y: startY }],
+    });
     await page.evaluate(
       () =>
         new Promise<void>((r) =>
           requestAnimationFrame(() => requestAnimationFrame(() => r()))
         )
     );
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: [
+        { x: startX + (dx / dist) * 8, y: startY + (dy / dist) * 8 },
+      ],
+    });
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      await client.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: startX + dx * t, y: startY + dy * t }],
+      });
+    }
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+  } finally {
+    await client.detach().catch(() => {});
+  }
+}
 
+/**
+ * Performs a drag and drop operation from source to target.
+ *
+ * Desktop uses `page.mouse`. Mobile uses CDP touch so Sortable's touch /
+ * force-fallback path runs and vuedraggable `@end` fires. The drag overshoots
+ * the target by a distance scaled to card size and retries until the first two
+ * list items actually swap.
+ */
+export async function performDragAndDrop(
+  page: Page,
+  sourceLocator: Locator,
+  targetLocator: Locator,
+  steps = 30
+): Promise<void> {
+  const maxAttempts = 4;
+  const beforeOrder = await getReorderableListOrder(page);
+  if (beforeOrder.length < 2) {
+    throw new Error("Need at least 2 reorderable items for drag and drop");
+  }
+
+  const hasTouch = await page.evaluate(() => navigator.maxTouchPoints > 0);
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    await sourceLocator.scrollIntoViewIfNeeded();
+    await targetLocator.scrollIntoViewIfNeeded();
+    await scrollHandlesClearOfChrome(page, sourceLocator, targetLocator);
+
+    const sourceBox = await sourceLocator.boundingBox();
+    const targetBox = await targetLocator.boundingBox();
+    if (!sourceBox || !targetBox) {
+      throw new Error(
+        "Could not get bounding boxes for drag and drop elements"
+      );
+    }
+
+    const startX = sourceBox.x + sourceBox.width / 2;
+    const startY = sourceBox.y + sourceBox.height / 2;
+    let endX = targetBox.x + targetBox.width / 2;
+    let endY = targetBox.y + targetBox.height / 2;
     const dx = endX - startX;
     const dy = endY - startY;
     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    await page.mouse.move(startX + (dx / dist) * 8, startY + (dy / dist) * 8);
-    await page.evaluate(() => new Promise(requestAnimationFrame));
+    // Tall resource cards need overshoot past center; short FAQ cards do not.
+    const overshootPx = Math.min(80, Math.max(24, dist * 0.35));
+    endX += (dx / dist) * overshootPx;
+    endY += (dy / dist) * overshootPx;
 
-    for (let i = 1; i <= steps; i++) {
-      const t = i / steps;
-      await page.mouse.move(startX + dx * t, startY + dy * t);
-      await page.evaluate(() => new Promise(requestAnimationFrame));
+    if (hasTouch) {
+      await touchDrag(page, startX, startY, endX, endY, steps);
+    } else {
+      await mouseDrag(page, startX, startY, endX, endY, steps);
     }
 
-    await page.mouse.up();
+    await page
+      .waitForFunction(
+        () =>
+          document.querySelectorAll(
+            ".sortable-chosen, .sortable-drag, .sortable-ghost, .sortable-fallback"
+          ).length === 0,
+        { timeout: 5000 }
+      )
+      .catch(() => {});
+
+    const afterOrder = await getReorderableListOrder(page);
+    if (afterOrder[0] === beforeOrder[1] && afterOrder[1] === beforeOrder[0]) {
+      return;
+    }
+
+    if (!hasTouch) {
+      await page.mouse.up().catch(() => {});
+    }
   }
 
-  await page
-    .waitForFunction(
-      () =>
-        document.querySelectorAll(
-          ".sortable-chosen, .sortable-drag, .sortable-ghost"
-        ).length === 0,
-      { timeout: 5000 }
-    )
-    .catch(() => {});
+  throw new Error(
+    `Drag and drop did not swap the first two items after ${maxAttempts} attempts`
+  );
 }
 
 // MARK: Verification
 
 /**
- * Verifies that two items were successfully reordered (swapped positions)
- * @param page - Playwright page object
- * @param expectedFirstItem - The item that should now be in the first position
- * @param expectedSecondItem - The item that should now be in the second position
- * @param getOrderFunction - Function to get the current order of items
+ * Verifies that two items swapped positions, polling until the order settles.
  */
 export async function verifyReorder(
   page: Page,
@@ -203,69 +306,9 @@ export async function verifyReorder(
   expectedSecondItem: string,
   getOrderFunction: (page: Page) => Promise<string[]>
 ): Promise<void> {
-  await page.waitForFunction(
-    async ({ expected }) => {
-      // MARK: FAQ Card
-
-      const faqCards = document.querySelectorAll('[data-testid="faq-card"]');
-      if (faqCards.length >= 2) {
-        const firstQuestion = faqCards[0]
-          ?.querySelector('[data-testid="faq-question"]')
-          ?.textContent?.trim();
-        const secondQuestion = faqCards[1]
-          ?.querySelector('[data-testid="faq-question"]')
-          ?.textContent?.trim();
-
-        if (
-          firstQuestion === expected.second &&
-          secondQuestion === expected.first
-        ) {
-          return true;
-        }
-      }
-
-      // MARK: Resource Card
-
-      const resourceCards = document.querySelectorAll(
-        '[data-testid="resource-card"]'
-      );
-      if (resourceCards.length >= 2) {
-        const firstResource = resourceCards[0]
-          ?.querySelector("h3")
-          ?.textContent?.trim();
-        const secondResource = resourceCards[1]
-          ?.querySelector("h3")
-          ?.textContent?.trim();
-
-        if (
-          firstResource === expected.second &&
-          secondResource === expected.first
-        ) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    {
-      expected: {
-        first: expectedFirstItem,
-        second: expectedSecondItem,
-      },
-    },
-    {
-      timeout: 10000,
-      polling: 100,
-    }
-  );
-
-  const finalOrder = await getOrderFunction(page);
-  if (
-    finalOrder[0] !== expectedSecondItem ||
-    finalOrder[1] !== expectedFirstItem
-  ) {
-    throw new Error(
-      `Reorder verification failed. Expected [${expectedSecondItem}, ${expectedFirstItem}], but got [${finalOrder[0]}, ${finalOrder[1]}]`
-    );
-  }
+  await expect(async () => {
+    const finalOrder = await getOrderFunction(page);
+    expect(finalOrder[0]).toBe(expectedSecondItem);
+    expect(finalOrder[1]).toBe(expectedFirstItem);
+  }).toPass({ timeout: 10000, intervals: [100, 250, 500] });
 }

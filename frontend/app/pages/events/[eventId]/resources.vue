@@ -3,18 +3,18 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ event?.name }}&nbsp;{{ t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event?.name + ' ' + $t('i18n._global.resources_lower')"
-      :tagline="$t('i18n.pages.events.resources.tagline')"
+      :header="event?.name + ' ' + t('i18n._global.resources_lower')"
+      :tagline="t('i18n.pages.events.resources.tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          :element="$t('i18n._global.resources_lower')"
+          :element="t('i18n._global.resources_lower')"
           :entity="event"
           label="i18n.pages._global.resources.add_new_resource"
           :onClick="
@@ -33,7 +33,7 @@
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-4 pb-28 md:pb-0"
         data-testid="event-resources-list"
         :delay="0"
         :delay-on-touch-start="false"
@@ -42,8 +42,9 @@
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
+        :fallback-on-body="true"
         :fallback-tolerance="0"
-        :force-fallback="false"
+        :force-fallback="true"
         ghost-class="sortable-ghost"
         handle=".drag-handle"
         :invert-swap="false"
@@ -63,7 +64,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="event"
-            :entityType="EntityType.EVENT"
+            :entityType="EntityMap.EVENT"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(event) ? 0 : -1"
@@ -78,13 +79,16 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
+const { t } = useI18n();
 const route = useRoute();
-const eventId = (route.params.eventId as string) ?? "";
+const { canEdit } = useUser();
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
-const { canEdit } = useUser();
+
+const eventId = (route.params.eventId as string) ?? "";
+
 const { data: event } = useGetEvent(eventId);
-const { reorderResources } = useEventResourcesMutations(eventId);
+const { reorderResources, loading } = useEventResourcesMutations(eventId);
 
 const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
@@ -101,16 +105,17 @@ const { selectedIndex, onFocus, moveUp, moveDown } =
 export type CardExpose = {
   root: HTMLElement | null;
 };
-const onDragEnd = () => {
+const onDragEnd = async () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
-  reorderResources(resourceList.value);
+  await reorderResources(resourceList.value);
 };
 watch(
   () => event.value?.resources,
   (newResources) => {
+    if (loading.value) return;
     resourceList.value = [...(newResources || [])];
   }
 );
@@ -133,11 +138,12 @@ watch(
 }
 
 .sortable-fallback {
-  display: none;
+  opacity: 0.95;
 }
 
-/* Ensure drag handles work properly. */
+/* Prevent the browser from treating the handle gesture as a page scroll. */
 .drag-handle {
+  touch-action: none;
   user-select: none;
 }
 

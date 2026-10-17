@@ -20,7 +20,7 @@ const createWrapper = (
 ): { wrapper: VueWrapper; flow: ReturnType<typeof createMockFlow> } => {
   const wrapper = mount(MachineStepsCreateOrganizationDetails, {
     global: {
-      mocks: { $t: (key: string) => key },
+      mocks: { t: (key: string) => key },
       stubs: {
         Form: FormStub,
         FormItem: FormItemStub,
@@ -152,7 +152,7 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
     it("does not throw when flow is not provided", async () => {
       const wrapper = mount(MachineStepsCreateOrganizationDetails, {
         global: {
-          mocks: { $t: (key: string) => key },
+          mocks: { t: (key: string) => key },
           stubs: {
             Form: FormStub,
             FormItem: FormItemStub,

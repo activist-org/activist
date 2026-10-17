@@ -5,7 +5,7 @@
       id="sidebar-right-hamburger"
       @click="$emit('toggle')"
       :aria-label="
-        $t('i18n.components.sidebar_right_hamburger.collapse_aria_label')
+        t('i18n.components.sidebar_right_hamburger.collapse_aria_label')
       "
       class="group relative z-50 outline-offset-4 focus-brand"
     >
@@ -40,5 +40,8 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   menuOpen: false,
 });
+
+const { t } = useI18n();
+
 defineEmits(["toggle"]);
 </script>

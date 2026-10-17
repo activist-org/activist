@@ -39,6 +39,7 @@
         <Icon
           v-else
           @click.stop.prevent="internalSelectedOptions = null"
+          data-testid="form-selector-combobox-clear"
           :name="IconMap.X_LG"
         />
       </ComboboxButton>
@@ -82,7 +83,7 @@
           class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
         >
           <slot v-if="showLoadingSlot" name="loading">
-            {{ $t("i18n.components.form_selector_combobox.loading") }}
+            {{ t("i18n.components.form_selector_combobox.loading") }}
           </slot>
         </li>
       </ComboboxOptions>
@@ -155,6 +156,8 @@ const props = withDefaults(defineProps<Props>(), {
   showLoadingSlot: true,
   isMultiSelect: true,
 });
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "update:selectedOptions", value: unknown[]): void;

@@ -18,12 +18,12 @@
       class="space-y-4"
       :initial-values="initialEventTypeData"
       :schema="topicsSettingsSchema"
-      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+      :submit-label="t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
-        :label="$t('i18n.components._global.location_type')"
+        :label="t('i18n.components._global.location_type')"
         name="setting"
         required
       >
@@ -38,7 +38,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-event-type"
-        :label="$t('i18n.components._global.event_type')"
+        :label="t('i18n.components._global.event_type')"
         name="type"
         required
       >
@@ -52,7 +52,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        :label="$t('i18n.components._global.topics')"
+        :label="t('i18n.components._global.topics')"
         name="topics"
         required
       >
@@ -60,10 +60,10 @@
         <FormSelectorComboboxTopics
           :id="id"
           @update:selected-topics="
-            (val: unknown) => handleChange(val as TopicEnum[])
+            (val: unknown) => handleChange(val as TopicMapType[])
           "
-          :label="$t('i18n.components._global.topics')"
-          :selected-topics="((value.value ?? []) as TopicEnum[])"
+          :label="t('i18n.components._global.topics')"
+          :selected-topics="((value.value ?? []) as TopicMapType[])"
         />
       </FormItem>
     </Form>
@@ -74,6 +74,7 @@
 import { z } from "zod";
 
 const { t } = useI18n();
+
 const flow = inject<FlowControls>("flow");
 
 const initialEventTypeData = computed(() => {

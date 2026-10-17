@@ -3,7 +3,7 @@
   <span v-if="status == 2">
     <button
       v-tooltip="
-        $t(
+        t(
           'i18n.components.icon_organization_status.approved_tooltip_hover_text',
           {
             entity_name: organization.name,
@@ -40,7 +40,7 @@
   <span v-else>
     <div
       v-tooltip="
-        $t(
+        t(
           'i18n.components.icon_organization_status.pending_tooltip_hover_text',
           {
             entity_name: organization.name,
@@ -73,6 +73,7 @@ defineProps<{
   organization: Organization;
 }>();
 
+const { t } = useI18n();
 const modals = useModals();
 const modalName = "ModalOrganizationStatus";
 const modalIsOpen = ref(false);

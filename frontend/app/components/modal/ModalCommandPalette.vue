@@ -6,7 +6,7 @@
     <div>
       <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
         <div
-          class="my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
+          class="my-[10px] flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
         >
           <Icon class="text-black" :name="IconMap.SEARCH" size="1em" />
           <!-- MARK: Search text input. -->
@@ -14,7 +14,7 @@
             @change="searchTerm = $event.target.value"
             @keydown.enter="handleEnter"
             class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
-            :placeholder="$t('i18n._global.search')"
+            :placeholder="t('i18n._global.search')"
           />
         </div>
         <div v-if="searchTerm.length > 0 && filteredCommands.length > 0">
@@ -41,17 +41,17 @@
               ]"
             >
               <Icon
-                :alt="$t(`${command.displayName}`)"
+                :alt="t(`${command.displayName}`)"
                 :name="IconMap[command.iconName as keyof typeof IconMap]"
                 size="1em"
               />
               <div class="relative flex-grow pl-1">
-                {{ $t(`${command.displayName}`) }}
+                {{ t(`${command.displayName}`) }}
                 <span
                   class="link-text invisible absolute right-3 w-16"
                   :class="{ visible: active }"
                 >
-                  {{ $t("i18n.components.modal_command_palette.jump_to") }}
+                  {{ t("i18n.components.modal_command_palette.jump_to") }}
                 </span>
               </div>
             </li>
@@ -77,6 +77,8 @@ import { useRouter } from "vue-router";
 const props = defineProps<{
   paletteData: Command[];
 }>();
+
+const { t } = useI18n();
 
 interface Command {
   id: number;

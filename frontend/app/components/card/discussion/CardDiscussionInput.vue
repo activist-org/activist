@@ -97,7 +97,7 @@
             (event: Event) =>
               updateTheVariable((event.target as HTMLTextAreaElement).value)
           "
-          class="prose dark:prose-invert block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text focus-brand"
+          class="prose dark:prose-invert block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-[10px] text-sm text-primary-text placeholder-distinct-text focus-brand"
           rows="3"
         />
         <editor-content
@@ -114,7 +114,7 @@
             value="yes"
           />
           {{
-            $t("i18n.components.card_discussion_input.enable_markdown_support")
+            t("i18n.components.card_discussion_input.enable_markdown_support")
           }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
@@ -212,7 +212,7 @@ const writeEditor = useEditor({
   editorProps: {
     attributes: {
       class:
-        "focus-brand block w-full max-w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text prose dark:prose-invert text-clip",
+        "focus-brand block w-full max-w-full rounded-lg border border-section-div bg-layer-0 p-[10px] text-sm text-primary-text placeholder-distinct-text prose dark:prose-invert text-clip",
     },
   },
 });

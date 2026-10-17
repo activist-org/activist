@@ -17,7 +17,7 @@
         <div v-else class="rounded border border-section-div">
           <img
             :alt="
-              $t('i18n._global.entity_logo', {
+              t('i18n._global.entity_logo', {
                 entity_name: organization?.name,
               })
             "
@@ -55,9 +55,6 @@
 </template>
 
 <script setup lang="ts">
-/**
- * The component public properties.
- */
 export interface Props {
   /**
    * The card title.
@@ -84,6 +81,8 @@ export interface Props {
    */
   downVotes: number;
 }
+
+const { t } = useI18n();
 
 /**
  * The available component events.

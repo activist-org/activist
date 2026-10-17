@@ -10,7 +10,6 @@ import uuid
 import dotenv
 from django.contrib.auth import login, logout
 from django.core.exceptions import ValidationError
-from django.core.mail import send_mail
 from django.db.utils import IntegrityError, OperationalError
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -41,12 +40,14 @@ from authentication.serializers import (
 )
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
+from .tasks import email_user
+
 logger = logging.getLogger(__name__)
 
 dotenv.load_dotenv()
 
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
-ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
+ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL", "noreply@activist.org")
 
 # MARK: Verify Email
 
@@ -140,11 +141,9 @@ class SignUpView(APIView):
 
         if user.email:
             user.verification_code = uuid.uuid4()
-
             confirmation_link = (
                 f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
             )
-            message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
                 context={
@@ -153,20 +152,15 @@ class SignUpView(APIView):
                 },
             )
 
-            try:
-                send_mail(
-                    subject="Welcome to activist.org",
-                    message=message,
-                    from_email=ACTIVIST_EMAIL,
-                    recipient_list=[user.email],
-                    html_message=html_message,
-                    fail_silently=False,
-                )
-                logger.info(f"Verification email sent to {user.email}")
-
-            except Exception as e:
-                logger.error(f"Failed to send verification email to {user.email}: {e}")
-                # Continue with user creation even if email fails.
+            logger.info(
+                f"Background task for Verification email enqueued, to {user.email}"
+            )
+            email_user.enqueue(
+                from_email=ACTIVIST_EMAIL,
+                to=user.email,
+                subject="Welcome to activist.org",
+                message=html_message,
+            )
 
             user.save()
 
@@ -285,7 +279,6 @@ class PasswordResetView(APIView):
     permission_classes = [AllowAny]
     queryset = UserModel.objects.all()
 
-    @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
     def post(self, request: Request) -> Response:
         if not isinstance(request.data, dict):
             return Response(
@@ -295,49 +288,38 @@ class PasswordResetView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        email = request.data.get("email")
+        email: str = request.data.get("email", "user@example.com")
         logger.info(f"Password reset request for email: {email}")
 
         user = UserModel.objects.filter(email=email).first()
+        verification_code = uuid.uuid4()
 
-        if user is None:
-            logger.warning(f"Password reset failed: user not found for email {email}")
-            return Response(
-                {"detail": "User does not exist."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        user.verification_code = uuid.uuid4()
-
-        pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{user.verification_code}"
-        message = "Reset your password at activist.org"
+        pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{verification_code}"
         html_message = render_to_string(
             template_name="pwreset_email.html",
-            context={"username": user.username, "pwreset_link": pwreset_link},
+            context={"pwreset_link": pwreset_link},
         )
 
-        try:
-            send_mail(
-                subject="Reset your password at activist.org",
-                message=message,
-                from_email=ACTIVIST_EMAIL,
-                recipient_list=[user.email],
-                html_message=html_message,
-                fail_silently=False,
-            )
-            logger.info(f"Password reset email sent to {user.email}")
+        email_user.enqueue(
+            from_email=ACTIVIST_EMAIL,
+            to=email,
+            subject="Reset your password at activist.org",
+            message=html_message,
+        )
 
-        except Exception as e:
-            logger.error(f"Failed to send password reset email to {user.email}: {e}")
-            return Response(
-                {"detail": "Failed to send password reset email."},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
+        logger.info(f"Password reset email sent to {email}")
 
-        user.save()
+        if user:
+            user.verification_code = verification_code
+            user.save()
 
+        # Attn: Always return the same success message to prevent timing attacks.
+        # This prevents attackers from enumerating valid email addresses.
+        # If we were to respond more quickly on not existing, they would know it's not in the DB.
         return Response(
-            {"message": "Password reset email was sent successfully."},
+            {
+                "message": "If the email exists, you will receive password reset instructions."
+            },
             status=status.HTTP_200_OK,
         )
 

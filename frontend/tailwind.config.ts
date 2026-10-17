@@ -6,6 +6,7 @@ import plugin from "tailwindcss/plugin";
 export default <Partial<Config>>{
   content: [
     "~/components/**/*.{js,vue,ts}",
+    "~/composables/**/*.ts",
     "~/layouts/**/*.vue",
     "~/pages/**/*.vue",
     "~/plugins/**/*.{js,ts}",

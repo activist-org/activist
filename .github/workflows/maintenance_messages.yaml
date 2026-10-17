@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: PR Comment Thank You Message
         id: pr_thank_you_message
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request_target'
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -38,7 +38,7 @@ jobs:
 
       - name: PR Comment Maintainer Checklist
         id: pr_maintainer_checklist
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request_target'
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -56,7 +56,9 @@ jobs:
         id: first_interaction_message
         if: >-
           github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' ||
-          github.event.issue.author_association == 'FIRST_TIME_CONTRIBUTOR'
+          github.event.pull_request.author_association == 'NONE' ||
+          github.event.issue.author_association == 'FIRST_TIME_CONTRIBUTOR' ||
+          github.event.issue.author_association == 'NONE'
         uses: actions/first-interaction@v3
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

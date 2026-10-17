@@ -22,8 +22,8 @@ describe("services/communities/group/resource", () => {
   const getMocks = setupServiceTestMocks();
 
   it("createGroupResource() posts JSON to group_resources", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { post } = getMocks();
+    post.mockResolvedValueOnce({ ok: true });
     const input: ResourceInput = {
       id: "r1",
       name: "Res",
@@ -35,7 +35,7 @@ describe("services/communities/group/resource", () => {
 
     await createGroupResource("grp-1", input);
 
-    expectJsonRequest(fetchMock, "/communities/group_resources", "POST", {
+    expectJsonRequest(post, "/communities/group_resources", "POST", {
       ...input,
       group: "grp-1",
     });
@@ -44,8 +44,8 @@ describe("services/communities/group/resource", () => {
   // MARK: Update
 
   it("updateGroupResource() puts JSON to group_resources/:id", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     const input: ResourceInput = {
       id: "r2",
       name: "Res2",
@@ -57,14 +57,14 @@ describe("services/communities/group/resource", () => {
 
     await updateGroupResource(input);
 
-    expectJsonRequest(fetchMock, "/communities/group_resources/r2", "PUT", {
+    expectJsonRequest(put, "/communities/group_resources/r2", "PUT", {
       ...input,
     });
   });
 
   it("reorderGroupResources() PUTs each resource with id/order", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValue({ ok: true });
     const resources: Resource[] = [
       { id: "a", order: 1 } as unknown as Resource,
       { id: "b", order: 2 } as unknown as Resource,
@@ -72,14 +72,14 @@ describe("services/communities/group/resource", () => {
 
     await reorderGroupResources(resources);
 
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    const [firstUrl, firstOpts] = getFetchCall(fetchMock, 0);
+    expect(put).toHaveBeenCalledTimes(2);
+    const [firstUrl, firstOpts] = getFetchCall(put, 0);
     expect(firstUrl).toBe("/communities/group_resources/a");
     expect(firstOpts.method).toBe("PUT");
     expect(firstOpts.headers?.["Content-Type"]).toBe("application/json");
     expect(firstOpts.body).toMatchObject({ id: "a", order: 1 });
 
-    const [secondUrl, secondOpts] = getFetchCall(fetchMock, 1);
+    const [secondUrl, secondOpts] = getFetchCall(put, 1);
     expect(secondUrl).toBe("/communities/group_resources/b");
     expect(secondOpts.method).toBe("PUT");
     expect(secondOpts.headers?.["Content-Type"]).toBe("application/json");
@@ -87,21 +87,21 @@ describe("services/communities/group/resource", () => {
   });
 
   it("reorderGroupResources() with empty list makes no calls", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValue({ ok: true });
     await reorderGroupResources([]);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(put).not.toHaveBeenCalled();
   });
 
   it("reorderGroupResources() with single item makes one call", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValue({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValue({ ok: true });
     const resources: Resource[] = [
       { id: "only", order: 0 } as unknown as Resource,
     ];
     await reorderGroupResources(resources);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectJsonRequest(fetchMock, "/communities/group_resources/only", "PUT", {
+    expect(put).toHaveBeenCalledTimes(1);
+    expectJsonRequest(put, "/communities/group_resources/only", "PUT", {
       id: "only",
       order: 0,
     });
@@ -110,27 +110,27 @@ describe("services/communities/group/resource", () => {
   // MARK: Delete
 
   it("deleteGroupResource() calls DELETE endpoint", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValueOnce({ ok: true });
     await deleteGroupResource("resource-123");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(del).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(del, 0);
     expect(url).toContain("/communities/group_resources/resource-123");
     expect(opts.method).toBe("DELETE");
   });
 
   it("deleteGroupResource() handles successful deletion", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { del } = getMocks();
+    del.mockResolvedValueOnce({ ok: true });
     await expect(deleteGroupResource("resource-456")).resolves.toBeUndefined();
   });
 
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(
       createGroupResource("grp-err", { id: "x" } as unknown as ResourceInput)
     ).rejects.toBeInstanceOf(AppError);

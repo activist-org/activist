@@ -8,11 +8,11 @@
       class="space-y-4"
       :initial-values="initialDetailsData"
       :schema="eventDetailsSchema"
-      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+      :submit-label="t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.name')"
+        :label="t('i18n._global.name')"
         name="name"
         required
       >
@@ -23,7 +23,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="
-            $t(
+            t(
               'i18n.components.machine_steps_create_event_details.events_name_placeholder'
             )
           "
@@ -32,7 +32,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.tagline')"
+        :label="t('i18n.components.machine.steps._global.tagline')"
         name="tagline"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -42,7 +42,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="
-            $t(
+            t(
               'i18n.components.machine_steps_create_event_details.tagline_placeholder'
             )
           "
@@ -51,7 +51,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.description')"
+        :label="t('i18n.components._global.description')"
         name="description"
         required
       >
@@ -61,7 +61,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :placeholder="
-            $t(
+            t(
               'i18n.components.machine_steps_create_event_details.description_placeholder'
             )
           "
@@ -70,13 +70,13 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        :label="$t('i18n._global.organizations')"
+        :label="t('i18n._global.organizations')"
         name="orgs"
         required
       >
         <p>
           {{
-            $t(
+            t(
               "i18n.components.machine_steps_create_event_details.organizer_instructions"
             )
           }}
@@ -87,7 +87,7 @@
           @update:selectedOptions="
             (val: unknown) => handleChange(val as Organization[])
           "
-          :label="$t('i18n._global.organizations')"
+          :label="t('i18n._global.organizations')"
           :linked-user-id="user?.id || ''"
           :selected-organizations="((value.value ?? []) as Organization[])"
         />
@@ -95,7 +95,7 @@
       <FormItem
         v-if="values.orgs && values.orgs.length"
         v-slot="{ id, handleChange, value }"
-        :label="$t('i18n._global.groups')"
+        :label="t('i18n._global.groups')"
         name="groups"
       >
         <!-- prettier-ignore-attribute :selected-groups -->
@@ -104,7 +104,7 @@
           @update:selectedOptions="
             (val: unknown) => handleChange(val as Group[])
           "
-          :label="$t('i18n._global.groups')"
+          :label="t('i18n._global.groups')"
           :linked-organizations="values?.orgs as string[]"
           :selected-groups="((value.value ?? []) as Group[])"
         />

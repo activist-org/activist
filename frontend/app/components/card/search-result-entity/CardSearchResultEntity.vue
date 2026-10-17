@@ -5,7 +5,7 @@
   >
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
-        <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
+        <NuxtLink :aria-label="t(ariaLabel)" :to="localePath(linkUrl)">
           <div class="h-min w-max rounded-md border border-section-div">
             <slot :imageAlt="imageAlt" :imageUrl="imageUrl" name="image">
               <img
@@ -20,16 +20,16 @@
                 class="flex items-center justify-center text-primary-text"
                 :class="[imageSizeClass]"
               >
-                <Icon class="h-[75%] w-[75%]" :name="iconName || 'default'" />
+                <Icon class="size-[75%]" :name="iconName || 'default'" />
               </div>
             </slot>
           </div>
         </NuxtLink>
       </div>
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
-        <div class="-mb-2 flex flex-col justify-between md:flex-row">
+        <div class="flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
+            <NuxtLink :aria-label="t(ariaLabel)" :to="localePath(linkUrl)">
               <h3 class="font-bold" data-testid="group-title">
                 {{ title }}
               </h3>
@@ -49,7 +49,7 @@
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
           <div
             v-if="!aboveMediumBP"
-            class="flex flex-col items-center justify-center space-y-1.5 pt-4"
+            class="flex flex-col items-center justify-center space-y-[6px] pt-4"
           >
             <slot name="mobile-meta-tags" />
           </div>
@@ -62,7 +62,7 @@
         </div>
         <NuxtLink
           v-if="entityName"
-          :aria-label="$t(ariaLabel)"
+          :aria-label="t(ariaLabel)"
           class="text-distinct-text hover:text-primary-text"
           data-testid="group-entity-name"
           :to="localePath(linkUrl)"
@@ -70,7 +70,7 @@
           @{{ entityName }}
         </NuxtLink>
         <p
-          class="justify-center md:justify-start md:px-0 md:py-0"
+          class="justify-center md:justify-start md:p-0"
           :class="{
             'line-clamp-3 lg:line-clamp-4': isReduced,
             'line-clamp-4 lg:line-clamp-5': !isReduced,
@@ -97,6 +97,7 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
+const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 

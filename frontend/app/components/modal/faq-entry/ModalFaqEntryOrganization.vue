@@ -23,7 +23,18 @@ const props = defineProps<{
 const orgId = computed(() => props.entityId);
 
 const { data: organization } = useGetOrganization(orgId);
-const { createFAQ, updateFAQ } = useOrganizationFAQEntryMutations(orgId);
+const { createFAQ, updateFAQ } = useOrganizationFAQEntryMutations(orgId, {
+  create: {
+    onSuccess() {
+      handleCloseModal();
+    },
+  },
+  update: {
+    onSuccess() {
+      handleCloseModal();
+    },
+  },
+});
 
 const formData = ref({
   id: "",
@@ -62,12 +73,9 @@ watch(
 async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  const updateResponse = isAddMode
-    ? await createFAQ(newValues as FaqEntry)
-    : await updateFAQ(newValues as FaqEntry);
-
-  if (updateResponse) {
-    handleCloseModal();
+  if (isAddMode) {
+    return createFAQ(newValues as FaqEntry);
   }
+  updateFAQ(newValues as FaqEntry);
 }
 </script>

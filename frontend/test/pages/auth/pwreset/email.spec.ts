@@ -74,11 +74,10 @@ describe("pwreset/email", () => {
     });
     await fireEvent.click(submitButton);
 
-    // The FormErrorMessage renders the raw i18n key as its text content.
     await waitFor(() => {
       expect(screen.getByRole("alert")).toBeTruthy();
       expect(screen.getByTestId("form-item-email-error").textContent).toContain(
-        "i18n.pages.auth._global.invalid_email"
+        getEnglishText("i18n.pages.auth._global.invalid_email")
       );
     });
   });

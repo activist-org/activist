@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 // MARK: Centralized Query Keys
 
 const GROUP_KEYS = {
@@ -28,6 +27,12 @@ export const useGroupCache = () => {
     });
   };
 
+  const invalidateGroupList = async () => {
+    await invalidateQueries({
+      key: [...GROUP_KEYS.root, "list"],
+    });
+  };
+
   // Get cache entries for a single event.
   const groupCacheEntries = (groupId: string) =>
     getEntries({ key: GROUP_KEYS.byId(groupId) });
@@ -40,6 +45,7 @@ export const useGroupCache = () => {
   return {
     invalidateGroupCache,
     invalidateGroupImageCache,
+    invalidateGroupList,
     groupCacheEntries,
     getKeyForGroups,
     getKeyForGroup,

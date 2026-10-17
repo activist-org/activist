@@ -4,15 +4,15 @@
     @submit="handleSubmit"
     :initial-values="formData as undefined"
     :schema="schema"
-    :submit-label="$t(submitLabel)"
+    :submit-label="t(submitLabel)"
   >
     <h2 v-if="title">
-      {{ $t(title) }}
+      {{ t(title) }}
     </h2>
     <div class="flex flex-col space-y-7">
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.description')"
+        :label="t('i18n.components._global.description')"
         name="description"
         :required="true"
       >
@@ -26,7 +26,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t(getInvolvedLabel)"
+        :label="t(getInvolvedLabel)"
         name="getInvolved"
       >
         <FormTextArea
@@ -39,7 +39,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t(getInvolvedUrlLabel)"
+        :label="t(getInvolvedUrlLabel)"
         name="getInvolvedUrl"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -48,7 +48,7 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="rememberHttpsLabel ? $t(rememberHttpsLabel) : ''"
+          :label="rememberHttpsLabel ? t(rememberHttpsLabel) : ''"
           :modelValue="(value.value as string)"
         />
       </FormItem>

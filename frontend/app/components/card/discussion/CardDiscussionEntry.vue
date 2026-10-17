@@ -5,12 +5,12 @@
   >
     <div class="flex items-center space-x-1">
       <!-- Image Logic Not Yet Implemented. For now placeholder image is a circle colored using placeholder colors.-->
-      <div class="h-8 w-8 rounded-full bg-distinct-text"></div>
+      <div class="size-8 rounded-full bg-distinct-text"></div>
       <div class="flex items-baseline space-x-1">
         <h5 class="pl-2 font-bold">
           {{ discussionEntry.author }}
         </h5>
-        <p>{{ $t("i18n.components.card_discussion_entry.on") }}</p>
+        <p>{{ t("i18n.components.card_discussion_entry.on") }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -32,6 +32,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   isPrivate?: boolean;
   discussionEntry: DiscussionEntry;

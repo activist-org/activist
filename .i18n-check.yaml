@@ -1,7 +1,7 @@
 # Configuration file for i18n-check validation.
 # See https://github.com/activist-org/i18n-check for details.
 
-src-dir: frontend/app
+src-dirs: [frontend/app, frontend/shared]
 i18n-dir: frontend/i18n/locales
 i18n-src: frontend/i18n/locales/en-US.json
 file-types-to-check: [.js, .ts, .vue]

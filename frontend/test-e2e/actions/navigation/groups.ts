@@ -14,7 +14,7 @@ import { navigateToFirstOrganization } from "./organizations";
  * Navigate to a group subpage within an organization
  * @param page - Playwright page object
  * @param subpage - The group subpage to navigate to (e.g., 'about', 'events', 'faq', 'resources')
- * @returns Object containing organizationId, groupId, and organizationPage
+ * @returns Object containing orgId, groupId, and organizationPage
  */
 export async function navigateToOrganizationGroupSubpage(
   page: Page,
@@ -26,11 +26,10 @@ export async function navigateToOrganizationGroupSubpage(
     currentUrl.includes(`/groups/`) &&
     currentUrl.includes(`/${subpage}`)
   ) {
-    return { organizationId: "", organizationPage: newOrganizationPage(page) };
+    return { orgId: "", organizationPage: newOrganizationPage(page) };
   }
 
-  const { organizationId, organizationPage } =
-    await navigateToFirstOrganization(page);
+  const { orgId, organizationPage } = await navigateToFirstOrganization(page);
 
   const viewportSize = page.viewportSize();
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
@@ -42,25 +41,20 @@ export async function navigateToOrganizationGroupSubpage(
     const listboxButton = submenu.getByRole("button");
     await listboxButton.waitFor({ state: "attached", timeout: 5000 });
 
-    const isAlreadyOpen =
-      (await listboxButton.getAttribute("aria-expanded")) === "true";
-    if (!isAlreadyOpen) {
-      await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 5000 });
-    }
-
     await page.waitForLoadState("domcontentloaded");
     await expect(organizationPage.pageHeading).toBeVisible();
-    await page.getByRole("listbox").waitFor({ timeout: 10000 });
-
-    await expect(organizationPage.menu.groupsOption).toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
 
     const groupsOption = page.getByRole("option", {
       name: new RegExp(getEnglishText("i18n._global.groups"), "i"),
     });
 
-    await groupsOption.click({ force: true });
+    // Retry open/select: Headless UI can close/remount options between waits.
+    await expect(async () => {
+      if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
+        await listboxButton.click();
+      }
+      await groupsOption.click({ timeout: 2000 });
+    }).toPass({ timeout: 15000, intervals: [100, 250, 500] });
   } else {
     await expect(organizationPage.menu.groupsOption).toBeVisible();
     await organizationPage.menu.groupsOption.click();
@@ -100,7 +94,7 @@ export async function navigateToOrganizationGroupSubpage(
       "No groups available to navigate to - skipping group subpage tests"
     );
     return {
-      organizationId,
+      orgId,
       groupId: null,
       organizationPage,
       groupsPage,
@@ -138,7 +132,7 @@ export async function navigateToOrganizationGroupSubpage(
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
   return {
-    organizationId,
+    orgId,
     groupId,
     organizationPage,
     groupsPage,

@@ -9,15 +9,15 @@ describe("services/event/text", () => {
   const getMocks = setupServiceTestMocks();
 
   it("updateEventTexts() PUTs to event_texts with JSON body", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     await updateEventTexts("evt-1", "txt-1", {
       description: "d",
       getInvolved: "g",
       getInvolvedUrl: "u",
     } as unknown as Parameters<typeof updateEventTexts>[2]);
 
-    expectJsonRequest(fetchMock, "/events/event_texts/txt-1", "PUT", {
+    expectJsonRequest(put, "/events/event_texts/txt-1", "PUT", {
       primary: true,
       description: "d",
       getInvolved: "g",
@@ -31,8 +31,8 @@ describe("services/event/text", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { put } = getMocks();
+    put.mockRejectedValueOnce(new Error("boom"));
     await expect(
       updateEventTexts("evt-err", "txt-err", {
         description: "",

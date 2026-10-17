@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { passwordRules } from "../../app/constants/passwordRules";
+import { passwordRules } from "../../shared/constants/passwordRules";
 
 describe("constants/passwordRules", () => {
   // MARK: Structure

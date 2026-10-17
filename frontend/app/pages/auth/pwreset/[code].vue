@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <p>{{ $t("i18n.pages.auth.pwreset.code.please_enter_new_password") }}</p>
+    <p>{{ t("i18n.pages.auth.pwreset.code.please_enter_new_password") }}</p>
     <Form
       id="reset-password"
       @submit="handleSubmit"
@@ -30,7 +30,7 @@
           @focus="isPasswordFieldFocused = true"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.enter_password')"
+          :label="t('i18n._global.enter_password')"
           :modelValue="(passwordRef.value as string)"
         />
         <div class="flex flex-col space-y-4">
@@ -66,7 +66,7 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.repeat_password')"
+          :label="t('i18n.pages.auth._global.repeat_password')"
           :modelValue="(confirmPassword.value as string)"
         >
           <template #icons>
@@ -77,14 +77,14 @@
                 :color="
                   confirmPassword.value &&
                   errorMessage.value !==
-                    $t('i18n.pages.auth._global.password_not_matched')
+                    t('i18n.pages.auth._global.password_not_matched')
                     ? '#3BA55C'
                     : '#BA3D3B'
                 "
                 :name="
                   confirmPassword.value &&
                   errorMessage.value !==
-                    $t('i18n.pages.auth._global.password_not_matched')
+                    t('i18n.pages.auth._global.password_not_matched')
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
@@ -93,9 +93,9 @@
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{
                   errorMessage.value ===
-                  $t("i18n.pages.auth._global.password_not_matched")
-                    ? $t("i18n.pages.auth._global.passwords_do_not_match")
-                    : $t("i18n.pages.auth._global.passwords_match")
+                  t("i18n.pages.auth._global.password_not_matched")
+                    ? t("i18n.pages.auth._global.passwords_do_not_match")
+                    : t("i18n.pages.auth._global.passwords_match")
                 }}
               </title>
             </span>
@@ -109,10 +109,9 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+const { t } = useI18n();
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
-
-const { t } = useI18n();
 
 const resetPasswordSchema = z
   .object({

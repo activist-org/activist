@@ -4,7 +4,7 @@ import { signIn } from "~/test-e2e/actions/authentication";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 import { newSignUpPage } from "~/test-e2e/page-objects/SignUpPage";
-import { clearEmails, waitAndConfirmEmail } from "~/test-e2e/utils/mailhog";
+import { waitAndConfirmEmail } from "~/test-e2e/utils/mailhog";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
@@ -34,8 +34,6 @@ test.describe.serial(
 
       const signUpPage = newSignUpPage(page);
 
-      await clearEmails();
-
       await withTestStep(testInfo, "Fill in sign-up form", async () => {
         await signUpPage.usernameInput.fill(username);
         await signUpPage.emailInput.fill(email);
@@ -58,7 +56,7 @@ test.describe.serial(
       });
 
       await withTestStep(testInfo, "Confirm email via link", async () => {
-        await waitAndConfirmEmail(page);
+        await waitAndConfirmEmail(page, email);
       });
 
       await withTestStep(testInfo, "Sign in with new account", async () => {

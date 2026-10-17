@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -48,7 +47,7 @@ describe("SidebarLeftFilterEvents", () => {
             Icon: true,
           },
           mocks: {
-            $t: (key: string) => key,
+            t: (key: string) => key,
             $te: () => true,
           },
         },
@@ -75,7 +74,7 @@ describe("SidebarLeftFilterEvents", () => {
             Icon: true,
           },
           mocks: {
-            $t: (key: string) => key,
+            t: (key: string) => key,
             $te: () => true,
           },
         },

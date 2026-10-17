@@ -4,7 +4,7 @@
     <div class="mb-6 text-center text-gray-600">
       <span>
         {{
-          $t("i18n.components.machine._global.machine", {
+          t("i18n.components.machine._global.machine", {
             current_step: context.currentStep,
             total_steps: context.totalSteps,
           })
@@ -30,6 +30,9 @@ const props = defineProps<{
   machineType: MachineType;
   options?: UseFlowScreensOptions;
 }>();
+
+const { t } = useI18n();
+
 const emit = defineEmits(["close", "submit"]);
 
 const {

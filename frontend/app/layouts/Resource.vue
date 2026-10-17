@@ -1,14 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <SidebarLeft
-      v-if="aboveMediumBP"
-      @blur="sidebarHover = false"
-      @focus="sidebarHover = true"
-      @mouseleave="sidebarHover = false"
-      @mouseover="sidebarHover = true"
-      class="block"
-    />
+    <SidebarLeft v-if="aboveMediumBP" class="block" />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
@@ -27,14 +20,12 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
-const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
   useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
-  sidebarContentScrollable.value,
-  sidebarHover
+  sidebarContentScrollable.value
 );
 
-const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+const sidebarFooterDynamicClass = getSidebarFooterDynamicClass();
 </script>

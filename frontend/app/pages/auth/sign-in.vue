@@ -21,7 +21,7 @@
           autocomplete="off"
           autocorrect="off"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
+          :label="t('i18n.pages.auth.sign_in.enter_user_name')"
           :modelValue="(value.value as string)"
           :spellcheck="false"
         />
@@ -37,7 +37,7 @@
             @blur="handleBlur"
             @input="handleChange"
             :hasError="!!errorMessage.value"
-            :label="$t('i18n._global.enter_password')"
+            :label="t('i18n._global.enter_password')"
             :modelValue="(value.value as string)"
           />
           <IndicatorPasswordStrength
@@ -58,7 +58,7 @@
         <button
           id="sign-in-forgot-password"
           @blur="hovered = false"
-          @click="navigateTo(localePath('/auth/pwreset/email'))"
+          @click="navigateToPwReset()"
           @focus="hovered = true"
           @mouseleave="hovered = false"
           @mouseover="hovered = true"
@@ -66,22 +66,22 @@
           :class="{ 'link-text': !isForgotPasswordDisabled }"
           :disabled="isForgotPasswordDisabled"
         >
-          {{ $t("i18n._global.auth.reset_password_forgot_password") }}
+          {{ t("i18n._global.auth.reset_password_forgot_password") }}
         </button>
         <TooltipBase
           v-if="isForgotPasswordDisabled && hovered"
-          :text="$t('i18n.pages.auth.sign_in.forgot_password_captcha_tooltip')"
+          :text="t('i18n.pages.auth.sign_in.forgot_password_captcha_tooltip')"
         />
       </div>
     </Form>
     <div class="flex items-center pt-4 md:justify-center md:pt-6 lg:pt-8">
-      <h6>{{ $t("i18n.pages.auth.sign_in.index.no_account") }}</h6>
+      <h6>{{ t("i18n.pages.auth.sign_in.index.no_account") }}</h6>
       <NuxtLink
         id="sign-in-signup-link"
         class="link-text inline-link-underline ml-2 font-extrabold"
         :to="localePath('/auth/sign-up')"
       >
-        {{ $t("i18n._global.sign_up") }}
+        {{ t("i18n._global.sign_up") }}
       </NuxtLink>
     </div>
   </div>
@@ -92,6 +92,10 @@ import { FetchError } from "ofetch";
 import { z } from "zod";
 
 const { t } = useI18n();
+
+const navigateToPwReset = () => {
+  navigateTo(localePath("/auth/pwreset/email"));
+};
 
 const signInSchema = z.object({
   userName: z.string().min(1, t("i18n._global.required")),

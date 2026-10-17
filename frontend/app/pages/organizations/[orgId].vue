@@ -2,7 +2,7 @@
 <template>
   <NuxtLayout
     :name="
-      !/organizations-orgId-groups-groupId.*/.test($route.name as string)
+      !/organizations-orgId-groups-groupId.*/.test(route.name as string)
         ? 'organization-page'
         : false
     "
@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
 definePageMeta({
   layout: false,
 });

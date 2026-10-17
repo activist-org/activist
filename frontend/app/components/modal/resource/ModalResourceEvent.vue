@@ -12,10 +12,6 @@
 </template>
 
 <script setup lang="ts">
-const modalName = "ModalResourceEvent";
-const { handleCloseModal } = useModalHandlers<{ resource?: Resource }>(
-  modalName
-);
 const props = defineProps<{
   resource?: Resource;
   entityId: string;
@@ -23,9 +19,27 @@ const props = defineProps<{
 
 const eventId = computed(() => props.entityId);
 
+const modalName = "ModalResourceEvent";
+const { handleCloseModal } = useModalHandlers<{ resource?: Resource }>(
+  modalName
+);
+
 const { data: event } = useGetEvent(eventId);
-const { updateResource, createResource, loading } =
-  useEventResourcesMutations(eventId);
+const { updateResource, createResource, loading } = useEventResourcesMutations(
+  eventId,
+  {
+    update: {
+      onSuccess() {
+        handleCloseModal();
+      },
+    },
+    create: {
+      onSuccess() {
+        handleCloseModal();
+      },
+    },
+  }
+);
 
 const formData = ref<Resource | undefined>();
 
@@ -65,8 +79,11 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order ?? (event.value?.resources ?? []).length,
   };
-  if (isAddMode) await createResource(newValues as ResourceInput);
-  else await updateResource(newValues as ResourceInput);
-  handleCloseModal();
+
+  if (isAddMode) {
+    createResource(newValues as ResourceInput);
+  } else {
+    updateResource(newValues as ResourceInput);
+  }
 }
 </script>

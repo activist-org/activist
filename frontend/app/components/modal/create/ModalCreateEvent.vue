@@ -1,19 +1,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <h2>{{ $t("i18n.components.modal_create_event.create_new_event") }}</h2>
+    <h2>{{ t("i18n.components.modal_create_event.create_new_event") }}</h2>
     <Machine
       @close="handleCloseModal"
-      :machine-type="MachineCreateType.CreateEvent"
+      :machine-type="createEvent"
       :options="flowOptions"
     />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const modalName = "ModalCreateEvent";
+const createEvent = MachineCreateType.CreateEvent;
 const { handleCloseModal } = useModalHandlers(modalName);
-const { create } = useEventMutations();
+const { createAsync } = useEventMutations();
 
 const route = useRoute();
 const router = useRouter();
@@ -23,7 +26,7 @@ async function handleLoopSubmit(iterationData: unknown) {
   const dataToSubmit = Object.values(
     iterationData as ContextCreateEventData
   ).reduce((acc, d) => ({ ...acc, ...(d as Record<string, unknown>) }), {});
-  return create(dataToSubmit as unknown as CreateEventInput); // Returns to useFlowScreens
+  return createAsync(dataToSubmit as unknown as CreateEventInput); // Returns to useFlowScreens
 }
 
 /**
@@ -38,7 +41,7 @@ async function handleSubmission(finalData: unknown) {
   // Combine all IDs.
   const allIds = [...loopedEventIds];
   await handleCreatedEventRouting(allIds);
-  // Close the modal.
+
   handleCloseModal();
 }
 
@@ -61,10 +64,6 @@ async function handleCreatedEventRouting(createdEventIds: string[]) {
   }
 
   const viewQueryValue = route.query.view || ViewType.LIST; // default to 'list' if no view query param is present
-
-  // Preserve the next query in case we are navigating to a new path.
-  const preserveNextQuery = useState("preserveNextQuery", () => false);
-  preserveNextQuery.value = true;
   await router.push({
     path: "/events",
     query: {

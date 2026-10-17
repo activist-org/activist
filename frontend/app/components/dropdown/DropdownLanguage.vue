@@ -5,10 +5,10 @@
     :isMenuButtonUppercase="true"
     :location="location"
     :menuButtonIcon="IconMap.GLOBE"
-    :menuButtonLabel="$i18n.locale"
+    :menuButtonLabel="locale"
     menuButtonAriaLabel="i18n.components.dropdown_language.open_dropdown_aria_label"
   >
-    <ul class="px-2 py-2">
+    <ul class="p-2">
       <NuxtLink
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
@@ -34,7 +34,7 @@ import type { LocaleObject } from "@nuxtjs/i18n";
 import { MenuItem } from "@headlessui/vue";
 
 defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
 }>();
 
 const { locale, locales } = useI18n();

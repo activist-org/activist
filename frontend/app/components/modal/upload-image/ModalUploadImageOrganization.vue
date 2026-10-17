@@ -4,10 +4,10 @@
     <div>
       <DialogTitle>
         <h2 v-if="uploadLimit > 1" class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_images") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_images") }}
         </h2>
         <h2 v-else class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -42,13 +42,20 @@ interface Props {
   orgId: string;
   uploadLimit?: number;
 }
-
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
+
+const { t } = useI18n();
+
 const orgId = computed(() => props.orgId);
+
+const modals = useModals();
+const modalName = "ModalUploadImageOrganization";
+const uploadError = ref(false);
+
 const { data: organizationImages } = useGetOrganizationImages(orgId);
-const { updateImage, uploadImages, deleteImage, loading } =
+const { updateImageAsync, uploadImagesAsync, deleteImage, loading } =
   useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
 
@@ -58,12 +65,7 @@ const handleFileDeleted = async (file: FileUploadMix) => {
   if (file?.type !== "file") {
     return;
   }
-
-  try {
-    await deleteImage(file.data.id);
-  } catch {
-    // onError raises the toast.
-  }
+  deleteImage(file.data.id);
 };
 
 watch(
@@ -81,10 +83,6 @@ watch(
   { immediate: true, deep: true }
 );
 
-const modals = useModals();
-const modalName = "ModalUploadImageOrganization";
-const uploadError = ref(false);
-
 const emit = defineEmits(["upload-complete", "upload-error"]);
 // TODO: This is a lot of code, and it should be in a composable.
 const handleUpload = async () => {
@@ -98,7 +96,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          updateImage({
+          updateImageAsync({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -106,7 +104,7 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await uploadImages({
+      await uploadImagesAsync({
         images: uploadFiles.map((file) => file.data as UploadableFile),
         sequences: uploadFiles.map((file) => file.sequence),
       });

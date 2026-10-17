@@ -7,18 +7,16 @@
       class="space-y-4"
       :initial-values="initialDetailsData"
       :schema="organizationDetailsSchema"
-      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+      :submit-label="t('i18n.components.machine.steps._global.next_step')"
     >
       <p>
         {{
-          $t(
-            "i18n.components.machine_steps_create_organization_details.subtext"
-          )
+          t("i18n.components.machine_steps_create_organization_details.subtext")
         }}
       </p>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.name')"
+        :label="t('i18n._global.name')"
         name="name"
         required
       >
@@ -29,7 +27,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="
-            $t(
+            t(
               'i18n.components.machine_steps_create_organization_details.organization_name_placeholder'
             )
           "
@@ -38,7 +36,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.tagline')"
+        :label="t('i18n.components.machine.steps._global.tagline')"
         name="tagline"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -48,7 +46,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="
-            $t(
+            t(
               'i18n.components.machine_steps_create_organization_details.tagline_placeholder'
             )
           "
@@ -57,7 +55,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.description')"
+        :label="t('i18n.components._global.description')"
         name="description"
         required
       >
@@ -67,7 +65,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :placeholder="
-            $t(
+            t(
               'i18n.components.machine_steps_create_organization_details.description_placeholder'
             )
           "
@@ -82,6 +80,7 @@
 import { z } from "zod";
 
 const { t } = useI18n();
+
 const flow = inject<FlowControls>("flow");
 
 const organizationDetailsSchema = z.object({

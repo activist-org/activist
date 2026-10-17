@@ -24,7 +24,18 @@ const props = defineProps<{
 const groupId = computed(() => props.entityId);
 
 const { data: group } = useGetGroup(groupId);
-const { updateFAQ, createFAQ } = useGroupFAQEntryMutations(groupId);
+const { updateFAQ, createFAQ } = useGroupFAQEntryMutations(groupId, {
+  create: {
+    onSuccess() {
+      handleCloseModal();
+    },
+  },
+  update: {
+    onSuccess() {
+      handleCloseModal();
+    },
+  },
+});
 
 const formData = ref({
   id: "",
@@ -61,15 +72,11 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  let updateResponse = false;
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  updateResponse = isAddMode
-    ? await createFAQ(newValues as FaqEntry)
-    : await updateFAQ(newValues as FaqEntry);
-
-  if (updateResponse) {
-    handleCloseModal();
+  if (isAddMode) {
+    return createFAQ(newValues as FaqEntry);
   }
+  updateFAQ(newValues as FaqEntry);
 }
 </script>

@@ -2,13 +2,13 @@
 <template>
   <div class="bg-layer-0 px-8">
     <Head>
-      <Title>{{ $t("i18n.pages.organizations.index.header_title") }}</Title>
+      <Title>{{ t("i18n.pages.organizations.index.header_title") }}</Title>
     </Head>
     <HeaderAppPageList
       @filter-click="removeFilter"
       :filters="listFilters"
-      :header="$t('i18n.pages.organizations.index.header_title')"
-      :tagline="$t('i18n.pages.organizations.index.subheader')"
+      :header="t('i18n.pages.organizations.index.header_title')"
+      :tagline="t('i18n.pages.organizations.index.subheader')"
     >
       <div class="flex flex-col gap-3 sm:flex-row md:hidden">
         <ComboboxTopics
@@ -21,7 +21,7 @@
           id="mobile-country-filter"
           @update:selectedCountry="handleSelectedCountryUpdate"
           class="w-32 shrink-0"
-          :label="$t('i18n._global.country')"
+          :label="t('i18n._global.country')"
           :selectedCountry="selectedCountry"
         />
 
@@ -33,9 +33,9 @@
               handleCityUpdate();
             }
           "
-          :ariaLabel="$t('i18n._global.search_city_button_aria_label')"
+          :ariaLabel="t('i18n._global.search_city_button_aria_label')"
           class="w-32 shrink-0"
-          :label="$t('i18n._global.filter_by_city')"
+          :label="t('i18n._global.filter_by_city')"
           :modelValue="selectedCity"
         />
       </div>
@@ -70,11 +70,12 @@
 <script setup lang="ts">
 import type { LocationQueryRaw } from "vue-router";
 
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const loadingFetchMore = ref(false);
-
 const { getLabelByKey } = useGetLabelByKeyFilter();
+
+const loadingFetchMore = ref(false);
 
 const filters = computed<OrganizationFilters>(() => {
   // Note: We do not have a view filter for organizations.
@@ -83,11 +84,13 @@ const filters = computed<OrganizationFilters>(() => {
     rest as unknown as OrganizationFilters;
 
   // Normalize topics to always be an array (Vue Router returns string for single value).
-  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
+  normalizedFilters.topics = normalizeArrayFromURLQuery(
+    topics
+  ) as TopicMapType[];
 
   return normalizedFilters;
 });
-const selectedTopics = ref<TopicEnum[]>([]);
+const selectedTopics = ref<TopicMapType[]>([]);
 
 const listFilters = computed(() => {
   const mappedFilters = Object.entries(filters.value).flatMap(
@@ -140,11 +143,11 @@ const removeFilter = (option: {
 watch(
   () => route.query.topics,
   (newVal) => {
-    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicMapType[];
   },
   { immediate: true }
 );
-const handleSelectedTopicsUpdate = (selectedTopics: TopicEnum[]) => {
+const handleSelectedTopicsUpdate = (selectedTopics: TopicMapType[]) => {
   const query = { ...route.query };
   if (selectedTopics.length > 0) {
     query.topics = selectedTopics;
@@ -178,7 +181,7 @@ useCustomInfiniteScroll({
 });
 
 const showOrganizations = computed(() => {
-  if (organizations.value.length > 0) {
+  if ((organizations?.value ?? []).length > 0) {
     if (loadingFetchMore.value) {
       return true;
     }

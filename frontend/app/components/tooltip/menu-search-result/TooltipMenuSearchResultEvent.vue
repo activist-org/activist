@@ -32,7 +32,6 @@
       />
       <BtnAction
         @click="downloadCalendarEntry"
-        @keydown.enter="downloadCalendarEntry"
         ariaLabel="i18n._global.subscribe_to_event_aria_label"
         class="flex max-h-10 w-full items-center"
         :cta="true"
@@ -46,14 +45,15 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   event: CommunityEvent;
 }>();
 
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
-const downloadCalendarEntry = () => {};
+const { downloadEventCalendar } = useDownloadEventCalendar();
+const downloadCalendarEntry = () => downloadEventCalendar(props.event.id);
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>

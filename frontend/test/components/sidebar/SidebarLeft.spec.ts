@@ -77,7 +77,7 @@ describe("SidebarLeft.vue", () => {
           Icon: true,
         },
         mocks: {
-          $t: (key: string) => key,
+          t: (key: string) => key,
         },
       },
       // Ensure the component mounts with DOM so refs/element manipulation works.
@@ -85,11 +85,11 @@ describe("SidebarLeft.vue", () => {
     });
   });
 
-  it("renders aside element with navigation role and aria-label from $t", () => {
+  it("renders aside element with navigation role and aria-label from t", () => {
     const aside = wrapper.find("aside");
     expect(aside.exists()).toBe(true);
     expect(aside.attributes("role")).toBe("navigation");
-    // $t mock returns the key string, so it should contain the i18n key.
+    // t mock returns the key string, so it should contain the i18n key.
     expect(aside.attributes("aria-label")).toContain(
       "i18n.components.sidebar_left.sidebar_left_aria_label"
     );

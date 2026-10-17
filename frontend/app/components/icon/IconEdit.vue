@@ -8,7 +8,7 @@
   >
     <Icon :name="IconMap.EDIT" size="1.2em" />
     <span id="icon-edit-label" hidden>{{
-      $t("i18n.components.icon_edit.aria_label_alt_text")
+      t("i18n.components.icon_edit.aria_label_alt_text")
     }}</span>
   </button>
 </template>
@@ -18,6 +18,7 @@ const props = defineProps<{
   entity?: Entity | null;
 }>();
 
+const { t } = useI18n();
 const { canEdit } = useUser();
 const canEditEntity = computed(() => canEdit(props?.entity));
 </script>

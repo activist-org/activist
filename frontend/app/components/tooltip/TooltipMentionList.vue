@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="relative flex flex-col gap-0.5 overflow-auto rounded-lg border border-section-div bg-layer-2 p-2 shadow-md"
+    class="relative flex flex-col gap-[2px] overflow-auto rounded-lg border border-section-div bg-layer-2 p-2 shadow-md"
   >
     <template v-if="items.length">
       <button
@@ -19,7 +19,7 @@
       </button>
     </template>
     <div v-else class="item">
-      {{ $t("i18n.components.tooltip_mention_list.no_result") }}
+      {{ t("i18n.components.tooltip_mention_list.no_result") }}
     </div>
   </div>
 </template>

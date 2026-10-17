@@ -5,26 +5,27 @@
       <MenuButton
         v-slot="{ open }"
         @focus="expandOnFocus"
-        :aria-label="$t(`${menuButtonAriaLabel}`)"
+        :aria-label="t(`${menuButtonAriaLabel}`)"
         class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md border-none px-4 py-2 font-semibold"
         :class="{
           'pl-6': isSideMenu,
           'style-menu-option-cta flex items-center rounded-md pl-1':
             isSidebarLeftMenu,
+          'px-2 py-1': isPageBreadcrumbs,
         }"
         :data-testid="dataTestId"
       >
         <div
           class="flex items-center justify-between space-x-2 text-sm"
           :class="{
-            'relative z-0 w-full pl-2.5 text-left font-medium':
+            'relative z-0 w-full pl-[10px] text-left font-medium':
               isSidebarLeftMenu,
           }"
         >
           <div class="flex items-center space-x-2">
             <Icon
               :class="{
-                'h-5 w-5 shrink-0 text-center': isSidebarLeftMenu,
+                'size-5 shrink-0 text-center': isSidebarLeftMenu,
               }"
               :name="menuButtonIcon"
               :size="isSidebarLeftMenu ? '1em' : ''"
@@ -37,7 +38,9 @@
                   sidebar.collapsedSwitch == false
                 "
                 :class="{
-                  'sr-only lg:not-sr-only': !isSidebarLeftMenu,
+                  'sr-only lg:not-sr-only':
+                    !isSidebarLeftMenu && !isPageBreadcrumbs,
+                  'sr-only': isPageBreadcrumbs,
                   'not-sr-only! ml-3!': isSideMenu,
                   uppercase: isMenuButtonUppercase,
                   'font-bold': isMenuButtonBold,
@@ -90,7 +93,7 @@
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 
 const props = defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
   menuButtonAriaLabel: string;
   menuButtonIcon: string;
   isMenuButtonUppercase?: boolean;
@@ -98,6 +101,8 @@ const props = defineProps<{
   menuButtonLabel: string;
   dataTestId?: string;
 }>();
+
+const { t } = useI18n();
 
 const sidebar = useSidebar();
 
@@ -107,6 +112,10 @@ const isSidebarLeftMenu = computed(() => {
 
 const isSideMenu = computed(() => {
   return props.location === DropdownLocation.SIDE_MENU;
+});
+
+const isPageBreadcrumbs = computed(() => {
+  return props.location === DropdownLocation.PAGE_BREADCRUMBS;
 });
 
 const expandOnFocus = () => {

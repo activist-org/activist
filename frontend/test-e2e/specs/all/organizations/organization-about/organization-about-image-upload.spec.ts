@@ -7,25 +7,25 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 
 test.beforeEach(async ({ page }) => {
-  const organizationId = await pageSetup(page);
-  await purgeImages(page, organizationId);
+  const orgId = await pageSetup(page);
+  await purgeImages(page, orgId);
 });
 
 test.afterEach(async ({ page }) => {
-  const organizationId = await pageSetup(page);
-  await purgeImages(page, organizationId);
+  const orgId = await pageSetup(page);
+  await purgeImages(page, orgId);
 });
 
 const pageSetup = async (page: Page) => {
-  const { organizationId } = await navigateToFirstOrganization(page);
+  const { orgId } = await navigateToFirstOrganization(page);
   await page.waitForLoadState("networkidle");
 
-  return organizationId;
+  return orgId;
 };
 
-const purgeImages = async (page: Page, organizationId: string) => {
+const purgeImages = async (page: Page, orgId: string) => {
   const res = await page.request.get(
-    `/api/public/communities/organization/${organizationId}/images`
+    `/api/public/communities/organization/${orgId}/images`
   );
   const images: { id: string }[] = await res.json();
   await Promise.all(

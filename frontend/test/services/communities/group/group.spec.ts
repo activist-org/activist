@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { defaultGroupText } from "../../../../app/constants/group";
 import {
   getGroup,
   listGroups,
   mapGroup,
 } from "../../../../app/services/communities/group/group";
+import { defaultGroupText } from "../../../../shared/constants/group";
 import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectRequest,
@@ -20,7 +20,7 @@ describe("services/communities/group", () => {
   // MARK: Get
 
   it("getGroup() requests by ID with withoutAuth and maps response", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const response = {
       id: "grp-1",
       images: [],
@@ -38,13 +38,13 @@ describe("services/communities/group", () => {
       faqEntries: [],
       texts: [defaultGroupText],
     };
-    fetchMock.mockResolvedValueOnce(response);
+    get.mockResolvedValueOnce(response);
 
     const result = await getGroup("grp-1");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(fetchMock, /\/communities\/groups\/grp-1$/, "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    expectRequest(get, /\/communities\/groups\/grp-1$/, "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result.id).toBe("grp-1");
@@ -54,7 +54,7 @@ describe("services/communities/group", () => {
   // MARK: List
 
   it("listGroups() calls the list endpoint and maps results", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     type ApiItem = Parameters<typeof mapGroup>[0];
     const apiItem = {
       id: "grp-2",
@@ -79,14 +79,14 @@ describe("services/communities/group", () => {
       previous: null,
       results: [apiItem],
     };
-    fetchMock.mockResolvedValueOnce(responseBody);
+    get.mockResolvedValueOnce(responseBody);
 
     const result = await listGroups();
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(get).toHaveBeenCalledTimes(1);
     // Note: endpoint is singular "group" per current service implementation.
-    expectRequest(fetchMock, "/communities/groups?page=1&page_size=10", "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expectRequest(get, "/communities/groups?page=1&page_size=10", "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result.data).toHaveLength(1);
@@ -97,8 +97,8 @@ describe("services/communities/group", () => {
   // MARK: Error Handling
 
   it("propagates AppError via errorHandler on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { get } = getMocks();
+    get.mockRejectedValueOnce(new Error("boom"));
     await expect(getGroup("grp-err")).rejects.toBeInstanceOf(AppError);
   });
 

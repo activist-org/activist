@@ -1,6 +1,16 @@
+<a id="top"></a>
+
 # OWASP ZAP Security Testing Configuration
 
 This directory contains configuration files for OWASP ZAP security testing, optimized according to security best practices.
+
+## Contents
+
+- [Configuration Overview](#configuration-overview)
+- [ZAP Automation Configuration](#zap-automation-configuration)
+- [Usage Instructions](#usage-instructions)
+- [Customizing the Scan](#customizing-the-scan)
+- [Best Practices](#best-practices)
 
 ## Configuration Overview
 
@@ -15,6 +25,8 @@ The security testing is configured to focus on the most effective and critical s
 - **Optimized Scan Time**: Efficient scanning with configured timeouts and depth limits
 - **Weekly Scheduled Scans**: Automatically runs every Monday at 2 AM UTC via GitHub Actions
 - **Custom Alert Filters**: Excludes tests known to produce false positives or less critical findings
+
+<sub><a href="#top">Back to top.</a></sub>
 
 ## ZAP Automation Configuration
 
@@ -38,6 +50,8 @@ alertFilters:
   - ruleId: 10020     # x-frame-options header
     newRisk: "False Positive"
 ```
+
+<sub><a href="#top">Back to top.</a></sub>
 
 ## Usage Instructions
 
@@ -111,6 +125,8 @@ The scan runs automatically in GitHub Actions via the workflow in `.github/workf
 
 You can also trigger it manually from the GitHub Actions tab by selecting the "OWASP ZAP Optimized Security Scan" workflow and clicking "Run workflow".
 
+<sub><a href="#top">Back to top.</a></sub>
+
 ## Customizing the Scan
 
 To modify the scan configuration, edit the `zap.yaml` file. Common customizations include:
@@ -120,6 +136,8 @@ To modify the scan configuration, edit the `zap.yaml` file. Common customization
 3. **Adding Alert Filters**: Add new entries to the `alertFilters` section
 4. **Changing Scan Intensity**: Modify the `strength` and `threshold` parameters
 
+<sub><a href="#top">Back to top.</a></sub>
+
 ## Best Practices
 
 1. **Start with Low Depth**: Begin with a lower spider depth and increase gradually
@@ -127,3 +145,5 @@ To modify the scan configuration, edit the `zap.yaml` file. Common customization
 3. **Update Alert Filters**: Continuously refine the alert filters based on findings
 4. **Scan Regularly**: Run scans after significant changes to the application
 5. **Combine with Other Tools**: ZAP is powerful but should be part of a broader security strategy
+
+<sub><a href="#top">Back to top.</a></sub>

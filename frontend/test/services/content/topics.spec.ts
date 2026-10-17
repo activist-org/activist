@@ -11,7 +11,7 @@ describe("services/content/topics", () => {
   const getMocks = setupServiceTestMocks();
 
   it("listTopics() GETs /content/topics without auth", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const payload: Topic[] = [
       {
         type: 0 as unknown as Topic["type"],
@@ -22,12 +22,12 @@ describe("services/content/topics", () => {
         id: "t1",
       },
     ];
-    fetchMock.mockResolvedValueOnce(payload);
+    get.mockResolvedValueOnce(payload);
 
     const result = await listTopics();
 
-    expectRequest(fetchMock, "/content/topics", "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expectRequest(get, "/content/topics", "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result).toEqual(payload);
@@ -36,8 +36,8 @@ describe("services/content/topics", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { get } = getMocks();
+    get.mockRejectedValueOnce(new Error("boom"));
     await expect(listTopics()).rejects.toBeInstanceOf(AppError);
   });
 });

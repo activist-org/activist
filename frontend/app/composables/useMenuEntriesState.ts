@@ -37,49 +37,53 @@ const useMenuEntriesState = () => {
       `${IconMap.RESOURCE}`
     ),
     createMenuEntry("i18n._global.faq", "organizations", `${IconMap.FAQ}`),
+
+    // Note: The following are disabled until the underlying functionality is finished.
     // createMenuEntry("i18n.composables.use_menu_entries_state.team, "organizations", `${IconMap.PEOPLE}`),
-    createMenuEntry(
-      "i18n.composables.use_menu_entries_state.affiliates",
-      "organizations",
-      `${IconMap.SUPPORT}`
-    ),
-    createMenuEntry(
-      "i18n.composables.use_menu_entries_state.tasks",
-      "organizations",
-      `${IconMap.TASK}`
-    ),
-    createMenuEntry(
-      "i18n._global.discussions",
-      "organizations",
-      `${IconMap.DISCUSSION}`
-    ),
-    createMenuEntry(
-      "i18n._global.settings",
-      "organizations",
-      `${IconMap.SETTINGS}`
-    ),
+    // createMenuEntry(
+    //   "i18n.composables.use_menu_entries_state.affiliates",
+    //   "organizations",
+    //   `${IconMap.SUPPORT}`
+    // ),
+    // createMenuEntry(
+    //   "i18n.composables.use_menu_entries_state.tasks",
+    //   "organizations",
+    //   `${IconMap.TASK}`
+    // ),
+    // createMenuEntry(
+    //   "i18n._global.discussions",
+    //   "organizations",
+    //   `${IconMap.DISCUSSION}`
+    // ),
+    // createMenuEntry(
+    //   "i18n._global.settings",
+    //   "organizations",
+    //   `${IconMap.SETTINGS}`
+    // ),
   ]);
 
   const eventEntries = ref([
     createMenuEntry("i18n._global.about", "events", `${IconMap.ABOUT}`),
-    createMenuEntry(
-      "i18n.composables.use_menu_entries_state.team",
-      "events",
-      `${IconMap.PEOPLE}`
-    ),
+    // Note: The following are disabled until the underlying functionality is finished.
+    // createMenuEntry(
+    //   "i18n.composables.use_menu_entries_state.team",
+    //   "events",
+    //   `${IconMap.PEOPLE}`
+    // ),
     createMenuEntry("i18n._global.resources", "events", `${IconMap.RESOURCE}`),
     createMenuEntry("i18n._global.faq", "events", `${IconMap.FAQ}`),
-    createMenuEntry(
-      "i18n.composables.use_menu_entries_state.tasks",
-      "events",
-      `${IconMap.TASK}`
-    ),
-    createMenuEntry(
-      "i18n._global.discussion",
-      "events",
-      `${IconMap.DISCUSSION}`
-    ),
-    createMenuEntry("i18n._global.settings", "events", `${IconMap.SETTINGS}`),
+
+    // createMenuEntry(
+    //   "i18n.composables.use_menu_entries_state.tasks",
+    //   "events",
+    //   `${IconMap.TASK}`
+    // ),
+    // createMenuEntry(
+    //   "i18n._global.discussion",
+    //   "events",
+    //   `${IconMap.DISCUSSION}`
+    // ),
+    // createMenuEntry("i18n._global.settings", "events", `${IconMap.SETTINGS}`),
   ]);
 
   const updateCurrentPath = () => {

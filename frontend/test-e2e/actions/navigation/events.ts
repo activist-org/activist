@@ -17,18 +17,15 @@ export async function navigateToFirstEvent(page: Page) {
   // Navigate to events home page.
   await page.goto("/events", { waitUntil: "load" });
 
-  // Switch to list view (default is map view) if available.
-  // On mobile, view switcher is not visible (known issue).
+  // Switch to list view if the switcher is present (absent on mobile).
   const listViewButton = page.getByRole("radio", { name: /list view/i });
 
-  // Wait for view switcher to be available.
-  await listViewButton
+  const hasViewSwitcher = await listViewButton
     .waitFor({ state: "visible", timeout: 3000 })
-    .catch(() => {});
+    .then(() => true)
+    .catch(() => false);
 
-  const isChecked = await listViewButton.isChecked().catch(() => false);
-
-  if (!isChecked) {
+  if (hasViewSwitcher && !(await listViewButton.isChecked())) {
     await listViewButton.click();
   }
 
@@ -114,20 +111,9 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
     const listboxButton = submenu.getByRole("button");
     await listboxButton.waitFor({ state: "attached", timeout: 3000 });
 
-    // Check if the dropdown is already open before clicking.
-    const isAlreadyOpen =
-      (await listboxButton.getAttribute("aria-expanded")) === "true";
-    if (!isAlreadyOpen) {
-      await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 3000 });
-    }
-
     // Wait for the page to be fully loaded and menu entries to be initialized.
     await page.waitForLoadState("domcontentloaded");
-
-    // Wait for the event page heading and dropdown to be visible (ensures page is loaded).
     await expect(eventPage.pageHeading).toBeVisible();
-    await page.getByRole("listbox").waitFor({ timeout: 3000 });
 
     // Exhaustive map of event subpages to their menu entry i18n keys.
     // Mirrors the entries in `app/composables/useMenuEntriesState.ts`.
@@ -154,9 +140,13 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
       name: new RegExp(getEnglishText(i18nKey), "i"),
     });
 
-    // Verify option exists before clicking (fail fast if not available).
-    await expect(subpageOption).toBeVisible({ timeout: 5000 });
-    await subpageOption.click();
+    // Retry open/select: submenu can re-render while event data loads.
+    await expect(async () => {
+      if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
+        await listboxButton.click();
+      }
+      await subpageOption.click({ timeout: 2000 });
+    }).toPass({ timeout: 15000, intervals: [100, 250, 500] });
   } else {
     // Desktop layout: uses direct tab navigation.
     await page.waitForLoadState("domcontentloaded");
