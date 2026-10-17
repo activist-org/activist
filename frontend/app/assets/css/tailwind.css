@@ -256,6 +256,14 @@ MARK: Base
     @apply bg-layer-2 card-style-base elem-shadow-sm hover:bg-highlight active:bg-layer-2 dark:border dark:border-primary-text;
   }
 
+  .card-compact {
+    @apply bg-layer-1 card-style-base flex flex-col justify-center px-3 py-4;
+  }
+
+  .card-detailed {
+    @apply bg-layer-1 card-style-base md:grow md:flex-row md:justify-start md:py-3 lg:px-5;
+  }
+
   /*
   MARK: Padding
   */

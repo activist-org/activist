@@ -16,14 +16,14 @@
         :receivedSelectedTopics="selectedTopics"
       />
     </HeaderAppPage>
-    <h2>
+    <h2 class="mb-4">
       {{ t("i18n._global.organizations") }}
     </h2>
-    <OrganizationsList :organizations="organizations" />
-    <h2>
+    <OrganizationsList :organizations="organizations" type="grid" />
+    <h2 class="my-4">
       {{ t("i18n._global.events") }}
     </h2>
-    <EventsList :events="events" />
+    <EventsList :events="events" type="grid" />
     <!-- <div class="space-y-6 pb-6">
       <div
         class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"
