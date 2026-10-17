@@ -55,7 +55,7 @@ declare global {
     token?: { value: string | null };
   };
   var useUser: () => {
-    userIsSignedIn: boolean;
+    isUserSignedIn: boolean;
     userIsAdmin: boolean;
     roles: string[];
     signOutUser: () => void;

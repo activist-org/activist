@@ -7,7 +7,7 @@
           {{ t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit
-          v-if="userIsSignedIn"
+          v-if="isUserSignedIn"
           @click="
             () =>
               openModalTextOrganization({
@@ -30,16 +30,6 @@
           fontSize="sm"
           label="i18n.components.card_get_involved_organization.view_all_groups"
           :linkTo="'/organizations/' + orgId + '/groups'"
-        />
-        <BtnRouteInternal
-          v-if="organization?.texts[0]?.getInvolvedUrl"
-          ariaLabel="i18n._global.join_organization_aria_label"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.45em"
-          label="i18n._global.join_organization"
-          :linkTo="organization.texts[0]?.getInvolvedUrl"
-          :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>
@@ -97,7 +87,7 @@ const { openModal: openModalTextOrganization } = useModalHandlers(
 );
 
 const { t } = useI18n();
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
