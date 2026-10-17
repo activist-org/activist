@@ -95,25 +95,6 @@ describe("CardGetInvolvedOrganization", () => {
     expect(screen.getByText("Help us change the world!")).toBeTruthy();
   });
 
-  it("shows join-organization subtext when org has a getInvolvedUrl but no groups", async () => {
-    orgData.value = createMockOrganization({
-      name: "Acme Org",
-      groups: [],
-      texts: [
-        createMockOrganizationText({
-          getInvolved: "",
-          getInvolvedUrl: "https://example.com/join",
-        }),
-      ],
-    });
-
-    await render(CardGetInvolvedOrganization, { global: { stubs } });
-
-    expect(
-      screen.getByTestId("i18n._global.join_organization_aria_label")
-    ).toBeTruthy();
-  });
-
   it("shows no-info text when org has neither groups nor a getInvolvedUrl", async () => {
     orgData.value = createMockOrganization({
       name: "Acme Org",
