@@ -26,7 +26,7 @@
       }"
       type="button"
     >
-      <Icon :name="IconMap.SHIELD" size="28px" />
+      <Icon :name="IconMap.SHIELD" size="1.75rem" />
       <p v-if="!localeValue" class="font-bold">
         {{ t("i18n.components.friendly_captcha.dev_captcha_disabled") }}
       </p>
@@ -69,7 +69,7 @@ const localeValue = ref(false);
 .frc-captcha {
   border: none !important;
   width: 100% !important;
-  padding-bottom: 8px !important;
+  padding-bottom: 0.5rem !important;
 }
 
 .frc-container,
