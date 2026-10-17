@@ -87,7 +87,7 @@
 import { useQRCode } from "@vueuse/integrations/useQRCode";
 
 const props = defineProps<{
-  codeURL?: string;
+  codeUrl?: string;
 }>();
 
 const fontSize = ref(24);
@@ -100,8 +100,8 @@ const borderRadius = ref(24);
 
 // Safely evaluate window to prevent SSR errors.
 const getPath = computed(() => {
-  if (props.codeURL && props.codeURL !== "") {
-    return props.codeURL;
+  if (props.codeUrl && props.codeUrl !== "") {
+    return props.codeUrl;
   }
   return typeof window !== "undefined"
     ? window.location.href

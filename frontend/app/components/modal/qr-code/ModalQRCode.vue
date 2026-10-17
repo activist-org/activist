@@ -63,7 +63,7 @@
           <ModalQRCodeImage
             ref="qrcode"
             class="elem-shadow-md select-none rounded-3xl"
-            :codeUrl="BASE_FRONTEND_URL + props.linkUrl"
+            :codeUrl="codeUrl"
           />
           <TooltipBase
             v-show="showTooltip"
@@ -102,6 +102,14 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { BASE_FRONTEND_URL } = useGetBaseURLs();
+
+// Cards pass a path, while the share modal passes a full URL (resources can link to other sites).
+const codeUrl = computed(() => {
+  if (!props.linkUrl) return undefined;
+  return props.linkUrl.startsWith("/")
+    ? BASE_FRONTEND_URL + props.linkUrl
+    : props.linkUrl;
+});
 
 const aboveMediumBP = useBreakpoint("md");
 const modalName = "ModalQRCode";
