@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { DatePicker } from "v-calendar";
-import { ref } from "vue";
 
 defineOptions({
   inheritAttrs: false,

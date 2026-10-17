@@ -19,7 +19,7 @@
     />
     <label
       v-if="label"
-      class="flex h-full w-full cursor-pointer select-none items-center justify-center"
+      class="flex size-full cursor-pointer select-none items-center justify-center"
       :for="uuid"
     >
       {{ label }}

@@ -17,7 +17,7 @@
         />
         <IconActivist
           v-if="!isSearchExpanded"
-          class="absolute left-0 right-0 top-[0.3rem] m-auto flex h-8 w-6 items-center overflow-clip"
+          class="absolute inset-x-0 top-[0.3rem] m-auto flex h-8 w-6 items-center overflow-clip"
         />
         <SidebarRight>
           <div class="flex-col space-y-2">

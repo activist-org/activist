@@ -36,7 +36,7 @@
                 ' ' +
                 fileImageIcon.name
               "
-              class="h-[50%] w-[50%] object-contain"
+              class="size-[50%] object-contain"
               :src="fileImageIcon.url"
             />
           </span>

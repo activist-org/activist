@@ -3,7 +3,7 @@
   <div class="relative">
     <swiper-container
       ref="swiperRef"
-      class="swiper card-style h-full w-full cursor-pointer overflow-clip"
+      class="swiper card-style size-full cursor-pointer overflow-clip"
       :data-slide-count="imageUrls?.length ?? 0"
       :data-testid="
         props.fullscreen ? 'image-carousel-fullscreen' : 'image-carousel-main'
@@ -23,7 +23,7 @@
           :alt="t('i18n.components.media_image_carousel.img_alt_text')"
           class="object-cover object-center"
           :class="{
-            'h-5/6 w-5/6': props.fullscreen,
+            'size-5/6': props.fullscreen,
             'h-70': !props.fullscreen,
           }"
           data-testid="image-carousel-image"

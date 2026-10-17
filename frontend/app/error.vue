@@ -13,7 +13,7 @@
       >
         {{ error.statusCode }}
       </p>
-      <div class="h-0.5 w-[120px] bg-distinct-text md:h-[200px] md:w-0.5"></div>
+      <div class="w-30 h-[2px] bg-distinct-text md:h-[200px] md:w-0.5"></div>
       <div
         class="flex max-w-[350px] flex-col items-center text-left md:items-start"
       >

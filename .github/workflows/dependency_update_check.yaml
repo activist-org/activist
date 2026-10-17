@@ -1,7 +1,7 @@
 name: dependency_update_check
 on:
   schedule:
-    - cron: "0 0 15 */2 *"
+    - cron: "0 0 15 */1 *"
   workflow_dispatch:
 
 jobs:

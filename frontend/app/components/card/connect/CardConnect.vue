@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="card-style px-5 py-5" data-testid="card-connect">
+  <div class="card-style p-5" data-testid="card-connect">
     <div class="flex items-center gap-5">
       <h3 class="text-left font-display">
         {{ t("i18n.components._global.connect") }}

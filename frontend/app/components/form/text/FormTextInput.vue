@@ -40,7 +40,7 @@
         @focus="handleFocus"
         @input="handleInput"
         @pointerdown="handlePointerDown"
-        class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
+        class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-[10px] text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
         :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"
@@ -57,7 +57,7 @@
       <!-- Using a fieldset allows the label to overlay the border. -->
       <fieldset
         aria-hidden="true"
-        class="-top-1.25 pointer-events-none absolute inset-0 bottom-0 rounded border pl-3 pr-2.5"
+        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-3 pr-2.5"
         :class="{
           'border-action-red dark:border-action-red': hasError,
           'border-interactive': !hasError,
