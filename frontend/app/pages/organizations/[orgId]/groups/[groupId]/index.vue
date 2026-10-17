@@ -1,33 +1,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <script setup lang="ts">
-const { orgId } = useRoute().params;
-const { groupid } = useRoute().params;
-
-const windowWidth = ref(window.innerWidth);
-
-const handleResize = () => {
-  windowWidth.value = window.innerWidth;
-  if (windowWidth.value > BreakpointMap.SMALL) {
-    const { locale } = useI18n();
-    const currentRoute = useRoute();
-
-    if (
-      currentRoute.path !==
-        `/${locale.value}/organizations/${orgId}/groups/${groupid}/about` ||
-      currentRoute.path === `/${locale.value}/organizations/${orgId}/`
-    ) {
-      navigateTo(
-        `/${locale.value}/organizations/${orgId}/groups/${groupid}/about`
-      );
-    }
-  }
-};
+// Unlike organizations and events, groups have no mobile menu page of their own,
+// so the base route always goes to the group's about page.
+const { orgId, groupId } = useRoute().params;
+const { locale } = useI18n();
 
 onMounted(() => {
-  // Add event listener to handle resizing.
-  window.addEventListener("resize", handleResize);
-
-  // Verify that the user is on a mobile device.
-  handleResize();
+  navigateTo(
+    `/${locale.value}/organizations/${orgId}/groups/${groupId}/about`,
+    { replace: true }
+  );
 });
 </script>
