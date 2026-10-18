@@ -9,13 +9,13 @@
       class="container relative mx-auto my-[10%] flex flex-col items-center justify-center space-x-0 space-y-10 text-center md:flex-row md:space-x-8 md:space-y-0 md:text-left xl:space-x-12"
     >
       <p
-        class="flex flex-wrap font-['Copperplate_Gothic_Light'] text-[125px] font-black md:text-[175px] lg:text-[200px]"
+        class="flex flex-wrap font-['Copperplate_Gothic_Light'] text-[7.8125rem] font-black md:text-[10.9375rem] lg:text-[12.5rem]"
       >
         {{ error.statusCode }}
       </p>
-      <div class="w-30 h-[2px] bg-distinct-text md:h-[200px] md:w-0.5"></div>
+      <div class="w-30 h-[2px] bg-distinct-text md:h-[12.5rem] md:w-0.5"></div>
       <div
-        class="flex max-w-[350px] flex-col items-center text-left md:items-start"
+        class="flex max-w-[21.875rem] flex-col items-center text-left md:items-start"
       >
         <p
           class="mt-4 flex flex-wrap font-['Copperplate_Gothic_Light'] text-lg md:mt-0 md:text-xl"

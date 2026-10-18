@@ -140,12 +140,12 @@ const ariaLabel = computed(() => {
 });
 
 const imageSizeClass = computed(() => ({
-  "h-[125px] w-[125px]": props.isReduced,
-  "h-[150px] w-[150px]": !props.isReduced,
+  "h-[7.8125rem] w-[7.8125rem]": props.isReduced,
+  "h-[9.375rem] w-[9.375rem]": !props.isReduced,
 }));
 const dragIconSizeClass = computed(() => ({
-  "h-[25px] w-[25px]": props.isReduced,
-  "h-[50px] w-[50px]": !props.isReduced,
+  "h-[1.5625rem] w-[1.5625rem]": props.isReduced,
+  "h-[3.125rem] w-[3.125rem]": !props.isReduced,
 }));
 
 const openModalEdit = () => {
