@@ -169,6 +169,12 @@ class GroupDetailAPIView(GenericAPIView[Group]):
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this group."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         self.check_object_permissions(request, group)
 
         serializer = self.serializer_class(group, data=request.data, partial=True)
@@ -206,6 +212,12 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             logger.exception(f"Group not found for delete with id {id}: {e}")
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this group."},
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         self.check_object_permissions(request, group)
