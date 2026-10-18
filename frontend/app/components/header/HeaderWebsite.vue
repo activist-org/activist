@@ -14,7 +14,7 @@
     <div id="mobile-header" v-if="!aboveMediumBP" class="flex px-4 py-3">
       <div class="z-0 mx-auto">
         <div
-          class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
+          class="absolute left-0 top-0 z-0 flex size-full items-center justify-center"
         >
           <div>
             <LogoActivist

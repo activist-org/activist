@@ -15,7 +15,7 @@
           as="template"
         >
           <div
-            class="style-cta flex h-max w-max cursor-pointer items-center justify-between space-x-2 rounded-lg border px-4 py-1 elem-shadow-sm sm:px-3 sm:py-0"
+            class="style-cta flex size-max cursor-pointer items-center justify-between space-x-2 rounded-lg border px-4 py-1 elem-shadow-sm sm:px-3 sm:py-0"
             :class="{
               'style-cta': checked,
               'style-cta-secondary': !checked,

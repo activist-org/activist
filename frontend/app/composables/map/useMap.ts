@@ -1,17 +1,24 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import maplibregl, { type LayerSpecification } from "maplibre-gl";
+import {
+  type LayerSpecification,
+  Map,
+  GeolocateControl,
+  NavigationControl,
+  FullscreenControl,
+  setWorkerUrl,
+} from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 
 export const useMap = () => {
   const { t } = useI18n();
   const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
 
-  function isWebglSupported() {
-    if (window.WebGLRenderingContext) {
+  function isWebgl2Supported() {
+    if (window.WebGL2RenderingContext) {
       const canvas = document.createElement("canvas");
       try {
-        const context =
-          canvas.getContext("webgl2") || canvas.getContext("webgl");
+        const context = canvas.getContext("webgl2");
         if (context && typeof context.getParameter == "function") {
           return true;
         }
@@ -25,7 +32,7 @@ export const useMap = () => {
     return false;
   }
 
-  const addDefaultControls = (map: maplibregl.Map) => {
+  const addDefaultControls = (map: Map) => {
     // MARK: Basic Controls
 
     // Localize FullscreenControl.
@@ -86,13 +93,13 @@ export const useMap = () => {
   };
 
   const createNavigationControl = () => {
-    return new maplibregl.NavigationControl({
+    return new NavigationControl({
       visualizePitch: true,
     });
   };
 
   const createGeoLocateControl = () => {
-    return new maplibregl.GeolocateControl({
+    return new GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
       },
@@ -101,7 +108,9 @@ export const useMap = () => {
   };
 
   const createMap = (mapLayers: LayerSpecification[]) => {
-    const map = new maplibregl.Map({
+    setWorkerUrl(workerUrl);
+
+    const map = new Map({
       container: "map",
       style: {
         version: 8,
@@ -144,11 +153,11 @@ export const useMap = () => {
   };
 
   const createFullScreenControl = () => {
-    return new maplibregl.FullscreenControl();
+    return new FullscreenControl();
   };
 
   return {
-    isWebglSupported,
+    isWebgl2Supported,
     createMap,
     createFullScreenControl,
     createMapForPointerTypeMap,

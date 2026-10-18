@@ -4,10 +4,9 @@
     <div
       class="relative"
       :class="{
-        'h-32 w-32':
+        'size-32':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'h-10 w-10':
-          sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        'size-10': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
       <ImageOrganization

@@ -43,7 +43,7 @@
           :aria-label="
             t('i18n.components.sidebar_left_header.sidebar_collapse_aria_label')
           "
-          class="flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200 focus-brand"
+          class="flex size-7 items-center justify-center outline-offset-0 transition duration-200 focus-brand"
           :class="{
             '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,
             'pb-1 pl-0.5': sidebar.collapsedSwitch == true,

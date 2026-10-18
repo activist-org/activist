@@ -9,7 +9,28 @@ import re
 import subprocess
 from pathlib import Path
 
+import tomllib
+
 PYPROJECT_PATH = Path("pyproject.toml")
+
+
+def get_explicit_backend_dependencies() -> list[str]:
+    """
+    Get all explicitly defined backend dependencies so the update report only contains them.
+
+    Returns
+    -------
+    list[str]
+        The names of all backend dependencies in pyproject.toml.
+    """
+    with open(PYPROJECT_PATH, "rb") as f:
+        pyproject_contents = tomllib.load(f)
+
+    all_deps = pyproject_contents.get("project", {}).get("dependencies", [])
+    for group_deps in pyproject_contents.get("dependency-groups", {}).values():
+        all_deps.extend(group_deps)
+
+    return [re.split(r"[><=~^;\[]", dep)[0].strip() for dep in all_deps]
 
 
 def apply_max_version_constraints(max_versions: dict[str, str]) -> str | None:
@@ -65,11 +86,13 @@ def capture_and_pint_uv_upgrades() -> None:
     # Matches: "Updated <dep> <old_ver> -> <new_ver>".
     pattern = re.compile(r"Updated\s+(\S+)\s+v?(\S+)\s+->\s+v?(\S+)")
 
+    explicit_backend_dependencies = get_explicit_backend_dependencies()
+
     for line in combined_output.splitlines():
         if match := pattern.search(line):
             dep, old_ver, new_ver = match.groups()
-
-            print(f"| {dep} | {old_ver} | {new_ver} | Backend |")
+            if dep in explicit_backend_dependencies:
+                print(f"| {dep} | {old_ver} | {new_ver} | Backend |")
 
 
 if __name__ == "__main__":

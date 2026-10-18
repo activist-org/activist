@@ -3,7 +3,7 @@
   <ul
     :class="{
       'space-y-1': isSidebarLeftMenu,
-      'px-2 py-2': isSideMenu,
+      'p-2': isSideMenu,
     }"
   >
     <MenuLinkWrapper

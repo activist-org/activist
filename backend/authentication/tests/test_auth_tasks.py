@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
-from django_tasks import TaskResultStatus
+from django.tasks import TaskResultStatus
 
 from authentication.tasks import email_user
 

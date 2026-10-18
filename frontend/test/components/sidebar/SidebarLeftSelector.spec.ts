@@ -28,7 +28,7 @@ describe("SidebarLeftSelector", () => {
 
     const icon = screen.getByRole("img", { name: iconUrl });
     expect([...icon.classList]).toEqual(
-      expect.arrayContaining(["block!", "h-5!", "w-5!"])
+      expect.arrayContaining(["block!", "size-5"])
     );
     expect(icon.classList).not.toContain("scale-125");
   });

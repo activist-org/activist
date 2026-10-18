@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type maplibregl from "maplibre-gl";
-import type { LayerSpecification } from "maplibre-gl";
+import type { Map, Marker, LayerSpecification } from "maplibre-gl";
 
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import { ref } from "vue";
@@ -11,8 +10,8 @@ export const useRouting = () => {
   const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
   const walkDirectionsIcon = `/icons/map/walk_directions.png`;
   const directionsRef = ref<MapLibreGlDirections | null>(null);
-  const mapRef = ref<maplibregl.Map | null>(null);
-  const markerRef = ref<maplibregl.Marker | null>(null);
+  const mapRef = ref<Map | null>(null);
+  const markerRef = ref<Marker | null>(null);
   const mapLayersRef = ref<LayerSpecification[]>([]);
 
   interface RouteProfileOption {
@@ -53,10 +52,10 @@ export const useRouting = () => {
       id=${routeProfileOptions.FOOT}
       style="
       background-image: url(${walkDirectionsIcon});
-      width: 30px;
-      height: 30px;
-      background-size: 30px 30px;
-      border-radius: 5px;
+      width: 1.875rem;
+      height: 1.875rem;
+      background-size: 1.875rem 1.875rem;
+      border-radius: 0.3125rem;
       box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
       cursor: pointer"
     ></div>`;
@@ -67,10 +66,10 @@ export const useRouting = () => {
       id=${routeProfileOptions.BIKE}
       style="
       background-image: url(${bikeDirectionsIcon});
-      width: 30px;
-      height: 30px;
-      background-size: 30px 30px;
-      border-radius: 5px;
+      width: 1.875rem;
+      height: 1.875rem;
+      background-size: 1.875rem 1.875rem;
+      border-radius: 0.3125rem;
       box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
       cursor: pointer"
     ></div>`;
@@ -88,11 +87,11 @@ export const useRouting = () => {
     directionsRef.value = newDirections;
   };
 
-  const setMarker = (newMarker: maplibregl.Marker) => {
+  const setMarker = (newMarker: Marker) => {
     markerRef.value = newMarker;
   };
 
-  const setMap = (newMap: maplibregl.Map) => {
+  const setMap = (newMap: Map) => {
     mapRef.value = newMap;
   };
 
@@ -100,7 +99,7 @@ export const useRouting = () => {
     return routeProfileMap.find((item) => item.profile === profile);
   };
 
-  const toggleLayerHandler = (map: maplibregl.Map) => {
+  const toggleLayerHandler = (map: Map) => {
     if (currentProfile.value === walkingRouteProfileControl) {
       map.setLayoutProperty("cycle-layer", "visibility", "visible");
     } else {
@@ -130,7 +129,7 @@ export const useRouting = () => {
       existing.remove();
     }
 
-    const map = mapRef.value as unknown as maplibregl.Map;
+    const map = mapRef.value as unknown as Map;
     if (!map) {
       return;
     }
@@ -162,7 +161,7 @@ export const useRouting = () => {
 
             newDirections.interactive = true;
 
-            const marker = markerRef.value as unknown as maplibregl.Marker;
+            const marker = markerRef.value as unknown as Marker;
             if (!marker) {
               return;
             }
@@ -229,7 +228,7 @@ export const useRouting = () => {
             label += " [x]";
           }
 
-          div.innerHTML = `<div title="${tooltip}" style="background-color: rgba(255,255,255,0.75); padding: 1px 5px; border-radius: 5px; box-shadow: 0 0 1px 2px rgba(0,0,0,0.15); color: rgba(0,0,0,0.8); cursor: pointer">${label}</div>`;
+          div.innerHTML = `<div title="${tooltip}" style="background-color: rgba(255,255,255,0.75); padding: 1px 5px; border-radius: 0.3125rem; box-shadow: 0 0 1px 2px rgba(0,0,0,0.15); color: rgba(0,0,0,0.8); cursor: pointer">${label}</div>`;
 
           div.addEventListener("click", () => {
             directions.clear();
@@ -260,7 +259,7 @@ export const useRouting = () => {
   };
 
   const addDirectionsLayer = (
-    map: maplibregl.Map,
+    map: Map,
     layers: LayerSpecification[],
     selectedRoute: RouteProfile
   ) => {

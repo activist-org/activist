@@ -8,7 +8,7 @@
     :menuButtonLabel="locale"
     menuButtonAriaLabel="i18n.components.dropdown_language.open_dropdown_aria_label"
   >
-    <ul class="px-2 py-2">
+    <ul class="p-2">
       <NuxtLink
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
