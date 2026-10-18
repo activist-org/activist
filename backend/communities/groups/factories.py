@@ -108,7 +108,6 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
 
     group = factory.SubFactory(GroupFactory)
     user = factory.SubFactory("authentication.factories.UserFactory")
-    is_admin = factory.Faker("boolean")
 
 
 # MARK: Resource
