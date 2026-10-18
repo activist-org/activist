@@ -159,7 +159,7 @@ class OrganizationMember(models.Model):
     role = models.CharField(
         max_length=20,
         choices=enums.MembershipRole.choices,
-        default=enums.MembershipRole.GUEST,
+        default=enums.MembershipRole.UNAUTHENTICATED,
     )
     # Deprecated: use `role == enums.MembershipRole.ADMIN` instead.
     # Retained temporarily for backward compatibility with existing call

@@ -119,7 +119,7 @@ class GroupMember(models.Model):
     role = models.CharField(
         max_length=20,
         choices=MembershipRole.choices,
-        default=MembershipRole.GUEST,
+        default=MembershipRole.UNAUTHENTICATED,
     )
 
     is_owner = models.BooleanField(default=False)

@@ -13,16 +13,16 @@ from communities.groups.models import Group, GroupMember
 from communities.organizations.models import Organization, OrganizationMember
 from communities.permissions import get_group_membership, get_org_membership
 
-# --- Joining ------------------------------------------------------------
+# MARK: Joining
 
 
 def join_organization(
-    user: UserModel, org: Organization, role: str = enums.MembershipRole.GUEST
+    user: UserModel, org: Organization, role: str = enums.MembershipRole.UNAUTHENTICATED
 ) -> OrganizationMember:
     """
     Assign a membership role to a user joining an organization.
 
-    Guest role is assigned by default.
+    Note: The Unauthenticated role is assigned by default.
 
     Parameters
     ----------
@@ -32,7 +32,7 @@ def join_organization(
         The organization the user is joining.
     role : str, optional
         Role to assign to the user within the organization. Defaults to
-        ``enums.MembershipRole.GUEST``.
+        ``enums.MembershipRole.UNAUTHENTICATED``.
 
     Returns
     -------
@@ -47,7 +47,7 @@ def join_organization(
 
 
 def join_group(
-    user: UserModel, group: Group, role: str = enums.MembershipRole.GUEST
+    user: UserModel, group: Group, role: str = enums.MembershipRole.UNAUTHENTICATED
 ) -> GroupMember:
     """
     Assign a membership role to a user joining a group.
@@ -65,7 +65,7 @@ def join_group(
         The group the user is joining.
     role : str, optional
         Role to assign to the user within the group. Defaults to
-        ``enums.MembershipRole.GUEST``.
+        ``enums.MembershipRole.UNAUTHENTICATED``.
 
     Returns
     -------
@@ -90,7 +90,7 @@ def join_group(
     return membership
 
 
-# --- Role changes ---------------------------------------------------------
+# MARK: Change Role
 
 
 def change_org_role(

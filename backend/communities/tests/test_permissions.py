@@ -60,7 +60,7 @@ def test_has_org_role_atleast_true_for_site_admin_with_no_membership(
 
 def test_has_org_role_atleast_false_when_no_membership(org, role, make_user):
     user = make_user("stranger")
-    assert permissions.has_org_role_atleast(user, org, role.GUEST) is False
+    assert permissions.has_org_role_atleast(user, org, role.UNAUTHENTICATED) is False
 
 
 def test_has_org_role_atleast_true_when_role_meets_requirement(
@@ -80,7 +80,7 @@ def test_has_org_role_atleast_true_when_role_exactly_matches_requirement(
 def test_has_org_role_atleast_false_when_role_below_requirement(
     org, role, make_org_member
 ):
-    membership = make_org_member(org, role.GUEST)
+    membership = make_org_member(org, role.UNAUTHENTICATED)
     assert permissions.has_org_role_atleast(membership.user, org, role.MEMBER) is False
 
 
@@ -105,7 +105,8 @@ def test_has_group_role_atleast_false_for_org_member_below_admin(
     # inherit group access.
     org_member = make_org_member(group.org, role.MEMBER)
     assert (
-        permissions.has_group_role_atleast(org_member.user, group, role.GUEST) is False
+        permissions.has_group_role_atleast(org_member.user, group, role.UNAUTHENTICATED)
+        is False
     )
 
 
@@ -121,7 +122,7 @@ def test_has_group_role_atleast_true_when_group_role_meets_requirement(
 def test_has_group_role_atleast_false_when_group_role_below_requirement(
     group, role, make_group_member
 ):
-    membership = make_group_member(group, role.GUEST)
+    membership = make_group_member(group, role.UNAUTHENTICATED)
     assert (
         permissions.has_group_role_atleast(membership.user, group, role.MEMBER) is False
     )
@@ -129,14 +130,16 @@ def test_has_group_role_atleast_false_when_group_role_below_requirement(
 
 def test_has_group_role_atleast_false_when_no_membership_at_all(group, role, make_user):
     user = make_user("stranger")
-    assert permissions.has_group_role_atleast(user, group, role.GUEST) is False
+    assert (
+        permissions.has_group_role_atleast(user, group, role.UNAUTHENTICATED) is False
+    )
 
 
 @pytest.mark.parametrize(
     "action, sufficient_role, insufficient_role",
     [
-        ("view_org", "GUEST", None),
-        ("post_org_update", "MEMBER", "GUEST"),
+        ("view_org", "UNAUTHENTICATED", None),
+        ("post_org_update", "MEMBER", "UNAUTHENTICATED"),
         ("invite_org_member", "COORDINATOR", "MEMBER"),
         ("remove_org_member", "ADMIN", "COORDINATOR"),
         ("delete_org", "ADMIN", "COORDINATOR"),
@@ -169,8 +172,8 @@ def test_has_org_permission_unknown_action_raises_key_error(org, role, make_org_
 @pytest.mark.parametrize(
     "action, sufficient_role, insufficient_role",
     [
-        ("view_group", "GUEST", None),
-        ("post_group_update", "MEMBER", "GUEST"),
+        ("view_group", "UNAUTHENTICATED", None),
+        ("post_group_update", "MEMBER", "UNAUTHENTICATED"),
         ("invite_group_member", "COORDINATOR", "MEMBER"),
         ("remove_group_member", "ADMIN", "COORDINATOR"),
         ("delete_group", "ADMIN", "COORDINATOR"),
@@ -217,9 +220,9 @@ def _make_view(action, action_permission_map, org=None, group=None):
 def test_has_org_permission_class_allows_when_action_not_in_map(
     org, role, make_org_member
 ):
-    guest = make_org_member(org, role.GUEST).user
+    unauthenticated_user = make_org_member(org, role.UNAUTHENTICATED).user
     view = _make_view(action="list", action_permission_map={}, org=org)
-    request = MagicMock(user=guest)
+    request = MagicMock(user=unauthenticated_user)
 
     checker = permissions.HasOrgPermission()
     assert checker.has_permission(request, view) is True
@@ -241,7 +244,9 @@ def test_has_org_permission_class_delegates_for_mapped_action(
     checker = permissions.HasOrgPermission()
     assert checker.has_permission(request, view) is True
 
-    insufficient = make_org_member(org, role.GUEST, username="guest2")
+    insufficient = make_org_member(
+        org, role.UNAUTHENTICATED, username="unauthenticated_user"
+    )
     request2 = MagicMock(user=insufficient.user)
     assert checker.has_permission(request2, view) is False
 
@@ -271,6 +276,8 @@ def test_has_group_permission_class_delegates_for_mapped_action(
     checker = permissions.HasGroupPermission()
     assert checker.has_permission(request, view) is True
 
-    insufficient = make_group_member(group, role.GUEST, username="guest2")
+    insufficient = make_group_member(
+        group, role.UNAUTHENTICATED, username="unauthenticated_user"
+    )
     request2 = MagicMock(user=insufficient.user)
     assert checker.has_permission(request2, view) is False

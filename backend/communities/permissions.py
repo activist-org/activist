@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Permission checks and membership lookups for organizations and groups.
 
@@ -134,7 +133,7 @@ def has_group_role_atleast(user: AuthUser, group: Group, role: str) -> bool:
 
 
 ORG_ACTION_REQUIREMENTS = {
-    "view_org": enums.MembershipRole.GUEST,
+    "view_org": enums.MembershipRole.UNAUTHENTICATED,
     "post_org_update": enums.MembershipRole.MEMBER,
     "invite_org_member": enums.MembershipRole.COORDINATOR,
     "create_group": enums.MembershipRole.COORDINATOR,
@@ -144,7 +143,7 @@ ORG_ACTION_REQUIREMENTS = {
 
 
 GROUP_ACTION_REQUIREMENTS = {
-    "view_group": enums.MembershipRole.GUEST,
+    "view_group": enums.MembershipRole.UNAUTHENTICATED,
     "post_group_update": enums.MembershipRole.MEMBER,
     "invite_group_member": enums.MembershipRole.COORDINATOR,
     "remove_group_member": enums.MembershipRole.ADMIN,

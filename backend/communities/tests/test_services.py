@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from communities import permissions, services
 
 
-def test_join_organization_creates_membership_with_default_guest_role(
+def test_join_organization_creates_membership_with_default_unauthenticated_role(
     org, role, make_user
 ):
     user = make_user("newbie")
@@ -16,7 +16,7 @@ def test_join_organization_creates_membership_with_default_guest_role(
 
     assert membership.org is org
     assert membership.user is user
-    assert membership.role == role.GUEST
+    assert membership.role == role.UNAUTHENTICATED
 
 
 def test_join_organization_honors_explicit_role(org, role, make_user):
@@ -48,17 +48,17 @@ def test_join_group_requires_org_membership_first(group, make_user):
 
 
 def test_join_group_succeeds_for_org_member(group, role, make_org_member):
-    org_membership = make_org_member(group.org, role.GUEST)
+    org_membership = make_org_member(group.org, role.UNAUTHENTICATED)
 
     membership = services.join_group(org_membership.user, group)
 
     assert membership.group is group
     assert membership.user is org_membership.user
-    assert membership.role == role.GUEST
+    assert membership.role == role.UNAUTHENTICATED
 
 
 def test_join_group_honors_explicit_role(group, role, make_org_member):
-    org_membership = make_org_member(group.org, role.GUEST)
+    org_membership = make_org_member(group.org, role.UNAUTHENTICATED)
 
     membership = services.join_group(org_membership.user, group, role=role.MEMBER)
 
@@ -66,7 +66,7 @@ def test_join_group_honors_explicit_role(group, role, make_org_member):
 
 
 def test_join_group_is_idempotent(group, role, make_org_member):
-    org_membership = make_org_member(group.org, role.GUEST)
+    org_membership = make_org_member(group.org, role.UNAUTHENTICATED)
 
     first = services.join_group(org_membership.user, group, role=role.MEMBER)
     second = services.join_group(org_membership.user, group, role=role.ADMIN)

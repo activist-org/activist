@@ -19,34 +19,23 @@ class StatusTypes(Enum):
     BANNED = 4
 
 
-class SupportEntityTypes(Enum):
-    """
-    Defines the types of entities that can support users.
-    """
-
-    ORGANIZATION = 1
-    GROUP = 2
-    EVENT = 3
-    USER = 4
-
-
 class MembershipRole(models.TextChoices):
     """
-    Defines the roles for the Users.
+    Defines the roles for Users, specifically in regards to organizations that they belong to.
     """
 
-    GUEST = "guest", "Guest"
+    UNAUTHENTICATED = "unauthenticated", "Unauthenticated"
     USER = "user", "User"
-    ALLIES = "allies", "Allies"
-    ADMIN = "admin", "Admin"
+    ALLY = "ally", "Ally"
     MEMBER = "member", "Member"
     COORDINATOR = "coordinator", "Coordinator"
+    ADMIN = "admin", "Admin"
 
 
 MEMBERSHIP_ROLE_LEVELS = {
-    MembershipRole.GUEST: 0,
+    MembershipRole.UNAUTHENTICATED: 0,
     MembershipRole.USER: 1,
-    MembershipRole.ALLIES: 2,
+    MembershipRole.ALLY: 2,
     MembershipRole.MEMBER: 3,
     MembershipRole.COORDINATOR: 4,
     MembershipRole.ADMIN: 5,

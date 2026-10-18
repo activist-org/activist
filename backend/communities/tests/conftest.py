@@ -8,7 +8,7 @@ import pytest
 from authentication import enums
 from communities import permissions, services
 
-# --- in-memory fakes ------------------------------------------------------
+# MARK: In-memory Fakes
 
 
 class _Rows(list):

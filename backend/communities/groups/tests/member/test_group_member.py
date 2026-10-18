@@ -18,40 +18,6 @@ def test_group_member_str() -> None:
     assert str(group_member) == f"{group_member.id}"
 
 
-# def test_group_member_role() -> None:
-#     """
-#     Test the different roles a group member can have.
-#     """
-#     user = UserFactory()
-#     group = GroupFactory()
-#
-#     print(group.__dict__)
-#
-#     # Test owner role.
-#     owner = GroupMemberFactory(
-#         group=group, user=user, is_owner=True, is_admin=False, is_comms=False
-#     )
-#     assert owner.is_owner is True
-#     assert owner.is_admin is False
-#     assert owner.is_comms is False
-#
-#     # Test admin role.
-#     admin = GroupMemberFactory(
-#         group=group, user=user, is_owner=False, is_admin=True, is_comms=False
-#     )
-#     assert admin.is_owner is False
-#     assert admin.is_admin is True
-#     assert admin.is_comms is False
-#
-#     # Test comms role.
-#     comms = GroupMemberFactory(
-#         group=group, user=user, is_owner=False, is_admin=False, is_comms=True
-#     )
-#     assert comms.is_owner is False
-#     assert comms.is_admin is False
-#     assert comms.is_comms is True
-
-
 def test_group_member_multiple_members() -> None:
     """
     Test multiple members in a single group.
