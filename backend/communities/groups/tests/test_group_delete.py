@@ -59,8 +59,7 @@ def test_group_delete_forbidden_403(authenticated_client) -> None:
 
     delete_response_json = delete_response.json()
     assert (
-        delete_response_json["detail"]
-        == "You are not authorized to perform this action."
+        delete_response_json["detail"] == "You are not authorized to delete this group."
     )
     assert Group.objects.filter(id=group.id).exists()
 
