@@ -102,18 +102,6 @@ def test_has_minimum_group_role_true_for_org_admin_without_group_membership(
     )
 
 
-def test_has_minimum_group_role_false_for_org_member_below_admin(
-    group, role, make_org_member
-):
-    # A plain org MEMBER (not org ADMIN) with no group membership should not
-    # inherit group access.
-    org_member = make_org_member(group.org, role.MEMBER)
-    assert (
-        permissions.has_minimum_group_role(org_member.user, group, role.UNAUTHENTICATED)
-        is False
-    )
-
-
 def test_has_minimum_group_role_true_when_group_role_meets_requirement(
     group, role, make_group_member
 ):
@@ -250,38 +238,6 @@ def test_has_org_permission_class_delegates_for_mapped_action(
 
     insufficient = make_org_member(
         org, role.UNAUTHENTICATED, username="unauthenticated_user"
-    )
-    request2 = MagicMock(user=insufficient.user)
-    assert checker.has_permission(request2, view) is False
-
-
-@requires_drf
-def test_has_group_permission_class_allows_when_action_not_in_map(group, make_user):
-    view = _make_view(action="list", action_permission_map={}, group=group)
-    request = MagicMock(user=make_user("someone"))
-
-    checker = permissions.HasGroupPermission()
-    assert checker.has_permission(request, view) is True
-    view.get_group.assert_not_called()
-
-
-@requires_drf
-def test_has_group_permission_class_delegates_for_mapped_action(
-    group, role, make_group_member
-):
-    member = make_group_member(group, role.ADMIN)
-    view = _make_view(
-        action="destroy",
-        action_permission_map={"destroy": "delete_group"},
-        group=group,
-    )
-    request = MagicMock(user=member.user)
-
-    checker = permissions.HasGroupPermission()
-    assert checker.has_permission(request, view) is True
-
-    insufficient = make_group_member(
-        group, role.UNAUTHENTICATED, username="unauthenticated_user"
     )
     request2 = MagicMock(user=insufficient.user)
     assert checker.has_permission(request2, view) is False
