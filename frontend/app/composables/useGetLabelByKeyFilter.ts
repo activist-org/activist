@@ -6,7 +6,8 @@ export const useGetLabelByKeyFilter = () => {
   const keyLabel: Record<string, (value: unknown) => string> = {
     topics: (value: unknown) => {
       const v = String(value);
-      return GLOBAL_TOPICS.find((topic) => topic.topic === v)?.label ?? v;
+      const topic = GLOBAL_TOPICS.find((topic) => topic.topic === v);
+      return topic ? t(topic.label) : v;
     },
     country: (value: unknown) => {
       const v = String(value);
