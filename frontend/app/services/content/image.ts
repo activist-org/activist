@@ -20,7 +20,11 @@ export async function validateImageUploadBatch(
   fileSizesInBytes: number[]
 ): Promise<void> {
   try {
-    await fetchImage("/images/validate-upload", { fileSizesInBytes }, "POST");
+    // $fetch serializes request payloads from its `body` option, so the
+    // preflight sizes must be passed there rather than as `data`.
+    await fetchImage("/images/validate-upload", undefined, "POST", {
+      fileSizesInBytes,
+    });
   } catch (e) {
     throw errorHandler(e);
   }

@@ -55,7 +55,10 @@ describe("services/content/image", () => {
     const [, opts] = getFetchCall(fetchImage);
     expect(opts.baseURL).toBe("/api/images");
     expect(opts.method).toBe("POST");
-    expect(opts.data).toEqual({ fileSizesInBytes });
+    // $fetch only serializes its `body` option, so the payload must not be
+    // left on the ignored `data` option.
+    expect(opts.data).toBeUndefined();
+    expect(opts.body).toEqual({ fileSizesInBytes });
   });
 
   it("validateImageUploadBatch() resolves when the batch is valid", async () => {
