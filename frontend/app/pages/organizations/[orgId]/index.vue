@@ -86,16 +86,13 @@ const handleResize = () => {
   if (windowWidth.value > BreakpointMap.SMALL) {
     const { locale } = useI18n();
     const currentRoute = useRoute();
+    const orgId = currentRoute.params.orgId as string;
 
     if (
-      currentRoute.path !==
-        `/${locale.value}/organizations/${organization.value?.id}/about` ||
-      currentRoute.path ===
-        `/${locale.value}/organizations/${organization.value?.id}/`
+      currentRoute.path !== `/${locale.value}/organizations/${orgId}/about` ||
+      currentRoute.path === `/${locale.value}/organizations/${orgId}/`
     ) {
-      navigateTo(
-        `/${locale.value}/organizations/${organization.value?.id}/about`
-      );
+      navigateTo(`/${locale.value}/organizations/${orgId}/about`);
     }
   }
 };
