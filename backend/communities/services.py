@@ -28,8 +28,10 @@ def join_organization(
     ----------
     user : UserModel
         The user to assign membership to.
+
     org : Organization
         The organization the user is joining.
+
     role : str, optional
         Role to assign to the user within the organization. Defaults to
         ``enums.MembershipRole.UNAUTHENTICATED``.
@@ -61,8 +63,10 @@ def join_group(
     ----------
     user : UserModel
         The user to assign membership to.
+
     group : Group
         The group the user is joining.
+
     role : str, optional
         Role to assign to the user within the group. Defaults to
         ``enums.MembershipRole.UNAUTHENTICATED``.
@@ -103,8 +107,10 @@ def change_org_role(
     ----------
     actor : UserModel
         The user attempting to perform the role change.
+
     membership : OrganizationMember
         The organization membership whose role is being changed.
+
     new_role : str
         The role to assign to the membership.
 
@@ -118,6 +124,7 @@ def change_org_role(
     PermissionDenied
         If ``actor`` is neither a site admin nor an org admin of
         ``membership.org``.
+
     ValidationError
         If the change would demote the last remaining admin of the
         organization.
@@ -168,8 +175,10 @@ def change_group_role(
     ----------
     actor : UserModel
         The user attempting to perform the role change.
+
     membership : GroupMember
         The group membership whose role is being changed.
+
     new_role : str
         The role to assign to the membership.
 
@@ -183,6 +192,7 @@ def change_group_role(
     PermissionDenied
         If ``actor`` is not a site admin, an org admin of the group's
         organization, or a group admin.
+
     ValidationError
         If the change would demote the last remaining admin of the
         group.

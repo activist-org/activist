@@ -27,6 +27,7 @@ def get_org_membership(user: AuthUser, org: Organization) -> OrganizationMember 
     user : AuthUser
         The user to look up. Unauthenticated users (or ``None``) always
         resolve to no membership.
+
     org : Organization
         The organization to check membership in.
 
@@ -50,6 +51,7 @@ def get_group_membership(user: AuthUser, group: Group) -> GroupMember | None:
     user : AuthUser
         The user to look up. Unauthenticated users (or ``None``) always
         resolve to no membership.
+
     group : Group
         The group to check membership in.
 
@@ -74,8 +76,10 @@ def has_org_role_atleast(user: AuthUser, org: Organization, role: str) -> bool:
     ----------
     user : AuthUser
         The user to check.
+
     org : Organization
         The organization to check the role within.
+
     role : str
         The minimum role required.
 
@@ -107,8 +111,10 @@ def has_group_role_atleast(user: AuthUser, group: Group, role: str) -> bool:
     ----------
     user : AuthUser
         The user to check.
+
     group : Group
         The group to check the role within.
+
     role : str
         The minimum role required.
 
@@ -159,8 +165,10 @@ def has_org_permission(user: AuthUser, org: Organization, action: str) -> bool:
     ----------
     user : AuthUser
         The user to check.
+
     org : Organization
         The organization the action would be performed in.
+
     action : str
         Key identifying the action, as defined in
         ``ORG_ACTION_REQUIREMENTS``.
@@ -183,8 +191,10 @@ def has_group_permission(user: AuthUser, group: Group, action: str) -> bool:
     ----------
     user : AuthUser
         The user to check.
+
     group : Group
         The group the action would be performed in.
+
     action : str
         Key identifying the action, as defined in
         ``GROUP_ACTION_REQUIREMENTS``.

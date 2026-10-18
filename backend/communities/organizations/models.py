@@ -161,13 +161,6 @@ class OrganizationMember(models.Model):
         choices=enums.MembershipRole.choices,
         default=enums.MembershipRole.UNAUTHENTICATED,
     )
-    # Deprecated: use `role == enums.MembershipRole.ADMIN` instead.
-    # Retained temporarily for backward compatibility with existing call
-    # sites; remove once all reads/writes have migrated to `role`.
-
-    is_owner = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_comms = models.BooleanField(default=False)
 
     class Meta:
         constraints = [
@@ -179,7 +172,7 @@ class OrganizationMember(models.Model):
     @property
     def role_level(self) -> int:
         """
-        Return the priority level of the user as per their role assigned.
+        Return the priority level of the user based on their assigned role.
 
         Returns
         -------

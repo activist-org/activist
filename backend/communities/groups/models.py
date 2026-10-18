@@ -122,10 +122,6 @@ class GroupMember(models.Model):
         default=MembershipRole.UNAUTHENTICATED,
     )
 
-    is_owner = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_comms = models.BooleanField(default=False)
-
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -136,7 +132,7 @@ class GroupMember(models.Model):
     @property
     def role_level(self) -> int:
         """
-        Return the priority level of the user as per their role assigned.
+        Return the priority level of the user based on their assigned role.
 
         Returns
         -------
