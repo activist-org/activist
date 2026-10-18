@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Models for the communities app.
+Group models for the communities app.
+
+Note: Group roles and membership are controlled by their organizations.
 """
 
 from typing import Any
@@ -8,7 +10,6 @@ from uuid import uuid4
 
 from django.db import models
 
-from authentication.enums import MEMBERSHIP_ROLE_LEVELS, MembershipRole
 from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Group
@@ -95,51 +96,6 @@ class GroupImage(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
     image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
-
-    def __str__(self) -> str:
-        return str(self.id)
-
-
-# MARK: Member
-
-
-class GroupMember(models.Model):
-    """
-    Class for adding user membership parameters to groups.
-    """
-
-    group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, related_name="group_members"
-    )
-    user = models.ForeignKey(
-        "authentication.UserModel",
-        on_delete=models.CASCADE,
-        related_name="group_members",
-    )
-    role = models.CharField(
-        max_length=20,
-        choices=MembershipRole.choices,
-        default=MembershipRole.UNAUTHENTICATED,
-    )
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["group", "user"], name="unique_group_membership"
-            )
-        ]
-
-    @property
-    def role_level(self) -> int:
-        """
-        Return the priority level of the user based on their assigned role.
-
-        Returns
-        -------
-        int
-            The numeric priority level corresponding to the member's role.
-        """
-        return MEMBERSHIP_ROLE_LEVELS[MembershipRole(self.role)]
 
     def __str__(self) -> str:
         return str(self.id)

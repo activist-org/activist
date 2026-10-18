@@ -10,12 +10,60 @@ from __future__ import annotations
 from typing import Any, Union
 from uuid import UUID
 
+from rest_framework.permissions import BasePermission
+
 from authentication import enums
 from authentication.models import UserModel
-from communities.groups.models import Group, GroupMember
+from communities.groups.models import Group
 from communities.organizations.models import Organization, OrganizationMember
+from events.models import Event
 
 AuthUser = Union[UserModel, UUID, None]
+
+
+ACTION_REQUIREMENTS = {
+    "view_org": enums.MembershipRole.UNAUTHENTICATED,
+    "post_org_update": enums.MembershipRole.MEMBER,
+    "invite_org_member": enums.MembershipRole.COORDINATOR,
+    "create_group": enums.MembershipRole.COORDINATOR,
+    "remove_org_member": enums.MembershipRole.ADMIN,
+    "delete_org": enums.MembershipRole.ADMIN,
+}
+
+
+class HasOrgPermission(BasePermission):
+    """
+    Organization permission class.
+    """
+
+    def has_permission(self, request: Any, view: Any) -> bool:
+        """
+        Whether the user has permission for the given action.
+
+        Parameters
+        ----------
+        request : Any
+            The request that includes the user that needs its permissions checked.
+
+        view : Any
+            The view to use in the action.
+
+        Returns
+        -------
+        bool
+            Whether the user has permission for the given action or not.
+        """
+        action_map = getattr(view, "action_permission_map", {})
+        required_action = action_map.get(getattr(view, "action", None))
+
+        if required_action is None:
+            return True
+
+        org = view.get_organization()
+        return has_org_permission(request.user, org, required_action)
+
+
+# MARK: Get Membership
 
 
 def get_org_membership(user: AuthUser, org: Organization) -> OrganizationMember | None:
@@ -25,7 +73,7 @@ def get_org_membership(user: AuthUser, org: Organization) -> OrganizationMember 
     Parameters
     ----------
     user : AuthUser
-        The user to look up. Unauthenticated users (or ``None``) always
+        The user to look up. Unauthenticated users (or None) always
         resolve to no membership.
 
     org : Organization
@@ -34,22 +82,25 @@ def get_org_membership(user: AuthUser, org: Organization) -> OrganizationMember 
     Returns
     -------
     OrganizationMember or None
-        The user's membership record, or ``None`` if the user is not
+        The user's membership record, or None if the user is not
         authenticated or has no membership in the organization.
     """
     if not getattr(user, "is_authenticated", False):
         return None
+
     return OrganizationMember.objects.filter(org=org, user=user).first()
 
 
-def get_group_membership(user: AuthUser, group: Group) -> GroupMember | None:
+def get_group_membership(user: AuthUser, group: Group) -> OrganizationMember | None:
     """
     Get a user's membership record in a group.
+
+    Note: Group membership inherits from its organization.
 
     Parameters
     ----------
     user : AuthUser
-        The user to look up. Unauthenticated users (or ``None``) always
+        The user to look up. Unauthenticated users (or None) always
         resolve to no membership.
 
     group : Group
@@ -57,20 +108,56 @@ def get_group_membership(user: AuthUser, group: Group) -> GroupMember | None:
 
     Returns
     -------
-    GroupMember or None
-        The user's membership record, or ``None`` if the user is not
+    OrganizationMember or None
+        The user's membership record, or None if the user is not
         authenticated or has no membership in the group.
     """
     if not getattr(user, "is_authenticated", False):
         return None
-    return GroupMember.objects.filter(group=group, user=user).first()
+
+    org = group.org
+
+    return OrganizationMember.objects.filter(org=org, user=user).first()
 
 
-def has_org_role_atleast(user: AuthUser, org: Organization, role: str) -> bool:
+def get_event_membership(user: AuthUser, event: Event) -> OrganizationMember | None:
+    """
+    Get a user's membership record in an event.
+
+    Note: Event membership inherits from its organization(s).
+    Note: We will eventually expand events to work with more than one organization.
+
+    Parameters
+    ----------
+    user : AuthUser
+        The user to look up. Unauthenticated users (or None) always
+        resolve to no membership.
+
+    event : Event
+        The event to check membership in.
+
+    Returns
+    -------
+    OrganizationMember or None
+        The user's membership record, or None if the user is not
+        authenticated or has no membership in the event.
+    """
+    if not getattr(user, "is_authenticated", False):
+        return None
+
+    org = event.orgs.first()
+
+    return OrganizationMember.objects.filter(org=org, user=user).first()
+
+
+# MARK: Has Minimum Role
+
+
+def has_minimum_org_role(user: AuthUser, org: Organization, role: str) -> bool:
     """
     Return whether the user holds at least the given role in an organization.
 
-    Site admins always satisfy this check, regardless of their role.
+    Note: Site admins always satisfy this check, regardless of their role.
 
     Parameters
     ----------
@@ -87,25 +174,26 @@ def has_org_role_atleast(user: AuthUser, org: Organization, role: str) -> bool:
     -------
     bool
         True if the user is a site admin or their organization role
-        meets or exceeds ``role``, False otherwise.
+        meets or exceeds role, False otherwise.
     """
     if getattr(user, "is_admin", False):
         return True
-    membership = get_org_membership(user, org=org)
+
+    membership = get_org_membership(user=user, org=org)
     if membership is None:
         return False
+
     return (
         membership.role_level
         >= enums.MEMBERSHIP_ROLE_LEVELS[enums.MembershipRole(role)]
     )
 
 
-def has_group_role_atleast(user: AuthUser, group: Group, role: str) -> bool:
+def has_minimum_group_role(user: AuthUser, group: Group, role: str) -> bool:
     """
     Return whether the user holds at least the given role in a group.
 
-    Site admins and org admins of the group's parent organization
-    always satisfy this check, regardless of their group-level role.
+    Note: Group membership inherits from its organization.
 
     Parameters
     ----------
@@ -121,40 +209,66 @@ def has_group_role_atleast(user: AuthUser, group: Group, role: str) -> bool:
     Returns
     -------
     bool
-        True if the user is a site admin, an org admin of the group's
-        organization, or their group role meets or exceeds ``role``,
-        False otherwise.
+        True if the user is a site admin or their organization role
+        meets or exceeds role, False otherwise.
     """
     if getattr(user, "is_admin", False):
         return True
-    if has_org_role_atleast(user, group.org, enums.MembershipRole.ADMIN):
-        return True
-    membership = get_group_membership(user, group=group)
+
+    org = group.org
+
+    membership = get_org_membership(user=user, org=org)
     if membership is None:
         return False
+
     return (
         membership.role_level
         >= enums.MEMBERSHIP_ROLE_LEVELS[enums.MembershipRole(role)]
     )
 
 
-ORG_ACTION_REQUIREMENTS = {
-    "view_org": enums.MembershipRole.UNAUTHENTICATED,
-    "post_org_update": enums.MembershipRole.MEMBER,
-    "invite_org_member": enums.MembershipRole.COORDINATOR,
-    "create_group": enums.MembershipRole.COORDINATOR,
-    "remove_org_member": enums.MembershipRole.ADMIN,
-    "delete_org": enums.MembershipRole.ADMIN,
-}
+def has_minimum_event_role(user: AuthUser, event: Event, role: str) -> bool:
+    """
+    Return whether the user holds at least the given role in a event.
+
+    Note: Event membership inherits from its organization(s).
+    Note: We will eventually expand events to work with more than one organization.
+
+    Parameters
+    ----------
+    user : AuthUser
+        The user to check.
+
+    event : Event
+        The event to check the role within.
+
+    role : str
+        The minimum role required.
+
+    Returns
+    -------
+    bool
+        True if the user is a site admin or their organization role
+        meets or exceeds role, False otherwise.
+    """
+    if getattr(user, "is_admin", False):
+        return True
+
+    org = event.orgs.first()
+    if org is None:
+        return False
+
+    membership = get_org_membership(user=user, org=org)
+    if membership is None:
+        return False
+
+    return (
+        membership.role_level
+        >= enums.MEMBERSHIP_ROLE_LEVELS[enums.MembershipRole(role)]
+    )
 
 
-GROUP_ACTION_REQUIREMENTS = {
-    "view_group": enums.MembershipRole.UNAUTHENTICATED,
-    "post_group_update": enums.MembershipRole.MEMBER,
-    "invite_group_member": enums.MembershipRole.COORDINATOR,
-    "remove_group_member": enums.MembershipRole.ADMIN,
-    "delete_group": enums.MembershipRole.ADMIN,
-}
+# MARK: Has Permission
 
 
 def has_org_permission(user: AuthUser, org: Organization, action: str) -> bool:
@@ -171,7 +285,7 @@ def has_org_permission(user: AuthUser, org: Organization, action: str) -> bool:
 
     action : str
         Key identifying the action, as defined in
-        ``ORG_ACTION_REQUIREMENTS``.
+        ACTION_REQUIREMENTS.
 
     Returns
     -------
@@ -179,8 +293,8 @@ def has_org_permission(user: AuthUser, org: Organization, action: str) -> bool:
         True if the user's role in the organization meets the
         action's required role, False otherwise.
     """
-    required_role = ORG_ACTION_REQUIREMENTS[action]
-    return has_org_role_atleast(user, org, required_role)
+    required_role = ACTION_REQUIREMENTS[action]
+    return has_minimum_org_role(user=user, org=org, role=required_role)
 
 
 def has_group_permission(user: AuthUser, group: Group, action: str) -> bool:
@@ -197,7 +311,7 @@ def has_group_permission(user: AuthUser, group: Group, action: str) -> bool:
 
     action : str
         Key identifying the action, as defined in
-        ``GROUP_ACTION_REQUIREMENTS``.
+        ACTION_REQUIREMENTS.
 
     Returns
     -------
@@ -205,34 +319,31 @@ def has_group_permission(user: AuthUser, group: Group, action: str) -> bool:
         True if the user's role in the group meets the action's
         required role, False otherwise.
     """
-    required_role = GROUP_ACTION_REQUIREMENTS[action]
-    return has_group_role_atleast(user, group, required_role)
+    required_role = ACTION_REQUIREMENTS[action]
+    return has_minimum_group_role(user=user, group=group, role=required_role)
 
 
-try:
-    from rest_framework.permissions import BasePermission
+def has_event_permission(user: AuthUser, event: Event, action: str) -> bool:
+    """
+    Return whether the user is permitted to perform an action in a event.
 
-    class HasOrgPermission(BasePermission):
-        def has_permission(self, request: Any, view: Any) -> bool:
-            action_map = getattr(view, "action_permission_map", {})
-            required_action = action_map.get(getattr(view, "action", None))
+    Parameters
+    ----------
+    user : AuthUser
+        The user to check.
 
-            if required_action is None:
-                return True
+    event : Event
+        The event the action would be performed in.
 
-            org = view.get_organization()
-            return has_org_permission(request.user, org, required_action)
+    action : str
+        Key identifying the action, as defined in
+        ACTION_REQUIREMENTS.
 
-    class HasGroupPermission(BasePermission):
-        def has_permission(self, request: Any, view: Any) -> bool:
-            action_map = getattr(view, "action_permission_map", {})
-            required_action = action_map.get(getattr(view, "action", None))
-
-            if required_action is None:
-                return True
-
-            group = view.get_group()
-            return has_group_permission(request.user, group, required_action)
-
-except ImportError:
-    pass
+    Returns
+    -------
+    bool
+        True if the user's role in the group meets the action's
+        required role, False otherwise.
+    """
+    required_role = ACTION_REQUIREMENTS[action]
+    return has_minimum_event_role(user=user, event=event, role=required_role)

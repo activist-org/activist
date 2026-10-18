@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Models for the communities app.
+Organization models for the communities app.
 """
 
 from typing import Any

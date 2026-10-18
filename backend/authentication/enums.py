@@ -22,6 +22,8 @@ class StatusTypes(Enum):
 class MembershipRole(models.TextChoices):
     """
     Defines the roles for Users, specifically in regards to organizations that they belong to.
+
+    Note: All organization roles are transferred to all sub-entities (groups and events).
     """
 
     UNAUTHENTICATED = "unauthenticated", "Unauthenticated"

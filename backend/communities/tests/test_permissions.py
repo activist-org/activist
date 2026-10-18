@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test community permissions.
+"""
+
 from __future__ import annotations
 
 from unittest.mock import MagicMock
@@ -52,86 +56,86 @@ def test_get_group_membership_returns_the_membership(group, role, make_group_mem
     assert permissions.get_group_membership(membership.user, group) is membership
 
 
-def test_has_org_role_atleast_true_for_site_admin_with_no_membership(
+def test_has_minimum_org_role_true_for_site_admin_with_no_membership(
     org, site_admin, role
 ):
-    assert permissions.has_org_role_atleast(site_admin, org, role.ADMIN) is True
+    assert permissions.has_minimum_org_role(site_admin, org, role.ADMIN) is True
 
 
-def test_has_org_role_atleast_false_when_no_membership(org, role, make_user):
+def test_has_minimum_org_role_false_when_no_membership(org, role, make_user):
     user = make_user("stranger")
-    assert permissions.has_org_role_atleast(user, org, role.UNAUTHENTICATED) is False
+    assert permissions.has_minimum_org_role(user, org, role.UNAUTHENTICATED) is False
 
 
-def test_has_org_role_atleast_true_when_role_meets_requirement(
+def test_has_minimum_org_role_true_when_role_meets_requirement(
     org, role, make_org_member
 ):
     membership = make_org_member(org, role.COORDINATOR)
-    assert permissions.has_org_role_atleast(membership.user, org, role.MEMBER) is True
+    assert permissions.has_minimum_org_role(membership.user, org, role.MEMBER) is True
 
 
-def test_has_org_role_atleast_true_when_role_exactly_matches_requirement(
+def test_has_minimum_org_role_true_when_role_exactly_matches_requirement(
     org, role, make_org_member
 ):
     membership = make_org_member(org, role.MEMBER)
-    assert permissions.has_org_role_atleast(membership.user, org, role.MEMBER) is True
+    assert permissions.has_minimum_org_role(membership.user, org, role.MEMBER) is True
 
 
-def test_has_org_role_atleast_false_when_role_below_requirement(
+def test_has_minimum_org_role_false_when_role_below_requirement(
     org, role, make_org_member
 ):
     membership = make_org_member(org, role.UNAUTHENTICATED)
-    assert permissions.has_org_role_atleast(membership.user, org, role.MEMBER) is False
+    assert permissions.has_minimum_org_role(membership.user, org, role.MEMBER) is False
 
 
-def test_has_group_role_atleast_true_for_site_admin(group, site_admin, role):
-    assert permissions.has_group_role_atleast(site_admin, group, role.ADMIN) is True
+def test_has_minimum_group_role_true_for_site_admin(group, site_admin, role):
+    assert permissions.has_minimum_group_role(site_admin, group, role.ADMIN) is True
 
 
-def test_has_group_role_atleast_true_for_org_admin_without_group_membership(
+def test_has_minimum_group_role_true_for_org_admin_without_group_membership(
     group, role, make_org_member
 ):
     org_admin_membership = make_org_member(group.org, role.ADMIN)
     assert (
-        permissions.has_group_role_atleast(org_admin_membership.user, group, role.ADMIN)
+        permissions.has_minimum_group_role(org_admin_membership.user, group, role.ADMIN)
         is True
     )
 
 
-def test_has_group_role_atleast_false_for_org_member_below_admin(
+def test_has_minimum_group_role_false_for_org_member_below_admin(
     group, role, make_org_member
 ):
     # A plain org MEMBER (not org ADMIN) with no group membership should not
     # inherit group access.
     org_member = make_org_member(group.org, role.MEMBER)
     assert (
-        permissions.has_group_role_atleast(org_member.user, group, role.UNAUTHENTICATED)
+        permissions.has_minimum_group_role(org_member.user, group, role.UNAUTHENTICATED)
         is False
     )
 
 
-def test_has_group_role_atleast_true_when_group_role_meets_requirement(
+def test_has_minimum_group_role_true_when_group_role_meets_requirement(
     group, role, make_group_member
 ):
     membership = make_group_member(group, role.COORDINATOR)
     assert (
-        permissions.has_group_role_atleast(membership.user, group, role.MEMBER) is True
+        permissions.has_minimum_group_role(membership.user, group, role.MEMBER) is True
     )
 
 
-def test_has_group_role_atleast_false_when_group_role_below_requirement(
+def test_has_minimum_group_role_false_when_group_role_below_requirement(
     group, role, make_group_member
 ):
     membership = make_group_member(group, role.UNAUTHENTICATED)
     assert (
-        permissions.has_group_role_atleast(membership.user, group, role.MEMBER) is False
+        permissions.has_minimum_group_role(membership.user, group, role.MEMBER) is False
     )
 
 
-def test_has_group_role_atleast_false_when_no_membership_at_all(group, role, make_user):
+def test_has_minimum_group_role_false_when_no_membership_at_all(group, role, make_user):
     user = make_user("stranger")
     assert (
-        permissions.has_group_role_atleast(user, group, role.UNAUTHENTICATED) is False
+        permissions.has_minimum_group_role(user, group, role.UNAUTHENTICATED) is False
     )
 
 
