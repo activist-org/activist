@@ -64,7 +64,7 @@
             :alt="
               t('i18n.components._global.upload_image') + ' ' + file.data.name
             "
-            class="h-20 w-20 object-contain"
+            class="size-20 object-contain"
             :src="
               file?.type === 'upload'
                 ? file?.data?.url

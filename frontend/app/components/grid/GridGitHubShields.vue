@@ -8,7 +8,7 @@
     >
       <Icon :name="IconMap.GITHUB" size="2em" />
       <div class="ml-4 place-self-center pb-1">
-        <div class="ml-0.5 text-xs font-semibold leading-4">
+        <div class="ml-[2px] text-xs font-semibold leading-4">
           {{ t("i18n.components.grid_git_hub_shields.visit_us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">

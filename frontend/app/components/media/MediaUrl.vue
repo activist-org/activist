@@ -13,7 +13,7 @@
       <Icon
         :color="colorMode.value === 'dark' ? 'white' : 'black'"
         :name="IconMap.GLOBE"
-        size="75px"
+        size="4.6875rem"
       />
     </div>
   </a>

@@ -265,7 +265,7 @@ describe("ModalBase component", () => {
     it("applies standard modal responsive classes", () => {
       wrapper = createWrapper({ imageModal: false });
       const panel = wrapper.find('[data-testid="modal-testModal"]');
-      ["max-w-4xl", "overflow-y-auto", "h-full"].forEach((c) =>
+      ["max-w-4xl", "overflow-y-auto", "size-full"].forEach((c) =>
         expect(panel.classes()).toContain(c)
       );
       expect(panel.html()).toContain("md:h-auto");

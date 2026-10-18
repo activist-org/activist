@@ -24,7 +24,7 @@ const { t } = useI18n();
 const colorMode = useColorMode();
 const { setMapLayers, setMap } = useRouting();
 
-const { createMap, isWebglSupported, addDefaultControls } = useMap();
+const { createMap, isWebgl2Supported, addDefaultControls } = useMap();
 const { createMapForClusterTypeMap } = useClusterMap();
 const { createMapForPointerTypeMap } = usePointerMap();
 
@@ -70,7 +70,7 @@ const mapLayers: LayerSpecification[] = [
 
 // MARK: Map Creation
 onMounted(() => {
-  if (!isWebglSupported()) {
+  if (!isWebgl2Supported()) {
     alert(t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
     const map = createMap(mapLayers);
@@ -116,9 +116,9 @@ onMounted(() => {
   position: absolute;
   top: 0px;
   right: 0px;
-  font-size: 16px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
+  font-size: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
 }
 </style>

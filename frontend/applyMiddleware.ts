@@ -30,8 +30,5 @@ function setMiddleware(
 }
 
 export default function applyMiddleware(pages: NuxtPage[]) {
-  setMiddleware(/events-create/, "user-only", pages, "name");
-  setMiddleware(/groups-create/, "user-only", pages, "name");
-  setMiddleware(/organizations-create/, "user-only", pages, "name");
-  setMiddleware(/resources-create/, "user-only", pages, "name");
+  setMiddleware(/home/, "user-only", pages, "name");
 }

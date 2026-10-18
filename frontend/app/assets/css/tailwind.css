@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
 @import "tailwindcss";
 
-@config "~~/tailwind.config.ts";
+@config "../../../tailwind.config.ts";
 
 @source "../../composables/**/*.ts";
 

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <form class="h-full w-full rounded-[0.45em] elem-shadow-sm">
+  <form class="size-full rounded-[0.45em] elem-shadow-sm">
     <Calendar
       :attributes="calendar"
       :color="colorModePreference"
