@@ -75,10 +75,6 @@ class FakeOrganizationMember(_MemberBase):
     pass
 
 
-class FakeGroupMember(_MemberBase):
-    pass
-
-
 class FakeUser:
     def __init__(self, username="user", is_authenticated=True, is_admin=False):
         self.username = username
@@ -99,19 +95,18 @@ class FakeGroup:
 
 @pytest.fixture(autouse=True)
 def _fake_models(monkeypatch):
-    """Fresh membership tables per test, patched into the modules under test."""
+    """
+    Fresh membership tables per test, patched into the modules under test.
+    """
     monkeypatch.setattr(
         FakeOrganizationMember,
         "objects",
         _Manager(FakeOrganizationMember),
         raising=False,
     )
-    monkeypatch.setattr(
-        FakeGroupMember, "objects", _Manager(FakeGroupMember), raising=False
-    )
+
     for module in (permissions, services):
         monkeypatch.setattr(module, "OrganizationMember", FakeOrganizationMember)
-        monkeypatch.setattr(module, "GroupMember", FakeGroupMember)
 
 
 @pytest.fixture
@@ -159,16 +154,6 @@ def make_org_member():
     def _make(org, role, username="org-member"):
         return FakeOrganizationMember.objects.create(
             org=org, user=FakeUser(username), role=role
-        )
-
-    return _make
-
-
-@pytest.fixture
-def make_group_member():
-    def _make(group, role, username="group-member"):
-        return FakeGroupMember.objects.create(
-            group=group, user=FakeUser(username), role=role
         )
 
     return _make

@@ -14,7 +14,6 @@ from communities.groups.models import (
     GroupFaq,
     GroupFlag,
     GroupImage,
-    GroupMember,
     GroupResource,
     GroupSocialLink,
     GroupText,
@@ -93,21 +92,6 @@ class GroupImageFactory(factory.django.DjangoModelFactory):
 
     group = factory.SubFactory(GroupFactory)
     image = factory.SubFactory("content.factories.ImageFactory")
-
-
-# MARK: Member
-
-
-class GroupMemberFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating GroupMember model instances.
-    """
-
-    class Meta:
-        model = GroupMember
-
-    group = factory.SubFactory(GroupFactory)
-    user = factory.SubFactory("authentication.factories.UserFactory")
 
 
 # MARK: Resource
