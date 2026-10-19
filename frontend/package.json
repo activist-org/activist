@@ -42,7 +42,7 @@
     "@testing-library/vue": "8.1.0",
     "@types/node": "26.1.1",
     "@types/zxcvbn": "4.4.5",
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "4.1.11",
     "@vue/test-utils": "2.4.11",
     "@vueuse/core": "14.4.0",
     "@vueuse/nuxt": "14.4.0",
