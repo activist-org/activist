@@ -65,12 +65,13 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const localePath = useLocalePath();
+const currentRoute = useRoute();
 
-const { data: organization } = useGetOrganization(
-  useRoute().params.orgId as string
-);
+const orgId = currentRoute.params.orgId as string;
+
+const { data: organization } = useGetOrganization(orgId);
 const { organizationEntry } = useMenuEntriesState();
 
 const organizationButtons: MenuSelector[] = [];
@@ -84,10 +85,6 @@ const windowWidth = ref(window.innerWidth);
 const handleResize = () => {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value >= BreakpointMap.SMALL) {
-    const { locale } = useI18n();
-    const currentRoute = useRoute();
-    const orgId = currentRoute.params.orgId as string;
-
     if (
       currentRoute.path === `/${locale.value}/organizations/${orgId}` ||
       currentRoute.path === `/${locale.value}/organizations/${orgId}/`

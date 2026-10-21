@@ -114,4 +114,43 @@ describe("organization index page", () => {
       "/en/organizations/org-123/about"
     );
   });
+
+  it("does not call Nuxt composables from the raw window resize listener", async () => {
+    // `useI18n()` and `useRoute()` must be resolved during setup. Vue-i18n's
+    // `useI18n()` throws "Must be called at the top of a `setup` function"
+    // when it runs outside of an active component instance, which is the case
+    // inside a raw DOM event listener.
+    const useI18nSpy = vi.spyOn(globalThis, "useI18n");
+
+    await render(OrganizationIndexPage, { global: { stubs } });
+
+    const callsAfterMount = useI18nSpy.mock.calls.length;
+
+    Object.defineProperty(window, "innerWidth", {
+      value: 640,
+      configurable: true,
+      writable: true,
+    });
+    window.dispatchEvent(new Event("resize"));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(useI18nSpy.mock.calls.length).toBe(callsAfterMount);
+
+    useI18nSpy.mockRestore();
+  });
+
+  it("removes the window resize listener when the page is unmounted", async () => {
+    const removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
+
+    const wrapper = await render(OrganizationIndexPage, { global: { stubs } });
+
+    wrapper.unmount();
+
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "resize",
+      expect.any(Function)
+    );
+
+    removeEventListenerSpy.mockRestore();
+  });
 });
