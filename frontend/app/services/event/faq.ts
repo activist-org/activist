@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { del, post, put } from "~/services/http";
+
+const faqEventBaseUrl = `${eventBaseUrl}/event_faqs`;
 
 // MARK: Create
 
@@ -9,7 +10,7 @@ export async function createEventFaq(
 ): Promise<void> {
   try {
     await post(
-      `/events/event_faqs`,
+      faqEventBaseUrl,
       {
         iso: faq.iso,
         order: faq.order,
@@ -33,7 +34,7 @@ export async function updateEventFaq(
 ): Promise<void> {
   try {
     await put(
-      `/events/event_faqs/${faq.id}`,
+      `${faqEventBaseUrl}/${faq.id}`,
       {
         id: faq.id,
         question: faq.question,
@@ -59,7 +60,7 @@ export async function reorderEventFaqs(
     await Promise.all(
       faqs.map((f) =>
         put(
-          `/events/event_faqs/${f.id}`,
+          `${faqEventBaseUrl}/${f.id}`,
           {
             id: f.id,
             order: f.order,
@@ -79,7 +80,7 @@ export async function reorderEventFaqs(
 
 export async function deleteEventFaq(faqId: string): Promise<void> {
   try {
-    await del(`/events/event_faqs/${faqId}`);
+    await del(`${faqEventBaseUrl}/${faqId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
