@@ -68,7 +68,26 @@ describe("organization index page", () => {
     expect(mockNavigateTo).not.toHaveBeenCalled();
   });
 
-  it("keeps the mobile base route at widths within the small breakpoint", async () => {
+  it("renders the org index page and does not redirect at a small mobile viewport width", async () => {
+    Object.defineProperty(window, "innerWidth", {
+      value: 500,
+      configurable: true,
+      writable: true,
+    });
+
+    const wrapper = await render(OrganizationIndexPage, { global: { stubs } });
+
+    expect(mockNavigateTo).not.toHaveBeenCalled();
+    expect(
+      wrapper.container.querySelector(
+        ".flex.flex-col.items-center.justify-between.gap-8"
+      )
+    ).toBeTruthy();
+    expect(wrapper.container.querySelectorAll("h1").length).toBeGreaterThan(0);
+    expect(wrapper.container.querySelectorAll("h2").length).toBeGreaterThan(0);
+  });
+
+  it("redirects the org base route to the about page at the mobile/large breakpoint boundary (640px)", async () => {
     Object.defineProperty(window, "innerWidth", {
       value: 640,
       configurable: true,
@@ -77,6 +96,22 @@ describe("organization index page", () => {
 
     await render(OrganizationIndexPage, { global: { stubs } });
 
-    expect(mockNavigateTo).not.toHaveBeenCalled();
+    expect(mockNavigateTo).toHaveBeenCalledWith(
+      "/en/organizations/org-123/about"
+    );
+  });
+
+  it("redirects the org base route to the about page above the mobile breakpoint (768px)", async () => {
+    Object.defineProperty(window, "innerWidth", {
+      value: 768,
+      configurable: true,
+      writable: true,
+    });
+
+    await render(OrganizationIndexPage, { global: { stubs } });
+
+    expect(mockNavigateTo).toHaveBeenCalledWith(
+      "/en/organizations/org-123/about"
+    );
   });
 });
