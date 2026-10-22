@@ -16,13 +16,15 @@ const sampleEventInput = {
   topics: [],
 } as never;
 
-const { showToastError, createEvent } = vi.hoisted(() => ({
+const { showToastError, createEvent, eventBaseUrl } = vi.hoisted(() => ({
   showToastError: vi.fn(),
   createEvent: vi.fn(),
+  eventBaseUrl: "/events",
 }));
 
 vi.mock("../../../../app/services/event/event", () => ({
   createEvent: (...args: unknown[]) => createEvent(...args),
+  eventBaseUrl,
 }));
 
 vi.mock("../../../../app/composables/generic/useToaster", () => ({
