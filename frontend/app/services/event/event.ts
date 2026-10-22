@@ -2,8 +2,6 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, getRaw, post } from "~/services/http";
-
 // MARK: Map API Response to Type
 
 export function mapEvent(res: EventResponse): EventResponse {
@@ -26,11 +24,15 @@ export function mapEvent(res: EventResponse): EventResponse {
   };
 }
 
+// MARK: Event Base URL
+
+export const eventBaseUrl = "/events";
+
 // MARK: Get by ID
 
 export async function getEvent(id: string): Promise<EventResponse> {
   try {
-    const res = await get<EventResponse>(`/events/events/${id}`, {
+    const res = await get<EventResponse>(`${eventBaseUrl}/events/${id}`, {
       withoutAuth: true,
     });
     return mapEvent(res);
@@ -45,7 +47,7 @@ export async function getEventCalendarFile(
   eventId: string
 ): Promise<EventCalendarFile> {
   try {
-    const response = await getRaw<Blob>(`/events/event_calendar`, {
+    const response = await getRaw<Blob>(`${eventBaseUrl}/event_calendar`, {
       query: { event_id: eventId },
       responseType: "blob",
       withoutAuth: true,
@@ -86,7 +88,7 @@ export async function listEvents(
       query.append(key, String(value));
     });
     const res = await get<EventsResponseBody>(
-      `/events/events?${query.toString()}`,
+      `${eventBaseUrl}/events?${query.toString()}`,
       { withoutAuth: true }
     );
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
@@ -101,9 +103,13 @@ export async function createEvent(
   data: CreateEventInput
 ): Promise<EventResponse> {
   try {
-    const res = await post<EventResponse, typeof data>(`/events/events`, data, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const res = await post<EventResponse, typeof data>(
+      `${eventBaseUrl}/events`,
+      data,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
@@ -114,7 +120,7 @@ export async function createEvent(
 
 export async function deleteEvent(eventId: string): Promise<void> {
   try {
-    await del(`/events/events/${eventId}`);
+    await del(`${eventBaseUrl}/events/${eventId}`);
   } catch (e) {
     throw errorHandler(e);
   }

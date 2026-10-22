@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { del, post, put } from "~/services/http";
+
+const socialLinkEventBaseUrl = `${eventBaseUrl}/event_social_links`;
 
 // MARK: Create
 
@@ -11,7 +12,7 @@ export async function createEventSocialLinks(
     await Promise.all(
       links.map((data) =>
         post(
-          `/events/event_social_links`,
+          socialLinkEventBaseUrl,
           {
             link: data.link,
             label: data.label,
@@ -37,7 +38,7 @@ export async function updateEventSocialLink(
 ): Promise<void> {
   try {
     await put(
-      `/events/event_social_links/${linkId}`,
+      `${socialLinkEventBaseUrl}/${linkId}`,
       {
         ...data,
         event: eventId,
@@ -56,7 +57,7 @@ export async function updateEventSocialLink(
 
 export async function deleteEventSocialLink(linkId: string): Promise<void> {
   try {
-    await del(`/events/event_social_links/${linkId}`);
+    await del(`${socialLinkEventBaseUrl}/${linkId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -72,7 +73,7 @@ export async function replaceAllEventSocialLinks(
 ): Promise<void> {
   try {
     // Backend expects a placeholder payload to bulk-delete.
-    await del(`/events/event_social_links`, {
+    await del(socialLinkEventBaseUrl, {
       // Ensure JSON content-type for bodies on DELETE if your backend needs it.
       headers: { "Content-Type": "application/json" },
       body: {
