@@ -43,9 +43,9 @@
     "@types/node": "26.1.1",
     "@types/zxcvbn": "4.4.5",
     "@vitest/coverage-v8": "4.1.11",
-    "@vue/test-utils": "2.4.11",
-    "@vueuse/core": "14.4.0",
-    "@vueuse/nuxt": "14.4.0",
+    "@vue/test-utils": "2.5.1",
+    "@vueuse/core": "15.0.0",
+    "@vueuse/nuxt": "15.0.0",
     "axe-core": "4.12.1",
     "axe-html-reporter": "2.2.11",
     "cross-env": "10.1.0",
@@ -68,10 +68,10 @@
     "typescript": "6.0.3",
     "vite": "8.1.6",
     "vitest": "4.1.11",
-    "vue": "3.5.42",
+    "vue": "3.5.43",
     "vue-eslint-parser": "10.4.1",
     "vue-router": "5.4.0",
-    "vue-tsc": "3.3.6"
+    "vue-tsc": "3.3.12"
   },
   "dependencies": {
     "@axe-core/playwright": "4.12.1",
@@ -95,8 +95,8 @@
     "@unocss/reset": "66.7.4",
     "@vee-validate/zod": "4.15.1",
     "@vue/devtools-api": "8.2.1",
-    "@vueuse/integrations": "14.4.0",
-    "@vueuse/math": "14.4.0",
+    "@vueuse/integrations": "15.0.0",
+    "@vueuse/math": "15.0.0",
     "autoprefixer": "10.5.2",
     "axios": "1.20.0",
     "commander": "15.0.0",
@@ -104,7 +104,7 @@
     "dotenv": "17.4.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-flat-config-utils": "3.2.0",
-    "floating-vue": "5.2.2",
+    "floating-vue": "5.4.0",
     "i18n-iso-countries": "7.14.0",
     "maplibre-gl": "6.12.0",
     "pinia": "4.0.3",
@@ -122,7 +122,7 @@
     "uuid": "14.0.1",
     "v-calendar": "3.1.2",
     "vee-validate": "4.15.1",
-    "vue-i18n": "11.4.6",
+    "vue-i18n": "11.4.13",
     "vue-socials": "2.0.5",
     "vue-sonner": "2.0.9",
     "vuedraggable": "4.1.0",
@@ -135,7 +135,7 @@
     "playwright-core": "1.62.1",
     "commander": "15.0.0",
     "glob": "^13.0.6",
-    "eslint-plugin-vue": "10.11.0"
+    "eslint-plugin-vue": "10.11.1"
   },
   "packageManager": "yarn@4.18.0"
 }
