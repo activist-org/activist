@@ -5,4 +5,3 @@ export * from "./image";
 export * from "./resource";
 export * from "./social-link";
 export * from "./text";
-export const eventBaseUrl = "/events";
