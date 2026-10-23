@@ -30,7 +30,7 @@ export function mapOrganization(res: OrganizationResponse): Organization {
 export async function getOrganization(id: string): Promise<Organization> {
   try {
     const res = await get<OrganizationResponse>(
-      `${communitiesBaseUrl}/organizations/${id}`,
+      `${organizationUrl}/${id}`,
       { withoutAuth: true }
     );
     return mapOrganization(res);
@@ -79,7 +79,7 @@ export async function createOrganization(
 ): Promise<Organization> {
   try {
     const res = await post<OrganizationResponse, typeof data>(
-      `${communitiesBaseUrl}/organizations`,
+      `${organizationUrl}`,
       data,
       { headers: { "Content-Type": "application/json" } }
     );
@@ -110,7 +110,7 @@ export async function listOrganizations(
       query.append(key, String(value));
     });
     const res = await get<OrganizationsResponseBody>(
-      `${communitiesBaseUrl}/organizations?${query.toString()}`,
+      `${organizationUrl}?${query.toString()}`,
       { withoutAuth: true }
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
@@ -123,7 +123,7 @@ export async function listOrganizations(
 
 export async function deleteOrganization(orgId: string): Promise<void> {
   try {
-    await del(`${communitiesBaseUrl}/organizations/${orgId}`);
+    await del(`${organizationUrl}/${orgId}`);
   } catch (e) {
     throw errorHandler(e);
   }
