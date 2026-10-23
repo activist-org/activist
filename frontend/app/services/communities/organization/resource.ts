@@ -9,7 +9,7 @@ export async function createOrganizationResource(
 ): Promise<void> {
   try {
     await post(
-      `${communitiesBaseUrl}/organization_resources`,
+      `${organizationResourcesUrl}`,
       { ...input, org: orgId },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -27,7 +27,7 @@ export async function updateOrganizationResource(
 ): Promise<void> {
   try {
     await put(
-      `${communitiesBaseUrl}/organization_resources/${input.id}`,
+      `${organizationResourcesUrl}/${input.id}`,
       { ...input, org: orgId },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -43,7 +43,7 @@ export async function deleteOrganizationResource(
   resourceId: string
 ): Promise<void> {
   try {
-    await del(`${communitiesBaseUrl}/organization_resources/${resourceId}`);
+    await del(`${organizationResourcesUrl}/${resourceId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -60,7 +60,7 @@ export async function reorderOrganizationResources(
     await Promise.all(
       resources.map((resource) =>
         put(
-          `${communitiesBaseUrl}/organization_resources/${resource.id}`,
+          `${organizationResourcesUrl}/${resource.id}`,
           {
             id: resource.id,
             order: resource.order,

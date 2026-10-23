@@ -6,3 +6,6 @@ export * from "./organization";
 export * from "./resource";
 export * from "./social-link";
 export * from "./text";
+
+// MARK: Organization-Related Base URLs
+export const organizationResourcesUrl = `${communitiesBaseUrl}/organization_resources`
