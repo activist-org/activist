@@ -7,7 +7,7 @@ export async function createOrganizationFaq(
 ): Promise<void> {
   try {
     await post(
-      `/communities/organization_faqs`,
+      `${communitiesBaseUrl}/organization_faqs`,
       {
         iso: faq.iso,
         order: faq.order,
@@ -28,7 +28,7 @@ export async function createOrganizationFaq(
 export async function updateOrganizationFaq(faq: FaqEntry): Promise<void> {
   try {
     await put(
-      `/communities/organization_faqs/${faq.id}`,
+      `${communitiesBaseUrl}/organization_faqs/${faq.id}`,
       {
         id: faq.id,
         question: faq.question,
@@ -49,7 +49,7 @@ export async function reorderOrganizationFaqs(faqs: FaqEntry[]): Promise<void> {
     await Promise.all(
       faqs.map(
         (f) =>
-          put(`/communities/organization_faqs/${f.id}`, {
+          put(`${communitiesBaseUrl}/organization_faqs/${f.id}`, {
             id: f.id,
             order: f.order,
           }),
@@ -66,7 +66,7 @@ export async function reorderOrganizationFaqs(faqs: FaqEntry[]): Promise<void> {
 
 export async function deleteOrganizationFaq(faqId: string): Promise<void> {
   try {
-    await del(`/communities/organization_faqs/${faqId}`);
+    await del(`${communitiesBaseUrl}/organization_faqs/${faqId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

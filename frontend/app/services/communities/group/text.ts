@@ -10,7 +10,7 @@ export async function updateGroupTexts(
 ): Promise<void> {
   try {
     await put(
-      `/communities/group_texts/${textId}`,
+      `${communitiesBaseUrl}/group_texts/${textId}`,
       {
         primary: true,
         description: data.description,

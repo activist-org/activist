@@ -28,7 +28,7 @@ export function mapGroup(res: GroupResponse): Group {
 
 export async function getGroup(id: string): Promise<Group> {
   try {
-    const res = await get<GroupResponse>(`/communities/groups/${id}`, {
+    const res = await get<GroupResponse>(`${communitiesBaseUrl}/groups/${id}`, {
       withoutAuth: true,
     });
     return mapGroup(res);
@@ -59,7 +59,7 @@ export async function listGroups(
       query.append(key, String(value));
     });
     const res = await get<GroupsResponseBody>(
-      `/communities/groups?${query.toString()}`,
+      `${communitiesBaseUrl}/groups?${query.toString()}`,
       { withoutAuth: true }
     );
     return {
@@ -77,7 +77,7 @@ export async function listGroups(
 export async function createGroup(data: CreateGroupInput): Promise<Group> {
   try {
     const res = await post<GroupResponse, typeof data>(
-      `/communities/groups`,
+      `${communitiesBaseUrl}/groups`,
       data,
       {
         headers: { "Content-Type": "application/json" },

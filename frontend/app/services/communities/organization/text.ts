@@ -10,7 +10,7 @@ export async function updateOrganizationTexts(
 ): Promise<void> {
   try {
     await put(
-      `/communities/organization_texts/${textId}`,
+      `${communitiesBaseUrl}/organization_texts/${textId}`,
       {
         primary: true,
         description: data.description,

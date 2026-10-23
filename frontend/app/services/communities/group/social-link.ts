@@ -11,7 +11,7 @@ export async function createGroupSocialLinks(
     await Promise.all(
       links.map((data) =>
         post(
-          `/communities/group_social_links`,
+          `${communitiesBaseUrl}/group_social_links`,
           {
             link: data.link,
             label: data.label,
@@ -35,7 +35,7 @@ export async function updateGroupSocialLink(
   data: { link: string; label: string; order: number; group: string }
 ): Promise<void> {
   try {
-    await put(`/communities/group_social_links/${linkId}`, data, {
+    await put(`${communitiesBaseUrl}/group_social_links/${linkId}`, data, {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
@@ -48,7 +48,7 @@ export async function updateGroupSocialLink(
 
 export async function deleteGroupSocialLink(linkId: string): Promise<void> {
   try {
-    await del(`/communities/group_social_links/${linkId}`);
+    await del(`${communitiesBaseUrl}/group_social_links/${linkId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -64,7 +64,7 @@ export async function replaceAllGroupSocialLinks(
 ): Promise<void> {
   try {
     // Backend expects a placeholder payload to bulk-delete.
-    await del(`/communities/group_social_links`, {
+    await del(`${communitiesBaseUrl}/group_social_links`, {
       // Ensure JSON content-type for bodies on DELETE if your backend needs it.
       headers: { "Content-Type": "application/json" },
       body: {
