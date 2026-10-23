@@ -76,13 +76,9 @@ export async function listGroups(
 
 export async function createGroup(data: CreateGroupInput): Promise<Group> {
   try {
-    const res = await post<GroupResponse, typeof data>(
-      `${groupUrl}`,
-      data,
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await post<GroupResponse, typeof data>(`${groupUrl}`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
     return mapGroup(res);
   } catch (e) {
     throw errorHandler(e);

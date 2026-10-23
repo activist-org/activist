@@ -29,10 +29,9 @@ export function mapOrganization(res: OrganizationResponse): Organization {
 
 export async function getOrganization(id: string): Promise<Organization> {
   try {
-    const res = await get<OrganizationResponse>(
-      `${organizationUrl}/${id}`,
-      { withoutAuth: true }
-    );
+    const res = await get<OrganizationResponse>(`${organizationUrl}/${id}`, {
+      withoutAuth: true,
+    });
     return mapOrganization(res);
   } catch (e) {
     throw errorHandler(e);

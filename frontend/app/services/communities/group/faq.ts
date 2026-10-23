@@ -50,8 +50,7 @@ export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
   try {
     await Promise.all(
       faqs.map(
-        (f) =>
-          put(`${groupFaqUrl}/${f.id}`, { id: f.id, order: f.order }),
+        (f) => put(`${groupFaqUrl}/${f.id}`, { id: f.id, order: f.order }),
         { headers: { "Content-Type": "application/json" } }
       )
     );

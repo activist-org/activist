@@ -42,9 +42,12 @@ export async function fetchOrganizationImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    return (await get(`${computeOrganizationImagesUrlBasedOnEntityId(entityId)}`, {
-      withoutAuth: true,
-    })) as ContentImage[];
+    return (await get(
+      `${computeOrganizationImagesUrlBasedOnEntityId(entityId)}`,
+      {
+        withoutAuth: true,
+      }
+    )) as ContentImage[];
   } catch (e) {
     const err = errorHandler(e);
     throw err;
