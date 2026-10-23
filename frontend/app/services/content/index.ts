@@ -2,5 +2,5 @@
 export * from "./image";
 export * from "./topics";
 
-// MARK: Content base URL
+// MARK: Content Base URL
 export const contentBaseUrl = "/content";
