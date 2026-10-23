@@ -64,7 +64,7 @@ export async function listOrganizationsByUserId(
       });
     }
     const res = await get<OrganizationsResponseBody>(
-      `${communitiesBaseUrl}/organizations_by_user/${userId}?${filters ? `${query.toString()}` : ""}`
+      `${organizationByUserQueryUrl}/${userId}?${filters ? `${query.toString()}` : ""}`
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {

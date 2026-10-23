@@ -13,6 +13,8 @@ export const organizationResourcesUrl = `${communitiesBaseUrl}/organization_reso
 export const organizationSocialLinkUrl = `${communitiesBaseUrl}/organization_social_links`
 export const organizationFaqUrl = `${communitiesBaseUrl}/organization_faqs`
 
+// This variable sets the URL that a filter of organizations by user query is sent to.
+export const organizationByUserQueryUrl = `${communitiesBaseUrl}/organizations_by_user`
 
 // This function computes the organization image URL based on the entity ID that is used for uploading and fetching organization images.
 // Replaces hard-coding "/communities/organization/${entityID}/images".
