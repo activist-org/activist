@@ -10,3 +10,4 @@ export * from "./text";
 // MARK: Organization-Related Base URLs
 export const organizationResourcesUrl = `${communitiesBaseUrl}/organization_resources`
 export const organizationSocialLinkUrl = `${communitiesBaseUrl}/organization_social_links`
+export const organizationFaqUrl = `${communitiesBaseUrl}/organization_faqs`
