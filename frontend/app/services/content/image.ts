@@ -7,7 +7,7 @@ export async function deleteImage(imageId: string) {
   }
 
   try {
-    return await del(`/content/images/${imageId}`, { withoutAuth: false });
+    return await del(`${contentBaseUrl}/images/${imageId}`, { withoutAuth: false });
   } catch (e) {
     const err = errorHandler(e);
     throw err;
