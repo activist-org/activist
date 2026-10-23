@@ -24,7 +24,7 @@ export async function updateOrganizationImage(
 ): Promise<void> {
   try {
     await put(
-      `${communitiesBaseUrl}/organization/${entityId}/images/${image.id}`,
+      `${computeOrganizationImagesUrlBasedOnEntityId(entityId)}/${image.id}`,
       image,
       {
         headers: { "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export async function fetchOrganizationImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    return (await get(`${communitiesBaseUrl}/organization/${entityId}/images`, {
+    return (await get(`${computeOrganizationImagesUrlBasedOnEntityId(entityId)}`, {
       withoutAuth: true,
     })) as ContentImage[];
   } catch (e) {

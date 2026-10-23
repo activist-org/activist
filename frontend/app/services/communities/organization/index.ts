@@ -12,3 +12,10 @@ export const organizationUrl = `${communitiesBaseUrl}/organizations`
 export const organizationResourcesUrl = `${communitiesBaseUrl}/organization_resources`
 export const organizationSocialLinkUrl = `${communitiesBaseUrl}/organization_social_links`
 export const organizationFaqUrl = `${communitiesBaseUrl}/organization_faqs`
+
+
+// This function computes the organization image URL based on the entity ID that is used for uploading and fetching organization images.
+// Replaces hard-coding "/communities/organization/${entityID}/images".
+export function computeOrganizationImagesUrlBasedOnEntityId(entityId: string):string {
+    return `${communitiesBaseUrl}/organization/${entityId}/images`
+}
