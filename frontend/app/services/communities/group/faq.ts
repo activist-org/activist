@@ -9,7 +9,7 @@ export async function createGroupFaq(
 ): Promise<void> {
   try {
     await post(
-      `${communitiesBaseUrl}/group_faqs`,
+      `${groupFaqUrl}`,
       {
         iso: faq.iso,
         order: faq.order,
@@ -30,7 +30,7 @@ export async function createGroupFaq(
 export async function updateGroupFaq(faq: FaqEntry): Promise<void> {
   try {
     await put(
-      `${communitiesBaseUrl}/group_faqs/${faq.id}`,
+      `${groupFaqUrl}/${faq.id}`,
       {
         id: faq.id,
         question: faq.question,
@@ -51,7 +51,7 @@ export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
     await Promise.all(
       faqs.map(
         (f) =>
-          put(`${communitiesBaseUrl}/group_faqs/${f.id}`, { id: f.id, order: f.order }),
+          put(`${groupFaqUrl}/${f.id}`, { id: f.id, order: f.order }),
         { headers: { "Content-Type": "application/json" } }
       )
     );
@@ -65,7 +65,7 @@ export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
 
 export async function deleteGroupFaq(faqId: string): Promise<void> {
   try {
-    await del(`${communitiesBaseUrl}/group_faqs/${faqId}`);
+    await del(`${groupFaqUrl}/${faqId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

@@ -5,3 +5,7 @@ export * from "./image";
 export * from "./resource";
 export * from "./social-link";
 export * from "./text";
+
+
+// MARK: Group-Related Base URLs
+export const groupFaqUrl = `${communitiesBaseUrl}/group_faqs`
