@@ -11,6 +11,7 @@ export * from "./text";
 export const groupUrl = `${communitiesBaseUrl}/groups`
 export const groupFaqUrl = `${communitiesBaseUrl}/group_faqs`
 export const groupResourceUrl = `${communitiesBaseUrl}/group_resources`
+export const groupSocialLinkUrl = `${communitiesBaseUrl}/group_social_links`
 
 // This function computes the group image URL based on the entity ID that is used for uploading and fetching group images.
 // Replaces hard-coding "/communities/group/${entityID}/images".
