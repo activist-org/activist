@@ -31,7 +31,7 @@ export async function updateGroupImage(
 ): Promise<void> {
   try {
     await put(
-      `${computeGroupImagesUrlBasedOnEntityId(entityId)}/${image.id}`,
+      `${groupUrlForImages}/${entity_id}/images/${image.id}`,
       image,
       {
         headers: { "Content-Type": "application/json" },
@@ -50,7 +50,7 @@ export async function fetchGroupImages(
 ): Promise<ContentImage[]> {
   try {
     const images = (await get(
-      `${computeGroupImagesUrlBasedOnEntityId(entityId)}`,
+      `${groupUrlForImages}/${entity_id}/images/`,
       {
         withoutAuth: true,
       }
