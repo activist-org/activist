@@ -10,3 +10,6 @@ export * from "./text";
 // MARK: Group-Related Base URLs
 export const groupUrl = `${communitiesBaseUrl}/groups`
 export const groupFaqUrl = `${communitiesBaseUrl}/group_faqs`
+export const groupResourceUrl = `${communitiesBaseUrl}/group_resources`
+
+
