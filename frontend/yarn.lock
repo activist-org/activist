@@ -3336,11 +3336,11 @@ __metadata:
   linkType: hard
 
 "@quansync/fs@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@quansync/fs@npm:1.0.0"
+  version: 1.1.0
+  resolution: "@quansync/fs@npm:1.1.0"
   dependencies:
     quansync: "npm:^1.0.0"
-  checksum: 10c0/41a7e145d4fc349eaeac20ee7ffe0c876a7c26b2268d5704b462b3e7379091221336e315b2b346d5b07a531502a41cad15c9f374800cc60b6339d074ef99aa16
+  checksum: 10c0/fa7bca4eae8ec036bfe3181304bf827f10f798ac485d698e7d72fde98c5786f8685aecf2c0f8d5f7fdff8608487c9d62794ba5f4def02518d6835ecda6d8e4cc
   languageName: node
   linkType: hard
 
@@ -6199,9 +6199,8 @@ __metadata:
     "@vueuse/math": "npm:15.0.0"
     "@vueuse/nuxt": "npm:15.0.0"
     autoprefixer: "npm:10.5.2"
-    axe-core: "npm:4.12.1"
+    axe-core: "npm:4.14.0"
     axe-html-reporter: "npm:2.2.11"
-    axios: "npm:1.20.0"
     commander: "npm:15.0.0"
     cross-env: "npm:10.1.0"
     dompurify: "npm:3.4.16"
@@ -6555,7 +6554,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:4.12.1, axe-core@npm:~4.12.1":
+"axe-core@npm:4.14.0":
+  version: 4.14.0
+  resolution: "axe-core@npm:4.14.0"
+  checksum: 10c0/8aaa0bf748e0dcf202e8f837951a37b28b4b62d639bed58c07a6890bf035ed6a11ede9f4006db9ca8041db821dc80476c27cff08fd70afa9195ee58fb995a958
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:~4.12.1":
   version: 4.12.1
   resolution: "axe-core@npm:4.12.1"
   checksum: 10c0/03438bd98cef38ad57554feea0d8de21705001db2655c27e0c33ff55e16dd7d6f49c28fb420dc93f7532e68ff363c0953056a5836e6f47068f193eb1765c7db7
@@ -6573,7 +6579,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.20.0, axios@npm:^1.16.0":
+"axios@npm:^1.16.0":
   version: 1.20.0
   resolution: "axios@npm:1.20.0"
   dependencies:

@@ -17,7 +17,7 @@
         <div v-else class="rounded border border-section-div">
           <img
             :alt="
-              t('i18n._global.entity_logo', {
+              t('i18n.components._global.entity_logo', {
                 entity_name: organization?.name,
               })
             "
