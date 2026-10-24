@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // See: backend/authentication/models.py
 
-import type { ContentImage } from "~~/shared/types/content/file";
-
-import { defaultContentImage } from "~~/shared/types/content/file";
-
 export interface UserActivist {
   id: string;
   userName: string;
@@ -16,6 +12,12 @@ export interface UserActivist {
   socialLinks: string[];
 }
 
+export interface UserResponse {
+  id: string;
+  username: string;
+  supportedEvents: CommunityEvent[];
+  supportedOrganizations: Organization[];
+}
 export const defaultUser: UserActivist = {
   id: "",
   userName: "",

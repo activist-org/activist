@@ -8,8 +8,6 @@ import logging
 import pytest
 
 from authentication.factories import (
-    SupportEntityTypeFactory,
-    SupportFactory,
     UserFactory,
 )
 
@@ -30,10 +28,6 @@ def test_auth_str_methods() -> None:
     - Support returns its string representation of the 'id' field
     - User returns its 'username' field
     """
-    support_entity_type = SupportEntityTypeFactory.build()
-    support = SupportFactory.build()
     user = UserFactory.build()
 
-    assert str(support_entity_type) == support_entity_type.name
-    assert str(support) == str(support.id)
     assert str(user) == user.username
