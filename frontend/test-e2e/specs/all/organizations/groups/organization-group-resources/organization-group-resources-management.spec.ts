@@ -46,152 +46,130 @@ test.describe(
   "Organization Group Resources Page - Management",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: Create
+    // MARK: CRUD Operations
 
-    test("User can access new resource creation", async ({
+    test("User can manage resources (CREATE, UPDATE, DELETE)", async ({
       page,
     }, testInfo) => {
       logTestPath(testInfo);
-      const organizationPage = newOrganizationPage(page);
-      const { groupResourcesPage } = organizationPage;
 
-      // Verify new resource button is visible and functional.
+      const { groupResourcesPage } = newOrganizationPage(page);
+
+      await page.waitForLoadState("domcontentloaded");
+      await expect(
+        groupResourcesPage.resourceCards
+          .first()
+          .or(groupResourcesPage.emptyState)
+      ).toBeVisible({ timeout: 15000 });
+
+      const timestamp = Date.now();
+      const name = `Test Resource ${timestamp}`;
+      const updatedName = `Updated Resource ${timestamp}`;
+
+      // MARK: Create
+
       await expect(groupResourcesPage.newResourceButton).toBeVisible();
       await expect(groupResourcesPage.newResourceButton).toBeEnabled();
-
-      // Click the new resource button to open modal.
       await groupResourcesPage.newResourceButton.click();
 
-      // Verify resource creation modal opens.
-      await expect(groupResourcesPage.resourceModal).toBeVisible();
+      const createModal = groupResourcesPage.resourceModal;
+      await expect(createModal).toBeVisible();
 
-      // Close the modal using the close button.
-      await expect(groupResourcesPage.resourceModalCloseButton).toBeVisible();
-      await groupResourcesPage.resourceModalCloseButton.click();
+      await groupResourcesPage.fillResourceForm(
+        createModal,
+        name,
+        `Created by e2e run ${timestamp}.`,
+        `https://example.org/${timestamp}`
+      );
 
-      // Verify modal closes.
-      await expect(groupResourcesPage.resourceModal).not.toBeVisible();
-    });
+      // Register the listener before the click so a fast response is not missed.
+      const createResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "POST" &&
+          new URL(res.url()).pathname.includes("/communities/group_resources"),
+        { timeout: 20000 }
+      );
+      await groupResourcesPage.submitResourceForm(createModal);
 
-    // MARK: Edit
+      const createRes = await createResponse;
+      expect(
+        [200, 201].includes(createRes.status()),
+        `POST group resource expected 200 or 201, got ${createRes.status()}`
+      ).toBe(true);
 
-    test("User can edit group resources", async ({ page }, testInfo) => {
-      logTestPath(testInfo);
-      const organizationPage = newOrganizationPage(page);
-      const { groupResourcesPage } = organizationPage;
+      await expect(createModal).not.toBeVisible();
 
-      // Wait for resources to load.
-      await page.waitForLoadState("domcontentloaded");
+      // Assert on this test's own card: the suite runs fullyParallel, so total
+      // counts are unreliable.
+      const createdCard = groupResourcesPage.resourceCardByName(name);
+      await expect(createdCard).toBeVisible();
 
-      const resourceCount = await groupResourcesPage.getResourceCount();
+      const resourceId = await createdCard.getAttribute("data-resource-id");
+      expect(resourceId).toBeTruthy();
 
-      if (resourceCount > 0) {
-        // Note: Check auth state.
-        const cookies = await page.context().cookies();
-        const authCookie = cookies.find(
-          (c) => c.name === "nuxt-session" && c.value
-        );
+      // MARK: Update
 
-        if (!authCookie) {
-          throw new Error(
-            "No auth token found - global authentication not working"
-          );
-        }
+      await groupResourcesPage.resourceEditButton(createdCard).click();
 
-        // Check if edit button exists (requires auth).
-        const editButtonCount = await groupResourcesPage
-          .getResourceEditButton(0)
-          .count();
+      const editModal = groupResourcesPage.editResourceModal;
+      await expect(editModal).toBeVisible();
+      await groupResourcesPage
+        .getResourceNameInput(editModal)
+        .fill(updatedName);
 
-        if (editButtonCount === 0) {
-          throw new Error(
-            `Edit button not found despite having auth token. Auth cookie present: ${!!authCookie}`
-          );
-        }
+      // Match this resource's PUT, not a concurrent reorder PUT.
+      const updateResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "PUT" &&
+          new URL(res.url()).pathname.endsWith(
+            `/communities/group_resources/${resourceId}`
+          ),
+        { timeout: 20000 }
+      );
+      await groupResourcesPage.submitResourceForm(editModal);
 
-        // Get the resource ID from the first resource card.
-        const firstResourceCard = groupResourcesPage.getResourceCard(0);
-        const resourceId =
-          await firstResourceCard.getAttribute("data-resource-id");
+      const updateRes = await updateResponse;
+      expect(
+        [200, 204].includes(updateRes.status()),
+        `PUT group resource expected 200 or 204, got ${updateRes.status()}`
+      ).toBe(true);
 
-        if (!resourceId) {
-          throw new Error("Resource ID not found on card");
-        }
+      await expect(editModal).not.toBeVisible();
 
-        // Wait for edit button to be visible and clickable.
-        await expect(groupResourcesPage.getResourceEditButton(0)).toBeVisible(
-          {}
-        );
+      const updatedCard = groupResourcesPage.resourceCardByName(updatedName);
+      await expect(updatedCard).toBeVisible();
+      await expect(groupResourcesPage.resourceCardByName(name)).toHaveCount(0);
 
-        // Click the card and edit button for resource.
-        await groupResourcesPage.clickResourceEdit(0);
+      // MARK: Delete
 
-        // Wait for modal to open with exact testid (includes resource ID).
-        const editResourceModal = page.getByTestId(`modal-ModalResourceGroup`);
-        await expect(editResourceModal).toBeVisible();
+      await groupResourcesPage.resourceDeleteButton(updatedCard).click();
 
-        // Generate unique content for this test run.
-        const timestamp = Date.now();
-        const newName = `Test Group Resource ${timestamp}`;
-        const newDescription = `Updated group resource description ${timestamp}`;
-        const newUrl = `https://test-group-resource-${timestamp}.com`;
+      const confirmationModal = page.locator("#modal").first();
+      await expect(confirmationModal).toBeVisible({ timeout: 15000 });
 
-        // Update the form fields.
-        const nameInput =
-          groupResourcesPage.getResourceNameInput(editResourceModal);
-        const descriptionInput =
-          groupResourcesPage.getResourceDescriptionInput(editResourceModal);
-        const urlInput =
-          groupResourcesPage.getResourceUrlInput(editResourceModal);
+      // ModalAlert does not await the parent's async delete handler, so the
+      // dialog can close before DELETE finishes: wait on the response first.
+      const deleteResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "DELETE" &&
+          new URL(res.url()).pathname.endsWith(
+            `/communities/group_resources/${resourceId}`
+          ),
+        { timeout: 20000 }
+      );
+      await confirmationModal
+        .getByRole("button", { name: /confirm|yes|delete/i })
+        .click();
 
-        await expect(nameInput).toBeVisible();
-        await expect(descriptionInput).toBeVisible();
-        await expect(urlInput).toBeVisible();
+      const deleteRes = await deleteResponse;
+      expect(
+        [200, 204].includes(deleteRes.status()),
+        `DELETE group resource expected 200 or 204, got ${deleteRes.status()}`
+      ).toBe(true);
 
-        // Clear and fill the form fields.
-        await nameInput.clear();
-        await nameInput.fill(newName);
-
-        await descriptionInput.clear();
-        await descriptionInput.fill(newDescription);
-
-        await urlInput.clear();
-        await urlInput.fill(newUrl);
-
-        // Verify the fields contain the new values.
-        await expect(nameInput).toHaveValue(newName);
-        await expect(descriptionInput).toHaveValue(newDescription);
-        await expect(urlInput).toHaveValue(newUrl);
-
-        // Submit the form.
-        const submitButton =
-          groupResourcesPage.getResourceSubmitButton(editResourceModal);
-        await expect(submitButton).toBeVisible();
-
-        // Match the specific resource PUT, not a concurrent reorder PUT.
-        const saveResponse = page.waitForResponse(
-          (res) =>
-            res.request().method() === "PUT" &&
-            new URL(res.url()).pathname.includes(
-              `/communities/group_resources/${resourceId}`
-            )
-        );
-        await submitButton.click();
-        const saveRes = await saveResponse;
-        expect(
-          [200, 201, 204].includes(saveRes.status()),
-          `Resource PUT failed: HTTP ${saveRes.status()} for ${saveRes.url()}`
-        ).toBe(true);
-
-        // Wait for the modal to close.
-        await expect(editResourceModal).not.toBeVisible();
-        // Verify the changes are reflected on the page.
-        // The resource name should be visible in the resource card.
-        const resourceCard = groupResourcesPage.getResourceCard(0);
-        await expect(resourceCard).toContainText(newName);
-      } else {
-        test.skip(resourceCount > 0, "No resources available to test editing");
-      }
+      await expect(
+        groupResourcesPage.resourceCardByName(updatedName)
+      ).toHaveCount(0, { timeout: 20000 });
     });
   }
 );
