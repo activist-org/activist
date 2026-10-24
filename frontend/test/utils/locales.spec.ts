@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import locales, { LOCALE_CODE, LOCALE_NAME } from "../../shared/utils/locales";
+import locales, {
+  getLocaleDirection,
+  LOCALE_CODE,
+  LOCALE_NAME,
+} from "../../shared/utils/locales";
 
 describe("utils/locales", () => {
   // MARK: Locale Codes and Names
@@ -34,5 +38,24 @@ describe("utils/locales", () => {
         expect(l.file.endsWith(".json")).toBe(true);
       }
     }
+  });
+
+  // MARK: Text Direction
+
+  it("marks Arabic as a right-to-left locale", () => {
+    const arabic = locales.find((l) => l.code === LOCALE_CODE.ARABIC);
+    expect(arabic?.dir).toBe("rtl");
+  });
+
+  it("keeps all other locales left-to-right", () => {
+    for (const l of locales.filter((l) => l.code !== LOCALE_CODE.ARABIC)) {
+      expect(getLocaleDirection(l.code)).toBe("ltr");
+    }
+  });
+
+  it("getLocaleDirection returns rtl for Arabic and ltr for unknown codes", () => {
+    expect(getLocaleDirection(LOCALE_CODE.ARABIC)).toBe("rtl");
+    expect(getLocaleDirection(LOCALE_CODE.ENGLISH)).toBe("ltr");
+    expect(getLocaleDirection("xx")).toBe("ltr");
   });
 });

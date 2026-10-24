@@ -508,9 +508,14 @@ class OrganizationDetailAPIView(APIView):
                     )
                 ],
             ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update this organization."
+                }
+            ),
             403: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
-                description="You are not authorized to update this organization",
+                description="You are not authorized to update this organization.",
                 examples=[
                     OpenApiExample(
                         name="Forbidden",
@@ -732,7 +737,9 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
         responses={
             204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
             401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this flag."}
+                response={
+                    "detail": "You lack authentication credentials to delete this flag."
+                }
             ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
@@ -931,6 +938,11 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
             201: OpenApiResponse(
                 response={"message": "Social link created successfully."}
             ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to create social links for this organization."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to create social links for this organization."
@@ -966,6 +978,11 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                 response={"message": "Social link updated successfully."}
             ),
             400: OpenApiResponse(response={"message": "Invalid request."}),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update the social links for this organization."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to update the social links for this organization."
@@ -1016,6 +1033,11 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
         responses={
             204: OpenApiResponse(
                 response={"message": "Social link deleted successfully."}
+            ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to delete the social links for this organization."
+                }
             ),
             403: OpenApiResponse(
                 response={
@@ -1072,9 +1094,14 @@ class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
     @extend_schema(
         responses={
             200: OrganizationTextSerializer,
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update the texts for this organization."
+                }
+            ),
             403: OpenApiResponse(
                 response={
-                    "detail": "You are not authorized to update this organization's texts."
+                    "detail": "You are not authorized to update the texts for this organization."
                 }
             ),
             404: OpenApiResponse(response={"detail": "Organization text not found."}),

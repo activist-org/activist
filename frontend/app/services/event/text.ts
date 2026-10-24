@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { put } from "~/services/http";
+
+const textEventBaseUrl = `${eventBaseUrl}/event_texts`;
 
 // MARK: Update
 
@@ -10,7 +11,7 @@ export async function updateEventTexts(
 ): Promise<CommunityEvent> {
   try {
     return await put(
-      `/events/event_texts/${textId}`,
+      `${textEventBaseUrl}/${textId}`,
       {
         primary: true,
         description: data.description,
