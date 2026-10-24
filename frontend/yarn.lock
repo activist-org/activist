@@ -6064,7 +6064,7 @@ __metadata:
     eslint-plugin-vue: "npm:10.11.1"
     eslint-plugin-vuejs-accessibility: "npm:2.6.2"
     floating-vue: "npm:5.4.0"
-    happy-dom: "npm:20.10.6"
+    happy-dom: "npm:21.0.4"
     i18n-iso-countries: "npm:7.14.0"
     kill-port: "npm:2.0.1"
     lint-staged: "npm:17.0.8"
@@ -9172,9 +9172,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:20.10.6":
-  version: 20.10.6
-  resolution: "happy-dom@npm:20.10.6"
+"happy-dom@npm:21.0.4":
+  version: 21.0.4
+  resolution: "happy-dom@npm:21.0.4"
   dependencies:
     "@types/node": "npm:>=20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
@@ -9183,7 +9183,7 @@ __metadata:
     entities: "npm:^7.0.1"
     whatwg-mimetype: "npm:^3.0.0"
     ws: "npm:^8.21.0"
-  checksum: 10c0/3cf22def886b0876b00bb04b9fbaab6c05c041fbcf0869978b6fba9eddccc45a5fc6dab14e369502be9019da43eda44ad1bee3019029ef71bb0c7db3351f4a42
+  checksum: 10c0/9368af9739a5ba07776a116368d13d6b2690de81a6525096a1fec36e4cd1270b569151d021e2a56fb314fba73674572de562f1364090b01df6c68e9843b002e8
   languageName: node
   linkType: hard
 
