@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { LocaleObject } from "@nuxtjs/i18n";
+import type { Directions, LocaleObject } from "@nuxtjs/i18n";
 
 export enum LOCALE_NAME {
   ARABIC = "العربية",
@@ -34,6 +34,7 @@ export const locales: LocaleObject<LocaleCodeType>[] = [
     code: LOCALE_CODE.ARABIC,
     name: LOCALE_NAME.ARABIC,
     file: "ar.json",
+    dir: "rtl",
   },
   {
     code: LOCALE_CODE.ENGLISH,
@@ -81,5 +82,10 @@ export const locales: LocaleObject<LocaleCodeType>[] = [
     file: "uk.json",
   },
 ];
+
+/** Returns the text direction of a locale; locales without `dir` are left-to-right. */
+export function getLocaleDirection(code: string): Directions {
+  return locales.find((l) => l.code === code)?.dir ?? "ltr";
+}
 
 export default locales;
