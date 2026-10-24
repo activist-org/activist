@@ -55,7 +55,7 @@
     "eslint-plugin-tailwindcss": "4.4.0",
     "eslint-plugin-vue": "10.11.1",
     "eslint-plugin-vuejs-accessibility": "2.6.2",
-    "happy-dom": "20.10.6",
+    "happy-dom": "21.0.4",
     "kill-port": "2.0.1",
     "lint-staged": "17.0.8",
     "nuxt": "4.5.2",
@@ -127,7 +127,7 @@
     "vue-sonner": "2.0.9",
     "vuedraggable": "4.1.0",
     "wait-on": "9.0.10",
-    "zod": "4.5.4",
+    "zod": "4.6.6",
     "zxcvbn": "4.4.2"
   },
   "resolutions": {
