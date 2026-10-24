@@ -29,11 +29,14 @@
             'text-layer-1': selected,
           }"
         >
-          <span class="sr-only">{{ t("i18n._global.navigate_to") }}</span>
+          <span class="sr-only">{{
+            t("i18n.components.sidebar_left_selector.navigate_to")
+          }}</span>
           {{ t(label) }}
         </p>
         <p v-else class="sr-only">
-          {{ t("i18n._global.navigate_to") }} {{ t(label) }}
+          {{ t("i18n.components.sidebar_left_selector.navigate_to") }}
+          {{ t(label) }}
         </p>
       </Transition>
     </div>

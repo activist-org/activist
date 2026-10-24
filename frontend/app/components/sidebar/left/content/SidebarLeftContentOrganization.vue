@@ -11,7 +11,7 @@
     >
       <ImageOrganization
         :alt="
-          t('i18n._global.entity_logo', {
+          t('i18n.components._global.entity_logo', {
             entity_name: name,
           })
         "
