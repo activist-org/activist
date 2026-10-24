@@ -61,9 +61,7 @@ def test_group_update_forbidden_403(authenticated_client) -> None:
     assert request_body.status_code == status.HTTP_403_FORBIDDEN
 
     request_body_json = request_body.json()
-    assert (
-        request_body_json["detail"] == "You are not authorized to perform this action."
-    )
+    assert request_body_json["detail"] == "You are not authorized to update this group."
     group.refresh_from_db()
     assert (group.name, group.category) == original_values
 

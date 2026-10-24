@@ -371,7 +371,9 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
         responses={
             204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
             401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this flag."}
+                response={
+                    "detail": "You lack authentication credentials to delete this flag."
+                }
             ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
@@ -451,6 +453,11 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
     @extend_schema(
         responses={
             204: OpenApiResponse(response={"message": "FAQ deleted successfully."}),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to delete the faqs for this event."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to delete the faqs for this event."
@@ -559,6 +566,11 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             201: OpenApiResponse(
                 response={"message": "Social link created successfully."}
             ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to create social links for this event."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to create social links for this event."
@@ -594,6 +606,11 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
                 response={"message": "Social link updated successfully."}
             ),
             400: OpenApiResponse(response={"detail": "Invalid request."}),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update the social links for this event."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to update the social links for this event."
@@ -644,6 +661,11 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
         responses={
             204: OpenApiResponse(
                 response={"message": "Social link deleted successfully."}
+            ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to delete this social links for this event."
+                }
             ),
             403: OpenApiResponse(
                 response={
@@ -700,9 +722,14 @@ class EventTextViewSet(GenericAPIView[EventText]):
     @extend_schema(
         responses={
             200: EventTextSerializer,
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update to the texts for this event."
+                }
+            ),
             403: OpenApiResponse(
                 response={
-                    "detail": "You are not authorized to update to this event's text."
+                    "detail": "You are not authorized to update to the texts for this event."
                 }
             ),
             404: OpenApiResponse(response={"detail": "Event text not found."}),
