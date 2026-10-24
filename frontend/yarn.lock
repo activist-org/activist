@@ -5768,6 +5768,7 @@ __metadata:
     autoprefixer: "npm:10.5.2"
     axe-core: "npm:4.14.0"
     axe-html-reporter: "npm:2.2.11"
+    axios: "npm:1.20.0"
     commander: "npm:15.0.0"
     cross-env: "npm:10.1.0"
     dompurify: "npm:3.4.16"
@@ -6145,7 +6146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.16.0":
+"axios@npm:1.20.0, axios@npm:^1.16.0":
   version: 1.20.0
   resolution: "axios@npm:1.20.0"
   dependencies:
