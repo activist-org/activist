@@ -31,11 +31,11 @@ dev = [
     "i18n-check>=1.21.0",
     "mypy>=2.4.0",
     "numpydoc>=1.10.0",
-    "prek>=0.5.5",
+    "prek>=0.5.7",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.14.0",
-    "ruff>=0.17.1",
+    "ruff>=0.17.2",
     "ts-backend-check>=1.6.1",
     "types-icalendar>=6.3.2.20260712",
 ]
@@ -44,7 +44,7 @@ dev = [
 # from source. Install it explicitly with `--group complexity` where needed.
 complexity = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "complexipy>=8.0.1",
+    "complexipy>=8.1.0",
 ]
 audit = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
