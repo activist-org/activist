@@ -38,7 +38,7 @@ export const useClusterMap = () => {
     const w = r * 2;
 
     // Note: This HTML can't be formatted.
-    let html = `<div style="cursor: pointer"><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
+    let html = `<div style="cursor: pointer"><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 0.75rem sans-serif; display: block">`;
 
     for (let i = 0; i < counts.length; i++) {
       html += donutSegment(
@@ -181,7 +181,7 @@ export const useClusterMap = () => {
               const popUpContent = popupCreate(props);
               const popUp = new Popup({
                 offset: 25,
-                maxWidth: "260px",
+                maxWidth: "16.25rem",
               }).setDOMContent(popUpContent);
               marker = markers[id] = new Marker({
                 element: el,
@@ -207,7 +207,7 @@ export const useClusterMap = () => {
               const popUpContent = popupCreate(props);
               const popUp = new Popup({
                 offset: 25,
-                maxWidth: "260px",
+                maxWidth: "16.25rem",
               }).setDOMContent(popUpContent);
               const marker = new Marker({
                 element: el,

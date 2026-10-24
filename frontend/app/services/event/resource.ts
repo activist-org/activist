@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { del, post, put } from "~/services/http";
+
+const resourceEventBaseUrl = `${eventBaseUrl}/event_resources`;
 
 // MARK: Create
 
@@ -9,7 +10,7 @@ export async function createEventResource(
 ): Promise<void> {
   try {
     await post(
-      `/events/event_resources`,
+      resourceEventBaseUrl,
       { ...input, event: eventId },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -27,7 +28,7 @@ export async function updateEventResource(
 ): Promise<void> {
   try {
     await put(
-      `/events/event_resources/${input.id}`,
+      `${resourceEventBaseUrl}/${input.id}`,
       { ...input, event: eventId },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -41,7 +42,7 @@ export async function updateEventResource(
 
 export async function deleteEventResource(resourceId: string): Promise<void> {
   try {
-    await del(`/events/event_resources/${resourceId}`);
+    await del(`${resourceEventBaseUrl}/${resourceId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -58,7 +59,7 @@ export async function reorderEventResources(
     await Promise.all(
       resources.map((resource) =>
         put(
-          `/events/event_resources/${resource.id}`,
+          `${resourceEventBaseUrl}/${resource.id}`,
           {
             id: resource.id,
             order: resource.order,

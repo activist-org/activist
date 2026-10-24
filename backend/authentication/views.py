@@ -504,7 +504,9 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         responses={
             204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
             401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this flag."}
+                response={
+                    "detail": "You lack authentication credentials to delete this flag."
+                }
             ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}

@@ -143,10 +143,12 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             200: GroupSerializer,
             400: OpenApiResponse(response={"detail": "Group ID is required."}),
             401: OpenApiResponse(
-                response={"detail": "You are not authorized to update this group."}
+                response={
+                    "detail": "You lack authentication credentials to update this group."
+                }
             ),
             403: OpenApiResponse(
-                response={"detail": "You are not authorized to perform this action."}
+                response={"detail": "You are not authorized to update this group."}
             ),
             404: OpenApiResponse(response={"detail": "Group not found."}),
         }
@@ -167,6 +169,12 @@ class GroupDetailAPIView(GenericAPIView[Group]):
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this group."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         self.check_object_permissions(request, group)
 
         serializer = self.serializer_class(group, data=request.data, partial=True)
@@ -177,13 +185,15 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
     @extend_schema(
         responses={
-            200: OpenApiResponse(response={"message": "Group deleted successfully."}),
+            204: OpenApiResponse(response={"message": "Group deleted successfully."}),
             400: OpenApiResponse(response={"detail": "Group ID is required."}),
             401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this group."}
+                response={
+                    "detail": "You lack authentication credentials to delete this group."
+                }
             ),
             403: OpenApiResponse(
-                response={"detail": "You are not authorized to perform this action."}
+                response={"detail": "You are not authorized to delete this group."}
             ),
             404: OpenApiResponse(response={"detail": "Group not found."}),
         }
@@ -202,6 +212,12 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             logger.exception(f"Group not found for delete with id {id}: {e}")
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this group."},
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         self.check_object_permissions(request, group)
@@ -295,7 +311,9 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
         responses={
             204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
             401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this flag."}
+                response={
+                    "detail": "You lack authentication credentials to delete this flag."
+                }
             ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
@@ -376,6 +394,11 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
     @extend_schema(
         responses={
             204: OpenApiResponse(response={"message": "FAQ deleted successfully."}),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to delete the faqs for this group."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to delete the faqs for this group."
@@ -429,6 +452,11 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             201: OpenApiResponse(
                 response={"message": "Social link created successfully."}
             ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to create social links for this group."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to create social links for this group."
@@ -464,6 +492,11 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 response={"message": "Social links updated successfully."}
             ),
             400: OpenApiResponse(response={"detail": "Invalid request."}),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update the social links for this group."
+                }
+            ),
             403: OpenApiResponse(
                 response={
                     "detail": "You are not authorized to update the social links for this group."
@@ -514,6 +547,11 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
         responses={
             204: OpenApiResponse(
                 response={"message": "Social link deleted successfully."}
+            ),
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to delete the social links for this group."
+                }
             ),
             403: OpenApiResponse(
                 response={
@@ -620,9 +658,14 @@ class GroupTextViewSet(GenericAPIView[GroupText]):
     @extend_schema(
         responses={
             200: GroupTextSerializer,
+            401: OpenApiResponse(
+                response={
+                    "detail": "You lack authentication credentials to update the texts of this group."
+                }
+            ),
             403: OpenApiResponse(
                 response={
-                    "detail": "You are not authorized to update this group's texts."
+                    "detail": "You are not authorized to update the texts of this group."
                 }
             ),
             404: OpenApiResponse(response={"detail": "Group text not found."}),
