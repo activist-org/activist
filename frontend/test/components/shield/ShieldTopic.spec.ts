@@ -3,7 +3,7 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import ShieldTopic from "../../../app/components/shield/ShieldTopic.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 type ShieldTopicProps = {
   topic: string;

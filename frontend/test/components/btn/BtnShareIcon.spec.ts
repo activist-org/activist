@@ -4,7 +4,7 @@ import { flushPromises } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import BtnShareIcon from "../../../app/components/btn/BtnShareIcon.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 vi.mock("vue-socials", () => ({
   SEmail: { template: '<div data-testid="s-email"><slot /></div>' },

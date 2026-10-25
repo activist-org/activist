@@ -79,6 +79,7 @@ export function setupAutoImportMocks(): void {
   try {
     const importsContent = readFileSync(importsFile, "utf-8");
     const composables = extractComposableNames(importsContent);
+
     // Create default mocks for all composables that aren't already mocked.
     for (const composable of composables) {
       // Skip composables that are required by the test framework.

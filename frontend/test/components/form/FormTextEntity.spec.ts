@@ -6,7 +6,7 @@ import type { OrganizationUpdateTextFormData } from "../../../shared/types/organ
 
 import FormTextEntity from "../../../app/components/form/FormTextEntity.vue";
 import { getEnglishText } from "../../../shared/utils/i18n";
-import render from "../../../test/render";
+import render from "../../render";
 
 /**
  * Comprehensive unit tests for FormTextEntity component
