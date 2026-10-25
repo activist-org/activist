@@ -41,4 +41,4 @@ jobs:
 
       - name: Run Vitest - Component Testing
         working-directory: ./frontend
-        run: sudo yarn test --coverage --silent
+        run: yarn test --coverage --silent
