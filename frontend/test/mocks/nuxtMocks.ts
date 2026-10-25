@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * Mock utilities for Nuxt composables used in query composable tests.
+ * Mock utilities for Nuxt composables used in tests.
  */
 import { vi } from "vitest";
 import { ref } from "vue";
@@ -52,6 +52,7 @@ export function createMockNuxtApp(
     },
   };
 }
+
 /**
  * Mock for refreshNuxtData function.
  */

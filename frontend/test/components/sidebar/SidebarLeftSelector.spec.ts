@@ -3,8 +3,8 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import SidebarLeftSelector from "../../../app/components/sidebar/left/SidebarLeftSelector.vue";
-import render from "../../../test/render";
 import { createUseLocalePathMock } from "../../mocks/composableMocks";
+import render from "../../render";
 
 globalThis.useLocalePath = createUseLocalePathMock("");
 
