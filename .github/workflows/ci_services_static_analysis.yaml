@@ -10,11 +10,13 @@ on:
       - synchronize
     paths:
       - "services/**"
+      - ".github/workflows/ci_services_static_analysis.yaml"
   push:
     branches:
       - main
     paths:
       - "services/**"
+      - ".github/workflows/ci_services_static_analysis.yaml"
 
 jobs:
   services_static_analysis:

@@ -11,12 +11,14 @@ on:
     paths:
       - "frontend/**"
       - "!frontend/test-e2e"
+      - ".github/workflows/ci_frontend_vitest.yaml"
   push:
     branches:
       - main
     paths:
       - "frontend/**"
       - "!frontend/test-e2e"
+      - ".github/workflows/ci_frontend_vitest.yaml"
 
 jobs:
   frontend_tests:

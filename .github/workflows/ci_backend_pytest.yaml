@@ -10,11 +10,13 @@ on:
       - synchronize
     paths:
       - "backend/**"
+      - ".github/workflows/ci_backend_pytest.yaml"
   push:
     branches:
       - main
     paths:
       - "backend/**"
+      - ".github/workflows/ci_backend_pytest.yaml"
 
 env:
   SECRET_KEY: "ONLY_FOR_TESTING"
