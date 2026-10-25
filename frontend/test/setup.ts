@@ -183,9 +183,13 @@ URL.createObjectURL = (obj: Blob | MediaSource) => {
 config.global.provide = {
   [Symbol.for("vue-i18n")]: i18n,
 };
-config.global.t = (key: string) => i18n.global.t(key);
+config.global.mocks = {
+  ...(config.global.mocks ?? {}),
+  t: (key: string) => i18n.global.t(key),
+};
 
 // MARK: Component Mocks
+
 config.global.components = {
   Icon: {
     template: `<img role="img" :aria-label="getAriaLabel()" :style="computedStyle" v-bind="$attrs" />`,

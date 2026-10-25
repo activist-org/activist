@@ -15,6 +15,8 @@ export default defineVitestConfig({
       VITEST: "true",
     },
     environment: "nuxt",
+    // hookTimeout: 10000,
+    // testTimeout: 5000,
     // Only search test directories to speed up test setup.
     include: [
       "./test/**/*.{test,spec}.?(c|m)[jt]s",
