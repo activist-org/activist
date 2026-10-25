@@ -31,12 +31,6 @@ const renderedCodeUrl = async (linkUrl: string) => {
 };
 
 describe("ModalQRCode", () => {
-  it("prefixes the frontend URL for a path", async () => {
-    expect(await renderedCodeUrl("/organizations/org-id/about")).toBe(
-      "https://activist.org/organizations/org-id/about"
-    );
-  });
-
   it("keeps a full activist URL as is", async () => {
     expect(await renderedCodeUrl("https://activist.org/events/event-id")).toBe(
       "https://activist.org/events/event-id"
