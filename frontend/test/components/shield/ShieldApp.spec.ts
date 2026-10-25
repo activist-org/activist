@@ -3,7 +3,7 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import ShieldApp from "../../../app/components/shield/ShieldApp.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 // MARK: Basic Rendering
 

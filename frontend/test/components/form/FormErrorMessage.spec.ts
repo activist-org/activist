@@ -3,7 +3,7 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import FormErrorMessage from "../../../app/components/form/FormErrorMessage.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 /**
  * Tests for the FormErrorMessage component.

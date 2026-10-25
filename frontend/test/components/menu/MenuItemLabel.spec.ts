@@ -2,8 +2,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
 import MenuItemLabel from "../../../app/components/menu/MenuItemLabel.vue";
-import render from "../../../test/render";
 import { createUseUserSessionMock } from "../../mocks/composableMocks";
+import render from "../../render";
 
 // Set up useUserSession mock (component uses it directly).
 beforeEach(() => {

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import Shield from "../../../app/components/shield/Shield.vue";
 import { IconMap } from "../../../shared/constants/iconMap";
-import render from "../../../test/render";
+import render from "../../render";
 
 type ShieldProps = {
   label: string;

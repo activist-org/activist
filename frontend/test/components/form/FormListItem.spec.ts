@@ -4,7 +4,7 @@ import { useFieldArray } from "vee-validate";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import FormListItem from "../../../app/components/form/FormListItem.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 // Setup Spies and mock vee-validate.
 const pushMock = vi.fn();
