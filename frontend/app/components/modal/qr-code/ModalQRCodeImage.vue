@@ -87,7 +87,7 @@
 import { useQRCode } from "@vueuse/integrations/useQRCode";
 
 const props = defineProps<{
-  codeUrl?: string;
+  codeUrl?: string | null;
 }>();
 
 const fontSize = ref(24);

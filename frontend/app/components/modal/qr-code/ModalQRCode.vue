@@ -101,14 +101,10 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const { BASE_FRONTEND_URL } = useGetBaseURLs();
 
-// Cards pass a path, while the share modal passes a full URL (resources can link to other sites).
 const codeUrl = computed(() => {
-  if (!props.linkUrl) return undefined;
-  return props.linkUrl.startsWith("/")
-    ? BASE_FRONTEND_URL + props.linkUrl
-    : props.linkUrl;
+  if (props.linkUrl) return props.linkUrl;
+  return null;
 });
 
 const aboveMediumBP = useBreakpoint("md");
