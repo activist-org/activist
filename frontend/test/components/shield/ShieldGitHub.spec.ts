@@ -3,7 +3,7 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import ShieldGitHub from "../../../app/components/shield/ShieldGitHub.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 type ShieldGitHubProps = {
   text?: string;

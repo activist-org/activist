@@ -3,7 +3,7 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import FormLabel from "../../../app/components/form/FormLabel.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 describe("FormLabel Component", () => {
   // MARK: Logic and Props

@@ -424,9 +424,6 @@ yarn postinstall  # prepare types in frontend/.nuxt
 yarn typecheck
 ```
 
-> [!NOTE]
-> Pre-existing TS errors may be ignored. If you need assistance then feel free to open a PR and we'll support!
-
 #### Automated Testing
 
 We use [Vitest](https://vitest.dev/) for component and unit testing. You can run the tests with the following command:
@@ -443,9 +440,6 @@ yarn test FILE.spec.ts --run
 ```
 
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
-
-> [!NOTE]
-> The Vitest test suite is still in a very early stage. There is a lot of work left to do to increase test coverage, and some features still need troubleshooting. If you need assistance then feel free to open a PR and we'll support!
 
 ### End to End Testing (E2E)
 

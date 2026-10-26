@@ -73,7 +73,7 @@ const fallbackClass = computed(() =>
 );
 
 const entityLogoAlt = computed(() =>
-  t("i18n._global.entity_logo", {
+  t("i18n.components._global.entity_logo", {
     entity_name: props.entity?.name ?? "",
   })
 );

@@ -10,11 +10,13 @@ on:
       - synchronize
     paths:
       - "frontend/**"
+      - ".github/workflows/ci_frontend_static_analysis.yaml"
   push:
     branches:
       - main
     paths:
       - "frontend/**"
+      - ".github/workflows/ci_frontend_static_analysis.yaml"
 
 jobs:
   frontend_static_analysis:
@@ -38,14 +40,14 @@ jobs:
       - name: Run Prettier - Formatting Check
         working-directory: ./frontend
         run: |
-          sudo yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
 
       - name: Run Nuxt Type Check
         if: always()
         working-directory: ./frontend
-        run: sudo yarn typecheck
+        run: yarn typecheck
 
       - name: Run ESLint - Linting
         if: always()
         working-directory: ./frontend
-        run: sudo yarn lint
+        run: yarn lint

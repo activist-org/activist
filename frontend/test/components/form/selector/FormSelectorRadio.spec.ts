@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { nextTick } from "vue";
 
 import FormSelectorRadio from "../../../../app/components/form/selector/FormSelectorRadio.vue";
-import render from "../../../../test/render";
+import render from "../../../render";
 
 // Here is the custom type Option use in FormSelectorRadio.
 type Option = {

@@ -3,7 +3,7 @@ import { fireEvent, screen } from "@testing-library/vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import MenuSearchResult from "../../../app/components/menu/MenuSearchResult.vue";
-import render from "../../../test/render";
+import render from "../../render";
 
 const onClickOutsideMock = vi.fn();
 
