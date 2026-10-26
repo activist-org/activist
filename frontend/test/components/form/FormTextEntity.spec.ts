@@ -1427,33 +1427,52 @@ describe("FormTextEntity component", () => {
     });
 
     it("handles handleSubmit rejection gracefully", async () => {
-      mockHandleSubmit.mockRejectedValue(new Error("Submission failed"));
+      const error = new Error("Submission failed");
+      mockHandleSubmit.mockRejectedValue(error);
 
-      await render(FormTextEntity, {
-        props: defaultProps,
-      });
+      // Vue passes the rejected submit handler to the app's error handler.
+      // Catch it there so the expected rejection isn't an unhandled error.
+      const { vueApp } = useNuxtApp();
+      const originalErrorHandler = vueApp.config.errorHandler;
+      const errorHandler = vi.fn();
+      vueApp.config.errorHandler = errorHandler;
 
-      const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n.components._global.description")
-      );
-      await fireEvent.update(descriptionInput, "Test description");
+      try {
+        await render(FormTextEntity, {
+          props: defaultProps,
+        });
 
-      const getInvolvedInput = screen.getByLabelText(
-        getEnglishText("i18n.components._global.get_involved")
-      );
-      await fireEvent.update(getInvolvedInput, "Join us");
+        const descriptionInput = screen.getByLabelText(
+          getEnglishText("i18n.components._global.description")
+        );
+        await fireEvent.update(descriptionInput, "Test description");
 
-      const submitBtn = screen.getByRole("button", {
-        name: "Submit the form",
-      });
-      await fireEvent.click(submitBtn);
+        const getInvolvedInput = screen.getByLabelText(
+          getEnglishText("i18n.components._global.get_involved")
+        );
+        await fireEvent.update(getInvolvedInput, "Join us");
 
-      await waitFor(() => {
-        expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
-      });
+        const submitBtn = screen.getByRole("button", {
+          name: "Submit the form",
+        });
+        await fireEvent.click(submitBtn);
 
-      // Form should still be visible after rejection.
-      expect(descriptionInput).toBeDefined();
+        await waitFor(() => {
+          expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+        });
+        await waitFor(() => {
+          expect(errorHandler).toHaveBeenCalledWith(
+            error,
+            expect.anything(),
+            expect.anything()
+          );
+        });
+
+        // Form should still be visible after rejection.
+        expect(descriptionInput).toBeDefined();
+      } finally {
+        vueApp.config.errorHandler = originalErrorHandler;
+      }
     });
 
     it("handles multiple rapid validation attempts", async () => {
