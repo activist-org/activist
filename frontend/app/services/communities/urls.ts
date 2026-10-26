@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 // MARK: Community Base URL
 export const communitiesBaseUrl = "/communities";
 
