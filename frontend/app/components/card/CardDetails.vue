@@ -88,7 +88,7 @@ const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const eventForLinkURL = computed(() => props.event);
 const { linkUrl: eventLinkUrl } = useLinkURL({
   get event() {
-    return eventForLinkURL.value ?? undefined;
+    return eventForLinkURL?.value;
   },
 });
 </script>

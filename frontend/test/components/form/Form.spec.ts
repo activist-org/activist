@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import FormTemplate from "../../../app/components/form/FormTemplate.vue";
 import { getEnglishText } from "../../../shared/utils/i18n";
-import render from "../../../test/render";
+import render from "../../render";
 
 describe("Form component", () => {
   it("shows validation errors when fields are empty", async () => {

@@ -41,7 +41,6 @@
             :share-options="shareOptions"
             social-component="SMastodon"
             :text="t('i18n.components.modal_share_page.mastodon')"
-            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
           />
@@ -123,7 +122,6 @@
             :share-options="shareOptions"
             social-component="SEmail"
             text="Email"
-            type="vueSocials"
           />
 
           <BtnShareIcon
@@ -158,7 +156,6 @@
             :share-options="shareOptions"
             social-component="STelegram"
             :text="t('i18n.components.modal_share_page.telegram')"
-            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
           />
@@ -186,7 +183,6 @@
             :share-options="shareOptions"
             social-component="SFacebookMessenger"
             :text="t('i18n.components.modal_share_page.messenger')"
-            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
           />
@@ -199,7 +195,6 @@
             :share-options="shareOptions"
             social-component="SFacebook"
             :text="t('i18n.components.modal_share_page.facebook')"
-            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
           />
@@ -212,7 +207,6 @@
             :share-options="shareOptions"
             social-component="STwitter"
             :text="t('i18n.components.modal_share_page.twitter')"
-            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
           />

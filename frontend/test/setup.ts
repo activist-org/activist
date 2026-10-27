@@ -186,6 +186,7 @@ config.global.provide = {
 config.global.t = (key: string) => i18n.global.t(key);
 
 // MARK: Component Mocks
+
 config.global.components = {
   Icon: {
     template: `<img role="img" :aria-label="getAriaLabel()" :style="computedStyle" v-bind="$attrs" />`,

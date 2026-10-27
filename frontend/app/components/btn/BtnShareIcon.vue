@@ -2,7 +2,7 @@
 <template>
   <component
     :is="vueSocials[socialComponent]"
-    v-if="type == 'vueSocials'"
+    v-if="vueSocials[socialComponent]"
     @popup-block="nativeBehaviorOptions.onBlock"
     @popup-close="nativeBehaviorOptions.onClose"
     @popup-focus="nativeBehaviorOptions.onFocus"
@@ -27,7 +27,7 @@
     </p>
   </component>
   <div
-    v-else-if="type == 'redirect'"
+    v-else
     @click="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.enter="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.space="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
