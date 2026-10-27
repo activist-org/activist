@@ -39,18 +39,14 @@ const isDark = computed(() => colorMode.value === "dark");
 whenever(meta_k ?? ref(false), () => {
   if (isMacOS) {
     openModalCommandPalette({
-      context: {
-        paletteData: commandPaletteData,
-      },
+      paletteData: commandPaletteData,
     });
   }
 });
 whenever(ctrl_k ?? ref(false), () => {
   if (!isMacOS) {
     openModalCommandPalette({
-      context: {
-        paletteData: commandPaletteData,
-      },
+      paletteData: commandPaletteData,
     });
   }
 });
