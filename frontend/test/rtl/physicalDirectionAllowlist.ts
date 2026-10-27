@@ -89,7 +89,5 @@ export const PHYSICAL_DIRECTION_ALLOWLIST: Record<string, number> = {
   "app/pages/auth/sign-in.vue": 1,
   "app/pages/auth/sign-up.vue": 3,
   "app/pages/contact.vue": 1,
-  "app/pages/events/[eventId]/index.vue": 1,
   "app/pages/home/index.vue": 1,
-  "app/pages/organizations/[orgId]/index.vue": 1,
 };
