@@ -38,7 +38,7 @@
     "@nuxtjs/i18n": "10.6.0",
     "@pinia/colada-nuxt": "1.2.0",
     "@pinia/nuxt": "1.0.2",
-    "@playwright/test": "1.62.1",
+    "@playwright/test": "1.64.0",
     "@testing-library/vue": "8.1.0",
     "@types/node": "26.1.1",
     "@types/zxcvbn": "4.4.5",
@@ -61,7 +61,7 @@
     "nuxt": "4.5.2",
     "nuxt-auth-utils": "0.5.31",
     "nuxt-security": "2.6.0",
-    "playwright-core": "1.62.1",
+    "playwright-core": "1.64.0",
     "prettier": "3.9.9",
     "prettier-plugin-tailwindcss": "0.8.1",
     "rollup": "4.62.2",
@@ -74,7 +74,7 @@
     "vue-tsc": "3.3.12"
   },
   "dependencies": {
-    "@axe-core/playwright": "4.12.1",
+    "@axe-core/playwright": "4.13.0",
     "@floating-ui/dom": "1.8.0",
     "@maplibre/maplibre-gl-directions": "0.10.1",
     "@opentelemetry/api": "1.9.1",
@@ -131,7 +131,7 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "1.62.1",
+    "playwright-core": "1.64.0",
     "commander": "15.0.0",
     "glob": "^13.0.6",
     "eslint-plugin-vue": "10.11.1"
