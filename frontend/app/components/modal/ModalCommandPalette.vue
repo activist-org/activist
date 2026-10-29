@@ -6,51 +6,31 @@
     <div>
       <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
         <div
-          class="my-[0.625rem] flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
-        >
+          class="my-[0.625rem] flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside">
           <Icon class="text-black" :name="IconMap.SEARCH" size="1em" />
           <!-- MARK: Search text input. -->
-          <ComboboxInput
-            @change="searchTerm = $event.target.value"
-            @keydown.enter="handleEnter"
+          <ComboboxInput ref="paletteInput" @change="searchTerm = $event.target.value" @keydown.enter="handleEnter"
             class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
-            :placeholder="t('i18n._global.search')"
-          />
+            :placeholder="t('i18n._global.search')" />
         </div>
         <div v-if="searchTerm.length > 0 && filteredCommands.length > 0">
           <span class="font-bold italic">Searching for:</span> {{ searchTerm }}
         </div>
         <!-- MARK: Search results output. -->
-        <ComboboxOptions
-          v-if="searchTerm.length > 0 && filteredCommands.length > 0"
-          class="max-h-40 overflow-y-auto pt-2"
-        >
+        <ComboboxOptions v-if="searchTerm.length > 0 && filteredCommands.length > 0"
+          class="max-h-40 overflow-y-auto pt-2">
           <!-- MARK: Individual search result/s. -->
-          <ComboboxOption
-            v-for="command in filteredCommands"
-            :key="command.id"
-            v-slot="{ active }"
-            @click="handleClick(command)"
-            as="li"
-            :value="command"
-          >
-            <li
-              :class="[
-                'w-6/7 group relative flex items-center space-x-2 rounded-md py-1',
-                active ? 'bg-highlight' : '',
-              ]"
-            >
-              <Icon
-                :alt="t(`${command.displayName}`)"
-                :name="IconMap[command.iconName as keyof typeof IconMap]"
-                size="1em"
-              />
+          <ComboboxOption v-for="command in filteredCommands" :key="command.id" v-slot="{ active }"
+            @click="handleClick(command)" as="li" :value="command">
+            <li :class="[
+              'w-6/7 group relative flex items-center space-x-2 rounded-md py-1',
+              active ? 'bg-highlight' : '',
+            ]">
+              <Icon :alt="t(`${command.displayName}`)" :name="IconMap[command.iconName as keyof typeof IconMap]"
+                size="1em" />
               <div class="relative flex-grow pl-1">
                 {{ t(`${command.displayName}`) }}
-                <span
-                  class="link-text invisible absolute right-3 w-16"
-                  :class="{ visible: active }"
-                >
+                <span class="link-text invisible absolute right-3 w-16" :class="{ visible: active }">
                   {{ t("i18n.components.modal_command_palette.jump_to") }}
                 </span>
               </div>
@@ -90,6 +70,7 @@ interface Command {
 
 const modalName = "ModalCommandPalette";
 
+const paletteInput = ref<typeof ComboboxInput | null>(null);
 const searchTerm = ref("");
 const selectedCommand = ref<Command | null>(null);
 const filteredCommands = ref<Command[]>([]);
@@ -133,6 +114,12 @@ watch(searchTerm, (newVal) => {
   } else {
     filteredCommands.value = [];
   }
+});
+
+onMounted(() => {
+  nextTick(() => {
+    paletteInput.value?.$el.focus()
+  })
 });
 </script>
 
