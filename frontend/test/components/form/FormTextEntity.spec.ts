@@ -1430,49 +1430,43 @@ describe("FormTextEntity component", () => {
       const error = new Error("Submission failed");
       mockHandleSubmit.mockRejectedValue(error);
 
-      // Vue passes the rejected submit handler to the app's error handler.
+      // Vue passes the rejected submit handler to the mounted app's error handler.
       // Catch it there so the expected rejection isn't an unhandled error.
-      const { vueApp } = useNuxtApp();
-      const originalErrorHandler = vueApp.config.errorHandler;
       const errorHandler = vi.fn();
-      vueApp.config.errorHandler = errorHandler;
 
-      try {
-        await render(FormTextEntity, {
-          props: defaultProps,
-        });
+      await render(FormTextEntity, {
+        props: defaultProps,
+        global: { config: { errorHandler } },
+      });
 
-        const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n.components._global.description")
+      const descriptionInput = screen.getByLabelText(
+        getEnglishText("i18n.components._global.description")
+      );
+      await fireEvent.update(descriptionInput, "Test description");
+
+      const getInvolvedInput = screen.getByLabelText(
+        getEnglishText("i18n.components._global.get_involved")
+      );
+      await fireEvent.update(getInvolvedInput, "Join us");
+
+      const submitBtn = screen.getByRole("button", {
+        name: "Submit the form",
+      });
+      await fireEvent.click(submitBtn);
+
+      await waitFor(() => {
+        expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+      });
+      await waitFor(() => {
+        expect(errorHandler).toHaveBeenCalledWith(
+          error,
+          expect.anything(),
+          expect.anything()
         );
-        await fireEvent.update(descriptionInput, "Test description");
+      });
 
-        const getInvolvedInput = screen.getByLabelText(
-          getEnglishText("i18n.components._global.get_involved")
-        );
-        await fireEvent.update(getInvolvedInput, "Join us");
-
-        const submitBtn = screen.getByRole("button", {
-          name: "Submit the form",
-        });
-        await fireEvent.click(submitBtn);
-
-        await waitFor(() => {
-          expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
-        });
-        await waitFor(() => {
-          expect(errorHandler).toHaveBeenCalledWith(
-            error,
-            expect.anything(),
-            expect.anything()
-          );
-        });
-
-        // Form should still be visible after rejection.
-        expect(descriptionInput).toBeDefined();
-      } finally {
-        vueApp.config.errorHandler = originalErrorHandler;
-      }
+      // Form should still be visible after rejection.
+      expect(descriptionInput).toBeDefined();
     });
 
     it("handles multiple rapid validation attempts", async () => {
