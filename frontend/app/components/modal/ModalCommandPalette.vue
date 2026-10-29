@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
 <template>
-  <ModalBase @closeModal="closeCommandPalette" :modalName="modalName">
+  <ModalBase @closeModal="closeCommandPalette" :modalName="modalName" hideButton>
     <!-- MARK: Main element -->
     <div>
       <Combobox v-model="selectedCommand" as="div" class="flex flex-col w-6/7">
