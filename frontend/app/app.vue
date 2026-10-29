@@ -28,7 +28,7 @@ const { isMacOS } = useDevice();
 const { meta_k, ctrl_k } = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (["meta_k", "ctrl_k"].includes(e.key) && e.type === "keydown")
+    if (e.key === "k" && (e.metaKey || e.ctrlKey) && e.type === "keydown")
       e.preventDefault();
   },
 });
