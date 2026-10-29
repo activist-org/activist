@@ -460,7 +460,7 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Click to clear all directions from the map",
   "i18n.composables.use_routing_map.click_for_directions": "Click map for directions",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "Adding points to the map will provide directions",
-  "i18n.constants.command_palette.organization_name": "Organization Name",
+  "i18n.constants.command_palette.organizations": "Organizations",
   "i18n.constants.command_palette.upcoming_events": "Upcoming events",
   "i18n.constants.topics.accessibility_and_inclusion": "Accessibility and Inclusion",
   "i18n.constants.topics.animal_rights": "Animal Rights",

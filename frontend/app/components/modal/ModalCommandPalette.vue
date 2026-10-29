@@ -4,22 +4,24 @@
   <ModalBase @closeModal="closeCommandPalette" :modalName="modalName" hideButton>
     <!-- MARK: Main element -->
     <div>
-      <Combobox v-model="selectedCommand" as="div" class="flex flex-col w-6/7">
+      <Combobox v-model="selectedCommand" as="div" class="flex flex-col">
         <div
           class="my-[0.625rem] flex select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside">
           <Icon class="my-1 ml-1 size-4 shrink-0" :name="IconMap.SEARCH" size="1em" />
           <!-- MARK: Search text input. -->
           <ComboboxInput ref="paletteInput" @change="searchTerm = $event.target.value"
             class="h-5 ml-1 w-full bg-transparent pl-1 focus:outline-none focus:ring-0"
-            :placeholder="t('i18n._global.search')" />
+            :placeholder="t('i18n._global.search')" @keydown.escape="searchTerm = ''" />
+          <p class="text-sm text-distinct-text border-box p-0.5 rounded">
+            Esc
+          </p>
         </div>
         <!-- MARK: Search results output. -->
-        <ComboboxOptions v-if="searchTerm.length > 0 && filteredCommands.length > 0"
-          class="max-h-40 overflow-y-auto pt-2">
+        <ComboboxOptions static v-if="filteredCommands.length > 0" class="max-h-40 overflow-y-auto pt-2">
           <!-- MARK: Individual search result/s. -->
           <ComboboxOption v-for="command in filteredCommands" :key="command.id" v-slot="{ active }" :value="command">
             <div :class="[
-              'group relative flex items-center space-x-2 rounded-md p-4 cursor-pointer',
+              'group relative flex items-center space-x-2 rounded-md p-2 cursor-pointer',
               active ? 'bg-highlight' : '',
             ]">
               <Icon :alt="t(`${command.displayName}`)" :name="IconMap[command.iconName as keyof typeof IconMap]"
@@ -69,13 +71,14 @@ const modalName = "ModalCommandPalette";
 const paletteInput = ref<typeof ComboboxInput | null>(null);
 const searchTerm = ref("");
 const selectedCommand = ref<Command | null>(null);
-const filteredCommands = ref<Command[]>([]);
+const filteredCommands = ref<Command[]>(props.paletteData)
 
 const router = useRouter();
 
 const closeCommandPalette = () => {
   // Watch for closeModal emit and do cleanup when it happens.
   searchTerm.value = "";
+  filteredCommands.value = props.paletteData;
 };
 
 watch(selectedCommand, (val) => {
@@ -90,7 +93,7 @@ watch(searchTerm, (newVal) => {
       dataItem.displayName.toLowerCase().includes(newVal.toLowerCase())
     );
   } else {
-    filteredCommands.value = [];
+    filteredCommands.value = props.paletteData;
   }
 });
 
