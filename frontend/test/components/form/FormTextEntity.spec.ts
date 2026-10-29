@@ -1427,10 +1427,16 @@ describe("FormTextEntity component", () => {
     });
 
     it("handles handleSubmit rejection gracefully", async () => {
-      mockHandleSubmit.mockRejectedValue(new Error("Submission failed"));
+      const error = new Error("Submission failed");
+      mockHandleSubmit.mockRejectedValue(error);
+
+      // Vue passes the rejected submit handler to the mounted app's error handler.
+      // Catch it there so the expected rejection isn't an unhandled error.
+      const errorHandler = vi.fn();
 
       await render(FormTextEntity, {
         props: defaultProps,
+        global: { config: { errorHandler } },
       });
 
       const descriptionInput = screen.getByLabelText(
@@ -1450,6 +1456,13 @@ describe("FormTextEntity component", () => {
 
       await waitFor(() => {
         expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+      });
+      await waitFor(() => {
+        expect(errorHandler).toHaveBeenCalledWith(
+          error,
+          expect.anything(),
+          expect.anything()
+        );
       });
 
       // Form should still be visible after rejection.
