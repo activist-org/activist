@@ -4,12 +4,12 @@
   <ModalBase @closeModal="closeCommandPalette" :modalName="modalName">
     <!-- MARK: Main element -->
     <div>
-      <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
+      <Combobox v-model="selectedCommand" as="div">
         <div
           class="my-[0.625rem] flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside">
           <Icon class="text-black" :name="IconMap.SEARCH" size="1em" />
           <!-- MARK: Search text input. -->
-          <ComboboxInput ref="paletteInput" @change="searchTerm = $event.target.value" @keydown.enter="handleEnter"
+          <ComboboxInput ref="paletteInput" @change="searchTerm = $event.target.value"
             class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
             :placeholder="t('i18n._global.search')" />
         </div>
@@ -20,9 +20,8 @@
         <ComboboxOptions v-if="searchTerm.length > 0 && filteredCommands.length > 0"
           class="max-h-40 overflow-y-auto pt-2">
           <!-- MARK: Individual search result/s. -->
-          <ComboboxOption v-for="command in filteredCommands" :key="command.id" v-slot="{ active }"
-            @click="handleClick(command)" as="li" :value="command">
-            <li :class="[
+          <ComboboxOption v-for="command in filteredCommands" :key="command.id" v-slot="{ active }" :value="command">
+            <div :class="[
               'w-6/7 group relative flex items-center space-x-2 rounded-md py-1',
               active ? 'bg-highlight' : '',
             ]">
@@ -34,7 +33,7 @@
                   {{ t("i18n.components.modal_command_palette.jump_to") }}
                 </span>
               </div>
-            </li>
+            </div>
           </ComboboxOption>
         </ComboboxOptions>
         <div v-else-if="searchTerm.length > 0 && filteredCommands.length == 0">
@@ -82,29 +81,11 @@ const closeCommandPalette = () => {
   searchTerm.value = "";
 };
 
-const handleClick = (command: Command) => {
-  router.push(`/${command.path}`);
-};
-
-const handleEnter = () => {
-  if (selectedCommand.value) {
-    // selectedCommand.value.action();
-    router.push(`/${selectedCommand.value.path}`);
+watch(selectedCommand, (val) => {
+  if (val) {
+    router.push(`/${val.path}`);
   }
-};
-
-// Handle command selection. Combobox @change event handler. Handles selected ComboBoxOption.
-// const handleCommand = (command: Command) => {
-const handleCommand = () => {
-  if (selectedCommand.value) {
-    // if (command && typeof command.action === "function") {
-    //   command.action();
-    // } else {
-    //   // Note: For future implementation.
-    // }
-    router.push(`/${selectedCommand.value.path}`);
-  }
-};
+});
 
 watch(searchTerm, (newVal) => {
   if (newVal.length > 0) {
