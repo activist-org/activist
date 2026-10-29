@@ -6,6 +6,7 @@
  * These unit tests focus on structure, cache keys, and return values.
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
+import { flushPromises } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
@@ -243,6 +244,107 @@ describe("useGetGroups", () => {
 
       expect(filters).toBeDefined();
       expect(typeof filters).toBe("object");
+    });
+  });
+
+  // MARK: Pagination and Filter Changes
+
+  describe("Pagination and filter reset", () => {
+    it("appends groups from later pages", async () => {
+      const { useGetGroups } =
+        await import("../../../../app/composables/queries");
+
+      const firstGroup = createMockGroup({ id: "group-1" });
+      const secondGroup = createMockGroup({ id: "group-2" });
+
+      mockListGroups
+        .mockResolvedValueOnce({
+          data: [firstGroup],
+          isLastPage: false,
+        })
+        .mockResolvedValueOnce({
+          data: [secondGroup],
+          isLastPage: true,
+        });
+
+      const result = useGetGroups(ref({ linked_organizations: ["org-1"] }));
+
+      await flushPromises();
+      await vi.waitFor(() => {
+        expect(mockListGroups).toHaveBeenCalledTimes(1);
+      });
+
+      await result.getMore();
+
+      await flushPromises();
+      await vi.waitFor(() => {
+        expect(mockListGroups).toHaveBeenCalledTimes(2);
+      });
+
+      expect(result.data.value).toEqual([firstGroup, secondGroup]);
+      expect(mockListGroups).toHaveBeenNthCalledWith(1, {
+        linked_organizations: ["org-1"],
+        page: 1,
+        page_size: 10,
+      });
+      expect(mockListGroups).toHaveBeenNthCalledWith(2, {
+        linked_organizations: ["org-1"],
+        page: 2,
+        page_size: 10,
+      });
+    });
+
+    it("resets pagination and accumulated groups when filters change", async () => {
+      const { useGetGroups } =
+        await import("../../../../app/composables/queries");
+
+      const firstGroup = createMockGroup({ id: "old-group-1" });
+      const secondGroup = createMockGroup({ id: "old-group-2" });
+      const filteredGroup = createMockGroup({ id: "new-group" });
+
+      mockListGroups
+        .mockResolvedValueOnce({
+          data: [firstGroup],
+          isLastPage: false,
+        })
+        .mockResolvedValueOnce({
+          data: [secondGroup],
+          isLastPage: false,
+        })
+        .mockResolvedValueOnce({
+          data: [filteredGroup],
+          isLastPage: true,
+        });
+
+      const filters = ref({ linked_organizations: ["filter-a"] });
+
+      const result = useGetGroups(filters);
+
+      await flushPromises();
+      await vi.waitFor(() => {
+        expect(mockListGroups).toHaveBeenCalledTimes(1);
+      });
+
+      await result.getMore();
+
+      await flushPromises();
+      await vi.waitFor(() => {
+        expect(mockListGroups).toHaveBeenCalledTimes(2);
+      });
+
+      filters.value = { linked_organizations: ["filter-b"] };
+
+      await flushPromises();
+      await vi.waitFor(() => {
+        expect(mockListGroups).toHaveBeenCalledTimes(3);
+      });
+
+      expect(mockListGroups).toHaveBeenLastCalledWith({
+        linked_organizations: ["filter-b"],
+        page: 1,
+        page_size: 10,
+      });
+      expect(result.data.value).toEqual([filteredGroup]);
     });
   });
 });

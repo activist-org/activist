@@ -7,10 +7,18 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
   const isLastPageRef = ref(false);
   const groups = ref<Group[]>([]);
   const page = ref(1);
-  const filtersRef = computed(() => {
-    isLastPageRef.value = false;
-    return unref(filters);
-  });
+  const filtersRef = computed(() => unref(filters));
+
+  watch(
+    filtersRef,
+    () => {
+      page.value = 1;
+      groups.value = [];
+      isLastPageRef.value = false;
+    },
+    { deep: true, flush: "sync" }
+  );
+
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Group[]>(
     () => getKeyForGetGroups(filtersRef.value, page.value),
@@ -28,7 +36,8 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
           page_size: 10,
         });
         isLastPageRef.value = paginatedGroups.isLastPage;
-        return [...groups.value, ...paginatedGroups.data] as Group[];
+        groups.value = [...groups.value, ...paginatedGroups.data];
+        return groups.value;
       } catch (error) {
         handleError(error);
         throw error;
