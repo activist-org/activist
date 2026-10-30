@@ -21,7 +21,7 @@
           <ComboboxInput
             ref="paletteInput"
             @change="searchTerm = $event.target.value"
-            @keydown.escape="searchTerm = ''"
+            @keydown.escape="handleEscape"
             class="ml-1 h-5 w-full bg-transparent pl-1 focus:outline-none focus:ring-0"
             :placeholder="t('i18n._global.search')"
           />
@@ -105,6 +105,16 @@ const selectedCommand = ref<Command | null>(null);
 const filteredCommands = ref<Command[]>(props.paletteData);
 
 const router = useRouter();
+
+const modals = useModals();
+const handleEscape = () => {
+  if (searchTerm.value) {
+    searchTerm.value = "";
+  } else {
+    modals.closeModal(modalName);
+    closeCommandPalette();
+  }
+};
 
 const closeCommandPalette = () => {
   // Watch for closeModal emit and do cleanup when it happens.
