@@ -3,16 +3,12 @@
 <template>
   <ModalBase
     @closeModal="closeCommandPalette"
-    :modalName="modalName"
     hideButton
+    :modalName="modalName"
   >
     <!-- MARK: Main element -->
     <div>
-      <Combobox
-        v-model="selectedCommand"
-        as="div"
-        class="flex flex-col"
-      >
+      <Combobox v-model="selectedCommand" as="div" class="flex flex-col">
         <div
           class="my-2.5 flex select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
         >
@@ -25,17 +21,20 @@
           <ComboboxInput
             ref="paletteInput"
             @change="searchTerm = $event.target.value"
+            @keydown.escape="searchTerm = ''"
             class="ml-1 h-5 w-full bg-transparent pl-1 focus:outline-none focus:ring-0"
             :placeholder="t('i18n._global.search')"
-            @keydown.escape="searchTerm = ''"
           />
-          <p class="rounded p-0.5 text-sm text-distinct-text border">Esc</p>
+          <!-- prettier-ignore -->
+          <p class="rounded border p-0.5 text-sm text-distinct-text">
+            Esc
+          </p>
         </div>
         <!-- MARK: Search results output. -->
         <ComboboxOptions
-          static
           v-if="filteredCommands.length > 0"
           class="max-h-40 overflow-y-auto pt-2"
+          static
         >
           <!-- MARK: Individual search result/s. -->
           <ComboboxOption
