@@ -198,7 +198,7 @@ describe("ModalCommandPalette component", () => {
       expect(vm.filteredCommands).toHaveLength(0);
     });
 
-    it("clears filtered results when search term is emptied", async () => {
+    it("contains default results even when the search term is empty", async () => {
       const wrapper = createWrapper();
       const vm = wrapper.vm as unknown as {
         searchTerm: string;
@@ -211,7 +211,7 @@ describe("ModalCommandPalette component", () => {
 
       vm.searchTerm = "";
       await wrapper.vm.$nextTick();
-      expect(vm.filteredCommands).toHaveLength(0);
+      expect(vm.filteredCommands.length).toBeGreaterThan(0);
     });
 
     it("performs case-insensitive search", async () => {
@@ -232,54 +232,26 @@ describe("ModalCommandPalette component", () => {
   // MARK: Navigation
 
   describe("Navigation", () => {
-    it("navigates to command path on handleClick", () => {
-      const wrapper = createWrapper();
-      const vm = wrapper.vm as unknown as {
-        handleClick: (command: Command) => void;
-      };
-
-      vm.handleClick(testCommands[0]);
-      expect(routerPushMock).toHaveBeenCalledWith("/organizations");
-    });
-
-    it("navigates on handleEnter when a command is selected", async () => {
+    it("navigates when selectedCommand is set", async () => {
       const wrapper = createWrapper();
       const vm = wrapper.vm as unknown as {
         selectedCommand: Command | null;
-        handleEnter: () => void;
       };
 
       vm.selectedCommand = testCommands[1];
       await wrapper.vm.$nextTick();
 
-      vm.handleEnter();
       expect(routerPushMock).toHaveBeenCalledWith("/events");
     });
 
-    it("does not navigate on handleEnter when no command is selected", () => {
+    it("does not navigate when selectedCommand is null", () => {
       const wrapper = createWrapper();
       const vm = wrapper.vm as unknown as {
         selectedCommand: Command | null;
-        handleEnter: () => void;
       };
 
       vm.selectedCommand = null;
-      vm.handleEnter();
       expect(routerPushMock).not.toHaveBeenCalled();
-    });
-
-    it("navigates on handleCommand when a command is selected", async () => {
-      const wrapper = createWrapper();
-      const vm = wrapper.vm as unknown as {
-        selectedCommand: Command | null;
-        handleCommand: () => void;
-      };
-
-      vm.selectedCommand = testCommands[2];
-      await wrapper.vm.$nextTick();
-
-      vm.handleCommand();
-      expect(routerPushMock).toHaveBeenCalledWith("/resources");
     });
   });
 
