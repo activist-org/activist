@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Models for the communities app.
+Group models for the communities app.
+
+Note: Group roles and membership are controlled by their organizations.
 """
 
 from typing import Any
@@ -94,30 +96,6 @@ class GroupImage(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
     image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
-
-    def __str__(self) -> str:
-        return str(self.id)
-
-
-# MARK: Member
-
-
-class GroupMember(models.Model):
-    """
-    Class for adding user membership parameters to groups.
-    """
-
-    group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, related_name="group_members"
-    )
-    user = models.ForeignKey(
-        "authentication.UserModel",
-        on_delete=models.CASCADE,
-        related_name="group_members",
-    )
-    is_owner = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return str(self.id)

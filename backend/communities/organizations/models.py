@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Models for the communities app.
+Organization models for the communities app.
 """
 
 from typing import Any
@@ -156,9 +156,30 @@ class OrganizationMember(models.Model):
 
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    is_owner = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_comms = models.BooleanField(default=False)
+    role = models.CharField(
+        max_length=20,
+        choices=enums.MembershipRole.choices,
+        default=enums.MembershipRole.UNAUTHENTICATED,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["org", "user"], name="unique_org_membership"
+            )
+        ]
+
+    @property
+    def role_level(self) -> int:
+        """
+        Return the priority level of the user based on their assigned role.
+
+        Returns
+        -------
+        int
+            The numeric priority level corresponding to the member's role.
+        """
+        return enums.MEMBERSHIP_ROLE_LEVELS[enums.MembershipRole(self.role)]
 
     def __str__(self) -> str:
         return str(self.id)
