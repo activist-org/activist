@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const resourceEventBaseUrl = `${eventBaseUrl}/event_resources`;
-
 // MARK: Create
 
 export async function createEventResource(

@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const socialLinkEventBaseUrl = `${eventBaseUrl}/event_social_links`;
-
 // MARK: Create
 
 export async function createEventSocialLinks(
