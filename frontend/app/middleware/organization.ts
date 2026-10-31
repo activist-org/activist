@@ -6,8 +6,9 @@ export default defineNuxtRouteMiddleware((to) => {
   const orgId = to.params.orgId;
 
   if (typeof orgId !== "string" || !isValidUUID(orgId)) {
-    const localePath = useLocalePath();
-
-    return navigateTo(localePath("/organizations"), { replace: true });
+    throw createError({
+      statusCode: 404,
+      statusMessage: "Organization not found",
+    });
   }
 });

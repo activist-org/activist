@@ -25,6 +25,12 @@ export function useGetOrganization(id: MaybeRef<string>) {
   watch(error, (err) => {
     if (err) {
       handleError(err);
+      if (appError.value?.status === 404) {
+        showError({
+          statusCode: 404,
+          statusMessage: "Organization not found",
+        });
+      }
     }
   });
 
