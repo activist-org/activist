@@ -460,7 +460,6 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Klik untuk menghapus semua arah dari peta",
   "i18n.composables.use_routing_map.click_for_directions": "Klik peta untuk petunjuk arah",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "Menambahkan titik ke peta akan memberikan petunjuk arah",
-  "i18n.constants.command_palette.organization_name": "Nama organisasi",
   "i18n.constants.command_palette.upcoming_events": "Acara mendatang",
   "i18n.constants.topics.accessibility_and_inclusion": "Aksesibilitas dan Inklusi",
   "i18n.constants.topics.animal_rights": "Hak Hewan",

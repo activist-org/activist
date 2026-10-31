@@ -336,6 +336,5 @@
   "i18n.components.sidebar_left_selector.navigate_to": "导航到",
   "i18n.components.tooltip_discussion_warning.email_addresses": "电子邮箱地址",
   "i18n.components.tooltip_mention_list.no_result": "无结果",
-  "i18n.constants.command_palette.organization_name": "组织名称",
   "i18n.pages.auth._global.repeat_password": "重复密码"
 }
