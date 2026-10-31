@@ -4,3 +4,4 @@ export * from "./content";
 export * from "./event";
 export * from "./http";
 export * from "./location";
+export * from "./user";

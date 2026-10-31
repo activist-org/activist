@@ -11,7 +11,8 @@ services:
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
     volumes:
-      # Persist local data across restarts. Reset explicitly with:
+      # Note: Persist local data across restarts.
+      # Attn: Reset explicitly with the following command when you need to update the DB:
       # docker compose --env-file .env.dev down -v
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -36,6 +37,9 @@ services:
         aliases:
           - backend
     restart: unless-stopped
+    # Note: Local data is persisted across restarts.
+    # Attn: Reset explicitly with the following command when you need to update the DB:
+    # docker compose --env-file .env.dev down -v
     command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
       uv run /app/core/management/commands/clear_dev_images.py;
