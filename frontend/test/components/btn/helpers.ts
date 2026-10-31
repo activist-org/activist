@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Component } from "vue";
 
-import render from "../../../test/render";
+import render from "../../render";
 
 export async function renderButton(
   component: Component,

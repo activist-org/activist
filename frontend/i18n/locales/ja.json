@@ -96,6 +96,5 @@
   "i18n.components.search_bar.slash_tooltip_label": "\"/\"で検索",
   "i18n.components.sidebar_left_filter_events.location": "ロケーション",
   "i18n.components.sidebar_left_selector.navigate_to": "ナビゲートへ",
-  "i18n.constants.command_palette.organization_name": "会社名",
   "i18n.pages.auth._global.repeat_password": "パスワードの繰り返し"
 }

@@ -52,7 +52,7 @@ Onboarding and mentoring new members are integral parts of any healthy open-sour
 
 The above includes expectations on the behavior of those who want to grow with us. Mentorship is earned, not given. To be blunt, those who are mainly sending AI generated contributions are not demonstrating an interest in growing their skills and are not helping to develop the project. This is not to say that all uses of AI for contributions are bad, but it should be a tool, not the contributor itself.
 
-Continued constructive contributions, new open issues and communication that provides context for maintainers help them do their work immensely. We would be happy to help such community members expand their skills and take on further responsibilities.
+Continued constructive contributions, new open issues, and clear communication help this project achieve its goals. We would be happy to support community members who make these contributions to expand their skills and take on further responsibilities.
 
 If the above resonates with you, then we look forward to working with you!
 
@@ -427,9 +427,6 @@ yarn postinstall  # prepare types in frontend/.nuxt
 yarn typecheck
 ```
 
-> [!NOTE]
-> Pre-existing TS errors may be ignored. If you need assistance then feel free to open a PR and we'll support!
-
 #### Automated Testing
 
 We use [Vitest](https://vitest.dev/) for component and unit testing. You can run the tests with the following command:
@@ -446,9 +443,6 @@ yarn test FILE.spec.ts --run
 ```
 
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
-
-> [!NOTE]
-> The Vitest test suite is still in a very early stage. There is a lot of work left to do to increase test coverage, and some features still need troubleshooting. If you need assistance then feel free to open a PR and we'll support!
 
 ### End to End Testing (E2E)
 

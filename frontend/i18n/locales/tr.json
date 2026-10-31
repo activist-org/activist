@@ -227,6 +227,5 @@
   "i18n.components.search_bar.slash_tooltip_label": "Arama yapmak için “/” tuşuna bas",
   "i18n.components.sidebar_left_filter_events.location": "Konum",
   "i18n.components.sidebar_left_selector.navigate_to": "…’ya git",
-  "i18n.constants.command_palette.organization_name": "Organizasyon Adı",
   "i18n.pages.auth._global.repeat_password": "Şifreyi tekrar gir"
 }

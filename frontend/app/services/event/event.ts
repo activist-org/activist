@@ -27,10 +27,6 @@ export function mapEvent(res: EventResponse): EventResponse {
   };
 }
 
-// MARK: Event Base URL
-
-export const eventBaseUrl = "/events";
-
 // MARK: Get by ID
 
 export async function getEvent(id: string): Promise<EventResponse> {

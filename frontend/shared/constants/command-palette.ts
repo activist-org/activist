@@ -11,16 +11,16 @@ export const commandPaletteData = [
       // Note: For future implementation.
     },
   },
-  {
-    id: 1,
-    category: "discussions",
-    path: "discussions",
-    iconName: "DISCUSSION",
-    displayName: "i18n._global.discussions",
-    action: () => {
-      // Note: For future implementation.
-    },
-  },
+  // {
+  //   id: 1,
+  //   category: "discussions",
+  //   path: "discussions",
+  //   iconName: "DISCUSSION",
+  //   displayName: "i18n._global.discussions",
+  //   action: () => {
+  //     // Note: For future implementation.
+  //   },
+  // },
   {
     id: 2,
     category: "events",
@@ -31,22 +31,22 @@ export const commandPaletteData = [
       // Note: For future implementation.
     },
   },
-  {
-    id: 3,
-    category: "notifications",
-    path: "notifications",
-    iconName: "BELL",
-    displayName: "i18n._global.notifications",
-    action: () => {
-      // Note: For future implementation.
-    },
-  },
+  // {
+  //   id: 3,
+  //   category: "notifications",
+  //   path: "notifications",
+  //   iconName: "BELL",
+  //   displayName: "i18n._global.notifications",
+  //   action: () => {
+  //     // Note: For future implementation.
+  //   },
+  // },
   {
     id: 4,
     category: "organizations",
     path: "organizations",
     iconName: "ORGANIZATION",
-    displayName: "i18n.constants.command_palette.organization_name",
+    displayName: "i18n._global.organizations",
     action: () => {
       // Note: For future implementation.
     },
@@ -61,14 +61,14 @@ export const commandPaletteData = [
   //     // Note: For future implementation.
   //   }
   // },
-  {
-    id: 6,
-    category: "upcoming-events",
-    path: "upcoming-events",
-    iconName: "EVENT",
-    displayName: "i18n.constants.command_palette.upcoming_events",
-    action: () => {
-      // Note: For future implementation.
-    },
-  },
+  // {
+  //   id: 6,
+  //   category: "upcoming-events",
+  //   path: "upcoming-events",
+  //   iconName: "EVENT",
+  //   displayName: "i18n.constants.command_palette.upcoming_events",
+  //   action: () => {
+  //     // Note: For future implementation.
+  //   },
+  // },
 ];

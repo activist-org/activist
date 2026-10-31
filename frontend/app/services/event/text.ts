@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const textEventBaseUrl = `${eventBaseUrl}/event_texts`;
-
 // MARK: Update
 
 export async function updateEventTexts(

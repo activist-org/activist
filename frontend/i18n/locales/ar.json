@@ -436,7 +436,6 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "انقر لمسح جميع الاتجاهات من الخريطة",
   "i18n.composables.use_routing_map.click_for_directions": "انقر على الخريطة للحصول على الاتجاهات",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "إضافة نقاط على الخريطة ستوفر الاتجاهات",
-  "i18n.constants.command_palette.organization_name": "اسم المنظمة",
   "i18n.constants.command_palette.upcoming_events": "الفعاليات القادمة",
   "i18n.constants.topics.accessibility_and_inclusion": "إمكانية الوصول والإدماج",
   "i18n.constants.topics.animal_rights": "حقوق الحيوان",

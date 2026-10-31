@@ -448,7 +448,6 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Premi per rimuovere direzioni dalla mappa",
   "i18n.composables.use_routing_map.click_for_directions": "prime la mappa per direzioni",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "Aggiungere punti alla mappa darà direzioni",
-  "i18n.constants.command_palette.organization_name": "Nome dell'Organizzazione",
   "i18n.constants.command_palette.upcoming_events": "Prossimi eventi",
   "i18n.constants.topics.accessibility_and_inclusion": "Accessibilità e Inclusione",
   "i18n.constants.topics.animal_rights": "Diritti degli animali",

@@ -457,7 +457,6 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Нажмите, чтобы очистить все маршруты с карты",
   "i18n.composables.use_routing_map.click_for_directions": "Нажмите на карту для получения маршрута",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "Добавление точек на карту обеспечит маршруты",
-  "i18n.constants.command_palette.organization_name": "Название организации",
   "i18n.constants.command_palette.upcoming_events": "Предстоящие события",
   "i18n.constants.topics.accessibility_and_inclusion": "Доступность и инклюзия",
   "i18n.constants.topics.animal_rights": "Права животных",

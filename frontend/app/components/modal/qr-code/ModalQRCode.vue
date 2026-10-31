@@ -63,7 +63,7 @@
           <ModalQRCodeImage
             ref="qrcode"
             class="elem-shadow-md select-none rounded-3xl"
-            :codeUrl="BASE_FRONTEND_URL + props.linkUrl"
+            :codeUrl="codeUrl"
           />
           <TooltipBase
             v-show="showTooltip"
@@ -101,7 +101,11 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const { BASE_FRONTEND_URL } = useGetBaseURLs();
+
+const codeUrl = computed(() => {
+  if (props.linkUrl) return props.linkUrl;
+  return null;
+});
 
 const aboveMediumBP = useBreakpoint("md");
 const modalName = "ModalQRCode";

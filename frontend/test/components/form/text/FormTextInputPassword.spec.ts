@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import FormTextInputPassword from "../../../../app/components/form/text/FormTextInputPassword.vue";
 import { IconMap } from "../../../../shared/constants/iconMap";
 import { getEnglishText } from "../../../../shared/utils/i18n";
-import render from "../../../../test/render";
+import render from "../../../render";
 
 // Note: Auto-import mocks (useI18n, etc.) are handled globally in test/setup.ts.
 

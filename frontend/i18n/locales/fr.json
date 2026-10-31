@@ -456,7 +456,6 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Cliquer pour effacer toutes les directions de la carte",
   "i18n.composables.use_routing_map.click_for_directions": "Cliquer sur la carte pour les directions",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "En ajoutant des points à la carte, vous obtiendrez des indications",
-  "i18n.constants.command_palette.organization_name": "Nom organization",
   "i18n.constants.command_palette.upcoming_events": "Événements à venir",
   "i18n.constants.topics.accessibility_and_inclusion": "Accessibilité et Inclusion",
   "i18n.constants.topics.animal_rights": "Défense animaux",

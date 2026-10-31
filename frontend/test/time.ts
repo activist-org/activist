@@ -2,7 +2,7 @@
 /**
  * Use to replace timers during an action or actions that trigger timers in a component.
  *
- * Needed to isolate fake timers from other test utils that use timers.  For example:
+ * Needed to isolate fake timers from other test utils that use timers. For example:
  * In @testing-library/vue": "8.1.0 the waitFor function will hang when timers are mocked.
  *
  * @param ms milliseconds to advance fake timers

@@ -352,7 +352,6 @@
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Clique para remover todas as rotas do mapa",
   "i18n.composables.use_routing_map.click_for_directions": "Clique no mapa para ver as rotas",
   "i18n.composables.use_routing_map.click_for_directions_tooltip": "Adicionar pontos no mapa fornecerá as rotas",
-  "i18n.constants.command_palette.organization_name": "Nome da Organização",
   "i18n.constants.command_palette.upcoming_events": "Próximos eventos",
   "i18n.constants.topics.accessibility_and_inclusion": "Acessibilidade e Inclusão",
   "i18n.constants.topics.animal_rights": "Direito dos Animais",
