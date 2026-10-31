@@ -21,7 +21,7 @@
       >
         <button
           id="modal-close-button"
-          v-if="imageModal"
+          v-if="imageModal && !hideButton"
           @click="closeModal()"
           :aria-label="
             t ? t('i18n.components.modal_base.close_modal_aria_label') : ''
@@ -35,6 +35,7 @@
         <div v-else class="relative">
           <button
             id="modal-close-button"
+            v-if="!hideButton"
             @click="closeModal()"
             :aria-label="
               t ? t('i18n.components.modal_base.close_modal_aria_label') : ''
@@ -72,6 +73,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/vue";
 
 const props = defineProps<{
   imageModal?: boolean;
+  hideButton?: boolean;
   onClose?: () => void;
   modalName: string;
 }>();
@@ -118,7 +120,7 @@ const closeModal = () => {
 // Check if the user is navigating to another resource.
 // If a modal exists, close it.
 watch(route, () => {
-  if (modals.modals[modalName]) {
+  if (modals.modals[modalName]?.isOpen) {
     closeModal();
   }
 });

@@ -1,42 +1,51 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
 <template>
-  <ModalBase @closeModal="closeCommandPalette" :modalName="modalName">
+  <ModalBase
+    @closeModal="closeCommandPalette"
+    hideButton
+    :modalName="modalName"
+  >
     <!-- MARK: Main element -->
     <div>
-      <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
+      <Combobox v-model="selectedCommand" as="div" class="flex flex-col">
         <div
-          class="my-[0.625rem] flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
+          class="my-2.5 flex select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
         >
-          <Icon class="text-black" :name="IconMap.SEARCH" size="1em" />
+          <Icon
+            class="my-1 ml-1 size-4 shrink-0"
+            :name="IconMap.SEARCH"
+            size="1em"
+          />
           <!-- MARK: Search text input. -->
           <ComboboxInput
+            ref="paletteInput"
             @change="searchTerm = $event.target.value"
-            @keydown.enter="handleEnter"
-            class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
+            @keydown.escape="handleEscape"
+            class="ml-1 h-5 w-full bg-transparent pl-1 focus:outline-none focus:ring-0"
             :placeholder="t('i18n._global.search')"
           />
-        </div>
-        <div v-if="searchTerm.length > 0 && filteredCommands.length > 0">
-          <span class="font-bold italic">Searching for:</span> {{ searchTerm }}
+          <!-- prettier-ignore -->
+          <p class="rounded border p-0.5 text-sm text-distinct-text">
+            Esc
+          </p>
         </div>
         <!-- MARK: Search results output. -->
         <ComboboxOptions
-          v-if="searchTerm.length > 0 && filteredCommands.length > 0"
+          v-if="filteredCommands.length > 0"
           class="max-h-40 overflow-y-auto pt-2"
+          static
         >
           <!-- MARK: Individual search result/s. -->
           <ComboboxOption
             v-for="command in filteredCommands"
             :key="command.id"
             v-slot="{ active }"
-            @click="handleClick(command)"
-            as="li"
             :value="command"
           >
-            <li
+            <div
               :class="[
-                'w-6/7 group relative flex items-center space-x-2 rounded-md py-1',
+                'group relative flex cursor-pointer items-center space-x-2 rounded-md p-2',
                 active ? 'bg-highlight' : '',
               ]"
             >
@@ -45,16 +54,16 @@
                 :name="IconMap[command.iconName as keyof typeof IconMap]"
                 size="1em"
               />
-              <div class="relative flex-grow pl-1">
+              <div class="relative flex grow justify-between pl-1">
                 {{ t(`${command.displayName}`) }}
                 <span
-                  class="link-text invisible absolute right-3 w-16"
+                  class="link-text invisible w-16"
                   :class="{ visible: active }"
                 >
                   {{ t("i18n.components.modal_command_palette.jump_to") }}
                 </span>
               </div>
-            </li>
+            </div>
           </ComboboxOption>
         </ComboboxOptions>
         <div v-else-if="searchTerm.length > 0 && filteredCommands.length == 0">
@@ -90,40 +99,34 @@ interface Command {
 
 const modalName = "ModalCommandPalette";
 
+const paletteInput = ref<typeof ComboboxInput | null>(null);
 const searchTerm = ref("");
 const selectedCommand = ref<Command | null>(null);
-const filteredCommands = ref<Command[]>([]);
+const filteredCommands = ref<Command[]>(props.paletteData);
 
 const router = useRouter();
+
+const modals = useModals();
+const handleEscape = () => {
+  if (searchTerm.value) {
+    searchTerm.value = "";
+  } else {
+    modals.closeModal(modalName);
+    closeCommandPalette();
+  }
+};
 
 const closeCommandPalette = () => {
   // Watch for closeModal emit and do cleanup when it happens.
   searchTerm.value = "";
+  filteredCommands.value = props.paletteData;
 };
 
-const handleClick = (command: Command) => {
-  router.push(`/${command.path}`);
-};
-
-const handleEnter = () => {
-  if (selectedCommand.value) {
-    // selectedCommand.value.action();
-    router.push(`/${selectedCommand.value.path}`);
+watch(selectedCommand, (val) => {
+  if (val) {
+    router.push(`/${val.path}`);
   }
-};
-
-// Handle command selection. Combobox @change event handler. Handles selected ComboBoxOption.
-// const handleCommand = (command: Command) => {
-const handleCommand = () => {
-  if (selectedCommand.value) {
-    // if (command && typeof command.action === "function") {
-    //   command.action();
-    // } else {
-    //   // Note: For future implementation.
-    // }
-    router.push(`/${selectedCommand.value.path}`);
-  }
-};
+});
 
 watch(searchTerm, (newVal) => {
   if (newVal.length > 0) {
@@ -131,8 +134,14 @@ watch(searchTerm, (newVal) => {
       dataItem.displayName.toLowerCase().includes(newVal.toLowerCase())
     );
   } else {
-    filteredCommands.value = [];
+    filteredCommands.value = props.paletteData;
   }
+});
+
+onMounted(() => {
+  nextTick(() => {
+    paletteInput.value?.$el.focus();
+  });
 });
 </script>
 
