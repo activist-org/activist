@@ -236,7 +236,11 @@ class OrganizationSupportDetailAPIView(viewsets.ModelViewSet[OrganizationSupport
                 )
 
             organization = Organization.objects.get(id=organization_id)
-            type_support: str | None = request.data.get("supporter_type") if isinstance(request.data, dict) else None
+            type_support: str | None = (
+                request.data.get("supporter_type")
+                if isinstance(request.data, dict)
+                else None
+            )
             if type_support is None:
                 return Response(
                     {"detail": "Type of support is required."},

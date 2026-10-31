@@ -29,7 +29,8 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
-    EventSupport,
+    EventSupportFromOrg,
+    EventSupportFromUser,
     EventText,
     EventTime,
     Format,
@@ -416,71 +417,24 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 # MARK: Support
 
 
-class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
+class EventSupportFromOrgSerializer(serializers.ModelSerializer[EventSupportFromOrg]):
     """
-    Serializer for EventSupport model data.
-
-    Notes
-    -----
-    `supporter_user` is always set from the requesting user in the view,
-    so clients only ever provide the event (and only when the event id
-    isn't already in the URL).
+    Serializer for EventSupportFromOrg model data.
     """
 
     class Meta:
-        model = EventSupport
+        model = EventSupportFromOrg
         fields = "__all__"
-        read_only_fields = ["supporter_user", "creation_date", "event"]
 
-    def create(self, validated_data: dict[str, Any]) -> EventSupport:
-        """
-        Create event support record.
 
-        Parameters
-        ----------
-        validated_data : dict[str, Any]
-            Dictionary of validated data for creating the event support.
+class EventSupportFromUserSerializer(serializers.ModelSerializer[EventSupportFromUser]):
+    """
+    Serializer for EventSupportFromUser model data.
+    """
 
-        Returns
-        -------
-        EventSupport
-            Created EventSupport instance.
-        """
-        event_support = EventSupport.objects.create(**validated_data)
-        logger.info(f"Created EventSupport with id {event_support.id}")
-
-        return event_support
-
-    def validate_event(self, value: Event | UUID | str) -> Event:
-        """
-        Validate that the event exists.
-
-        Parameters
-        ----------
-        value : Event | UUID | str
-            The value to validate: an Event instance, UUID, or string id.
-
-        Returns
-        -------
-        Event
-            The validated Event instance.
-
-        Raises
-        ------
-        serializers.ValidationError
-            If the event does not exist.
-        """
-        if isinstance(value, Event):
-            return value
-
-        try:
-            event = Event.objects.get(id=value)
-            logger.info(f"Event found for value: {value}")
-
-        except Event.DoesNotExist as e:
-            raise serializers.ValidationError("Event not found.") from e
-
-        return event
+    class Meta:
+        model = EventSupportFromUser
+        fields = "__all__"
 
 
 # MARK: Event
@@ -502,7 +456,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     times = EventTimesSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
+
     supporter_count = serializers.SerializerMethodField()
+    is_supported_by_org = serializers.SerializerMethodField()
     is_supported_by_user = serializers.SerializerMethodField()
 
     class Meta:
@@ -512,6 +468,50 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "created_by": {"read_only": True},
         }
         exclude = ["supporters"]
+
+    def get_supporter_count(self, obj: Event) -> int:
+        """
+        Get the count of users who support the event.
+
+        Parameters
+        ----------
+        obj : Event
+            The event to check support for.
+
+        Returns
+        -------
+        int
+            The total organizations and users that support the event.
+        """
+        return int(
+            getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+        ) + int(
+            getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+        )
+
+    def get_is_supported_by_org(self, obj: Organization) -> bool:
+        """
+        Check whether an event is supported by an organization that is derived via a request.
+
+        Parameters
+        ----------
+        obj : Event
+            The event to check supporters for.
+
+        Returns
+        -------
+        bool
+            Whether the included organization in the request supports the event or not.
+        """
+        annotated = obj.org_supporters.exists()
+        if annotated is None:
+            return False
+
+        request = self.context.get("request")
+        if request is None or not request.user.id:
+            return False
+
+        return bool(obj.org_supporters.filter(pk=request.user.pk).exists())
 
     def get_is_supported_by_user(self, obj: Event) -> bool:
         """
@@ -527,7 +527,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         bool
             Whether the included user in the request supports the event or not.
         """
-        annotated = obj.supporters.exists()
+        annotated = obj.user_supporters.exists()
         if annotated is None:
             return False
 
@@ -535,23 +535,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         if request is None or request.user.id is None:
             return False
 
-        return bool(obj.supporters.filter(pk=request.user.id).exists())
-
-    def get_supporter_count(self, obj: Event) -> int:
-        """
-        Return the supporter tally, using the queryset annotation when present.
-
-        Parameters
-        ----------
-        obj : Event
-            The event that the total supporters should be returned for.
-
-        Returns
-        -------
-        int
-            The total supporters of the event.
-        """
-        return int(obj.supporters.count())
+        return bool(obj.user_supporters.filter(pk=request.user.id).exists())
 
     def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """

@@ -217,7 +217,7 @@ class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
     )
 
     class Meta:
-        model = Event  # resolved at module level; see import note below
+        model = Event
         fields = [
             "id",
             "name",
@@ -243,10 +243,9 @@ class UserSupportedOrganizationSerializer(serializers.ModelSerializer["Organizat
         required=False,
         allow_null=True,
     )
-    events = UserSupportedEventSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Organization  # resolved at module level; see import note below
+        model = Organization
         fields = ["id", "name", "tagline", "texts", "topics", "events"]
 
 
@@ -255,10 +254,10 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
     Serializer for the user model.
     """
 
-    supported_events = UserSupportedEventSerializer(many=True, read_only=True)
     supported_organizations = UserSupportedOrganizationSerializer(
         many=True, read_only=True
     )
+    supported_events = UserSupportedEventSerializer(many=True, read_only=True)
 
     class Meta:
         model = UserModel

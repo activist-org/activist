@@ -53,94 +53,52 @@ class Organization(models.Model):
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField(
-        "authentication.UserModel",
-        through="OrganizationFlag",
+        "authentication.UserModel", through="OrganizationFlag"
     )
-    supporters_users: Any = models.ManyToManyField(
-        "authentication.UserModel",
-        through="OrganizationSupport",
-        through_fields=("organization", "user_supporter"),
+    org_supporters: Any = models.ManyToManyField(
+        "communities.Organization",
+        through="OrganizationSupportFromOrg",
         related_name="supported_organizations",
     )
-    supporters_orgs: Any = models.ManyToManyField(
-        "communities.Organization",
-        through="OrganizationSupport",
-        through_fields=("organization", "org_supporter"),
-        related_name="supported_organizations_by_org",
+    user_supporters: Any = models.ManyToManyField(
+        "authentication.UserModel",
+        through="OrganizationSupportFromUser",
+        related_name="supported_organizations",
     )
 
     def __str__(self) -> str:
         return self.name
 
 
-class OrganizationSupport(models.Model):
-    """
-    Model for support received by an organization.
+# MARK: Support
 
-    Notes
-    -----
-    Exactly one of `supporter_user` / `supporter_org` must be set,
-    enforced by the `exactly_one_supporter_type` check constraint.
+
+class OrganizationSupportFromOrg(models.Model):
+    """
+    Model for support received by an organization from other organizations.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    organization = models.ForeignKey(
-        "Organization",
-        on_delete=models.CASCADE,
-        related_name="supports_received",
-    )
-    user_supporter = models.ForeignKey(
-        "authentication.UserModel",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="organization_supports_given",
-    )
     org_supporter = models.ForeignKey(
         "Organization",
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="supports_given",
+        related_name="org_supports_given",
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                condition=(
-                    # Exactly one supporter type per row.
-                    models.Q(user_supporter__isnull=False, org_supporter__isnull=True)
-                    | models.Q(user_supporter__isnull=True, org_supporter__isnull=False)
-                ),
-                name="exactly_one_supporter_type",
-            ),
-            # A given user can support an organization at most once.
-            models.UniqueConstraint(
-                fields=["organization", "user_supporter"],
-                name="unique_organization_support_per_user",
-            ),
-            # A given org can support an organization at most once.
-            models.UniqueConstraint(
-                fields=["organization", "org_supporter"],
-                name="unique_organization_support_per_org",
-            ),
-        ]
 
-    @property
-    def supporter(self) -> Any:
-        """
-        Return the actual supporter instance, regardless of type.
+class OrganizationSupportFromUser(models.Model):
+    """
+    Model for support received by an organization from users.
+    """
 
-        Returns
-        -------
-        Any
-            The instance of a user or organization.
-        """
-        return self.user_supporter or self.org_supporter
-
-    def __str__(self) -> str:
-        return f"{self.supporter} supports {self.organization}"
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user_supporter = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="org_supports_given",
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
 
 
 # MARK: Application

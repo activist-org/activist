@@ -20,13 +20,15 @@ from communities.organizations.models import (
     OrganizationMember,
     OrganizationResource,
     OrganizationSocialLink,
-    OrganizationSupport,
+    OrganizationSupportFromOrg,
+    OrganizationSupportFromUser,
     OrganizationTask,
     OrganizationText,
 )
 from content.models import Location, Topic
 from content.serializers import ImageSerializer, LocationSerializer, TopicSerializer
-from events.serializers import EventSerializer
+from events.models import Event
+from events.serializers import EventSerializer, EventTextSerializer
 from utils.utils import validate_entity_exists
 
 logger = logging.getLogger(__name__)
@@ -169,6 +171,58 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
         fields = "__all__"
 
 
+# MARK: Support
+
+
+class OrganizationSupportedEventSerializer(serializers.ModelSerializer["Event"]):
+    """
+    Lightweight event serializer for a organization's supported events.
+    """
+
+    texts = EventTextSerializer(many=True, read_only=True)
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = Event
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "type",
+            "location_type",
+            "creation_date",
+            "texts",
+            "topics",
+        ]
+
+
+class OrganizationSupportedOrganizationSerializer(
+    serializers.ModelSerializer["Organization"]
+):
+    """
+    Lightweight serializer for a organization's supported organizations.
+    """
+
+    texts = OrganizationTextSerializer(many=True, read_only=True)
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = Organization
+        fields = ["id", "name", "tagline", "texts", "topics", "events"]
+
+
 # MARK: Organization
 
 
@@ -298,11 +352,17 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     events = EventSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
-    supporter_user_count = serializers.SerializerMethodField()
-    supporter_org_count = serializers.SerializerMethodField()
+
+    supported_organizations = OrganizationSupportedOrganizationSerializer(
+        many=True, read_only=True
+    )
+    supported_events = OrganizationSupportedEventSerializer(many=True, read_only=True)
+
+    supporter_count = serializers.SerializerMethodField()
+    is_supported_by_org = serializers.SerializerMethodField()
     is_supported_by_user = serializers.SerializerMethodField()
 
-    def get_supporter_user_count(self, obj: Organization) -> int:
+    def get_supporter_count(self, obj: Organization) -> int:
         """
         Get the count of users who support the organization.
 
@@ -314,27 +374,37 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         Returns
         -------
         int
-            The total users that support the organization.
+            The total organizations and users that support the organization.
         """
         return int(
             getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+        ) + int(
+            getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
         )
 
-    def get_supporter_org_count(self, obj: Organization) -> int:
+    def get_is_supported_by_org(self, obj: Organization) -> bool:
         """
-        Get the count of organizations who support the organization.
+        Check whether an organization is supported by an other organization that is derived via a request.
 
         Parameters
         ----------
         obj : Organization
-            The organization to check support for.
+            The organization to check supporters for.
 
         Returns
         -------
-        int
-            The total organizations that support the organization.
+        bool
+            Whether the included organization in the request supports the organization or not.
         """
-        return int(getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count())
+        annotated = obj.org_supporters.exists()
+        if annotated is None:
+            return False
+
+        request = self.context.get("request")
+        if request is None or not request.user.id:
+            return False
+
+        return bool(obj.org_supporters.filter(pk=request.user.pk).exists())
 
     def get_is_supported_by_user(self, obj: Organization) -> bool:
         """
@@ -350,7 +420,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         bool
             Whether the included user in the request supports the organization or not.
         """
-        annotated = obj.supporters_users.exists()
+        annotated = obj.user_supporters.exists()
         if annotated is None:
             return False
 
@@ -358,7 +428,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         if request is None or not request.user.id:
             return False
 
-        return bool(obj.supporters_users.filter(pk=request.user.pk).exists())
+        return bool(obj.user_supporters.filter(pk=request.user.pk).exists())
 
     class Meta:
         model = Organization
@@ -430,44 +500,30 @@ class OrganizationFlagSerializer(serializers.ModelSerializer[OrganizationFlag]):
 
 
 # MARK: Support
-class OrganizationSupportSerializer(serializers.ModelSerializer[OrganizationSupport]):
-    """
-    Serializer for OrganizationSupport model data.
 
-    Notes
-    -----
-    `user_supporter` / `org_supporter` / `organization` are set by the view
-    (from the URL and requesting user), never from client payload.
+
+class OrganizationSupportFromOrgSerializer(
+    serializers.ModelSerializer[OrganizationSupportFromOrg]
+):
+    """
+    Serializer for OrganizationSupportFromOrg model data.
     """
 
     class Meta:
-        model = OrganizationSupport
+        model = OrganizationSupportFromOrg
         fields = "__all__"
-        read_only_fields = [
-            "user_supporter",
-            "org_supporter",
-            "creation_date",
-            "organization",
-        ]
 
-    def create(self, validated_data: dict[str, Any]) -> OrganizationSupport:
-        """
-        Create an organization support record.
 
-        Parameters
-        ----------
-        validated_data : dict[str, Any]
-            Dictionary of validated data for creating the organization support.
+class OrganizationSupportFromUserSerializer(
+    serializers.ModelSerializer[OrganizationSupportFromUser]
+):
+    """
+    Serializer for OrganizationSupportFromUser model data.
+    """
 
-        Returns
-        -------
-        OrganizationSupport
-            Created OrganizationSupport instance.
-        """
-        org_support = OrganizationSupport.objects.create(**validated_data)
-        logger.info(f"OrganizationSupport created with id {org_support.id}")
-
-        return org_support
+    class Meta:
+        model = OrganizationSupportFromUser
+        fields = "__all__"
 
 
 # MARK: Application
