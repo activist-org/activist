@@ -120,7 +120,7 @@ const closeModal = () => {
 // Check if the user is navigating to another resource.
 // If a modal exists, close it.
 watch(route, () => {
-  if (modals.modals[modalName]?.isOpen || modals.modals[modalName]) {
+  if (modals.modals[modalName]?.isOpen) {
     closeModal();
   }
 });

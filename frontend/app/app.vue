@@ -12,6 +12,8 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
 
+const { userIsSignedIn } = useUser();
+
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"
 );
@@ -35,18 +37,23 @@ const { meta_k, ctrl_k } = useMagicKeys({
 
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
+const paletteData = computed(() =>
+  commandPaletteData.filter(
+    (command) => command.id != 7 || userIsSignedIn.value
+  )
+);
 
 whenever(meta_k ?? ref(false), () => {
   if (isMacOS) {
     openModalCommandPalette({
-      paletteData: commandPaletteData,
+      paletteData: paletteData,
     });
   }
 });
 whenever(ctrl_k ?? ref(false), () => {
   if (!isMacOS) {
     openModalCommandPalette({
-      paletteData: commandPaletteData,
+      paletteData: paletteData,
     });
   }
 });
