@@ -2,7 +2,7 @@
 <template>
   <NuxtLink
     v-if="to"
-    class="font-md group relative flex w-full basis-full items-center justify-center rounded-md text-left text-sm transition duration-200 focus-brand"
+    class="font-md group relative flex w-full basis-full items-center justify-center rounded-md text-start text-sm transition duration-200 focus-brand"
     :class="{
       'style-menu-option-cta': selected,
       'style-menu-option': !selected && isAddStyles,
@@ -14,7 +14,7 @@
   </NuxtLink>
   <button
     v-else
-    class="font-md group relative flex w-full basis-full cursor-pointer items-center justify-center rounded-md text-left text-sm transition duration-200 focus-brand"
+    class="font-md group relative flex w-full basis-full cursor-pointer items-center justify-center rounded-md text-start text-sm transition duration-200 focus-brand"
     :class="{
       'style-menu-option-cta': selected,
       'style-menu-option': !selected && isAddStyles,

@@ -14,7 +14,7 @@
       @blur="showTooltip = false"
       @keydown.shift.tab.stop
       @tab="onTab"
-      class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
+      class="max-md:end-0 max-md:top-8 absolute lg:bottom-6 lg:start-4"
       :event="event"
     />
     <TooltipMenuSearchResultOrganization
@@ -23,7 +23,7 @@
       @blur="showTooltip = false"
       @keydown.shift.tab.stop
       @tab="onTab"
-      class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
+      class="max-md:end-0 max-md:top-8 absolute lg:bottom-6 lg:start-4"
       :organization="organization"
     />
     <TooltipMenuSearchResultGroup
@@ -32,7 +32,7 @@
       @blur="showTooltip = false"
       @keydown.shift.tab.stop
       @tab="onTab"
-      class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
+      class="max-md:end-0 max-md:top-8 absolute lg:bottom-6 lg:start-4"
       :group="group"
     />
     <TooltipMenuSearchResultResource
@@ -41,7 +41,7 @@
       @blur="showTooltip = false"
       @keydown.shift.tab.stop
       @tab="onTab"
-      class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
+      class="max-md:end-0 max-md:top-8 absolute lg:bottom-6 lg:start-4"
       :resource="resource"
     />
     <TooltipMenuSearchResultUser
@@ -50,7 +50,7 @@
       @blur="showTooltip = false"
       @keydown.shift.tab.stop
       @tab="onTab"
-      class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
+      class="max-md:end-0 max-md:top-8 absolute lg:bottom-6 lg:start-4"
       :user="user"
     />
   </button>
