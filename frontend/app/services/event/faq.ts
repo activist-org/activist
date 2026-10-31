@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const faqEventBaseUrl = `${eventBaseUrl}/event_faqs`;
-
 // MARK: Create
 
 export async function createEventFaq(

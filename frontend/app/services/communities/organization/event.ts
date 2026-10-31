@@ -13,7 +13,7 @@ export async function listOrganizationEvents(
     });
 
     const res = await get<EventsResponseBody>(
-      `/communities/organizations/${orgId}/events?${query.toString()}`,
+      `${organizationUrl}/${orgId}/events?${query.toString()}`,
       { withoutAuth: true }
     );
     return { data: res.results.map(mapEvent), isLastPage: !res.next };

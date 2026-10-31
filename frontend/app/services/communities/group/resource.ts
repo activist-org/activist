@@ -9,7 +9,7 @@ export async function createGroupResource(
 ): Promise<void> {
   try {
     await post(
-      `/communities/group_resources`,
+      `${groupResourceUrl}`,
       { ...input, group: groupId },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -24,7 +24,7 @@ export async function createGroupResource(
 export async function updateGroupResource(input: ResourceInput): Promise<void> {
   try {
     await put(
-      `/communities/group_resources/${input.id}`,
+      `${groupResourceUrl}/${input.id}`,
       { ...input },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -38,7 +38,7 @@ export async function updateGroupResource(input: ResourceInput): Promise<void> {
 
 export async function deleteGroupResource(resourceId: string): Promise<void> {
   try {
-    await del(`/communities/group_resources/${resourceId}`);
+    await del(`${groupResourceUrl}/${resourceId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -54,7 +54,7 @@ export async function reorderGroupResources(
     await Promise.all(
       resources.map((r) =>
         put(
-          `/communities/group_resources/${r.id}`,
+          `${groupResourceUrl}/${r.id}`,
           {
             id: r.id,
             order: r.order,

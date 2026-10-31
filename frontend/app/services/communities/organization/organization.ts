@@ -29,10 +29,9 @@ export function mapOrganization(res: OrganizationResponse): Organization {
 
 export async function getOrganization(id: string): Promise<Organization> {
   try {
-    const res = await get<OrganizationResponse>(
-      `/communities/organizations/${id}`,
-      { withoutAuth: true }
-    );
+    const res = await get<OrganizationResponse>(`${organizationUrl}/${id}`, {
+      withoutAuth: true,
+    });
     return mapOrganization(res);
   } catch (e) {
     throw errorHandler(e);
@@ -64,7 +63,7 @@ export async function listOrganizationsByUserId(
       });
     }
     const res = await get<OrganizationsResponseBody>(
-      `/communities/organizations_by_user/${userId}?${filters ? `${query.toString()}` : ""}`
+      `${organizationByUserQueryUrl}/${userId}?${filters ? `${query.toString()}` : ""}`
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
@@ -79,7 +78,7 @@ export async function createOrganization(
 ): Promise<Organization> {
   try {
     const res = await post<OrganizationResponse, typeof data>(
-      `/communities/organizations`,
+      `${organizationUrl}`,
       data,
       { headers: { "Content-Type": "application/json" } }
     );
@@ -110,7 +109,7 @@ export async function listOrganizations(
       query.append(key, String(value));
     });
     const res = await get<OrganizationsResponseBody>(
-      `/communities/organizations?${query.toString()}`,
+      `${organizationUrl}?${query.toString()}`,
       { withoutAuth: true }
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
@@ -123,7 +122,7 @@ export async function listOrganizations(
 
 export async function deleteOrganization(orgId: string): Promise<void> {
   try {
-    await del(`/communities/organizations/${orgId}`);
+    await del(`${organizationUrl}/${orgId}`);
   } catch (e) {
     throw errorHandler(e);
   }
