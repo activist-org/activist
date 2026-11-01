@@ -15,5 +15,6 @@
 const route = useRoute();
 definePageMeta({
   layout: false,
+  middleware: "organization",
 });
 </script>
