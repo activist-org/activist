@@ -29,6 +29,8 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
+    EventSupportFromOrg,
+    EventSupportFromUser,
     EventText,
     EventTime,
     Format,
@@ -412,6 +414,29 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         return event
 
 
+# MARK: Support
+
+
+class EventSupportFromOrgSerializer(serializers.ModelSerializer[EventSupportFromOrg]):
+    """
+    Serializer for EventSupportFromOrg model data.
+    """
+
+    class Meta:
+        model = EventSupportFromOrg
+        fields = "__all__"
+
+
+class EventSupportFromUserSerializer(serializers.ModelSerializer[EventSupportFromUser]):
+    """
+    Serializer for EventSupportFromUser model data.
+    """
+
+    class Meta:
+        model = EventSupportFromUser
+        fields = "__all__"
+
+
 # MARK: Event
 
 
@@ -432,14 +457,85 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
     icon_url = ImageSerializer(required=False)
 
+    supporter_count = serializers.SerializerMethodField()
+    is_supported_by_org = serializers.SerializerMethodField()
+    is_supported_by_user = serializers.SerializerMethodField()
+
     class Meta:
         model = Event
 
         extra_kwargs = {
             "created_by": {"read_only": True},
         }
+        exclude = ["supporters"]
 
-        fields = "__all__"
+    def get_supporter_count(self, obj: Event) -> int:
+        """
+        Get the count of users who support the event.
+
+        Parameters
+        ----------
+        obj : Event
+            The event to check support for.
+
+        Returns
+        -------
+        int
+            The total organizations and users that support the event.
+        """
+        return int(
+            getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+        ) + int(
+            getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+        )
+
+    def get_is_supported_by_org(self, obj: Organization) -> bool:
+        """
+        Check whether an event is supported by an organization that is derived via a request.
+
+        Parameters
+        ----------
+        obj : Event
+            The event to check supporters for.
+
+        Returns
+        -------
+        bool
+            Whether the included organization in the request supports the event or not.
+        """
+        annotated = obj.org_supporters.exists()
+        if annotated is None:
+            return False
+
+        request = self.context.get("request")
+        if request is None or not request.user.id:
+            return False
+
+        return bool(obj.org_supporters.filter(pk=request.user.pk).exists())
+
+    def get_is_supported_by_user(self, obj: Event) -> bool:
+        """
+        Check whether an event is supported by a user that is derived via a request.
+
+        Parameters
+        ----------
+        obj : Event
+            The event to check supporters for.
+
+        Returns
+        -------
+        bool
+            Whether the included user in the request supports the event or not.
+        """
+        annotated = obj.user_supporters.exists()
+        if annotated is None:
+            return False
+
+        request = self.context.get("request")
+        if request is None or request.user.id is None:
+            return False
+
+        return bool(obj.user_supporters.filter(pk=request.user.id).exists())
 
     def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
