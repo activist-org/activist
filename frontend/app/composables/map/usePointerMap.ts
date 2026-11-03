@@ -31,7 +31,7 @@ export const usePointerMap = () => {
     if (pointer.popup) {
       const popup = new Popup({
         offset: 25,
-        maxWidth: "260px",
+        maxWidth: "16.25rem",
       }).setDOMContent(pointer.popup);
       marker.setPopup(popup);
     }

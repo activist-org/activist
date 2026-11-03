@@ -74,7 +74,7 @@ defineExpose({ start, close });
 }
 progress {
   width: 100%;
-  height: 8px;
+  height: 0.5rem;
   margin-top: 0.5rem;
 }
 </style>

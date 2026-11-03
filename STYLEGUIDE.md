@@ -26,6 +26,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Images and icons](#images-and-icons)
 - [Tab size](#tab-size)
 - [Padding](#padding)
+- [Units](#units)
 - [Comments](#comments)
   - [JSDoc docstrings](#jsdoc-docstrings)
 
@@ -366,6 +367,12 @@ Code in the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), Ty
 ## Padding
 
 There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css). Please use consistent custom padding classes to ensure that elements move together at different breakpoints.
+
+<sub><a href="#top">Back to top.</a></sub>
+
+## Units
+
+Use `rem` instead of `px` for dimensions so the site scales when users change their browser font size. Pixel values are still okay for thin borders, focus rings, light shadows, zero values, `rootMargin`, very small precision values such as `0.01px`, and generated sizes that must remain in pixels.
 
 <sub><a href="#top">Back to top.</a></sub>
 

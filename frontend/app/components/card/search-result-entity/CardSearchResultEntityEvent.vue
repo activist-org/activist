@@ -16,8 +16,8 @@
       <div
         class="flex items-center justify-center"
         :class="{
-          'size-[150px]': isReduced,
-          'size-[200px]': !isReduced,
+          'size-[9.375rem]': isReduced,
+          'size-[12.5rem]': !isReduced,
         }"
       >
         <ImageEvent

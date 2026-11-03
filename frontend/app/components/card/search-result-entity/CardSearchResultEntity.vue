@@ -49,7 +49,7 @@
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
           <div
             v-if="!aboveMediumBP"
-            class="flex flex-col items-center justify-center space-y-[6px] pt-4"
+            class="flex flex-col items-center justify-center space-y-[0.375rem] pt-4"
           >
             <slot name="mobile-meta-tags" />
           </div>
@@ -102,7 +102,7 @@ const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 
 const imageSizeClass = computed(() => ({
-  "h-[150px] w-[150px]": props.isReduced,
-  "h-[200px] w-[200px]": !props.isReduced,
+  "h-[9.375rem] w-[9.375rem]": props.isReduced,
+  "h-[12.5rem] w-[12.5rem]": !props.isReduced,
 }));
 </script>

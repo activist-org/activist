@@ -37,7 +37,7 @@
     />
     <p
       v-if="reasonForSuggesting"
-      class="mt-[2px] text-xs italic text-distinct-text"
+      class="mt-[0.125rem] text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
