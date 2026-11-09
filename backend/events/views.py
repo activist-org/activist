@@ -40,7 +40,8 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
-    EventSupport,
+    EventSupportFromOrg,
+    EventSupportFromUser,
     EventText,
 )
 from events.serializers import (
@@ -50,7 +51,8 @@ from events.serializers import (
     EventResourceSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
-    EventSupportSerializer,
+    EventSupportFromOrgSerializer,
+    EventSupportFromUserSerializer,
     EventTextSerializer,
 )
 
@@ -403,25 +405,64 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
         )
 
 
-# MARK: Support
+# MARK: Support View
 
 
-class EventSupportAPIView(GenericAPIView[EventSupport]):
+class EventSupportFromOrgAPIView(viewsets.ModelViewSet[EventSupportFromOrg]):
     """
-    List, create and delete event support relationships.
+    List, create and delete event support from organization relationships.
 
     Notes
     -----
-    Registered on both "event_supports" and "event_supports/<uuid:id>".
-    Only users can support events, so POST always uses the requesting user.
+    Registered on both "event_support_orgs" and "event_support_orgs/<uuid:id>".
     """
 
-    serializer_class = EventSupportSerializer
+    serializer_class = EventSupportFromOrgSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
         responses={
-            200: EventSupportSerializer(many=True),
+            200: EventSupportFromOrgSerializer(many=True),
+            404: OpenApiResponse(response={"detail": "Support not found."}),
+        },
+    )
+    def get(self, request: Request, pk: None | UUID = None) -> Response:
+        try:
+            if not request.user.is_authenticated:
+                return Response(
+                    {"detail": "Authentication credentials were not provided."},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+            # Attn: Needs to be changed as we're now doing organizations.
+            # Filter based on organizations that the user is an admin of.
+            support = EventSupportFromOrg.objects.filter(org_supporter__id=pk)
+
+        except EventSupportFromOrg.DoesNotExist:
+            return Response(
+                {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        return Response(
+            EventSupportFromOrgSerializer(support, many=True).data,
+            status=status.HTTP_200_OK,
+        )
+
+
+class EventSupportFromUserAPIView(GenericAPIView[EventSupportFromUser]):
+    """
+    List, create and delete event support from user relationships.
+
+    Notes
+    -----
+    Registered on both "event_support_users" and "event_support_users/<uuid:id>".
+    """
+
+    serializer_class = EventSupportFromUserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @extend_schema(
+        responses={
+            200: EventSupportFromUserSerializer(many=True),
             404: OpenApiResponse(response={"detail": "Support not found."}),
         },
     )
@@ -432,30 +473,151 @@ class EventSupportAPIView(GenericAPIView[EventSupport]):
                     {"detail": "Authentication credentials were not provided."},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
-            support = EventSupport.objects.filter(supporter_user__id=request.user.id)
-        except EventSupport.DoesNotExist:
+            support = EventSupportFromUser.objects.filter(
+                user_supporter__id=request.user.id
+            )
+
+        except EventSupportFromUser.DoesNotExist:
             return Response(
                 {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         return Response(
-            EventSupportSerializer(support, many=True).data, status=status.HTTP_200_OK
+            EventSupportFromUserSerializer(support, many=True).data,
+            status=status.HTTP_200_OK,
         )
 
 
-class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
+# MARK: Support Detail View
+
+
+class EventSupportFromOrgDetailAPIView(viewsets.ModelViewSet[EventSupportFromOrg]):
     """
-    API view for retrieving, updating, and deleting a specific event support.
-    Only the supporter user or staff can delete the support.
+    API view for retrieving, updating, and deleting a specific support of an event from an organization.
+    Only an admin user of the given organization or staff can delete the support.
     """
 
-    serializer_class = EventSupportSerializer
+    serializer_class = EventSupportFromOrgSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = EventSupport.objects.all()
+    queryset = EventSupportFromOrg.objects.all()
 
     @extend_schema(
         responses={
-            201: EventSupportSerializer,
+            201: EventSupportFromOrgSerializer,
+            400: OpenApiResponse(response={"detail": "Failed to create support."}),
+        }
+    )
+    def post(
+        self, request: Request, pk1: None | UUID = None, pk2: None | UUID = None
+    ) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if pk1 is None:
+            return Response(
+                {"detail": "Event ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if pk2 is None:
+            return Response(
+                {"detail": "Org ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            event_id = pk1
+            org_id = pk2
+            if not Event.objects.filter(id=event_id).exists():
+                return Response(
+                    {"detail": "Event not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            event = Event.objects.get(id=event_id)
+            serializer.save(org_supporter=org_id, event=event)
+            logger.info(f"EventSupport created by organization {org_id}")
+
+        except (IntegrityError, OperationalError) as e:
+            logger.exception(
+                f"Failed to create event support for organization {org_id}: {e}"
+            )
+            return Response(
+                {"detail": "Failed to create support."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "Support deleted successfully."}),
+            400: OpenApiResponse(response={"detail": "Support ID is required."}),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this support."}
+            ),
+            404: OpenApiResponse(response={"detail": "Support not found."}),
+        }
+    )
+    def destroy(
+        self, request: Request, pk1: None | UUID = None, pk2: None | UUID = None
+    ) -> Response:
+        if pk1 is None:
+            return Response(
+                {"detail": "Event ID is required to delete support."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if pk2 is None:
+            return Response(
+                {"detail": "Event ID is required to delete support."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        try:
+            support = EventSupportFromOrg.objects.get(
+                event__id=pk1, org_supporter_org=pk2
+            )
+
+        except EventSupportFromOrg.DoesNotExist as e:
+            logger.exception(
+                f"EventSupport for event id {pk1} or organization id {pk2} does not exist for the delete action: {e}"
+            )
+            return Response(
+                {"detail": "Support for this event not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        # Attn: We need to check that the user is an admin of the organization here.
+        if support.user_supporter.id != request.user.id and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this support."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        support.delete()
+        logger.info(f"EventSupport for event id {pk1} deleted")
+        return Response(
+            {"message": "Support deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+
+class EventSupportFromUserDetailAPIView(viewsets.ModelViewSet[EventSupportFromUser]):
+    """
+    API view for retrieving, updating, and deleting a specific support of an event from a user.
+    Only the supporting user or staff can delete the support.
+    """
+
+    serializer_class = EventSupportFromUserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = EventSupportFromUser.objects.all()
+
+    @extend_schema(
+        responses={
+            201: EventSupportFromUserSerializer,
             400: OpenApiResponse(response={"detail": "Failed to create support."}),
         }
     )
@@ -475,7 +637,7 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
                     status=status.HTTP_404_NOT_FOUND,
                 )
             event = Event.objects.get(id=event_id)
-            serializer.save(supporter_user=request.user, event=event)
+            serializer.save(user_supporter=request.user, event=event)
             logger.info(f"EventSupport created by user {request.user.id}")
 
         except (IntegrityError, OperationalError) as e:
@@ -511,11 +673,11 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
         try:
-            support = EventSupport.objects.get(
-                event__id=pk, supporter_user=request.user
+            support = EventSupportFromUser.objects.get(
+                event__id=pk, user_supporter=request.user
             )
 
-        except EventSupport.DoesNotExist as e:
+        except EventSupportFromUser.DoesNotExist as e:
             logger.exception(
                 f"EventSupport for event id {pk} does not exist for delete: {e}"
             )
@@ -524,7 +686,7 @@ class EventSupportDetailAPIView(viewsets.ModelViewSet[EventSupport]):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if support.supporter_user.id != request.user.id and not request.user.is_staff:
+        if support.user_supporter.id != request.user.id and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this support."},
                 status=status.HTTP_403_FORBIDDEN,

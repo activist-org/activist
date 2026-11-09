@@ -202,7 +202,33 @@ class SignInSerializer(serializers.Serializer[UserModel]):
         return data
 
 
-class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
+class UserSupportedOrgsSerializer(serializers.ModelSerializer["Organization"]):
+    """
+    Lightweight serializer for a user's supported organizations.
+    """
+
+    texts = OrganizationTextSerializer(many=True, read_only=True)
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = Organization
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "texts",
+            "topics",
+            "events",
+        ]
+
+
+class UserSupportedEventsSerializer(serializers.ModelSerializer["Event"]):
     """
     Lightweight event serializer for a user's supported events.
     """
@@ -230,34 +256,13 @@ class UserSupportedEventSerializer(serializers.ModelSerializer["Event"]):
         ]
 
 
-class UserSupportedOrganizationSerializer(serializers.ModelSerializer["Organization"]):
-    """
-    Lightweight serializer for a user's supported organizations.
-    """
-
-    texts = OrganizationTextSerializer(many=True, read_only=True)
-    topics = serializers.SlugRelatedField(
-        queryset=Topic.objects.filter(active=True),
-        many=True,
-        slug_field="type",
-        required=False,
-        allow_null=True,
-    )
-
-    class Meta:
-        model = Organization
-        fields = ["id", "name", "tagline", "texts", "topics", "events"]
-
-
 class UserSerializer(serializers.ModelSerializer[UserModel]):
     """
     Serializer for the user model.
     """
 
-    supported_organizations = UserSupportedOrganizationSerializer(
-        many=True, read_only=True
-    )
-    supported_events = UserSupportedEventSerializer(many=True, read_only=True)
+    supported_organizations = UserSupportedOrgsSerializer(many=True, read_only=True)
+    supported_events = UserSupportedEventsSerializer(many=True, read_only=True)
 
     class Meta:
         model = UserModel

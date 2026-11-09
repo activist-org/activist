@@ -174,7 +174,57 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 # MARK: Support
 
 
-class OrganizationSupportedEventSerializer(serializers.ModelSerializer["Event"]):
+class OrganizationSupportFromOrgSerializer(
+    serializers.ModelSerializer[OrganizationSupportFromOrg]
+):
+    """
+    Serializer for OrganizationSupportFromOrg model data.
+    """
+
+    class Meta:
+        model = OrganizationSupportFromOrg
+        fields = "__all__"
+
+
+class OrganizationSupportFromUserSerializer(
+    serializers.ModelSerializer[OrganizationSupportFromUser]
+):
+    """
+    Serializer for OrganizationSupportFromUser model data.
+    """
+
+    class Meta:
+        model = OrganizationSupportFromUser
+        fields = "__all__"
+
+
+class OrganizationSupportedOrgsSerializer(serializers.ModelSerializer["Organization"]):
+    """
+    Lightweight serializer for a organization's supported organizations.
+    """
+
+    texts = OrganizationTextSerializer(many=True, read_only=True)
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = Organization
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "texts",
+            "topics",
+            "events",
+        ]
+
+
+class OrganizationSupportedEventsSerializer(serializers.ModelSerializer["Event"]):
     """
     Lightweight event serializer for a organization's supported events.
     """
@@ -200,27 +250,6 @@ class OrganizationSupportedEventSerializer(serializers.ModelSerializer["Event"])
             "texts",
             "topics",
         ]
-
-
-class OrganizationSupportedOrganizationSerializer(
-    serializers.ModelSerializer["Organization"]
-):
-    """
-    Lightweight serializer for a organization's supported organizations.
-    """
-
-    texts = OrganizationTextSerializer(many=True, read_only=True)
-    topics = serializers.SlugRelatedField(
-        queryset=Topic.objects.filter(active=True),
-        many=True,
-        slug_field="type",
-        required=False,
-        allow_null=True,
-    )
-
-    class Meta:
-        model = Organization
-        fields = ["id", "name", "tagline", "texts", "topics", "events"]
 
 
 # MARK: Organization
@@ -353,10 +382,10 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
     icon_url = ImageSerializer(required=False)
 
-    supported_organizations = OrganizationSupportedOrganizationSerializer(
+    supported_organizations = OrganizationSupportedOrgsSerializer(
         many=True, read_only=True
     )
-    supported_events = OrganizationSupportedEventSerializer(many=True, read_only=True)
+    supported_events = OrganizationSupportedEventsSerializer(many=True, read_only=True)
 
     supporter_count = serializers.SerializerMethodField()
     is_supported_by_org = serializers.SerializerMethodField()
@@ -496,33 +525,6 @@ class OrganizationFlagSerializer(serializers.ModelSerializer[OrganizationFlag]):
 
     class Meta:
         model = OrganizationFlag
-        fields = "__all__"
-
-
-# MARK: Support
-
-
-class OrganizationSupportFromOrgSerializer(
-    serializers.ModelSerializer[OrganizationSupportFromOrg]
-):
-    """
-    Serializer for OrganizationSupportFromOrg model data.
-    """
-
-    class Meta:
-        model = OrganizationSupportFromOrg
-        fields = "__all__"
-
-
-class OrganizationSupportFromUserSerializer(
-    serializers.ModelSerializer[OrganizationSupportFromUser]
-):
-    """
-    Serializer for OrganizationSupportFromUser model data.
-    """
-
-    class Meta:
-        model = OrganizationSupportFromUser
         fields = "__all__"
 
 
