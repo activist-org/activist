@@ -6,6 +6,7 @@ on:
 
 jobs:
   zap_scan:
+    if: github.repository == 'activist-org/activist'
     runs-on: ubuntu-latest
     name: Security Scan with OWASP ZAP
     steps:
