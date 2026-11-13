@@ -91,32 +91,130 @@ test.describe(
       }
     });
 
-    test("User can access new resource creation", async ({ page }) => {
-      const organizationPage = newOrganizationPage(page);
-      const { resourcesPage } = organizationPage;
+    // MARK: CRUD Operations
 
-      // Verify new resource button is visible and functional.
+    test("User can manage resources (CREATE, UPDATE, DELETE)", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+
+      const { resourcesPage } = newOrganizationPage(page);
+
+      await page.waitForLoadState("domcontentloaded");
+      await expect(
+        resourcesPage.resourceCards.first().or(resourcesPage.emptyState)
+      ).toBeVisible({ timeout: 15000 });
+
+      const timestamp = Date.now();
+      const name = `Test Resource ${timestamp}`;
+      const updatedName = `Updated Resource ${timestamp}`;
+
+      // MARK: Create
+
       await expect(resourcesPage.newResourceButton).toBeVisible();
       await expect(resourcesPage.newResourceButton).toBeEnabled();
-
-      // Click the new resource button to open modal.
       await resourcesPage.newResourceButton.click();
 
-      // Verify resource creation modal opens.
-      await expect(resourcesPage.resourceModal).toBeVisible();
+      const createModal = resourcesPage.resourceModal;
+      await expect(createModal).toBeVisible();
 
-      // Close the modal using the close button.
-      const closeButton = resourcesPage.resourceModalCloseButton(
-        resourcesPage.resourceModal
+      await resourcesPage.resourceNameInput(createModal).fill(name);
+      await resourcesPage
+        .resourceDescriptionInput(createModal)
+        .fill(`Created by e2e run ${timestamp}.`);
+      await resourcesPage
+        .resourceUrlInput(createModal)
+        .fill(`https://example.org/${timestamp}`);
+
+      // Register the listener before the click so a fast response is not missed.
+      const createResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "POST" &&
+          new URL(res.url()).pathname.includes(
+            "/communities/organization_resources"
+          ),
+        { timeout: 20000 }
       );
-      await expect(closeButton).toBeVisible();
-      await closeButton.click({ force: true });
+      await resourcesPage.resourceSubmitButton(createModal).click();
 
-      // Verify modal closes.
-      await expect(resourcesPage.resourceModal).not.toBeVisible();
+      const createRes = await createResponse;
+      expect(
+        [200, 201].includes(createRes.status()),
+        `POST organization resource expected 200 or 201, got ${createRes.status()}`
+      ).toBe(true);
 
-      // Note: We could add more specific modal testing here.
-      // This might be better suited for a dedicated modal test.
+      await expect(createModal).not.toBeVisible();
+
+      // Assert on this test's own card: the suite runs fullyParallel, so total
+      // counts are unreliable.
+      const createdCard = resourcesPage.resourceCardByName(name);
+      await expect(createdCard).toBeVisible();
+
+      const resourceId = await createdCard.getAttribute("data-resource-id");
+      expect(resourceId).toBeTruthy();
+
+      // MARK: Update
+
+      await resourcesPage.resourceEditButton(createdCard).click();
+
+      const editModal = resourcesPage.editResourceModal;
+      await expect(editModal).toBeVisible();
+      await resourcesPage.resourceNameInput(editModal).fill(updatedName);
+
+      // Match this resource's PUT, not a concurrent reorder PUT.
+      const updateResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "PUT" &&
+          new URL(res.url()).pathname.endsWith(
+            `/communities/organization_resources/${resourceId}`
+          ),
+        { timeout: 20000 }
+      );
+      await resourcesPage.resourceSubmitButton(editModal).click();
+
+      const updateRes = await updateResponse;
+      expect(
+        [200, 204].includes(updateRes.status()),
+        `PUT organization resource expected 200 or 204, got ${updateRes.status()}`
+      ).toBe(true);
+
+      await expect(editModal).not.toBeVisible();
+
+      const updatedCard = resourcesPage.resourceCardByName(updatedName);
+      await expect(updatedCard).toBeVisible();
+      await expect(resourcesPage.resourceCardByName(name)).toHaveCount(0);
+
+      // MARK: Delete
+
+      await resourcesPage.resourceDeleteButton(updatedCard).click();
+
+      const confirmationModal = page.locator("#modal").first();
+      await expect(confirmationModal).toBeVisible({ timeout: 15000 });
+
+      // ModalAlert does not await the parent's async delete handler, so the
+      // dialog can close before DELETE finishes: wait on the response first.
+      const deleteResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "DELETE" &&
+          new URL(res.url()).pathname.endsWith(
+            `/communities/organization_resources/${resourceId}`
+          ),
+        { timeout: 20000 }
+      );
+      await confirmationModal
+        .getByRole("button", { name: /confirm|yes|delete/i })
+        .click();
+
+      const deleteRes = await deleteResponse;
+      expect(
+        [200, 204].includes(deleteRes.status()),
+        `DELETE organization resource expected 200 or 204, got ${deleteRes.status()}`
+      ).toBe(true);
+
+      await expect(resourcesPage.resourceCardByName(updatedName)).toHaveCount(
+        0,
+        { timeout: 20000 }
+      );
     });
   }
 );
