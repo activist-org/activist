@@ -3,7 +3,7 @@
   <footer
     class="px-1 pb-1 transition-all duration-500"
     :class="{
-      'pr-1': sidebarContentScrollable,
+      'pe-1': sidebarContentScrollable,
     }"
   >
     <div

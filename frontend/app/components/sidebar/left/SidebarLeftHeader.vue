@@ -1,12 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <header
-    class="z-40 w-full bg-layer-1 pl-1 transition-all duration-200"
+    class="z-40 w-full bg-layer-1 ps-1 transition-all duration-200"
     :class="{
       'rounded-md bg-layer-2 elem-shadow-sm': atTopShadow,
     }"
   >
-    <div class="flex items-center pb-2 pl-[0.85rem] pr-6 pt-3">
+    <div class="flex items-center pb-2 pe-6 ps-[0.85rem] pt-3">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -33,7 +33,7 @@
         </Transition>
       </div>
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
-      <div @mouseover.stop class="absolute right-0">
+      <div @mouseover.stop class="absolute end-0">
         <button
           id="sidebar-left-toggle"
           @click="
@@ -45,8 +45,8 @@
           "
           class="flex size-7 items-center justify-center outline-offset-0 transition duration-200 focus-brand"
           :class="{
-            '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,
-            'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
+            '-rotate-180 pe-0.5': sidebar.collapsedSwitch == false,
+            'pb-1 ps-0.5': sidebar.collapsedSwitch == true,
           }"
         >
           <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />

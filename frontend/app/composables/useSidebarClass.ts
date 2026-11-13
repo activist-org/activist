@@ -8,10 +8,10 @@ export const useSidebarClass = () => {
       const expanded = !sidebar.collapsed || !sidebar.collapsedSwitch;
 
       return {
-        "md:pl-16": collapsed && !sidebarContentScrollable,
-        "md:pl-20": collapsed && sidebarContentScrollable,
-        "md:pl-56": expanded && !sidebarContentScrollable,
-        "md:pl-60": expanded && sidebarContentScrollable,
+        "md:ps-16": collapsed && !sidebarContentScrollable,
+        "md:ps-20": collapsed && sidebarContentScrollable,
+        "md:ps-56": expanded && !sidebarContentScrollable,
+        "md:ps-60": expanded && sidebarContentScrollable,
       };
     });
   }
@@ -22,8 +22,8 @@ export const useSidebarClass = () => {
       const expanded = !sidebar.collapsed || !sidebar.collapsedSwitch;
 
       return {
-        "md:pl-24": collapsed,
-        "md:pl-64": expanded,
+        "md:ps-24": collapsed,
+        "md:ps-64": expanded,
       };
     });
   }
