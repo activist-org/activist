@@ -6,7 +6,7 @@ Testing for the communities app.
 # mypy: ignore-errors
 import pytest
 
-from communities.groups.factories import GroupFactory, GroupMemberFactory
+from communities.groups.factories import GroupFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -16,7 +16,5 @@ def test_group_str_methods() -> None:
     Test the __str__ methods for groups.
     """
     group = GroupFactory.create()
-    group_member = GroupMemberFactory.create()
 
     assert str(group) == group.name
-    assert str(group_member) == str(group_member.id)

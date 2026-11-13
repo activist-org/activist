@@ -22,7 +22,7 @@ def scan_uploads_and_rewind(uploads: Iterable[UploadedFile[bytes]]) -> Response 
 
     Parameters
     ----------
-    uploads : Iterable[UploadedFile]
+    uploads : Iterable[UploadedFile[bytes]]
         Uploaded file objects to scan (typically from ``request.FILES``).
 
     Returns

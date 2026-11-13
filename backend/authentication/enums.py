@@ -5,6 +5,8 @@ Enums for the authentication app.
 
 from enum import Enum
 
+from django.db import models
+
 
 class StatusTypes(Enum):
     """
@@ -17,12 +19,26 @@ class StatusTypes(Enum):
     BANNED = 4
 
 
-class SupportEntityTypes(Enum):
+class MembershipRole(models.TextChoices):
     """
-    Defines the types of entities that can support users.
+    Defines the roles for Users, specifically in regards to organizations that they belong to.
+
+    Note: All organization roles are transferred to all sub-entities (groups and events).
     """
 
-    ORGANIZATION = 1
-    GROUP = 2
-    EVENT = 3
-    USER = 4
+    UNAUTHENTICATED = "unauthenticated", "Unauthenticated"
+    USER = "user", "User"
+    ALLY = "ally", "Ally"
+    MEMBER = "member", "Member"
+    COORDINATOR = "coordinator", "Coordinator"
+    ADMIN = "admin", "Admin"
+
+
+MEMBERSHIP_ROLE_LEVELS = {
+    MembershipRole.UNAUTHENTICATED: 0,
+    MembershipRole.USER: 1,
+    MembershipRole.ALLY: 2,
+    MembershipRole.MEMBER: 3,
+    MembershipRole.COORDINATOR: 4,
+    MembershipRole.ADMIN: 5,
+}

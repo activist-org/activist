@@ -10,7 +10,6 @@ from communities.groups.models import (
     GroupFaq,
     GroupFlag,
     GroupImage,
-    GroupMember,
     GroupText,
 )
 from communities.models import StatusType
@@ -28,7 +27,6 @@ from communities.organizations.models import (
 # MARK: Register
 
 admin.site.register(GroupImage)
-admin.site.register(GroupMember)
 admin.site.register(GroupFaq)
 admin.site.register(OrganizationApplication)
 admin.site.register(OrganizationImage)
