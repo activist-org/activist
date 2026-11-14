@@ -8,6 +8,24 @@
       <div
         class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
       >
+        <BtnAction
+          v-tooltip="
+            isUserSignedIn
+              ? ''
+              : t('i18n.pages._global.about.sign_in_to_support')
+          "
+          @click="handleSupport"
+          ariaLabel="i18n._global.support_event_aria_label"
+          class="w-max"
+          :counter="event?.supporterCount"
+          :cta="true"
+          :disabled="!isUserSignedIn"
+          fontSize="sm"
+          :hideLabelOnMobile="true"
+          iconSize="1.45em"
+          label="i18n._global.support"
+          leftIcon="IconSupport"
+        />
         <BtnRouteExternal
           v-if="event?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.offer_to_help_aria_label"
@@ -19,17 +37,6 @@
           :linkTo="event?.texts[0]?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
-        <!-- <BtnAction
-          class="w-max"
-          :cta="true"
-          label="i18n._global.support"
-          :hideLabelOnMobile="true"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.45em"
-          :counter="event.supportingUsers.length"
-          ariaLabel="i18n._global.support_event_aria_label"
-        /> -->
         <BtnAction
           @click="
             openModalSharePage({ event: event as unknown as CommunityEvent })
@@ -99,9 +106,27 @@ const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
-
 const { data: event } = useGetEvent(eventId);
+const { createSupport: createSupportEvent, deleteSupport: deleteSupportEvent } =
+  useEventSupportMutations(eventId);
+const { isUserSignedIn } = useUser();
+const isEventSupported = computed(() => event.value?.isSupportedByUser);
+const { downloadEventCalendar } = useDownloadEventCalendar();
+const { t } = useI18n();
 
+// MARK: Support Event Functions
+const createSupport = () => {
+  createSupportEvent();
+};
+const deleteSupport = () => {
+  deleteSupportEvent();
+};
+const handleSupport = () => {
+  if (isEventSupported.value) return deleteSupport();
+  createSupport();
+};
+
+// MARK: Text Expansion Functions
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
@@ -120,7 +145,7 @@ function updateShareBtnLabel() {
   }
 }
 
-const { downloadEventCalendar } = useDownloadEventCalendar();
+// MARK: Share Button Functions
 const downloadCalendarEntry = () => downloadEventCalendar(eventId);
 
 onMounted(() => {

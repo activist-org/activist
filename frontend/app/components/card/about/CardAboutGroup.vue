@@ -27,7 +27,7 @@
           {{ t("i18n._global.about") }}
         </h3>
         <IconEdit
-          v-if="userIsSignedIn"
+          v-if="isUserSignedIn"
           @click="
             () =>
               openModalTextGroup({
@@ -108,7 +108,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 const { $countryName } = useNuxtApp();
 
 const paramsGroupId = useRoute().params.groupId;

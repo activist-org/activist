@@ -53,12 +53,52 @@ class Organization(models.Model):
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField(
+        "authentication.UserModel", through="OrganizationFlag"
+    )
+    org_supporters: Any = models.ManyToManyField(
+        "communities.Organization",
+        through="OrganizationSupportFromOrg",
+        related_name="supported_organizations",
+    )
+    user_supporters: Any = models.ManyToManyField(
         "authentication.UserModel",
-        through="OrganizationFlag",
+        through="OrganizationSupportFromUser",
+        related_name="supported_organizations",
     )
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Support
+
+
+class OrganizationSupportFromOrg(models.Model):
+    """
+    Model for support received by an organization from other organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_supporter = models.ForeignKey(
+        "Organization",
+        on_delete=models.CASCADE,
+        related_name="org_supports_given",
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+
+class OrganizationSupportFromUser(models.Model):
+    """
+    Model for support received by an organization from users.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user_supporter = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="org_supports_given",
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
 
 
 # MARK: Application

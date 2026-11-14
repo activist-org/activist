@@ -12,7 +12,7 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
 
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"
@@ -39,7 +39,7 @@ const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 const paletteData = computed(() =>
   commandPaletteData.filter(
-    (command) => command.id != 7 || userIsSignedIn.value
+    (command) => command.id != 7 || isUserSignedIn.value
   )
 );
 

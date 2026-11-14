@@ -39,7 +39,7 @@ export interface CreateGroupInput {
   tagline?: string;
   city: string;
   description: string;
-  topics: TopicEnum[];
+  topics: TopicMapType[];
   organization: string;
 }
 

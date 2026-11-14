@@ -8,8 +8,6 @@ authentication:
   check_blank_model_fields: true
   backend_models_to_ignore:
     - CustomAccountManager
-    - SupportEntityType
-    - Support
     - SessionModel
     - UserModel
     - UserFlag

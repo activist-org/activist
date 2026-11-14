@@ -74,9 +74,21 @@
           </li>
         </ul>
       </nav>
-      <div class="flex shrink-0 items-center gap-2">
-        <DropdownTheme :location="dropdownLocation" />
-        <DropdownLanguage :location="dropdownLocation" />
+      <div class="flex shrink-0 items-center gap-3">
+        <BtnRouteInternal
+          id="btn-sign-up"
+          v-if="!isUserSignedIn"
+          ariaLabel="i18n._global.sign_up_aria_label"
+          :cta="true"
+          fontSize="xs"
+          label="i18n._global.sign_up"
+          linkTo="/auth/sign-up"
+        />
+        <DropdownTheme customButtonClass="h-8" :location="dropdownLocation" />
+        <DropdownLanguage
+          customButtonClass="h-8"
+          :location="dropdownLocation"
+        />
       </div>
     </div>
   </div>
@@ -100,7 +112,7 @@ let pageType = "";
 
 const { locales } = useI18n();
 const localePath = useLocalePath();
-
+const { isUserSignedIn } = useUser();
 const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupId;
 const paramsEventId = useRoute().params.eventId;

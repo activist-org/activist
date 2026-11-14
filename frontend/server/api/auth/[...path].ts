@@ -18,7 +18,6 @@ export default defineEventHandler(async (event) => {
 
     // If user is logged in, inject the token.
     if (session.secure?.token) {
-      // Check if your Django uses 'Token' or 'Bearer'.
       headers["Authorization"] = `Token ${session.secure.token}`;
     }
 

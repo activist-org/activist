@@ -23,7 +23,7 @@
           <div class="flex-col space-y-2">
             <DropdownCreate
               id="create"
-              v-if="userIsSignedIn"
+              v-if="isUserSignedIn"
               class="w-full"
               :location="dropdownLocation"
             />
@@ -38,7 +38,6 @@
               id="user-options"
               class="w-full"
               :location="dropdownLocation"
-              :userIsSignedIn="userIsSignedIn"
             />
           </div>
         </SidebarRight>
@@ -53,7 +52,7 @@ const aboveMediumBP = useBreakpoint("md");
 const dropdownLocation = DropdownLocation.SIDE_MENU;
 const searchBarLocation = SearchBarLocation.HEADER;
 
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const isSearchExpanded = ref(false);
 
