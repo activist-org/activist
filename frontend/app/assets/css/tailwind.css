@@ -257,7 +257,7 @@ MARK: Base
   }
 
   .card-compact {
-    @apply bg-layer-1 card-style-base flex flex-col justify-center px-3 py-4;
+    @apply flex flex-col justify-center bg-layer-1 px-3 py-4 card-style-base;
   }
 
   .card-detailed {
