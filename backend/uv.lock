@@ -168,7 +168,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "django", specifier = ">=6.1.2" },
+    { name = "django", specifier = ">=6.1.3" },
     { name = "django-cors-headers", specifier = ">=4.9.0" },
     { name = "django-filter", specifier = ">=26.2" },
     { name = "django-ical", specifier = ">=1.9.2" },
@@ -178,7 +178,7 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.18.3" },
     { name = "djangorestframework-camel-case", specifier = ">=1.4.2" },
     { name = "djangorestframework-simplejwt", specifier = ">=5.5.1" },
-    { name = "djangorestframework-stubs", specifier = ">=3.18.0" },
+    { name = "djangorestframework-stubs", specifier = ">=3.18.2" },
     { name = "drf-spectacular", specifier = ">=0.30.0" },
     { name = "gunicorn", specifier = ">=26.0.0" },
     { name = "httpx", specifier = ">=0.27.0" },
@@ -194,15 +194,15 @@ audit = [{ name = "pysentry-rs", specifier = ">=0.5.0" }]
 complexity = [{ name = "complexipy", specifier = ">=8.1.0" }]
 dev = [
     { name = "factory-boy", specifier = ">=3.3.3" },
-    { name = "i18n-check", specifier = ">=1.21.0" },
-    { name = "mypy", specifier = ">=2.4.0" },
+    { name = "i18n-check", specifier = ">=1.22.0" },
+    { name = "mypy", specifier = ">=2.4.1" },
     { name = "numpydoc", specifier = ">=1.10.0" },
-    { name = "prek", specifier = ">=0.5.7" },
-    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "prek", specifier = ">=0.5.11" },
+    { name = "pytest", specifier = ">=9.2.0" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "pytest-django", specifier = ">=4.14.0" },
-    { name = "ruff", specifier = ">=0.17.2" },
-    { name = "ts-backend-check", specifier = ">=1.6.1" },
+    { name = "ruff", specifier = ">=0.17.5" },
+    { name = "ts-backend-check", specifier = ">=1.7.0" },
     { name = "types-icalendar", specifier = ">=6.3.2.20260712" },
 ]
 
