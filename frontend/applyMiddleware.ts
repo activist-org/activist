@@ -17,11 +17,18 @@ function setMiddleware(
     if (page[pageKey] !== undefined && pattern.test(page[pageKey])) {
       // Options are name, path and file.
       page.meta ||= {};
-      page.meta.middleware ||= [];
-      if (!Array.isArray(page.meta.middleware)) {
-        page.meta.middleware = [page.meta.middleware];
-      }
-      page.meta.middleware = page.meta.middleware.concat(middleware);
+      // Note: NuxtPageMeta types values as unknown, so narrow before concatenating.
+      const existing = page.meta.middleware as
+        | string
+        | MiddlewareFunction
+        | Array<string | MiddlewareFunction>
+        | undefined;
+      const current = existing
+        ? Array.isArray(existing)
+          ? existing
+          : [existing]
+        : [];
+      page.meta.middleware = current.concat(middleware);
     }
     if (page.children) {
       setMiddleware(pattern, middleware, page.children, pageKey);
