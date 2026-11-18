@@ -164,21 +164,27 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
 class OrganizationSupportFromOrgAPIView(GenericAPIView[OrganizationSupportFromOrg]):
     """
-    List, create and delete organization support relationships.
+    List organization support from organization relationships.
+
+    Attn: As of now we haven't implemented the ability for users to give support via orgs that they're admins of.
 
     Notes
     -----
     Registered on both "org_supports_org" and "org_supports_org/<uuid:id>".
-    Only organization admin can support organizations.
     """
 
+    queryset = OrganizationSupportFromOrg.objects.all()
     serializer_class = OrganizationSupportFromOrgSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
         responses={
             200: OrganizationSupportFromOrgSerializer(many=True),
-            404: OpenApiResponse(response={"detail": "Support not found."}),
+            404: OpenApiResponse(
+                response={
+                    "detail": "Support for organization from organizations not found."
+                }
+            ),
         },
     )
     def get(self, request: Request, pk: UUID | None = None) -> Response:
@@ -187,12 +193,15 @@ class OrganizationSupportFromOrgAPIView(GenericAPIView[OrganizationSupportFromOr
                 {"detail": "Authentication credentials were not provided."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
         try:
+            # Note: For later, filter based on organizations that the user is an admin of.
             support = OrganizationSupportFromOrg.objects.filter(org_supporter__id=pk)
 
         except OrganizationSupportFromOrg.DoesNotExist:
             return Response(
-                {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Support for organization from organizations not found."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         return Response(
@@ -203,21 +212,23 @@ class OrganizationSupportFromOrgAPIView(GenericAPIView[OrganizationSupportFromOr
 
 class OrganizationSupportFromUserAPIView(GenericAPIView[OrganizationSupportFromUser]):
     """
-    List, create and delete organization support relationships.
+    List organization support from user relationships.
 
     Notes
     -----
     Registered on both "org_supports_event" and "org_supports_event/<uuid:id>".
-    Only users can support events, so POST always uses the requesting user.
     """
 
+    queryset = OrganizationSupportFromUser.objects.all()
     serializer_class = OrganizationSupportFromUserSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
         responses={
             200: OrganizationSupportFromUserSerializer(many=True),
-            404: OpenApiResponse(response={"detail": "Support not found."}),
+            404: OpenApiResponse(
+                response={"detail": "Support for organization from users not found."}
+            ),
         },
     )
     def get(self, request: Request) -> Response:
@@ -234,7 +245,8 @@ class OrganizationSupportFromUserAPIView(GenericAPIView[OrganizationSupportFromU
 
         except OrganizationSupportFromUser.DoesNotExist:
             return Response(
-                {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Support for organization from users not found."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         return Response(
@@ -247,16 +259,18 @@ class OrganizationSupportFromUserAPIView(GenericAPIView[OrganizationSupportFromU
 
 
 class OrganizationSupportFromOrgDetailAPIView(
-    viewsets.ModelViewSet[OrganizationSupportFromOrg]
+    GenericAPIView[OrganizationSupportFromOrg]
 ):
     """
-    API view for retrieving, updating, and deleting a specific organization support.
-    Only the supporter user or staff can delete the support.
+    API view for creating and deleting a specific support of an organization from an organization.
+    Only an admin user of the given organization or staff can create or delete the support.
+
+    Attn: As of now we haven't implemented the ability for users to give support via orgs that they're admins of.
     """
 
+    queryset = OrganizationSupportFromOrg.objects.all()
     serializer_class = OrganizationSupportFromOrgSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = OrganizationSupportFromOrg.objects.all()
 
     @extend_schema(
         responses={
@@ -386,16 +400,16 @@ class OrganizationSupportFromOrgDetailAPIView(
 
 
 class OrganizationSupportFromUserDetailAPIView(
-    viewsets.ModelViewSet[OrganizationSupportFromUser]
+    GenericAPIView[OrganizationSupportFromUser]
 ):
     """
-    API view for retrieving, updating, and deleting a specific organization support.
-    Only the supporter user or staff can delete the support.
+    API view for creating and deleting a specific support of an event from a user.
+    Only the supporting user or staff can create or delete the support.
     """
 
+    queryset = OrganizationSupportFromUser.objects.all()
     serializer_class = OrganizationSupportFromUserSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = OrganizationSupportFromUser.objects.all()
 
     @extend_schema(
         responses={

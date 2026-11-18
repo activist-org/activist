@@ -406,9 +406,9 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             The total organizations and users that support the organization.
         """
         return int(
-            getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+            getattr(obj, "_org_supporter_count", None) or obj.org_supporters.count()
         ) + int(
-            getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+            getattr(obj, "_user_supporter_count", None) or obj.user_supporters.count()
         )
 
     def get_is_supported_by_org(self, obj: Organization) -> bool:
@@ -467,8 +467,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
-
-        fields = "__all__"
+        exclude = ["org_supporters", "user_supporters"]
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         """

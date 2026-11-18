@@ -467,7 +467,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         extra_kwargs = {
             "created_by": {"read_only": True},
         }
-        exclude = ["supporters"]
+        exclude = ["org_supporters", "user_supporters"]
 
     def get_supporter_count(self, obj: Event) -> int:
         """
@@ -484,9 +484,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             The total organizations and users that support the event.
         """
         return int(
-            getattr(obj, "_user_supporter_count", None) or obj.supporters_users.count()
+            getattr(obj, "_org_supporter_count", None) or obj.org_supporters.count()
         ) + int(
-            getattr(obj, "_org_supporter_count", None) or obj.supporters_orgs.count()
+            getattr(obj, "_user_supporter_count", None) or obj.user_supporters.count()
         )
 
     def get_is_supported_by_org(self, obj: Organization) -> bool:

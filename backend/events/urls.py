@@ -40,11 +40,6 @@ router.register(
     viewset=EventSocialLinkViewSet,
     basename="event-social-links",
 )
-router.register(
-    prefix=r"event_support_from_user",
-    viewset=EventSupportFromUserDetailAPIView,
-    basename="event-support-from-user",
-)
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -54,13 +49,18 @@ urlpatterns = [
     path("event_flags/<uuid:id>", EventFlagDetailAPIView.as_view()),
     path("event_calendar", EventCalendarAPIView.as_view()),
     path("event_texts/<uuid:id>", EventTextViewSet.as_view()),
-    path("event_support_from_user", EventSupportFromUserAPIView.as_view()),
+    # Support
+    path("event_support_from_users", EventSupportFromUserAPIView.as_view()),
     path(
-        "event_support_from_orgs/<uuid:id>/<uuid:org>",
-        EventSupportFromOrgDetailAPIView.as_view(),
+        "event_support_from_users/<uuid:event_id>",  # user comes from request
+        EventSupportFromUserDetailAPIView.as_view(),
     ),
     path(
-        "event_support_from_orgs/<uuid:id>",
+        "event_support_from_orgs/<uuid:event_id>",
         EventSupportFromOrgAPIView.as_view(),
+    ),
+    path(
+        "event_support_from_orgs/<uuid:event_id>/<uuid:supporting_org_id>",
+        EventSupportFromOrgDetailAPIView.as_view(),
     ),
 ]

@@ -28,8 +28,10 @@ from communities.organizations.views import (
     OrganizationImageViewSet,
     OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
-    OrganizationSupportAPIView,
-    OrganizationSupportDetailAPIView,
+    OrganizationSupportFromOrgAPIView,
+    OrganizationSupportFromOrgDetailAPIView,
+    OrganizationSupportFromUserAPIView,
+    OrganizationSupportFromUserDetailAPIView,
     OrganizationTextViewSet,
 )
 from communities.views import StatusViewSet
@@ -94,11 +96,6 @@ router.register(
     viewset=OrganizationEventViewSet,
     basename="organization-events",
 )
-router.register(
-    prefix=r"org_supports",
-    viewset=OrganizationSupportDetailAPIView,
-    basename="org-supports",
-)
 
 # MARK: URL Patterns
 
@@ -111,12 +108,27 @@ urlpatterns = [
     path("group_texts/<uuid:id>", GroupTextViewSet.as_view()),
     path("organizations", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
+    path("organizations_by_user/<uuid:user_id>", OrganizationByUserAPIView.as_view()),
     path("organization_flags", OrganizationFlagAPIView.as_view()),
     path(
         "organization_flags/<uuid:id>",
         OrganizationFlagDetailAPIView.as_view(),
     ),
     path("organization_texts/<uuid:id>", OrganizationTextViewSet.as_view()),
-    path("organizations_by_user/<uuid:user_id>", OrganizationByUserAPIView.as_view()),
-    path("org_supports", OrganizationSupportAPIView.as_view()),
+    # Support
+    path(
+        "organization_support_from_users", OrganizationSupportFromUserAPIView.as_view()
+    ),
+    path(
+        "organization_support_from_users/<uuid:org_id>",  # user comes from request
+        OrganizationSupportFromUserDetailAPIView.as_view(),
+    ),
+    path(
+        "organization_support_from_orgs/<uuid:org_id>",
+        OrganizationSupportFromOrgAPIView.as_view(),
+    ),
+    path(
+        "organization_support_from_orgs/<uuid:org_id>/<uuid:supporting_org_id>",
+        OrganizationSupportFromOrgDetailAPIView.as_view(),
+    ),
 ]

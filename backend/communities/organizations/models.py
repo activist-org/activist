@@ -53,17 +53,19 @@ class Organization(models.Model):
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField(
-        "authentication.UserModel", through="OrganizationFlag"
+        "authentication.UserModel",
+        through="OrganizationFlag",
+        related_name="flagged_orgs",
     )
     org_supporters: Any = models.ManyToManyField(
         "communities.Organization",
         through="OrganizationSupportFromOrg",
-        related_name="supported_organizations",
+        related_name="org_supporters_from_orgs",
     )
     user_supporters: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="OrganizationSupportFromUser",
-        related_name="supported_organizations",
+        related_name="org_supporters_from_users",
     )
 
     def __str__(self) -> str:
@@ -79,10 +81,13 @@ class OrganizationSupportFromOrg(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    org_supporter = models.ForeignKey(
-        "Organization",
+    org = models.ForeignKey(
+        "communities.Organization",
         on_delete=models.CASCADE,
-        related_name="org_supports_given",
+        related_name="org_supported_from_org",
+    )
+    org_supporter = models.ForeignKey(
+        "communities.Organization", on_delete=models.CASCADE
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 
@@ -93,10 +98,13 @@ class OrganizationSupportFromUser(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    user_supporter = models.ForeignKey(
-        "authentication.UserModel",
+    org = models.ForeignKey(
+        "communities.Organization",
         on_delete=models.CASCADE,
-        related_name="org_supports_given",
+        related_name="org_supported_from_user",
+    )
+    user_supporter = models.ForeignKey(
+        "authentication.UserModel", on_delete=models.CASCADE
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 

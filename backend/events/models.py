@@ -68,10 +68,14 @@ class Event(models.Model):
         "authentication.UserModel", through="EventFlag", related_name="flagged_events"
     )
     org_supporters: Any = models.ManyToManyField(
-        "communities.Organization", through="EventSupportFromOrg"
+        "communities.Organization",
+        through="EventSupportFromOrg",
+        related_name="event_supporters_from_orgs",
     )
     user_supporters: Any = models.ManyToManyField(
-        "authentication.UserModel", through="EventSupportFromUser"
+        "authentication.UserModel",
+        through="EventSupportFromUser",
+        related_name="event_supporters_from_users",
     )
 
     def save(self, *args: Any, **kwargs: Any) -> None:
@@ -135,8 +139,13 @@ class EventSupportFromOrg(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    event = models.ForeignKey(
+        "Event",
+        on_delete=models.CASCADE,
+        related_name="event_supported_from_org",
+    )
     org_supporter = models.ForeignKey(
-        "Organization", on_delete=models.CASCADE, related_name="event_supports_given"
+        "communities.Organization", on_delete=models.CASCADE
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 
@@ -147,10 +156,13 @@ class EventSupportFromUser(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    user_supporter = models.ForeignKey(
-        "authentication.UserModel",
+    event = models.ForeignKey(
+        "Event",
         on_delete=models.CASCADE,
-        related_name="event_supports_given",
+        related_name="event_supported_from_user",
+    )
+    user_supporter = models.ForeignKey(
+        "authentication.UserModel", on_delete=models.CASCADE
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 
