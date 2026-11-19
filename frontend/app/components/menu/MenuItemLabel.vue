@@ -7,11 +7,11 @@
     v-bind="infoComponent"
     class="flex w-full items-center rounded-md text-sm"
     :class="{
-      'group py-2 pl-4 pr-3': !isSidebarLeftMenu,
+      'group py-2 pe-3 ps-4': !isSidebarLeftMenu,
       'bg-cta-orange/80 dark:bg-cta-orange/25 dark:text-cta-orange': active,
       'text-primary-text hover:bg-cta-orange/80 dark:hover:bg-cta-orange/25 dark:hover:fill-cta-orange dark:hover:text-cta-orange':
         !active,
-      'relative z-0 space-x-2 p-2 text-left font-medium': isSidebarLeftMenu,
+      'relative z-0 space-x-2 p-2 text-start font-medium': isSidebarLeftMenu,
     }"
   >
     <Icon

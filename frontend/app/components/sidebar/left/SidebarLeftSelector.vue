@@ -7,9 +7,9 @@
     :to="routeUrl"
   >
     <div
-      class="group relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
+      class="group relative z-0 flex w-full items-center space-x-2 text-start text-sm font-medium"
     >
-      <span class="pl-1">
+      <span class="ps-1">
         <Icon
           v-if="iconUrl"
           class="block! size-5 shrink-0"
