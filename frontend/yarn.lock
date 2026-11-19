@@ -1968,7 +1968,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/devtools-kit@npm:3.4.4":
+"@nuxt/devtools-kit@npm:3.4.4, @nuxt/devtools-kit@npm:^3.4.4":
   version: 3.4.4
   resolution: "@nuxt/devtools-kit@npm:3.4.4"
   dependencies:
@@ -2158,7 +2158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:4.6.4, @nuxt/kit@npm:^4.6.4":
+"@nuxt/kit@npm:4.6.4, @nuxt/kit@npm:^4.6.3, @nuxt/kit@npm:^4.6.4":
   version: 4.6.4
   resolution: "@nuxt/kit@npm:4.6.4"
   dependencies:
@@ -2413,29 +2413,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/test-utils@npm:4.3.3, @nuxt/test-utils@npm:^4.0.0":
-  version: 4.3.3
-  resolution: "@nuxt/test-utils@npm:4.3.3"
+"@nuxt/test-utils@npm:4.4.0, @nuxt/test-utils@npm:^4.0.0":
+  version: 4.4.0
+  resolution: "@nuxt/test-utils@npm:4.4.0"
   dependencies:
     "@clack/prompts": "npm:1.8.1"
-    "@nuxt/devtools-kit": "npm:^3.4.2"
-    "@nuxt/kit": "npm:^4.5.2"
+    "@nuxt/devtools-kit": "npm:^3.4.4"
+    "@nuxt/kit": "npm:^4.6.3"
     consola: "npm:^3.4.2"
     defu: "npm:^6.1.7"
-    exsolve: "npm:^1.1.1"
-    fake-indexeddb: "npm:^6.2.5"
+    exsolve: "npm:^1.2.0"
+    fake-indexeddb: "npm:^6.2.7"
     get-port-please: "npm:^3.2.0"
-    magic-string: "npm:^1.4.2"
+    magic-string: "npm:^1.4.5"
     ofetch: "npm:^1.5.1"
     oxc-walker: "npm:^1.1.1"
-    package-manager-detector: "npm:^1.8.0"
+    package-manager-detector: "npm:^1.9.0"
     pathe: "npm:^2.0.3"
     perfect-debounce: "npm:^2.1.0"
     radix3: "npm:^1.1.2"
-    std-env: "npm:^4.2.0"
+    std-env: "npm:^4.3.0"
     tinyexec: "npm:^1.3.1"
     ufo: "npm:^1.6.4"
-    unplugin: "npm:^3.4.0"
+    unplugin: "npm:^3.7.0"
     vitest-environment-nuxt: "npm:2.0.0"
   peerDependencies:
     "@cucumber/cucumber": ">=11.0.0"
@@ -2475,7 +2475,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/22722ba212db98f6f27fbd6521d4d30ae26f00aac452928b69768183d8ea88162e8bf91cbe176c86632343e03e619b42dad03526258a90d2593803dc02227bcd
+  checksum: 10c0/9c5d59a19ec8861c5ed66ac90041a9016f478ef83eb4a38f362b9c77677d4250a32c0984d4443aa4f788b33ece50e8bf72dcef8f36439484e3c706bd32b4c344
   languageName: node
   linkType: hard
 
@@ -6186,7 +6186,7 @@ __metadata:
     "@nuxt/eslint": "npm:1.17.0"
     "@nuxt/eslint-config": "npm:1.17.0"
     "@nuxt/icon": "npm:2.5.1"
-    "@nuxt/test-utils": "npm:4.3.3"
+    "@nuxt/test-utils": "npm:4.4.0"
     "@nuxtjs/color-mode": "npm:4.0.1"
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.6.0"
@@ -8720,10 +8720,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fake-indexeddb@npm:^6.2.5":
-  version: 6.2.5
-  resolution: "fake-indexeddb@npm:6.2.5"
-  checksum: 10c0/6c5e2fe84a61daa06d7ad63699d1041fe61847f15f92db12415634b3db94f363a64be9e08a3c3c4434af9c3c0132086b85c4d5dc5e8e06edae1e7daf70ce1f3c
+"fake-indexeddb@npm:^6.2.7":
+  version: 6.2.8
+  resolution: "fake-indexeddb@npm:6.2.8"
+  checksum: 10c0/69a85018a3a714e81ae88d9294ab54ed73f83a23dd28b926d41dabf892a939dd029207e8f2dca1238ed5ebde75f1971a7a8ab14f773d5fad396923e117b6e8fe
   languageName: node
   linkType: hard
 
@@ -10582,7 +10582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^1.0.0, magic-string@npm:^1.1.0, magic-string@npm:^1.2.0, magic-string@npm:^1.4.2, magic-string@npm:^1.4.3":
+"magic-string@npm:^1.0.0, magic-string@npm:^1.1.0, magic-string@npm:^1.2.0, magic-string@npm:^1.4.3":
   version: 1.4.3
   resolution: "magic-string@npm:1.4.3"
   dependencies:
