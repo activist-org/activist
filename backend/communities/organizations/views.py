@@ -194,6 +194,12 @@ class OrganizationSupportFromOrgAPIView(GenericAPIView[OrganizationSupportFromOr
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+        if pk is None:
+            return Response(
+                {"detail": "Supporting organization id has not been provided."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
         try:
             # Note: For later, filter based on organizations that the user is an admin of.
             support = OrganizationSupportFromOrg.objects.filter(org_supporter__id=pk)
@@ -278,7 +284,7 @@ class OrganizationSupportFromOrgDetailAPIView(
             400: OpenApiResponse(response={"detail": "Failed to create support."}),
         }
     )
-    def post(self, request: Request, pk: None | UUID = None) -> Response:
+    def post(self, request: Request, pk: UUID | None = None) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         supported_types = ["user", "org"]
@@ -347,7 +353,7 @@ class OrganizationSupportFromOrgDetailAPIView(
             404: OpenApiResponse(response={"detail": "Support not found."}),
         }
     )
-    def destroy(self, request: Request, pk: None | UUID = None) -> Response:
+    def destroy(self, request: Request, pk: UUID | None = None) -> Response:
         if pk is None:
             return Response(
                 {"detail": "Organization ID is required to delete support."},
@@ -370,7 +376,7 @@ class OrganizationSupportFromOrgDetailAPIView(
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        supporter = support.supporter
+        supporter = support.org_supporter
         if (
             supporter
             and isinstance(supporter, UserModel)
@@ -417,7 +423,7 @@ class OrganizationSupportFromUserDetailAPIView(
             400: OpenApiResponse(response={"detail": "Failed to create support."}),
         }
     )
-    def post(self, request: Request, pk: None | UUID = None) -> Response:
+    def post(self, request: Request, pk: UUID | None = None) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         supported_types = ["user", "org"]
@@ -486,7 +492,7 @@ class OrganizationSupportFromUserDetailAPIView(
             404: OpenApiResponse(response={"detail": "Support not found."}),
         }
     )
-    def destroy(self, request: Request, pk: None | UUID = None) -> Response:
+    def destroy(self, request: Request, pk: UUID | None = None) -> Response:
         if pk is None:
             return Response(
                 {"detail": "Organization ID is required to delete support."},
@@ -509,7 +515,7 @@ class OrganizationSupportFromUserDetailAPIView(
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        supporter = support.supporter
+        supporter = support.user_supporter
         if (
             supporter
             and isinstance(supporter, UserModel)
@@ -574,7 +580,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             ),
         },
     )
-    def get(self, request: Request, user_id: None | UUID = None) -> Response:
+    def get(self, request: Request, user_id: UUID | None = None) -> Response:
         user: UserModel | AnonymousUser = request.user
         if user_id is None:
             return Response(
@@ -679,7 +685,7 @@ class OrganizationDetailAPIView(APIView):
             ),
         },
     )
-    def get(self, request: Request, id: None | UUID = None) -> Response:
+    def get(self, request: Request, id: UUID | None = None) -> Response:
         if id is None:
             return Response(
                 {"detail": "Organization ID is required."},
@@ -743,7 +749,7 @@ class OrganizationDetailAPIView(APIView):
             ),
         }
     )
-    def put(self, request: Request, id: None | UUID = None) -> Response:
+    def put(self, request: Request, id: UUID | None = None) -> Response:
         context = {"request": request}
         if id is None:
             return Response(
@@ -825,7 +831,7 @@ class OrganizationDetailAPIView(APIView):
             ),
         },
     )
-    def delete(self, request: Request, id: None | UUID = None) -> Response:
+    def delete(self, request: Request, id: UUID | None = None) -> Response:
         if id is None:
             return Response(
                 {"detail": "Organization ID is required."},

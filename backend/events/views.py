@@ -201,7 +201,7 @@ class EventDetailAPIView(APIView):
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
-    def get(self, request: Request, id: None | UUID = None) -> Response:
+    def get(self, request: Request, id: UUID | None = None) -> Response:
         if id is None:
             return Response(
                 {"detail": "Event ID is required."},
@@ -228,7 +228,7 @@ class EventDetailAPIView(APIView):
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
-    def put(self, request: Request, id: None | UUID = None) -> Response:
+    def put(self, request: Request, id: UUID | None = None) -> Response:
         if id is None:
             return Response(
                 {"detail": "Event ID is required."},
@@ -267,7 +267,7 @@ class EventDetailAPIView(APIView):
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
-    def delete(self, request: Request, id: None | UUID = None) -> Response:
+    def delete(self, request: Request, id: UUID | None = None) -> Response:
         if id is None:
             return Response(
                 {"detail": "Event ID is required."},
@@ -432,11 +432,17 @@ class EventSupportFromOrgAPIView(GenericAPIView[EventSupportFromOrg]):
             ),
         },
     )
-    def get(self, request: Request, pk: None | UUID = None) -> Response:
+    def get(self, request: Request, pk: UUID | None = None) -> Response:
         if not request.user.is_authenticated:
             return Response(
                 {"detail": "Authentication credentials were not provided."},
                 status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        if pk is None:
+            return Response(
+                {"detail": "Supporting organization id has not been provided."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         try:
@@ -525,8 +531,8 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
     def post(
         self,
         request: Request,
-        event_id: None | UUID = None,
-        supporting_org_id: None | UUID = None,
+        event_id: UUID | None = None,
+        supporting_org_id: UUID | None = None,
     ) -> Response:
         if event_id is None:
             return Response(
@@ -554,9 +560,10 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
                 )
 
             event = Event.objects.get(id=event_id)
+            org = Organization.objects.get(id=supporting_org_id)
             support = EventSupportFromOrg.objects.create(
                 event=event,
-                org_supporter=supporting_org_id,
+                org_supporter=org,
             )
             logger.info(f"EventSupport created by organization {supporting_org_id}")
 
@@ -585,7 +592,7 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
         request=None,
     )
     def destroy(
-        self, request: Request, event_id: None | UUID = None, org_id: None | UUID = None
+        self, request: Request, event_id: UUID | None = None, org_id: UUID | None = None
     ) -> Response:
         if not request.user.is_authenticated:
             return Response(
@@ -607,7 +614,7 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
 
         try:
             support = EventSupportFromOrg.objects.get(
-                event__id=event_id, org_supporter_org=org_id
+                event__id=event_id, org_supporter_id=org_id
             )
 
         except EventSupportFromOrg.DoesNotExist as e:
@@ -621,8 +628,8 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        # Note: We need to check that the user is an admin of the organization here.
-        if support.user_supporter.id != request.user.id and not request.user.is_staff:
+        # Attn: We need to check that the user is an admin of the organization here.
+        if not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this support."},
                 status=status.HTTP_403_FORBIDDEN,
@@ -653,11 +660,17 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
         },
         request=None,
     )
-    def post(self, request: Request, event_id: None | UUID = None) -> Response:
+    def post(self, request: Request, event_id: UUID | None = None) -> Response:
         if event_id is None:
             return Response(
                 {"detail": "Event ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
             )
 
         try:
@@ -669,8 +682,7 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
 
             event = Event.objects.get(id=event_id)
             support = EventSupportFromUser.objects.create(
-                event=event,
-                user_supporter=request.user,
+                event=event, user_supporter=request.user
             )
             logger.info(f"EventSupport created by user {request.user.id}")
 
@@ -698,7 +710,7 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
         },
         request=None,
     )
-    def destroy(self, request: Request, event_id: None | UUID = None) -> Response:
+    def destroy(self, request: Request, event_id: UUID | None = None) -> Response:
         if not request.user.is_authenticated:
             return Response(
                 {"detail": "Authentication credentials were not provided."},
