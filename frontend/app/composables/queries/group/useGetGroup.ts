@@ -8,28 +8,23 @@ export function useGetGroup(id: MaybeRef<string>) {
   const storeImages = useGroupImageStore();
   const { getKeyForGroup } = useGroupCache();
 
-  const { data, isLoading, error, refresh } = useQuery({
-    key: () => getKeyForGroup(groupId.value),
-    query: async () => {
+  const key = computed(() => getKeyForGroup(groupId.value));
+
+  const { data, pending, error, refresh } = useCustomQuery<Group>(
+    key,
+    async () => {
       const group = await getGroup(groupId.value);
       store.setGroup(group);
       storeImages.setEntityId(group?.id);
       return group as Group;
     },
-    enabled,
-  });
-  const { handleError, error: appError } = useAppError();
-
-  watch(error, (err) => {
-    if (err) {
-      handleError(err);
-    }
-  });
+    enabled
+  );
 
   return {
     data,
-    pending: isLoading,
-    error: appError,
-    refresh: refresh ?? (() => {}),
+    pending,
+    error,
+    refresh,
   };
 }
