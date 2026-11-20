@@ -478,7 +478,7 @@ class EventSupportFromUserAPIView(GenericAPIView[EventSupportFromUser]):
         responses={
             200: EventSupportFromUserSerializer(many=True),
             404: OpenApiResponse(
-                response={"detail": "Support for event from user not found."}
+                response={"detail": "Support for event from users not found."}
             ),
         },
     )
@@ -531,10 +531,10 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
     def post(
         self,
         request: Request,
-        event_id: UUID | None = None,
+        id: UUID | None = None,
         supporting_org_id: UUID | None = None,
     ) -> Response:
-        if event_id is None:
+        if id is None:
             return Response(
                 {"detail": "Event ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -547,7 +547,7 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
             )
 
         try:
-            if not Event.objects.filter(id=event_id).exists():
+            if not Event.objects.filter(id=id).exists():
                 return Response(
                     {"detail": "Event not found."},
                     status=status.HTTP_404_NOT_FOUND,
@@ -559,7 +559,7 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            event = Event.objects.get(id=event_id)
+            event = Event.objects.get(id=id)
             org = Organization.objects.get(id=supporting_org_id)
             support = EventSupportFromOrg.objects.create(
                 event=event,
@@ -591,8 +591,8 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
         },
         request=None,
     )
-    def destroy(
-        self, request: Request, event_id: UUID | None = None, org_id: UUID | None = None
+    def delete(
+        self, request: Request, id: UUID | None = None, org_id: UUID | None = None
     ) -> Response:
         if not request.user.is_authenticated:
             return Response(
@@ -600,7 +600,7 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        if event_id is None:
+        if id is None:
             return Response(
                 {"detail": "Event ID is required to delete support."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -608,18 +608,18 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
 
         if org_id is None:
             return Response(
-                {"detail": "Organization ID is required to delete support."},
+                {"detail": "Supporting organization ID is required to delete support."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
             support = EventSupportFromOrg.objects.get(
-                event__id=event_id, org_supporter_id=org_id
+                event__id=id, org_supporter__id=org_id
             )
 
         except EventSupportFromOrg.DoesNotExist as e:
             logger.exception(
-                f"EventSupport for event id {event_id} from organization id {org_id} does not exist for the delete action: {e}"
+                f"EventSupport for event id {id} from organization id {org_id} does not exist for the delete action: {e}"
             )
             return Response(
                 {
@@ -636,7 +636,7 @@ class EventSupportFromOrgDetailAPIView(GenericAPIView[EventSupportFromOrg]):
             )
 
         support.delete()
-        logger.info(f"EventSupport for event id {event_id} deleted.")
+        logger.info(f"EventSupport for event id {id} deleted.")
         return Response(
             {"message": "Support deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
@@ -660,8 +660,8 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
         },
         request=None,
     )
-    def post(self, request: Request, event_id: UUID | None = None) -> Response:
-        if event_id is None:
+    def post(self, request: Request, id: UUID | None = None) -> Response:
+        if id is None:
             return Response(
                 {"detail": "Event ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -674,13 +674,13 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
             )
 
         try:
-            if not Event.objects.filter(id=event_id).exists():
+            if not Event.objects.filter(id=id).exists():
                 return Response(
                     {"detail": "Event not found."},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            event = Event.objects.get(id=event_id)
+            event = Event.objects.get(id=id)
             support = EventSupportFromUser.objects.create(
                 event=event, user_supporter=request.user
             )
@@ -710,14 +710,14 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
         },
         request=None,
     )
-    def destroy(self, request: Request, event_id: UUID | None = None) -> Response:
+    def delete(self, request: Request, id: UUID | None = None) -> Response:
         if not request.user.is_authenticated:
             return Response(
                 {"detail": "Authentication credentials were not provided."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        if event_id is None:
+        if id is None:
             return Response(
                 {"detail": "Event ID is required to delete support."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -725,16 +725,16 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
 
         try:
             support = EventSupportFromUser.objects.get(
-                event__id=event_id, user_supporter=request.user
+                event__id=id, user_supporter=request.user
             )
 
         except EventSupportFromUser.DoesNotExist as e:
             logger.exception(
-                f"EventSupport for event id {event_id} from organization id {request.user.id} does not exist for the delete action: {e}"
+                f"EventSupport for event id {id} from user id {request.user.id} does not exist for the delete action: {e}"
             )
             return Response(
                 {
-                    "detail": "EventSupport for event from organization does not exist for the delete action."
+                    "detail": "EventSupport for event from user does not exist for the delete action."
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -746,7 +746,7 @@ class EventSupportFromUserDetailAPIView(GenericAPIView[EventSupportFromUser]):
             )
 
         support.delete()
-        logger.info(f"EventSupport for event id {event_id} deleted.")
+        logger.info(f"EventSupport for event id {id} deleted.")
         return Response(
             {"message": "Support deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,

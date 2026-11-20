@@ -282,66 +282,62 @@ class OrganizationSupportFromOrgDetailAPIView(
         responses={
             201: OrganizationSupportFromOrgSerializer,
             400: OpenApiResponse(response={"detail": "Failed to create support."}),
-        }
+        },
+        request=None,
     )
-    def post(self, request: Request, pk: UUID | None = None) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        supported_types = ["user", "org"]
-        if pk is None:
+    def post(
+        self,
+        request: Request,
+        id: UUID | None = None,
+        supporting_org_id: UUID | None = None,
+    ) -> Response:
+        if id is None:
             return Response(
                 {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        if supporting_org_id is None:
+            return Response(
+                {"detail": "Org ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
-            organization_id = pk
-            if not Organization.objects.filter(id=organization_id).exists():
+            if not Organization.objects.filter(id=id).exists():
                 return Response(
                     {"detail": "Organization not found."},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            organization = Organization.objects.get(id=organization_id)
-            type_support: str | None = (
-                request.data.get("supporter_type")
-                if isinstance(request.data, dict)
-                else None
+            if not Organization.objects.filter(id=supporting_org_id).exists():
+                return Response(
+                    {"detail": "Organization not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            organization = Organization.objects.get(id=id)
+            org = Organization.objects.get(id=supporting_org_id)
+            support = OrganizationSupportFromOrg.objects.create(
+                org=organization,
+                org_supporter=org,
             )
-            if type_support is None:
-                return Response(
-                    {"detail": "Type of support is required."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            if type_support not in supported_types:
-                return Response(
-                    {"detail": "Invalid type of support."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            if type_support == "user":
-                serializer.save(user_supporter=request.user, organization=organization)
-                logger.info(f"OrganizationSupport created by user {request.user.id}")
-
-            elif type_support == "org":
-                serializer.save(
-                    org_supporter=request.user.id, organization=organization
-                )
-                logger.info(
-                    f"OrganizationSupport created by organization {request.user.id}"
-                )
+            logger.info(
+                f"OrganizationSupport created by organization {supporting_org_id}"
+            )
 
         except (IntegrityError, OperationalError) as e:
             logger.exception(
-                f"Failed to create organization support for user {request.user.id}: {e}"
+                f"Failed to create organization support from organization {supporting_org_id}: {e}"
             )
             return Response(
-                {"detail": "Failed to create support."},
+                {"detail": "Failed to create organization support from organization."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            self.get_serializer(support).data, status=status.HTTP_201_CREATED
+        )
 
     @extend_schema(
         responses={
@@ -351,54 +347,55 @@ class OrganizationSupportFromOrgDetailAPIView(
                 response={"detail": "You are not authorized to delete this support."}
             ),
             404: OpenApiResponse(response={"detail": "Support not found."}),
-        }
+        },
+        request=None,
     )
-    def destroy(self, request: Request, pk: UUID | None = None) -> Response:
-        if pk is None:
+    def delete(
+        self, request: Request, id: UUID | None = None, org_id: UUID | None = None
+    ) -> Response:
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        if id is None:
             return Response(
                 {"detail": "Organization ID is required to delete support."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        org = request.data.get("org") if isinstance(request.data, dict) else None
+        if org_id is None:
+            return Response(
+                {"detail": "Supporting organization ID is required to delete support."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
             support = OrganizationSupportFromOrg.objects.get(
-                Q(organization__id=pk, org_supporter=org)
-                | Q(organization__id=pk, user_supporter=request.user)
+                org__id=id, org_supporter__id=org_id
             )
 
         except OrganizationSupportFromOrg.DoesNotExist as e:
             logger.exception(
-                f"OrganizationSupport for organization id {pk} does not exist for delete: {e}"
+                f"OrganizationSupport for organization id {id} from organization id {org_id} does not exist for the delete action: {e}"
             )
             return Response(
-                {"detail": "Support for this organization not found."},
+                {
+                    "detail": "OrganizationSupport for organization from organization does not exist for the delete action."
+                },
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        supporter = support.org_supporter
-        if (
-            supporter
-            and isinstance(supporter, UserModel)
-            and supporter.id != request.user.id
-        ) and not request.user.is_staff:
-            return Response(
-                {"detail": "You are not authorized to delete this support."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        if (
-            supporter
-            and isinstance(supporter, Organization)
-            and supporter.created_by.id != request.user.id
-        ) and not request.user.is_staff:
+        # Attn: We need to check that the user is an admin of the organization here.
+        if not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this support."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
         support.delete()
-        logger.info(f"OrganizationSupport for organization id {pk} deleted")
+        logger.info(f"OrganizationSupport for event id {id} deleted.")
         return Response(
             {"message": "Support deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
@@ -421,66 +418,47 @@ class OrganizationSupportFromUserDetailAPIView(
         responses={
             201: OrganizationSupportFromUserSerializer,
             400: OpenApiResponse(response={"detail": "Failed to create support."}),
-        }
+        },
+        request=None,
     )
-    def post(self, request: Request, pk: UUID | None = None) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        supported_types = ["user", "org"]
-        if pk is None:
+    def post(self, request: Request, id: UUID | None = None) -> Response:
+        if id is None:
             return Response(
                 {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
         try:
-            organization_id = pk
-            if not Organization.objects.filter(id=organization_id).exists():
+            if not Organization.objects.filter(id=id).exists():
                 return Response(
                     {"detail": "Organization not found."},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            organization = Organization.objects.get(id=organization_id)
-            type_support: str | None = (
-                request.data.get("supporter_type")
-                if isinstance(request.data, dict)
-                else None
+            organization = Organization.objects.get(id=id)
+            support = OrganizationSupportFromUser.objects.create(
+                org=organization, user_supporter=request.user
             )
-            if type_support is None:
-                return Response(
-                    {"detail": "Type of support is required."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            if type_support not in supported_types:
-                return Response(
-                    {"detail": "Invalid type of support."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            if type_support == "user":
-                serializer.save(user_supporter=request.user, organization=organization)
-                logger.info(f"OrganizationSupport created by user {request.user.id}")
-
-            elif type_support == "org":
-                serializer.save(
-                    org_supporter=request.user.id, organization=organization
-                )
-                logger.info(
-                    f"OrganizationSupport created by organization {request.user.id}"
-                )
+            logger.info(f"OrganizationSupport created by user {request.user.id}")
 
         except (IntegrityError, OperationalError) as e:
             logger.exception(
-                f"Failed to create organization support for user {request.user.id}: {e}"
+                f"Failed to create organization support from user {request.user.id}: {e}"
             )
             return Response(
-                {"detail": "Failed to create support."},
+                {"detail": "Failed to create organization support from user."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            self.get_serializer(support).data, status=status.HTTP_201_CREATED
+        )
 
     @extend_schema(
         responses={
@@ -490,54 +468,46 @@ class OrganizationSupportFromUserDetailAPIView(
                 response={"detail": "You are not authorized to delete this support."}
             ),
             404: OpenApiResponse(response={"detail": "Support not found."}),
-        }
+        },
+        request=None,
     )
-    def destroy(self, request: Request, pk: UUID | None = None) -> Response:
-        if pk is None:
+    def delete(self, request: Request, id: UUID | None = None) -> Response:
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        if id is None:
             return Response(
                 {"detail": "Organization ID is required to delete support."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        org = request.data.get("org") if isinstance(request.data, dict) else None
         try:
             support = OrganizationSupportFromUser.objects.get(
-                Q(organization__id=pk, org_supporter=org)
-                | Q(organization__id=pk, user_supporter=request.user)
+                org__id=id, user_supporter=request.user
             )
 
         except OrganizationSupportFromUser.DoesNotExist as e:
             logger.exception(
-                f"OrganizationSupport for organization id {pk} does not exist for delete: {e}"
+                f"OrganizationSupport for organization id {id} from user id {request.user.id} does not exist for the delete action: {e}"
             )
             return Response(
-                {"detail": "Support for this organization not found."},
+                {
+                    "detail": "OrganizationSupport for organization from user does not exist for the delete action."
+                },
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        supporter = support.user_supporter
-        if (
-            supporter
-            and isinstance(supporter, UserModel)
-            and supporter.id != request.user.id
-        ) and not request.user.is_staff:
-            return Response(
-                {"detail": "You are not authorized to delete this support."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        if (
-            supporter
-            and isinstance(supporter, Organization)
-            and supporter.created_by.id != request.user.id
-        ) and not request.user.is_staff:
+        if support.user_supporter.id != request.user.id and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this support."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
         support.delete()
-        logger.info(f"OrganizationSupport for organization id {pk} deleted")
+        logger.info(f"OrganizationSupport for organization id {id} deleted.")
         return Response(
             {"message": "Support deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,

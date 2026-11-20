@@ -52,15 +52,15 @@ urlpatterns = [
     # Support
     path("event_support_from_users", EventSupportFromUserAPIView.as_view()),
     path(
-        "event_support_from_users/<uuid:event_id>",  # user comes from request
+        "event_support_from_users/<uuid:id>",  # user comes from request
         EventSupportFromUserDetailAPIView.as_view(),
     ),
     path(
-        "event_support_from_orgs/<uuid:event_id>",
+        "event_support_from_orgs/<uuid:id>",
         EventSupportFromOrgAPIView.as_view(),
     ),
     path(
-        "event_support_from_orgs/<uuid:event_id>/<uuid:supporting_org_id>",
+        "event_support_from_orgs/<uuid:id>/<uuid:org_supporter>",
         EventSupportFromOrgDetailAPIView.as_view(),
     ),
 ]

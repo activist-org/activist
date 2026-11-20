@@ -120,15 +120,15 @@ urlpatterns = [
         "organization_support_from_users", OrganizationSupportFromUserAPIView.as_view()
     ),
     path(
-        "organization_support_from_users/<uuid:org_id>",  # user comes from request
+        "organization_support_from_users/<uuid:id>",  # user comes from request
         OrganizationSupportFromUserDetailAPIView.as_view(),
     ),
     path(
-        "organization_support_from_orgs/<uuid:org_id>",
+        "organization_support_from_orgs/<uuid:id>",
         OrganizationSupportFromOrgAPIView.as_view(),
     ),
     path(
-        "organization_support_from_orgs/<uuid:org_id>/<uuid:supporting_org_id>",
+        "organization_support_from_orgs/<uuid:id>/<uuid:org_supporter>",
         OrganizationSupportFromOrgDetailAPIView.as_view(),
     ),
 ]
