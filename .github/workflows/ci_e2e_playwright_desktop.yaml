@@ -112,6 +112,7 @@ jobs:
       - name: Start Preview Server
         working-directory: ./frontend
         env:
+          USE_PREVIEW: true
           NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1

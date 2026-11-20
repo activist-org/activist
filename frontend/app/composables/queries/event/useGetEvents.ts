@@ -2,48 +2,30 @@
 export function useGetEvents(
   filters: Ref<EventFilters> | ComputedRef<EventFilters>
 ) {
-  const { handleError, error: appError } = useAppError();
   const { getKeyForEvents, invalidateEventList } = useEventCache();
 
   const eventFilters = computed(() => unref(filters));
 
-  const { data, isLoading, error, loadNextPage } = useInfiniteQuery({
-    initialPageParam: 1,
-    key: () => getKeyForEvents({ ...eventFilters.value }),
-    getNextPageParam: (lastPage, allPages) => {
-      if ((lastPage as EventsPaginatedResponse).isLastPage) return null;
-      return allPages.length + 1; // Or (lastPageParam as number) + 1
-    },
-    query: async ({ pageParam }) => {
-      if (!pageParam) return { data: [], isLastPage: true };
-      return listEvents({
-        ...eventFilters.value,
-        page: pageParam,
-        page_size: 10,
-      });
-    },
-  });
+  const key = computed(() => getKeyForEvents({ ...eventFilters.value }));
 
-  watch(error, (err) => {
-    if (err) {
-      handleError(err);
-    }
-  });
-
-  const refreshList = async () => {
-    await invalidateEventList();
-  };
-
+  const { data, pending, error, getMore, refresh } =
+    useCustomInfiniteQuery<CommunityEvent>(
+      key,
+      invalidateEventList,
+      async ({ page, page_size }) => {
+        return listEvents({
+          ...eventFilters.value,
+          page: page,
+          page_size: page_size,
+        });
+      }
+    );
   return {
-    data: computed(() => {
-      return (data?.value?.pages ?? []).flatMap(
-        (p) => (p as EventsPaginatedResponse).data
-      );
-    }),
-    pending: readonly(isLoading),
-    error: appError,
-    refresh: refreshList,
+    data,
+    pending: pending,
+    error,
+    refresh,
     filters: readonly(eventFilters.value),
-    getMore: loadNextPage,
+    getMore,
   };
 }
