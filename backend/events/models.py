@@ -70,12 +70,12 @@ class Event(models.Model):
     org_supporters: Any = models.ManyToManyField(
         "communities.Organization",
         through="EventSupportFromOrg",
-        related_name="event_supporters_from_orgs",
+        related_name="org_supported_events",
     )
     user_supporters: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="EventSupportFromUser",
-        related_name="event_supporters_from_users",
+        related_name="user_supported_events",
     )
 
     def save(self, *args: Any, **kwargs: Any) -> None:

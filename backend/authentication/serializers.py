@@ -193,6 +193,7 @@ class SignInSerializer(serializers.Serializer[UserModel]):
             data["refresh"] = str(refresh_token)
             data["user"] = user
             logger.info(f"User signed in successfully: {user.username} (ID: {user.id})")
+
         except Exception as e:
             logger.exception(
                 f"Failed to create/get authentication token for user: {user.username} (ID: {user.id}) - {str(e)}"
@@ -200,6 +201,9 @@ class SignInSerializer(serializers.Serializer[UserModel]):
             raise
 
         return data
+
+
+# MARK: Support
 
 
 class UserSupportedOrgsSerializer(serializers.ModelSerializer["Organization"]):
@@ -256,13 +260,16 @@ class UserSupportedEventsSerializer(serializers.ModelSerializer["Event"]):
         ]
 
 
+# MARK: User
+
+
 class UserSerializer(serializers.ModelSerializer[UserModel]):
     """
     Serializer for the user model.
     """
 
-    supported_organizations = UserSupportedOrgsSerializer(many=True, read_only=True)
-    supported_events = UserSupportedEventsSerializer(many=True, read_only=True)
+    user_supported_orgs = UserSupportedOrgsSerializer(many=True, read_only=True)
+    user_supported_events = UserSupportedEventsSerializer(many=True, read_only=True)
 
     class Meta:
         model = UserModel
@@ -274,8 +281,8 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
             "is_active",
             "is_staff",
             "is_superuser",
-            "supported_events",
-            "supported_organizations",
+            "user_supported_orgs",
+            "user_supported_events",
         ]
 
 
@@ -338,6 +345,7 @@ class PasswordResetSerializer(serializers.Serializer[UserModel]):
         if data.get("code") is not None:
             user = UserModel.objects.filter(verification_code=data.get("code")).first()
             identifier = f"code: {data.get('code')}"
+
         else:
             user = UserModel.objects.filter(email=data.get("email")).first()
             identifier = f"email: {data.get('email')}"

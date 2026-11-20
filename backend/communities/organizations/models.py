@@ -60,12 +60,12 @@ class Organization(models.Model):
     org_supporters: Any = models.ManyToManyField(
         "communities.Organization",
         through="OrganizationSupportFromOrg",
-        related_name="org_supporters_from_orgs",
+        related_name="org_supported_orgs",
     )
     user_supporters: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="OrganizationSupportFromUser",
-        related_name="org_supporters_from_users",
+        related_name="user_supported_orgs",
     )
 
     def __str__(self) -> str:
