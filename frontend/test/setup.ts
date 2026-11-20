@@ -136,15 +136,15 @@ globalThis.useMutation = <TResult, TVars>(
   options: MutationOptions<TResult, TVars>
 ) => globalThis.useMutationMock(options);
 
-globalThis.useInfiniteQueryMock = vi.fn(() => ({
+globalThis.useInfiniteQueryMock = vi.fn((_options: unknown) => ({
   isLoading: ref(false),
   error: ref(null),
   data: ref(null),
-  loadNextPage: vi.fn(async () => {
-    await Promise.resolve();
-  }),
+  loadNextPage: vi.fn(async () => {}),
 }));
-globalThis.useInfiniteQuery = () => globalThis.useInfiniteQueryMock();
+
+globalThis.useInfiniteQuery = (options) =>
+  globalThis.useInfiniteQueryMock(options);
 
 vi.mock("@pinia/colada", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@pinia/colada")>();
