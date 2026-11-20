@@ -147,9 +147,6 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
 
     org = factory.SubFactory(OrganizationFactory)
     user = factory.SubFactory("authentication.factories.UserFactory")
-    is_owner = factory.Faker("boolean")
-    is_admin = factory.Faker("boolean")
-    is_comms = factory.Faker("boolean")
 
 
 # MARK: Resource

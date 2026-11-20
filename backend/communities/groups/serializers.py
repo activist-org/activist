@@ -15,7 +15,6 @@ from communities.groups.models import (
     GroupFaq,
     GroupFlag,
     GroupImage,
-    GroupMember,
     GroupResource,
     GroupSocialLink,
     GroupText,
@@ -344,17 +343,4 @@ class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
 
     class Meta:
         model = GroupImage
-        fields = "__all__"
-
-
-# MARK: Member
-
-
-class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
-    """
-    Serializer for GroupMember model data.
-    """
-
-    class Meta:
-        model = GroupMember
         fields = "__all__"
