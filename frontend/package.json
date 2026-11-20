@@ -74,7 +74,7 @@
     "vue-tsc": "3.3.12"
   },
   "dependencies": {
-    "@axe-core/playwright": "4.14.0",
+    "@axe-core/playwright": "4.13.0",
     "@floating-ui/dom": "1.8.0",
     "@maplibre/maplibre-gl-directions": "0.10.1",
     "@opentelemetry/api": "1.9.1",
