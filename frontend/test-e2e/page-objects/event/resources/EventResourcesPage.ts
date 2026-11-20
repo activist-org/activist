@@ -51,6 +51,15 @@ export const newEventResourcesPage = (page: Page) => ({
   getResourceDeleteButton: (index: number) =>
     page.getByTestId("resource-card").nth(index).getByTestId("icon-delete"),
 
+  // MARK: Resource Card by Name
+
+  // Prefer these over the index getters above when a test owns the resource it
+  // acts on: the suite runs fullyParallel, so nth() can drift to another card.
+  resourceCardByName: (name: string) =>
+    page.getByTestId("resource-card").filter({ hasText: name }),
+  resourceEditButton: (card: Locator) => card.getByTestId("icon-edit"),
+  resourceDeleteButton: (card: Locator) => card.getByTestId("icon-delete"),
+
   // MARK: Empty State
 
   emptyState: page.getByTestId("empty-state"),
