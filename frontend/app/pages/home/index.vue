@@ -95,12 +95,9 @@ const applyFilters = <T extends { topics?: TopicMapType[]; name?: string }>(
 
 const nameFilter = computed(() => route.query.name?.toString() ?? "");
 const events = computed(() => {
-  return applyFilters(data?.value?.supportedEvents ?? [], nameFilter.value);
+  return applyFilters(data?.value?.userSupportedEvents ?? [], nameFilter.value);
 });
 const organizations = computed(() => {
-  return applyFilters(
-    data?.value?.supportedOrganizations ?? [],
-    nameFilter.value
-  );
+  return applyFilters(data?.value?.userSupportedOrgs ?? [], nameFilter.value);
 });
 </script>

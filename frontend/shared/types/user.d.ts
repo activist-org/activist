@@ -15,8 +15,8 @@ export interface UserActivist {
 export interface UserResponse {
   id: string;
   username: string;
-  supportedEvents: CommunityEvent[];
-  supportedOrganizations: Organization[];
+  userSupportedEvents: CommunityEvent[];
+  userSupportedOrgs: Organization[];
 }
 export const defaultUser: UserActivist = {
   id: "",

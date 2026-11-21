@@ -20,8 +20,7 @@ interface OrganizationBase extends Entity {
   groups?: Group[];
   events?: CommunityEvent[];
   resources?: Resource[];
-  supporterUserCount?: number;
-  supporterOrgCount?: number;
+  supporterCount?: number;
   images?: ContentImage[];
   // task?: Task[];
   topics?: TopicMapType[];

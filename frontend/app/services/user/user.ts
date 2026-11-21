@@ -6,8 +6,8 @@ export function mapUser(res: UserResponse): UserResponse {
   return {
     id: res.id,
     username: res.username,
-    supportedEvents: res.supportedEvents ?? [],
-    supportedOrganizations: res.supportedOrganizations ?? [],
+    userSupportedEvents: res.userSupportedEvents ?? [],
+    userSupportedOrgs: res.userSupportedOrgs ?? [],
   };
 }
 

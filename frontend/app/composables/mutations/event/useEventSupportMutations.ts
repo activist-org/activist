@@ -13,7 +13,7 @@ export function useEventSupportMutations(
       ...options.create,
       mutation: async () => {
         if (!event.value) return null;
-        return createEventSupport(event.value);
+        return createEventUserSupport(event.value);
       },
       onMutate() {
         const key = getKeyForEvent(event.value);
@@ -46,7 +46,7 @@ export function useEventSupportMutations(
       ...options.delete,
       mutation: async () => {
         if (!event.value) return null;
-        return deleteEventSupport(event.value);
+        return deleteEventUserSupport(event.value);
       },
       onMutate() {
         const key = getKeyForEvent(event.value);

@@ -13,22 +13,16 @@ export function useOrganizationSupportMutations(
   const { mutate: createSupport, isLoading: loadingCreateSupport } =
     useMutation({
       ...options.create,
-      mutation: async (supporterType: "user" | "org") => {
+      mutation: async () => {
         if (!organization.value) return null;
-        return createOrganizationSupport(organization.value, supporterType);
+        return createOrganizationUserSupport(organization.value);
       },
-      onMutate(vars: "user" | "org") {
+      onMutate() {
         const key = getKeyForOrganization(organization.value);
         const previousOrganization = queryCache.getQueryData<Organization>(key);
         if (previousOrganization) {
-          if (vars === "user") {
-            previousOrganization.supporterUserCount =
-              (previousOrganization.supporterUserCount ?? 0) + 1;
-            previousOrganization.isSupportedByUser = true;
-          } else if (vars === "org") {
-            previousOrganization.supporterOrgCount =
-              (previousOrganization.supporterOrgCount ?? 0) + 1;
-          }
+          previousOrganization.supporterCount =
+            (previousOrganization.supporterCount ?? 0) + 1;
           queryCache.setQueryData(key, {
             ...previousOrganization,
           });
@@ -54,20 +48,15 @@ export function useOrganizationSupportMutations(
       ...options.delete,
       mutation: async () => {
         if (!organization.value) return null;
-        return deleteOrganizationSupport(organization.value);
+        return deleteOrganizationUserSupport(organization.value);
       },
-      onMutate(vars: "user" | "org") {
+      onMutate() {
         const key = getKeyForOrganization(organization.value);
         const previousOrganization = queryCache.getQueryData<Organization>(key);
         if (previousOrganization) {
-          if (vars === "user") {
-            previousOrganization.supporterUserCount =
-              (previousOrganization.supporterUserCount ?? 0) - 1;
-          } else if (vars === "org") {
-            previousOrganization.supporterOrgCount =
-              (previousOrganization.supporterOrgCount ?? 0) - 1;
-            previousOrganization.isSupportedByUser = false;
-          }
+          previousOrganization.supporterCount =
+            (previousOrganization.supporterCount ?? 0) - 1;
+          previousOrganization.isSupportedByUser = false;
           queryCache.setQueryData(key, {
             ...previousOrganization,
           });

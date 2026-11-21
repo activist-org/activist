@@ -17,10 +17,7 @@
           @click="handleSupport"
           ariaLabel="i18n._global.support_organization_aria_label"
           class="flex w-full justify-center sm:w-max"
-          :counter="
-            (organization?.supporterOrgCount ?? 0) +
-            (organization?.supporterUserCount ?? 0)
-          "
+          :counter="organization?.supporterCount ?? 0"
           :cta="true"
           :disabled="!isUserSignedIn"
           fontSize="sm"
@@ -117,10 +114,10 @@ const { t } = useI18n();
 
 // MARK: Support Event Functions
 const createSupportEvent = () => {
-  createSupport("user");
+  createSupport();
 };
 const deleteSupportEvent = () => {
-  deleteSupport("user");
+  deleteSupport();
 };
 const handleSupport = () => {
   if (isOrganizationSupportedByUser.value) return deleteSupportEvent();

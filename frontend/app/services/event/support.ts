@@ -12,9 +12,11 @@ export async function listEventSupports(): Promise<Support[]> {
 }
 // MARK: Create
 
-export async function createEventSupport(eventId: string): Promise<Support> {
+export async function createEventUserSupport(
+  eventId: string
+): Promise<Support> {
   try {
-    return await post(`/events/event_supports/${eventId}`, {
+    return await post(`/events/event_support_from_users/${eventId}`, {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
@@ -25,9 +27,9 @@ export async function createEventSupport(eventId: string): Promise<Support> {
 
 // MARK: Delete
 
-export async function deleteEventSupport(eventId: string): Promise<void> {
+export async function deleteEventUserSupport(eventId: string): Promise<void> {
   try {
-    await del(`/events/event_supports/${eventId}`);
+    await del(`/events/event_support_from_users/${eventId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

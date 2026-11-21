@@ -22,8 +22,7 @@ export function mapOrganization(res: OrganizationResponse): Organization {
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
     texts: res.texts ?? [],
-    supporterUserCount: res.supporterUserCount ?? 0,
-    supporterOrgCount: res.supporterOrgCount ?? 0,
+    supporterCount: res.supporterCount ?? 0,
     isSupportedByUser: res.isSupportedByUser ?? false,
   };
 }
