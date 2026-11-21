@@ -11,48 +11,9 @@ import factory
 
 from authentication.models import (
     SessionModel,
-    Support,
-    SupportEntityType,
     UserFlag,
     UserModel,
 )
-
-# MARK: Support
-
-
-class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating SupportEntityType model instances.
-    """
-
-    class Meta:
-        model = SupportEntityType
-
-    name = factory.Faker("word")
-
-
-class SupportFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Support model instances.
-
-    Notes
-    -----
-    This class generates mock `Support` instances, which associate supporters with supported entities.
-    It uses other factories like `SupportEntityTypeFactory` to generate related data.
-    """
-
-    class Meta:
-        model = Support
-
-    supporter_type = factory.SubFactory(SupportEntityTypeFactory)
-    supporter_entity = factory.SubFactory(
-        "communities.organizations.factories.OrganizationFactory"
-    )
-    supported_type = factory.SubFactory(SupportEntityTypeFactory)
-    supported_entity = factory.SubFactory(
-        "communities.organizations.factories.OrganizationFactory"
-    )
-
 
 # MARK: Session
 

@@ -15,6 +15,10 @@ from events.views import (
     EventFlagDetailAPIView,
     EventResourceViewSet,
     EventSocialLinkViewSet,
+    EventSupportFromOrgAPIView,
+    EventSupportFromOrgDetailAPIView,
+    EventSupportFromUserAPIView,
+    EventSupportFromUserDetailAPIView,
     EventTextViewSet,
 )
 
@@ -45,4 +49,18 @@ urlpatterns = [
     path("event_flags/<uuid:id>", EventFlagDetailAPIView.as_view()),
     path("event_calendar", EventCalendarAPIView.as_view()),
     path("event_texts/<uuid:id>", EventTextViewSet.as_view()),
+    # Support
+    path("event_support_from_users", EventSupportFromUserAPIView.as_view()),
+    path(
+        "event_support_from_users/<uuid:id>",  # user comes from request
+        EventSupportFromUserDetailAPIView.as_view(),
+    ),
+    path(
+        "event_support_from_orgs/<uuid:id>",
+        EventSupportFromOrgAPIView.as_view(),
+    ),
+    path(
+        "event_support_from_orgs/<uuid:id>/<uuid:org_supporter>",
+        EventSupportFromOrgDetailAPIView.as_view(),
+    ),
 ]

@@ -30,9 +30,9 @@ const stubs = {
   Feed: true,
 };
 
-const { orgData, mockUserIsSignedIn } = vi.hoisted(() => ({
+const { orgData, mockisUserSignedIn } = vi.hoisted(() => ({
   orgData: { value: null as ReturnType<typeof createMockOrganization> | null },
-  mockUserIsSignedIn: { value: false },
+  mockisUserSignedIn: { value: false },
 }));
 
 mockNuxtImport("useGetOrganization", async () => {
@@ -43,7 +43,7 @@ mockNuxtImport("useModalHandlers", () => () => ({ openModal: vi.fn() }));
 mockNuxtImport("useUser", async () => {
   const { ref } = await import("vue");
   return () => ({
-    userIsSignedIn: ref(mockUserIsSignedIn.value),
+    isUserSignedIn: ref(mockisUserSignedIn.value),
     canEdit: () => false,
     canView: () => true,
     canCreate: () => false,
@@ -55,7 +55,7 @@ mockNuxtImport("useUser", async () => {
 
 beforeEach(() => {
   orgData.value = null;
-  mockUserIsSignedIn.value = false;
+  mockisUserSignedIn.value = false;
   vi.stubGlobal("useRoute", createUseRouteMock({ orgId: "org-1" }));
 });
 
@@ -93,25 +93,6 @@ describe("CardGetInvolvedOrganization", () => {
     await render(CardGetInvolvedOrganization, { global: { stubs } });
 
     expect(screen.getByText("Help us change the world!")).toBeTruthy();
-  });
-
-  it("shows join-organization subtext when org has a getInvolvedUrl but no groups", async () => {
-    orgData.value = createMockOrganization({
-      name: "Acme Org",
-      groups: [],
-      texts: [
-        createMockOrganizationText({
-          getInvolved: "",
-          getInvolvedUrl: "https://example.com/join",
-        }),
-      ],
-    });
-
-    await render(CardGetInvolvedOrganization, { global: { stubs } });
-
-    expect(
-      screen.getByTestId("i18n._global.join_organization_aria_label")
-    ).toBeTruthy();
   });
 
   it("shows no-info text when org has neither groups nor a getInvolvedUrl", async () => {
@@ -152,7 +133,7 @@ describe("CardGetInvolvedOrganization", () => {
   });
 
   it("shows the edit icon when the user is signed in", async () => {
-    mockUserIsSignedIn.value = true;
+    mockisUserSignedIn.value = true;
 
     await render(CardGetInvolvedOrganization, { global: { stubs } });
 

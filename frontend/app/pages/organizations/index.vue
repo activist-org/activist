@@ -45,16 +45,7 @@
       :loading="pending && !loadingFetchMore"
     />
     <div v-else-if="showOrganizations">
-      <div
-        v-for="org in organizations"
-        :key="org.id"
-        class="space-y-6 pb-6 pt-3 md:pt-4"
-      >
-        <CardSearchResultEntityOrganization
-          :isPrivate="false"
-          :organization="org"
-        />
-      </div>
+      <OrganizationsList :organizations="organizations ?? []" type="list" />
       <div ref="bottomSentinel" class="h-px">
         <!-- The bottom sentinel for Intersection Observer. -->
         <Loading

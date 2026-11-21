@@ -6,7 +6,7 @@
         {{ t("i18n.components._global.participate") }}
       </h3>
       <IconEdit
-        v-if="userIsSignedIn"
+        v-if="isUserSignedIn"
         @click="
           () =>
             openModalTextEvent({
@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
-const { userIsSignedIn } = useUser();
+const { isUserSignedIn } = useUser();
 
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 

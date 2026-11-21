@@ -5,7 +5,7 @@ API views for authentication management.
 
 import logging
 import os
-import uuid
+from uuid import UUID, uuid4
 
 import dotenv
 from django.contrib.auth import login, logout
@@ -56,7 +56,7 @@ class VerifyEmailView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
 
-    def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
+    def post(self, request: Request, code: UUID | None = None) -> Response:
         logger.info(f"Email verification attempt with code: {code}")
 
         # Handle invalid UUIDs gracefully.
@@ -140,7 +140,7 @@ class SignUpView(APIView):
         logger.info(f"User created successfully: {user.username} (ID: {user.id})")
 
         if user.email:
-            user.verification_code = uuid.uuid4()
+            user.verification_code = uuid4()
             confirmation_link = (
                 f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
             )
@@ -292,7 +292,7 @@ class PasswordResetView(APIView):
         logger.info(f"Password reset request for email: {email}")
 
         user = UserModel.objects.filter(email=email).first()
-        verification_code = uuid.uuid4()
+        verification_code = uuid4()
 
         pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{verification_code}"
         html_message = render_to_string(
@@ -334,7 +334,7 @@ class VerifyAccountResetPassword(APIView):
     @extend_schema(
         parameters=[OpenApiParameter(name="new_password", type=str, required=True)]
     )
-    def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
+    def post(self, request: Request, code: UUID | None = None) -> Response:
         if not isinstance(request.data, dict):
             return Response(
                 {
@@ -481,7 +481,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
             404: OpenApiResponse(response={"detail": "Failed to retrieve the flag."}),
         }
     )
-    def get(self, request: Request, id: str | uuid.UUID) -> Response:
+    def get(self, request: Request, id: str | UUID) -> Response:
         logger.info(
             f"User flag detail requested: ID {id} by user {request.user.username}"
         )
@@ -514,7 +514,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
             404: OpenApiResponse(response={"detail": "Flag not found."}),
         }
     )
-    def delete(self, request: Request, id: str | uuid.UUID) -> Response:
+    def delete(self, request: Request, id: str | UUID) -> Response:
         logger.info(
             f"User flag deletion requested: ID {id} by user {request.user.username}"
         )
@@ -536,3 +536,26 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         return Response(
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
+
+
+class UserDetailAPIView(GenericAPIView[UserModel]):
+    queryset = UserModel.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    def get(self, request: Request, id: str | UUID) -> Response:
+        logger.info(f"User detail requested: ID {id} by user {request.user.username}")
+        try:
+            user = UserModel.objects.get(id=id)
+
+        except UserModel.DoesNotExist:
+            logger.warning(f"User not found: ID {id}")
+            return Response(
+                {"detail": "Failed to retrieve the user."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        self.check_object_permissions(request, user)
+
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)

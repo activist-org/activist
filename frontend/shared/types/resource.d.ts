@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { User } from "#shared/types/auth/user";
 import type { Organization } from "#shared/types/communities/organization";
-import type { TopicEnum } from "#shared/types/content/topics";
+import type { TopicMapType } from "#shared/types/content/topics";
 
 // MARK: Main Table
 
@@ -14,7 +14,7 @@ export interface Resource {
   org?: Organization;
   location?: PhysicalLocation;
   url: string;
-  topics?: TopicEnum[];
+  topics?: TopicMapType[];
   category?: string;
   // isPrivate?: boolean;
   creationDate?: string;
@@ -30,7 +30,7 @@ export interface ResourceInput {
   orgId?: string;
   locationId?: string;
   url: string;
-  topics?: TopicEnum[];
+  topics?: TopicMapType[];
   category?: string;
   // isPrivate?: boolean;
 }

@@ -206,7 +206,7 @@ export function createUseAuthMock(
 
 /**
  * Creates a mock for useUser composable.
- * @param userIsSignedIn - Whether user is signed in (default: false)
+ * @param isUserSignedIn - Whether user is signed in (default: false)
  * @param userIsAdmin - Whether user is admin (default: false)
  * @param canDelete - Can delete function (default: () => false)
  * @param canCreate - Can create function (default: () => false)
@@ -214,7 +214,7 @@ export function createUseAuthMock(
  * @param canEdit - Can edit function (optional)
  */
 export function createUseUserMock(
-  userIsSignedIn = false,
+  isUserSignedIn = false,
   userIsAdmin = false,
   canDelete = () => false,
   canCreate = () => false,
@@ -222,7 +222,7 @@ export function createUseUserMock(
   canEdit?: (entity?: unknown) => boolean
 ) {
   return () => ({
-    userIsSignedIn,
+    isUserSignedIn,
     userIsAdmin,
     roles: [],
     signOutUser: () => {},
