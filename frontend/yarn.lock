@@ -2139,7 +2139,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:4.6.4, @nuxt/kit@npm:^4.6.3, @nuxt/kit@npm:^4.6.4":
+"@nuxt/kit@npm:4.6.4, @nuxt/kit@npm:^4.6.0, @nuxt/kit@npm:^4.6.2, @nuxt/kit@npm:^4.6.3, @nuxt/kit@npm:^4.6.4":
   version: 4.6.4
   resolution: "@nuxt/kit@npm:4.6.4"
   dependencies:
@@ -2220,7 +2220,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.3.1, @nuxt/kit@npm:^4.4.6, @nuxt/kit@npm:^4.4.8, @nuxt/kit@npm:^4.5.1, @nuxt/kit@npm:^4.5.2":
+"@nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.3.1, @nuxt/kit@npm:^4.4.6, @nuxt/kit@npm:^4.5.1, @nuxt/kit@npm:^4.5.2":
   version: 4.5.2
   resolution: "@nuxt/kit@npm:4.5.2"
   dependencies:
@@ -3078,41 +3078,41 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/colada-nuxt@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@pinia/colada-nuxt@npm:1.2.0"
+"@pinia/colada-nuxt@npm:1.2.1":
+  version: 1.2.1
+  resolution: "@pinia/colada-nuxt@npm:1.2.1"
   dependencies:
-    "@nuxt/kit": "npm:^4.5.2"
+    "@nuxt/kit": "npm:^4.6.2"
   peerDependencies:
-    "@pinia/colada": ">=1.4.5"
-    "@pinia/colada-devtools": ^2.0.0
+    "@pinia/colada": ">=1.4.9"
+    "@pinia/colada-devtools": ^2.1.0
   peerDependenciesMeta:
     "@pinia/colada-devtools":
       optional: true
-  checksum: 10c0/affe9e68cc4367acb47bd93ed9ad5b43be0e111bc848c3cecf9669ffd138a9806060a9aeb25742f2b17943db8c12677672adb6ac79d71dc4f2c30b446a3b9539
+  checksum: 10c0/962ba2617922980a6a8635d4f71665deec6254c912dfd3c29e01f362fed8f1e8aaeedce947bec2d4eaf0e8bf3dbf6944d1af650bd5c8954d22963c6499962821
   languageName: node
   linkType: hard
 
-"@pinia/colada@npm:1.4.8":
-  version: 1.4.8
-  resolution: "@pinia/colada@npm:1.4.8"
+"@pinia/colada@npm:1.4.9":
+  version: 1.4.9
+  resolution: "@pinia/colada@npm:1.4.9"
   dependencies:
     nostics: "npm:^1.3.0"
   peerDependencies:
     pinia: ^2.2.6 || ^3.0.0 || ^4.0.2
     vue: ^3.5.41
-  checksum: 10c0/15de60f424bb92f441612704a649d71df7fdfb93eb766c0b4ae30664f4dcc0bfb5deab66699c420c380ca77de9cdaac52f1564d1fd7b78f0d6f54109245461a7
+  checksum: 10c0/359eade3f90296d3a5642c912d17a361805e41219feff266a1ab4814cff90a53b67073217c64a68eeeebad65125583915b52e9a52c21adb37934a183ce84c089
   languageName: node
   linkType: hard
 
-"@pinia/nuxt@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@pinia/nuxt@npm:1.0.2"
+"@pinia/nuxt@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@pinia/nuxt@npm:1.0.3"
   dependencies:
-    "@nuxt/kit": "npm:^4.4.8"
+    "@nuxt/kit": "npm:^4.6.0"
   peerDependencies:
-    pinia: ^4.0.3
-  checksum: 10c0/54fda4b9f3f7c3c510690c56e4e41b8b1206829f18e162a4808fc490c12e8ffce7a5fa04466f535153ee41e1c364f27373f1a1d7a0aed7b763333503b110ef32
+    pinia: ^4.1.0
+  checksum: 10c0/f07aefbb9d327bbf2387ee7d1f16299e305f78643d32fb42004a4a25481a53c5293dde352ccec87f004230541f19595e97f052b2cf6f62e5b83d42d6a5dc1925
   languageName: node
   linkType: hard
 
@@ -5769,9 +5769,9 @@ __metadata:
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.6.0"
     "@opentelemetry/api": "npm:1.9.1"
-    "@pinia/colada": "npm:1.4.8"
-    "@pinia/colada-nuxt": "npm:1.2.0"
-    "@pinia/nuxt": "npm:1.0.2"
+    "@pinia/colada": "npm:1.4.9"
+    "@pinia/colada-nuxt": "npm:1.2.1"
+    "@pinia/nuxt": "npm:1.0.3"
     "@playwright/test": "npm:1.65.0"
     "@popperjs/core": "npm:2.11.8"
     "@somushq/vue3-friendly-captcha": "npm:1.0.2"
@@ -5822,7 +5822,7 @@ __metadata:
     nuxt: "npm:4.6.4"
     nuxt-auth-utils: "npm:0.5.31"
     nuxt-security: "npm:2.6.0"
-    pinia: "npm:4.0.3"
+    pinia: "npm:4.1.0"
     pinia-plugin-persistedstate: "npm:4.7.1"
     playwright-core: "npm:1.65.0"
     postcss: "npm:8.5.23"
@@ -10828,7 +10828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nostics@npm:^1.1.4, nostics@npm:^1.2.0, nostics@npm:^1.3.0":
+"nostics@npm:^1.2.0, nostics@npm:^1.3.0":
   version: 1.3.0
   resolution: "nostics@npm:1.3.0"
   checksum: 10c0/d0bede1e8b27e363844119496b4547b89159fa8ef8135ee03b28bfe98e2542f799b3c2625afa8a18f8e98983441fac27cb619c3d471c0e767fdc4ad623fcc8ab
@@ -11670,13 +11670,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinia@npm:4.0.3":
-  version: 4.0.3
-  resolution: "pinia@npm:4.0.3"
+"pinia@npm:4.1.0":
+  version: 4.1.0
+  resolution: "pinia@npm:4.1.0"
   dependencies:
-    nostics: "npm:^1.1.4"
+    nostics: "npm:^1.2.0"
   peerDependencies:
-    "@vue/devtools-api": ^8.1.5
+    "@vue/devtools-api": ^8.2.1
     typescript: ">=5.6.0"
     vue: ^3.5.11
   peerDependenciesMeta:
@@ -11684,7 +11684,7 @@ __metadata:
       optional: false
     typescript:
       optional: true
-  checksum: 10c0/6c06c872dd555cb8095a7a9cf3271449b8e88a9908d2cbc9ec6df328ace0d3256848e523c5d30653f7eff2eba7c91dd16f4a9f1cd0a78ff881c7a9dc11096464
+  checksum: 10c0/200965817558a29ddc3f2de22f068d9ed810650fece57cc073bb63281a5fec1736a5282acbd7c91876066be948839801b275aa135d8f6e0e96fcb8cf243886e6
   languageName: node
   linkType: hard
 
