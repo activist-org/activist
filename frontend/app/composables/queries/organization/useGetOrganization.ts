@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read a single organization with Pinia Colada. Store-first, then fetch if missing.
 
+import { validate as isValidUUID } from "uuid";
+
 export function useGetOrganization(id: MaybeRef<string>) {
   const orgId = computed(() => String(unref(id)));
-  const enabled = computed(() => !!orgId.value);
+  const enabled = computed(() => isValidUUID(orgId.value));
   const store = useOrganizationStore();
   const imageStore = useOrganizationImageStore();
   const { getKeyForOrganization } = useOrganizationCache();
@@ -23,6 +25,12 @@ export function useGetOrganization(id: MaybeRef<string>) {
   watch(error, (err) => {
     if (err) {
       handleError(err);
+      if (appError.value?.status === 404) {
+        showError({
+          statusCode: 404,
+          statusMessage: "Organization not found",
+        });
+      }
     }
   });
 
