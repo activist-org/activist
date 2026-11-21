@@ -16,14 +16,43 @@
         :receivedSelectedTopics="selectedTopics"
       />
     </HeaderAppPage>
-    <h2 class="mb-4">
-      {{ t("i18n._global.organizations") }}
-    </h2>
-    <OrganizationsList :organizations="organizations" type="grid" />
-    <h2 class="my-4">
-      {{ t("i18n._global.events") }}
-    </h2>
-    <EventsList :events="events" type="grid" />
+    <div v-if="organizations?.length" class="mt-2 flex flex-col">
+      <h2 class="mb-4">
+        {{ t("i18n._global.organizations") }}
+      </h2>
+      <OrganizationsList
+        v-if="organizations?.length"
+        :organizations="organizations"
+        type="grid"
+      />
+      <button
+        v-if="isOrganizationsNeedsToLoadMore"
+        @click="loadMoreOrganizations = true"
+        :aria-label="
+          t('i18n.pages.home.index.load_more_aria_label_organizations')
+        "
+        class="mt-1 font-semibold text-link-text focus-brand"
+      >
+        {{ t("i18n.pages.home.index.load_more") }}
+      </button>
+    </div>
+    <div v-if="events?.length" class="mt-2 flex flex-col">
+      <h2 class="my-4">
+        {{ t("i18n._global.events") }}
+      </h2>
+      <EventsList
+        :events="loadMoreEvents ? events : events.slice(0, 6)"
+        type="grid"
+      />
+      <button
+        v-if="isEventsNeedsToLoadMore"
+        @click="loadMoreEvents = true"
+        :aria-label="t('i18n.pages.home.index.load_more_aria_label_events')"
+        class="mt-1 font-semibold text-link-text focus-brand"
+      >
+        {{ t("i18n.pages.home.index.load_more") }}
+      </button>
+    </div>
     <!-- <div class="space-y-6 pb-6">
       <div
         class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"
@@ -50,6 +79,8 @@ const { t } = useI18n();
 const { data } = useGetUser();
 const route = useRoute();
 const router = useRouter();
+const loadMoreEvents = ref(false);
+const loadMoreOrganizations = ref(false);
 
 watch(
   () => route.query.topics,
@@ -100,4 +131,10 @@ const events = computed(() => {
 const organizations = computed(() => {
   return applyFilters(data?.value?.userSupportedOrgs ?? [], nameFilter.value);
 });
+const isEventsNeedsToLoadMore = computed(
+  () => !loadMoreEvents.value && events.value.length > 6
+);
+const isOrganizationsNeedsToLoadMore = computed(
+  () => !loadMoreOrganizations.value && organizations.value.length > 6
+);
 </script>
