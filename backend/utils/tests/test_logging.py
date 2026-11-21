@@ -9,8 +9,6 @@ import pytest
 
 from utils.logging import EntityLogger, get_logger
 
-pytestmark = pytest.mark.django_db
-
 
 # MARK: Helpers
 
