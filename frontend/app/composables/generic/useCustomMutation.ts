@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import type { OptionCrudMutation } from "~~/shared/types/option-mutation";
-const { handleError } = useAppError();
 
 // This composable can be used for simple creation, update and deletion operations.
 export function useCustomMutation<TVariables, TData>(
@@ -19,7 +17,7 @@ export function useCustomMutation<TVariables, TData>(
   onMutate?: (...args: unknown[]) => void,
   onSuccess?: (...args: unknown[]) => Promise<void>
 ) {
-
+  const { handleError } = useAppError();
   /* 
     Applying the default onSuccess function that was used on the most 
     composables that call useMutation prior to the refactor, while taking
