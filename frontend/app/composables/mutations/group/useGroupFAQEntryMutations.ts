@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses Pinia Colada for cache invalidation.
 
+import type { FaqEntry } from "~~/shared/types/faq-entry";
+
 export function useGroupFAQEntryMutations(
   groupId: MaybeRef<string>,
   options: OptionMutation = {}
@@ -13,31 +15,28 @@ export function useGroupFAQEntryMutations(
   const queryCache = useQueryCache();
 
   // Create new FAQ entry.
-  const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
-    ...options.create,
-    mutation: (faqData: Omit<FaqEntry, "id">) =>
+  const {
+    mutate: createFAQ,
+    isLoading: loadingCreateFAQ
+  } = useCustomMutation(
+    options.create,
+    (faqData: Omit<FaqEntry, "id">) =>
       createGroupFaq(currentGroupId.value, faqData as FaqEntry),
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.create?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupCache,
+    currentGroupId
+  )
 
   // Update existing FAQ entry.
-  const { mutate: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
-    ...options.update,
-    mutation: (faq: FaqEntry) => updateGroupFaq(faq),
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.update?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+  const {
+    mutate: updateFAQ,
+    isLoading: loadingUpdateFAQ
+  } = useCustomMutation(
+    options.update,
+    (faq: FaqEntry) => updateGroupFaq(faq),
+    invalidateGroupCache,
+    currentGroupId
+  )
+
 
   // Reorder multiple FAQ entries.
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
@@ -70,17 +69,16 @@ export function useGroupFAQEntryMutations(
   });
 
   // Delete FAQ entry.
-  const { mutate: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
-    ...options.delete,
-    mutation: (faqId: string) => deleteGroupFaq(faqId),
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.delete?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+  const { 
+    mutate: deleteFAQ, 
+    isLoading: loadingDeleteFAQ 
+  } = useCustomMutation(
+    options.delete,
+    (faqId: string) => deleteGroupFaq(faqId),
+    invalidateGroupCache,
+    currentGroupId,
+  )
+
 
   watch(
     [loadingCreateFAQ, loadingUpdateFAQ, loadingDeleteFAQ, loadingReorderFAQs],
