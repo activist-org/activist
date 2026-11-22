@@ -59,7 +59,7 @@
     "kill-port": "2.0.1",
     "lint-staged": "17.6.0",
     "nuxt": "4.6.4",
-    "nuxt-auth-utils": "0.5.31",
+    "nuxt-auth-utils": "0.6.2",
     "nuxt-security": "2.7.0",
     "playwright-core": "1.65.0",
     "prettier": "3.9.10",

@@ -486,7 +486,7 @@ corepack enable
 yarn install
 rm -rf dist         # force nuxi preview to use .output/ (node-server)
 yarn build:local    # hit 'n' at any install prompts
-nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" \
+nohup env NUXT_APP_SECRET="$NUXT_APP_SECRET" NUXT_API_SECRET="" \
   node .output/server/index.mjs > /dev/null 2>&1 &
 ```
 
@@ -587,9 +587,9 @@ yarn install
 rm -rf dist
 yarn build:local  # answer no to all package installation prompts
 # Note: There may be an installation prompt high in the build logs. Hit 'n' to say no.
-# Start the node server directly - this ensures NUXT_SESSION_PASSWORD and NUXT_API_SECRET
+# Start the node server directly - this ensures NUXT_APP_SECRET and NUXT_API_SECRET
 # are passed correctly (yarn preview can strip env vars in some shells).
-nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
+nohup env NUXT_APP_SECRET="$NUXT_APP_SECRET" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
 ```
 
 In a third shell, run the test suite:

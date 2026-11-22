@@ -177,7 +177,7 @@ services:
     environment:
       - USE_PREVIEW=${USE_PREVIEW:-false}
       - DEVTOOLS_HOST=0.0.0.0
-      - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
+      - NUXT_APP_SECRET=${NUXT_APP_SECRET}
     healthcheck:
       # The frontend image ships wget (not curl), so probe with wget.
       test:

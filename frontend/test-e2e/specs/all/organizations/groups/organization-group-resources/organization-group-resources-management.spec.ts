@@ -89,7 +89,7 @@ test.describe(
         // Note: Check auth state.
         const cookies = await page.context().cookies();
         const authCookie = cookies.find(
-          (c) => c.name === "nuxt-session" && c.value
+          (c) => c.name === "nuxt-auth-session" && c.value
         );
 
         if (!authCookie) {

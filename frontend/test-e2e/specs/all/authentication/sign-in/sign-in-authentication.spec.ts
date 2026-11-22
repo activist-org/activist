@@ -101,7 +101,9 @@ test.describe(
         async () => {
           await page.waitForURL("**/home");
           const cookies = await page.context().cookies();
-          const sessionCookie = cookies.find((c) => c.name === "nuxt-session");
+          const sessionCookie = cookies.find(
+            (c) => c.name === "nuxt-auth-session"
+          );
           expect(sessionCookie).toBeDefined();
         }
       );
