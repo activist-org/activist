@@ -19,7 +19,6 @@ export function useGroupTextsMutations(
     currentGroupId
   );
 
-
   return {
     loading: readonly(loading),
     error: readonly(error),

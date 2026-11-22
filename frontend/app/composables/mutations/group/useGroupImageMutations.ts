@@ -24,7 +24,6 @@ export function useGroupImageMutations(
     currentGroupId
   );
 
-
   // Upload new images.
   const {
     mutate: uploadImages,
@@ -53,8 +52,7 @@ export function useGroupImageMutations(
     (imageId: string) => deleteImage(imageId),
     invalidateGroupImageCache,
     currentGroupId
-  )
-  
+  );
 
   watch(
     [loadingUpdateImage, loadingUploadImages, loadingDeleteImage],

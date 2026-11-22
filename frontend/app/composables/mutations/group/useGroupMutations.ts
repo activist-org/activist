@@ -9,7 +9,7 @@ export const useGroupMutations = (options: OptionMutation = {}) => {
     (groupData: CreateGroupInput) => createGroup(groupData),
     invalidateGroupList,
 
-    // No ID is provided in this mutation. Because the IDs are 
+    // No ID is provided in this mutation. Because the IDs are
     // of type String
     ref<string>(""),
 
@@ -23,10 +23,8 @@ export const useGroupMutations = (options: OptionMutation = {}) => {
     async (data) => {
       await invalidateGroupList();
       options.create?.onSuccess?.(data);
-    },
-  )
-  
- 
+    }
+  );
 
   return {
     loading: isLoading,

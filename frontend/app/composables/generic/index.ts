@@ -9,5 +9,5 @@ export * from "./useTabNavigationEmit";
 export * from "./useToaster";
 export * from "./useGetBaseURLs";
 export * from "./useCustomQuery";
-export * from "./useCustomMutation"
+export * from "./useCustomMutation";
 export * from "./useCustomInfiniteQuery";

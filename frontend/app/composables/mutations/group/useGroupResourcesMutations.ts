@@ -11,22 +11,23 @@ export function useGroupResourcesMutations(
   const queryCache = useQueryCache();
 
   // Create new resource.
-  const { mutate: createResource, isLoading: loadingCreateResource } = useCustomMutation(
-    options.create,
-    (resourceData: ResourceInput) =>
+  const { mutate: createResource, isLoading: loadingCreateResource } =
+    useCustomMutation(
+      options.create,
+      (resourceData: ResourceInput) =>
         createGroupResource(currentGroupId.value, resourceData as Resource),
-    invalidateGroupCache,
-    currentGroupId
-  );
-
+      invalidateGroupCache,
+      currentGroupId
+    );
 
   // Update existing resource.
-  const { mutate: updateResource, isLoading: loadingUpdateResource } = useCustomMutation(
-    options.update,
-    (resource: ResourceInput) => updateGroupResource(resource),
-    invalidateGroupCache,
-    currentGroupId
-  );
+  const { mutate: updateResource, isLoading: loadingUpdateResource } =
+    useCustomMutation(
+      options.update,
+      (resource: ResourceInput) => updateGroupResource(resource),
+      invalidateGroupCache,
+      currentGroupId
+    );
 
   // Delete existing resource.
   const { mutate: deleteResource, isLoading: loadingDeleteResource } =
@@ -35,10 +36,10 @@ export function useGroupResourcesMutations(
       (resourceId: string) => deleteGroupResource(resourceId),
       invalidateGroupCache,
       currentGroupId
-    ); 
+    );
 
   // Reorder multiple resource entries.
-   const { mutate: reorderResources, isLoading: loadingReorderResources } =
+  const { mutate: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
       ...options.reorder,
       mutation: (orderedResources: Resource[]) =>

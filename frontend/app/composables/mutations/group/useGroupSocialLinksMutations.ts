@@ -34,7 +34,7 @@ export function useGroupSocialLinksMutations(
     },
     invalidateGroupCache,
     currentGroupId
-  )
+  );
 
   // Create multiple social links.
   const {
@@ -70,16 +70,13 @@ export function useGroupSocialLinksMutations(
     isLoading: loadingReplaceAllLinks,
   } = useCustomMutation(
     options.replaceAll,
-    async (
-      links: { link: string; label: string; order: number }[]
-    ) => {
+    async (links: { link: string; label: string; order: number }[]) => {
       if (!currentGroupId.value) return null;
       return replaceAllGroupSocialLinks(currentGroupId.value, links);
     },
     invalidateGroupCache,
     currentGroupId
   );
-  
 
   watch(
     [
