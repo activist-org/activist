@@ -35,6 +35,13 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
+  $development: {
+    routeRules: {
+      // Note: Vite DevTools loads the "Inspect Vue component" script from /@id/ without Nuxt's /_nuxt/ base.
+      "/@id/**": { redirect: "/_nuxt/@id/**" },
+    },
+  },
+
   plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
   // Auto import services and stores.
   imports: {
