@@ -35,6 +35,13 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
+  $development: {
+    routeRules: {
+      // Note: Vite DevTools loads the "Inspect Vue component" script from /@id/ without Nuxt's /_nuxt/ base.
+      "/@id/**": { redirect: "/_nuxt/@id/**" },
+    },
+  },
+
   plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
   // Auto import services and stores.
   imports: {
@@ -49,6 +56,9 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
+      // Note: Nuxt DevTools serves its WebSocket on port 9777 bound to this host.
+      // Docker sets DEVTOOLS_HOST=0.0.0.0 so the browser on the host can reach it.
+      host: process.env.DEVTOOLS_HOST || undefined,
       watch: {
         usePolling: true,
         ignored: [
