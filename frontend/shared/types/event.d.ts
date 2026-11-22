@@ -16,6 +16,9 @@ interface EventBase extends Entity {
   orgs: Organization[];
   discussion?: DiscussionEntry[];
   resources?: Resource[];
+  supporterCount?: number;
+  topics: TopicMapType[];
+  isSupportedByUser?: boolean;
   // task?: Task[];
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
@@ -55,7 +58,7 @@ export interface EventAttendee {
 export interface EventFilters {
   setting?: EventType;
   locationType?: "online" | "physical";
-  topics?: TopicEnum[]; // array of topic IDs
+  topics?: TopicMapType[]; // array of topic IDs
   name?: string; // search term for event name
   days_ahead?: number; // number of days in the future
 }
@@ -115,7 +118,7 @@ export interface EventCreateFormData {
   location: string;
   description: string;
   social_accounts: string[];
-  topics: Topic[];
+  topics: TopicMapType[];
 }
 
 export interface EventUpdateTextFormData {
@@ -137,9 +140,9 @@ export interface CreateEventInput {
   description: string;
   organizations: string[];
   groups?: string[];
-  location_type: "offline" | "online";
+  location_type: "physical" | "online";
   event_type: EventType;
-  topics: TopicEnum[];
+  topics: TopicMapType[];
   online_location_link?: string;
   location?: {
     address_or_name: string;

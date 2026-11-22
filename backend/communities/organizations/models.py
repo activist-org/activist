@@ -55,10 +55,58 @@ class Organization(models.Model):
     flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="OrganizationFlag",
+        related_name="flagged_orgs",
+    )
+    org_supporters: Any = models.ManyToManyField(
+        "communities.Organization",
+        through="OrganizationSupportFromOrg",
+        related_name="org_supported_orgs",
+    )
+    user_supporters: Any = models.ManyToManyField(
+        "authentication.UserModel",
+        through="OrganizationSupportFromUser",
+        related_name="user_supported_orgs",
     )
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Support
+
+
+class OrganizationSupportFromOrg(models.Model):
+    """
+    Model for support received by an organization from other organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org = models.ForeignKey(
+        "communities.Organization",
+        on_delete=models.CASCADE,
+        related_name="org_supported_from_org",
+    )
+    org_supporter = models.ForeignKey(
+        "communities.Organization", on_delete=models.CASCADE
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+
+class OrganizationSupportFromUser(models.Model):
+    """
+    Model for support received by an organization from users.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org = models.ForeignKey(
+        "communities.Organization",
+        on_delete=models.CASCADE,
+        related_name="org_supported_from_user",
+    )
+    user_supporter = models.ForeignKey(
+        "authentication.UserModel", on_delete=models.CASCADE
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
 
 
 # MARK: Application

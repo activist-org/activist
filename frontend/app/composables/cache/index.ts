@@ -3,3 +3,5 @@ export * from "./useEventCache";
 export * from "./useGroupCache";
 export * from "./useOrganizationCache";
 export * from "./useTopicCache";
+export * from "./useUserCache";
+export * from "./useSessionCache";

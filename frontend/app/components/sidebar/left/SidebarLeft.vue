@@ -59,7 +59,8 @@
       <SidebarLeftFilter
         v-else-if="
           (sidebarMap === sidebarOrganizationsPage ||
-            sidebarMap === sidebarEventsPage) &&
+            sidebarMap === sidebarEventsPage ||
+            sidebarMap === sidebarHomePage) &&
           (!sidebar.collapsed || !sidebar.collapsedSwitch)
         "
         class="my-3"
@@ -89,6 +90,7 @@ const sidebarEventPage = SidebarMap.EVENT_PAGE;
 const sidebarOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
 const sidebarOrganizationsPage = SidebarMap.ORGANIZATIONS_PAGE;
 const sidebarEventsPage = SidebarMap.EVENTS_PAGE;
+const sidebarHomePage = SidebarMap.HOME;
 
 const routeName = computed(() => {
   if (currentRoute.value.name) {
@@ -126,7 +128,7 @@ const isEventPage = computed(() =>
 
 const pathToSidebarMap = [
   // { path: "search", type: SidebarMap.SEARCH },
-  // { path: "home", type: SidebarMap.HOME },
+  { path: "home", type: SidebarMap.HOME },
   {
     path: "organizations",
     type: isOrgPage.value

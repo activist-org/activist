@@ -21,6 +21,8 @@ from communities.organizations.models import (
     OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
+    OrganizationSupportFromOrg,
+    OrganizationSupportFromUser,
     OrganizationTask,
     OrganizationText,
 )
@@ -31,10 +33,12 @@ admin.site.register(GroupImage)
 admin.site.register(GroupMember)
 admin.site.register(GroupFaq)
 admin.site.register(OrganizationApplication)
+admin.site.register(OrganizationFaq)
 admin.site.register(OrganizationImage)
 admin.site.register(OrganizationMember)
+admin.site.register(OrganizationSupportFromOrg)
+admin.site.register(OrganizationSupportFromUser)
 admin.site.register(OrganizationTask)
-admin.site.register(OrganizationFaq)
 admin.site.register(StatusType)
 
 # MARK: Group

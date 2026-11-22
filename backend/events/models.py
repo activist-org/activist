@@ -64,7 +64,19 @@ class Event(models.Model):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
-    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
+    flags: Any = models.ManyToManyField(
+        "authentication.UserModel", through="EventFlag", related_name="flagged_events"
+    )
+    org_supporters: Any = models.ManyToManyField(
+        "communities.Organization",
+        through="EventSupportFromOrg",
+        related_name="org_supported_events",
+    )
+    user_supporters: Any = models.ManyToManyField(
+        "authentication.UserModel",
+        through="EventSupportFromUser",
+        related_name="user_supported_events",
+    )
 
     def save(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -116,6 +128,43 @@ class EventTime(models.Model):
 
     def __str__(self) -> str:
         return f"{self.start_time} - {self.end_time}"
+
+
+# MARK: Support
+
+
+class EventSupportFromOrg(models.Model):
+    """
+    Model for support received by an event from organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    event = models.ForeignKey(
+        "Event",
+        on_delete=models.CASCADE,
+        related_name="event_supported_from_org",
+    )
+    org_supporter = models.ForeignKey(
+        "communities.Organization", on_delete=models.CASCADE
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+
+class EventSupportFromUser(models.Model):
+    """
+    Model for support received by an event from users.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    event = models.ForeignKey(
+        "Event",
+        on_delete=models.CASCADE,
+        related_name="event_supported_from_user",
+    )
+    user_supporter = models.ForeignKey(
+        "authentication.UserModel", on_delete=models.CASCADE
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
 
 
 # MARK: Attendee

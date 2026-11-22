@@ -20,9 +20,12 @@ interface OrganizationBase extends Entity {
   groups?: Group[];
   events?: CommunityEvent[];
   resources?: Resource[];
+  supporterCount?: number;
   images?: ContentImage[];
   // task?: Task[];
-  // topics?: Topic[];
+  topics?: TopicMapType[];
+  events?: CommunityEvent[];
+  isSupportedByUser?: boolean;
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
 }
@@ -44,7 +47,7 @@ export interface OrganizationImage {
 export interface OrganizationFilters {
   name?: string;
   location?: string;
-  topics?: TopicEnum[];
+  topics?: TopicMapType[];
   name?: string;
 }
 
@@ -106,7 +109,7 @@ export interface OrganizationCreateFormData {
   location: string;
   description: string;
   social_accounts: string[];
-  topics: Topic[];
+  topics: TopicMapType[];
 }
 
 export interface OrganizationUpdateTextFormData {
@@ -120,5 +123,5 @@ export interface CreateOrganizationInput {
   city: string;
   country_code: string;
   description: string;
-  topics?: TopicEnum[];
+  topics?: TopicMapType[];
 }

@@ -198,7 +198,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             404: OpenApiResponse(response={"detail": "Group not found."}),
         }
     )
-    def delete(self, request: Request, id: None | UUID = None) -> Response:
+    def delete(self, request: Request, id: UUID | None = None) -> Response:
         if id is None:
             return Response(
                 {"detail": "Group ID is required."},

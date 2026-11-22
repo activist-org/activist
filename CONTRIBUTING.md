@@ -236,11 +236,17 @@ git remote add upstream https://github.com/activist-org/activist.git
 
     # And to stop the containers when you're done working:
     docker compose --env-file .env.dev down
+
+    # To remove the volumes when the database needs to be reset:
+    docker compose --env-file .env.dev down -v
     ```
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
 7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/admin> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+
+> [!NOTE]
+> If you want to authenticate within the Swagger UI, first run a `/auth/sign_in` `POST` call and then use the resulting `access` token from the response body in the Authorize menu at the top right. You need to pass the string `Token ${access_token}` to the value field.
 
 8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
 
@@ -340,6 +346,9 @@ python manage.py populate_db \
 ```
 
 You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.
+
+> [!NOTE]
+> If you want to authenticate within the Swagger UI, first run a `/auth/sign_in` `POST` call and then use the resulting `access` token from the response body in the Authorize menu at the top right. You need to pass the string `Token ${access_token}` to the value field.
 
 </p>
 </details>

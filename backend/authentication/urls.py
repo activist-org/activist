@@ -35,4 +35,5 @@ urlpatterns = [
         views.VerifyAccountResetPassword.as_view(),
         name="verify_email_password",
     ),
+    path(route="users/<uuid:id>", view=views.UserDetailAPIView.as_view(), name="user"),
 ]

@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django.http import HttpRequest
 
-from authentication.models import Support, SupportEntityType, UserFlag, UserModel
+from authentication.models import UserFlag, UserModel
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +23,6 @@ logger = logging.getLogger(__name__)
 
 # Remove default Group.
 admin.site.unregister(Group)
-admin.site.register(Support)
-admin.site.register(SupportEntityType)
 
 # MARK: User Creation
 

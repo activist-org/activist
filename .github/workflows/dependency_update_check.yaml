@@ -14,7 +14,7 @@ jobs:
       - name: Check repository
         id: check
         run: |
-          if [ "$GITHUB_REPOSITORY" = "activist-org/activist" ]; then
+          if [ "$GITHUB_REPOSITORY" = "activist-org/activist" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "is_remote_main=true" >> "$GITHUB_OUTPUT"
           else
             echo "is_remote_main=false" >> "$GITHUB_OUTPUT"
@@ -112,7 +112,7 @@ jobs:
         continue-on-error: false
         run: |
           sudo corepack enable
-          corepack prepare yarn@4.18.0 --activate
+          corepack prepare yarn@4.18.1 --activate
 
       - name: Install Frontend Dependencies
         id: install-frontend
@@ -120,7 +120,7 @@ jobs:
         continue-on-error: false
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
-          yarn set version 4.18.0
+          yarn set version 4.18.1
           yarn install --no-immutable
 
       - name: Update Frontend Dependencies

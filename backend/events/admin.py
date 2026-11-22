@@ -15,6 +15,8 @@ from events.models import (
     EventAttendeeStatus,
     EventFaq,
     EventFlag,
+    EventSupportFromOrg,
+    EventSupportFromUser,
     EventText,
     Format,
     Role,
@@ -82,6 +84,8 @@ admin.site.register(Role)
 admin.site.register(EventFaq)
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
+admin.site.register(EventSupportFromOrg)
+admin.site.register(EventSupportFromUser)
 admin.site.register(EventText)
 
 # MARK: Event Flag

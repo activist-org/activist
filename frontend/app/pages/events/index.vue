@@ -22,7 +22,11 @@
       :loading="pending && !loadingFetchMore"
     />
     <div v-else-if="showEvents">
-      <EventsList v-if="viewType === LIST_VIEW" :events="data ?? []" />
+      <EventsList
+        v-if="viewType === LIST_VIEW"
+        :events="data ?? []"
+        type="list"
+      />
       <EventsMap v-else-if="viewType === MAP_VIEW" :events="data ?? []" />
       <EventsCalendar
         v-else-if="viewType === CALENDAR_VIEW"
