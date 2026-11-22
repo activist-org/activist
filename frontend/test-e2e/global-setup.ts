@@ -22,7 +22,7 @@ interface AuthAccount {
 const MAX_SESSION_AGE_HOURS = 20;
 
 /**
- * Returns true if the auth state file exists, contains a nuxt-session cookie,
+ * Returns true if the auth state file exists, contains a nuxt-auth-session cookie,
  * AND was created within MAX_SESSION_AGE_HOURS (keeping the Django refresh
  * token valid for the duration of the run).
  *
@@ -36,7 +36,7 @@ function isAuthStateValid(authFile: string): boolean {
     const authData = JSON.parse(fs.readFileSync(authFile, "utf-8"));
     const cookies = authData.cookies || [];
     const sessionCookie = cookies.find(
-      (c: { name: string }) => c.name === "nuxt-session"
+      (c: { name: string }) => c.name === "nuxt-auth-session"
     );
 
     if (!sessionCookie?.value) return false;

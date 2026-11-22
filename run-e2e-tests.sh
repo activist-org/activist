@@ -252,7 +252,7 @@ echo "Starting frontend server..."
 lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 # Start the node server directly with explicit env vars.
 # nohup yarn preview strips env vars in some shells; node directly is reliable.
-nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
+nohup env NUXT_APP_SECRET="$NUXT_APP_SECRET" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
 # Remove the node job from bash's job table so SIGKILL during cleanup does not
 # print a "Killed: 9" notification after the test summary.
 disown 2>/dev/null || true

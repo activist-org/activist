@@ -174,7 +174,7 @@ services:
       - "24678:24678"
     environment:
       - USE_PREVIEW=${USE_PREVIEW:-false}
-      - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
+      - NUXT_APP_SECRET=${NUXT_APP_SECRET}
     healthcheck:
       # The frontend image ships wget (not curl), so probe with wget.
       test:

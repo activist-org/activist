@@ -113,7 +113,7 @@ jobs:
         working-directory: ./frontend
         env:
           USE_PREVIEW: true
-          NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
+          NUXT_APP_SECRET: "password-with-at-least-32-characters"
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
           VITE_BACKEND_URL_PROXY: http://localhost:8000
@@ -152,7 +152,7 @@ jobs:
           FAST_TESTS: true
           SKIP_WEBSERVER: true
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
-          NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
+          NUXT_APP_SECRET: "password-with-at-least-32-characters"
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
           VITE_BACKEND_URL_PROXY: http://localhost:8000
