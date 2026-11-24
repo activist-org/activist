@@ -9,10 +9,10 @@
   <div
     id="drawer-navigation"
     ref="target"
-    class="fixed right-0 top-0 z-30 h-screen overflow-y-auto overflow-x-hidden border-section-div bg-layer-1 pt-12 transition-[max-width] duration-200 elem-shadow-sm"
+    class="fixed end-0 top-0 z-30 h-screen overflow-y-auto overflow-x-hidden border-section-div bg-layer-1 pt-12 transition-[max-width] duration-200 elem-shadow-sm"
     :class="{
       'max-w-0 px-0': !menuOpen,
-      'max-w-64 border-l px-4': menuOpen,
+      'max-w-64 border-s px-4': menuOpen,
     }"
     tabindex="-1"
   >

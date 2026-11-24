@@ -7,20 +7,20 @@
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1 elem-shadow-sm focus-brand"
+        class="relative flex w-full items-center fill-layer-1 py-2 ps-5 text-start align-middle text-layer-1 elem-shadow-sm focus-brand"
       >
         <Icon
           aria-hidden="true"
-          class="mr-4 size-5 align-middle"
+          class="me-4 size-5 align-middle"
           :name="selectedMenuItem.iconUrl"
         />
         <span>{{ t(selectedMenuItem.label) }}</span>
         <span
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+          class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-2"
         >
           <Icon
             aria-hidden="true"
-            class="mr-2 size-5 align-middle"
+            class="me-2 size-5 align-middle"
             :name="IconMap.CHEVRON_EXPAND"
         /></span>
       </ListboxButton>
@@ -45,7 +45,7 @@
                     ? 'org-'
                     : 'event-') + menuEntry.label.split('.').pop()
                 "
-                class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
+                class="relative flex cursor-default select-none items-center py-2 ps-5 align-middle"
                 :class="{
                   'bg-layer-2 fill-primary-text text-primary-text dark:bg-section-div':
                     selected,
@@ -54,7 +54,7 @@
               >
                 <Icon
                   aria-hidden="true"
-                  class="mr-4 size-5 align-middle"
+                  class="me-4 size-5 align-middle"
                   :name="menuEntry.iconUrl"
                 />
                 <span
