@@ -7,22 +7,15 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   const store = useGroupImageStore();
   const { getKeyForGroupListImage } = useGroupCache();
 
-  const { data, isLoading, error, refresh } = useQuery({
-    key: () => getKeyForGroupListImage(groupId.value),
-    query: async () => {
+  const { data, pending, error, refresh } = useCustomQuery(
+    () => getKeyForGroupListImage(groupId.value),
+    async () => {
       const images = await fetchGroupImages(groupId.value);
       store.setImages(images);
       return images;
     },
-    enabled,
-  });
-  const { handleError, error: appError } = useAppError();
-
-  watch(error, (err) => {
-    if (err) {
-      handleError(err);
-    }
-  });
+    { enabled }
+  );
 
   // Callers bind to this list directly, and GroupPage gates its NuxtPage on it,
   // so keep the empty-array default rather than exposing undefined until the
@@ -31,8 +24,8 @@ export function useGetGroupImages(id: MaybeRef<string>) {
 
   return {
     data: images,
-    pending: isLoading,
-    error: appError,
-    refresh: refresh ?? (() => {}),
+    pending,
+    error,
+    refresh,
   };
 }

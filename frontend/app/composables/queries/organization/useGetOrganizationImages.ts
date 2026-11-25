@@ -7,22 +7,15 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   const store = useOrganizationImageStore();
   const { getKeyForOrganizationListImage } = useOrganizationCache();
 
-  const { data, isLoading, error, refresh } = useQuery({
-    key: () => getKeyForOrganizationListImage(orgId.value),
-    query: async () => {
+  const { data, pending, error, refresh } = useCustomQuery(
+    () => getKeyForOrganizationListImage(orgId.value),
+    async () => {
       const images = await fetchOrganizationImages(orgId.value);
       store.setImages(images);
       return images;
     },
-    enabled,
-  });
-  const { handleError, error: appError } = useAppError();
-
-  watch(error, (err) => {
-    if (err) {
-      handleError(err);
-    }
-  });
+    { enabled }
+  );
 
   // Callers bind to this list directly, and GroupPage gates its NuxtPage on it,
   // so keep the empty-array default rather than exposing undefined until the
@@ -31,8 +24,8 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
 
   return {
     data: images,
-    pending: isLoading,
-    error: appError,
-    refresh: refresh ?? (() => {}),
+    pending,
+    error,
+    refresh,
   };
 }

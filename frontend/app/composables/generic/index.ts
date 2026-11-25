@@ -9,3 +9,4 @@ export * from "./useTabNavigationEmit";
 export * from "./useToaster";
 export * from "./useGetBaseURLs";
 export * from "./useCustomInfiniteQuery";
+export * from "./useCustomQuery";

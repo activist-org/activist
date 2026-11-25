@@ -6,23 +6,9 @@ export function useGetEvent(id: MaybeRef<string>) {
   const enabled = computed(() => !!eventId.value);
   const { getKeyForEvent } = useEventCache();
 
-  const { data, isLoading, error, refresh } = useQuery({
-    key: () => getKeyForEvent(eventId.value),
-    query: () => getEvent(eventId.value),
-    enabled,
-  });
-  const { handleError, error: appError } = useAppError();
-
-  watch(error, (err) => {
-    if (err) {
-      handleError(err);
-    }
-  });
-
-  return {
-    data,
-    pending: isLoading,
-    error: appError,
-    refresh: refresh ?? (() => {}),
-  };
+  return useCustomQuery(
+    () => getKeyForEvent(eventId.value),
+    () => getEvent(eventId.value),
+    { enabled }
+  );
 }
