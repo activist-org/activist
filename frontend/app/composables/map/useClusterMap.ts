@@ -11,6 +11,11 @@ import {
   LngLatBounds,
 } from "maplibre-gl";
 
+const DECLUSTER_ZOOM = 8;
+const CLUSTER_RADIUS = 40;
+const CLUSTER_MAX_ZOOM = DECLUSTER_ZOOM - 1;
+const CLUSTER_LAYERS = ["clusters", "cluster-count"] as const;
+
 export const useClusterMap = () => {
   const { createPointerMarker } = usePointerMap();
   const {
@@ -21,14 +26,41 @@ export const useClusterMap = () => {
     setMap,
     setMarker,
   } = useRouting();
-  const DECLUSTER_ZOOM = 8;
+
+  const createPopup = (content: PopupContent) =>
+    new Popup({
+      offset: 25,
+      maxWidth: "16.25rem",
+    }).setDOMContent(content);
+
+  const buildPointerPayload = (
+    id: string,
+    coords: [number, number],
+    color: string,
+    name: string,
+    popup: PopupContent
+  ): Pointer => ({
+    id,
+    color,
+    location: {
+      id,
+      lon: coords[0].toString(),
+      lat: coords[1].toString(),
+      bbox: ["0", "0", "0", "0"],
+      addressOrName: name || "",
+      countryCode: "",
+      city: "",
+    },
+    popup: popup as HTMLElement,
+  });
+
   const createDonutChart = (props: DonutProperties, clusterId: number) => {
     if (!props) {
       throw new Error("Cluster properties are missing.");
     }
-    const offsets = [];
+    const offsets: number[] = [];
     const counts = props.map((item) => item.value as number);
-    let total: number = 0;
+    let total = 0;
     for (const count of counts) {
       offsets.push(total);
       total += count;
@@ -108,160 +140,189 @@ export const useClusterMap = () => {
     ].join(" ");
   };
 
-  // TODO: Refactor function to make it more readable.
-  const updateMarkers = (
+  const syncLayerVisibility = (map: Map, zoom: number) => {
+    const showClusters = zoom < DECLUSTER_ZOOM;
+    const clusterVisibility = showClusters ? "visible" : "none";
+    const pointVisibility = showClusters ? "none" : "visible";
+
+    for (const layerId of CLUSTER_LAYERS) {
+      if (map.getLayer(layerId)) {
+        map.setLayoutProperty(layerId, "visibility", clusterVisibility);
+      }
+    }
+    if (map.getLayer("unclustered-points")) {
+      map.setLayoutProperty(
+        "unclustered-points",
+        "visibility",
+        pointVisibility
+      );
+    }
+  };
+
+  const reconcileMarkers = (
     map: Map,
-    markers: { [key: string]: Marker },
-    markersOnScreen: { [key: string]: Marker } = {},
+    markersOnScreen: Record<string, Marker>,
+    nextMarkers: Record<string, Marker>
+  ): Record<string, Marker> => {
+    for (const [id, marker] of Object.entries(markersOnScreen)) {
+      if (!nextMarkers[id]) {
+        marker.remove();
+      }
+    }
+    for (const [id, marker] of Object.entries(nextMarkers)) {
+      if (!markersOnScreen[id]) {
+        marker.addTo(map);
+      }
+    }
+    return nextMarkers;
+  };
+
+  const collectMarkers = async (
+    map: Map,
+    markersOnScreen: Record<string, Marker>,
     directions: MapLibreGlDirections,
     popupCreate: (props: GeoJsonProperties) => PopupContent,
     clusterProperties: ClusterProperties,
-    pointerTooltipCreate: (props: GeoJsonProperties) => PopupContent
-  ) => {
-    const newMarkers: { [key: string]: Marker } = {};
+    pointerTooltipCreate: (props: GeoJsonProperties) => PopupContent,
+    isStale: () => boolean
+  ): Promise<Record<string, Marker>> => {
+    const nextMarkers: Record<string, Marker> = {};
+    const seenKeys = new Set<string>();
     const features = map.querySourceFeatures("pointers");
-    // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
+    const leafFetches: Array<{ id: number; pointCount: number }> = [];
 
     for (const feature of features) {
       const { geometry } = feature;
-      if (geometry.type === "Point") {
-        const coords = geometry.coordinates as [number, number];
-        const props = feature.properties;
-        if (props.cluster) {
-          // Cluster handling with zoom-based declustering.
-          const id = props.cluster_id;
-          if (currentZoom >= DECLUSTER_ZOOM) {
-            // Show individual markers for clusters at high zoom.
-            const source = map.getSource("pointers") as GeoJSONSource;
+      if (geometry.type !== "Point") {
+        continue;
+      }
 
-            source.getClusterLeaves(id, props.point_count, 0).then((leaves) => {
-              leaves?.forEach((leaf) => {
-                const leafProps = leaf.properties!;
-                const { color } = leafProps;
-                const markerId = leafProps.id;
-                const coords = (leaf.geometry as Point).coordinates;
-                const leafCoords = coords as [number, number];
-                if (!markersOnScreen[markerId]) {
-                  const popup = pointerTooltipCreate(leafProps);
-                  const marker = createPointerMarker(
-                    {
-                      id: leafProps.id,
-                      color,
-                      location: {
-                        lon: leafCoords[0].toString(),
-                        lat: leafCoords[1].toString(),
-                        bbox: ["0", "0", "0", "0"], // Placeholder, adjust as needed
-                        id: markerId,
-                        addressOrName: leafProps.name || "",
-                        countryCode: "",
-                        city: "",
-                      },
-                      popup: popup as HTMLElement,
-                    },
-                    directions
-                  ).setLngLat(leafCoords);
+      const coords = geometry.coordinates as [number, number];
+      const props = feature.properties ?? {};
 
-                  markers[markerId] = marker;
-                  marker.addTo(map);
-                  newMarkers[markerId] = marker;
-                }
-              });
-            });
-          } else {
-            // Show cluster markers at low zoom.
-            const element = document.getElementById(`pointer-${id}`);
-            element?.remove();
-            let marker = markers[id];
-            if (!marker) {
-              const multipleDonutProps =
-                clusterProperties?.getMultipleDonutProps(props);
+      if (props.cluster) {
+        const clusterId = Number(props.cluster_id);
+        if (currentZoom >= DECLUSTER_ZOOM) {
+          leafFetches.push({
+            id: clusterId,
+            pointCount: Number(props.point_count ?? 0),
+          });
+          continue;
+        }
 
-              const el = createDonutChart(multipleDonutProps, id);
-              const popUpContent = popupCreate(props);
-              const popUp = new Popup({
-                offset: 25,
-                maxWidth: "16.25rem",
-              }).setDOMContent(popUpContent);
-              marker = markers[id] = new Marker({
-                element: el,
-              })
-                .setLngLat(coords)
-                .setPopup(popUp);
+        const key = `cluster:${clusterId}`;
+        if (seenKeys.has(key)) {
+          continue;
+        }
+        seenKeys.add(key);
+
+        if (markersOnScreen[key]) {
+          nextMarkers[key] = markersOnScreen[key];
+          continue;
+        }
+
+        const donutProps = clusterProperties?.getMultipleDonutProps(props);
+        const el = createDonutChart(donutProps, clusterId);
+        const marker = new Marker({ element: el })
+          .setLngLat(coords)
+          .setPopup(createPopup(popupCreate(props)));
+        nextMarkers[key] = marker;
+        setMarker(marker);
+        continue;
+      }
+
+      if (currentZoom < DECLUSTER_ZOOM) {
+        const key = `donut:${props.id}`;
+        if (seenKeys.has(key)) {
+          continue;
+        }
+        seenKeys.add(key);
+
+        if (markersOnScreen[key]) {
+          nextMarkers[key] = markersOnScreen[key];
+          continue;
+        }
+
+        const donutProps = clusterProperties?.getIndividualDonutProps(props);
+        const el = createDonutChart(donutProps, props.id);
+        const marker = new Marker({ element: el })
+          .setLngLat(coords)
+          .setPopup(createPopup(popupCreate(props)));
+        nextMarkers[key] = marker;
+        continue;
+      }
+
+      const key = `pointer:${props.id}`;
+      if (seenKeys.has(key)) {
+        continue;
+      }
+      seenKeys.add(key);
+
+      if (markersOnScreen[key]) {
+        nextMarkers[key] = markersOnScreen[key];
+        continue;
+      }
+
+      const color = clusterProperties?.getPointerColor(props);
+      const popup = pointerTooltipCreate(props);
+      const marker = createPointerMarker(
+        buildPointerPayload(props.id, coords, color, props.name || "", popup),
+        directions
+      ).setLngLat(coords);
+      nextMarkers[key] = marker;
+      setMarker(marker);
+    }
+
+    if (leafFetches.length > 0) {
+      const source = map.getSource("pointers") as GeoJSONSource | undefined;
+      if (source && typeof source.getClusterLeaves === "function") {
+        const leavesPerCluster = await Promise.all(
+          leafFetches.map(({ id, pointCount }) =>
+            source.getClusterLeaves(id, pointCount, 0)
+          )
+        );
+        if (isStale()) {
+          return nextMarkers;
+        }
+        for (const leaves of leavesPerCluster) {
+          for (const leaf of leaves ?? []) {
+            const leafProps = leaf.properties ?? {};
+            const markerId = leafProps.id;
+            const key = `pointer:${markerId}`;
+            if (seenKeys.has(key)) {
+              continue;
             }
-            newMarkers[id] = marker;
-            if (!markersOnScreen[id]) {
-              marker.addTo(map);
-              setMarker(marker);
-            }
-          }
-        } else {
-          // Individual point handling.
-          if (currentZoom < DECLUSTER_ZOOM) {
-            const element = document.getElementById(`pointer-${props.id}`);
-            element?.remove();
-            if (!markersOnScreen[props.id]) {
-              const individualDonutProps =
-                clusterProperties?.getIndividualDonutProps(props);
-              const el = createDonutChart(individualDonutProps, props.id);
-              const popUpContent = popupCreate(props);
-              const popUp = new Popup({
-                offset: 25,
-                maxWidth: "16.25rem",
-              }).setDOMContent(popUpContent);
-              const marker = new Marker({
-                element: el,
-              })
-                .setLngLat(coords)
-                .setLngLat(coords)
-                .setPopup(popUp);
+            seenKeys.add(key);
 
-              newMarkers[props.id] = marker;
-              if (!markersOnScreen[props.id]) {
-                marker.addTo(map);
-              }
+            if (markersOnScreen[key]) {
+              nextMarkers[key] = markersOnScreen[key];
+              continue;
             }
-          } else {
-            const element = document.getElementById(`cluster-${props.id}`);
-            element?.remove();
-            const color = clusterProperties?.getPointerColor(props);
-            const popup = pointerTooltipCreate(props);
+
+            const leafCoords = (leaf.geometry as Point).coordinates as [
+              number,
+              number,
+            ];
+            const popup = pointerTooltipCreate(leafProps);
             const marker = createPointerMarker(
-              {
-                id: props.id,
-                color,
-                location: {
-                  id: "",
-                  lon: coords[0].toString(),
-                  lat: coords[1].toString(),
-                  bbox: ["0", "0", "0", "0"], // Placeholder, adjust as needed
-                  addressOrName: props.name || "",
-                  countryCode: "",
-                  city: "",
-                },
-                popup: popup as HTMLElement,
-              },
+              buildPointerPayload(
+                markerId,
+                leafCoords,
+                leafProps.color,
+                leafProps.name || "",
+                popup
+              ),
               directions
-            ).setLngLat(coords);
-            newMarkers[props.id] = marker;
-            if (!markersOnScreen[props.id]) {
-              marker.addTo(map);
-              setMarker(marker);
-            }
+            ).setLngLat(leafCoords);
+            nextMarkers[key] = marker;
+            setMarker(marker);
           }
         }
       }
     }
 
-    for (const id in markersOnScreen) {
-      if (!newMarkers[id] && markersOnScreen[id]) {
-        markersOnScreen[id].remove();
-      }
-    }
-    markersOnScreen = newMarkers;
-    return {
-      markersOnScreen,
-    };
+    return nextMarkers;
   };
 
   const createMapForClusterTypeMap = (
@@ -273,16 +334,35 @@ export const useClusterMap = () => {
     pointerTooltipCreate: (value: unknown) => PopupContent
   ) => {
     const selectedRoute = setSelectedRoute();
+    let markersOnScreen: Record<string, Marker> = {};
+    let latestUpdateId = 0;
+    let isDisposed = false;
+
+    const cleanupMarkers = () => {
+      isDisposed = true;
+      latestUpdateId += 1;
+      for (const marker of Object.values(markersOnScreen)) {
+        marker.remove();
+      }
+      markersOnScreen = {};
+    };
+
+    map.on("remove", cleanupMarkers);
+
     map.on("load", () => {
       // Cleanup existing sources/layers.
-      if (map.getSource("pointers")) {
-        map.removeSource("pointers");
-      }
-      ["clusters", "cluster-count", "unclustered-points"].forEach((layerId) => {
+      for (const layerId of [
+        "clusters",
+        "cluster-count",
+        "unclustered-points",
+      ]) {
         if (map.getLayer(layerId)) {
           map.removeLayer(layerId);
         }
-      });
+      }
+      if (map.getSource("pointers")) {
+        map.removeSource("pointers");
+      }
       map.on("click", () => {
         resetDirectionsControl();
       });
@@ -314,8 +394,8 @@ export const useClusterMap = () => {
           features,
         },
         cluster: true,
-        clusterRadius: 80, // adjust cluster density by zoom
-        clusterMaxZoom: 14, // max zoom where clustering occurs
+        clusterRadius: CLUSTER_RADIUS,
+        clusterMaxZoom: CLUSTER_MAX_ZOOM,
         clusterProperties: logic,
       });
 
@@ -385,13 +465,13 @@ export const useClusterMap = () => {
       setMap(map);
       setDirections(directions);
       resetDirectionsControl();
+
       if (features.length > 0) {
         const bounds = features.reduce(
           (acc, feature) =>
             acc.extend(feature.geometry.coordinates as [number, number]),
           new LngLatBounds()
         );
-        // Add stable bounds check.
         if (bounds.isEmpty()) {
           return;
         }
@@ -408,57 +488,57 @@ export const useClusterMap = () => {
           zoom: 1.5,
         });
       }
-      // Optional: Add custom HTML markers for clusters.
-      const markers: { [key: string]: Marker } = {};
-      let markersOnScreen: { [key: string]: Marker } = {};
 
-      map.on("zoomend", () => {
-        const currentZoom = map.getZoom();
+      let wasClustered = map.getZoom() < DECLUSTER_ZOOM;
 
-        if (currentZoom < DECLUSTER_ZOOM) {
-          map.setLayoutProperty("clusters", "visibility", "visible");
-          map.setLayoutProperty("unclustered-points", "visibility", "none");
-        } else {
-          map.setLayoutProperty("clusters", "visibility", "none");
-          map.setLayoutProperty("unclustered-points", "visibility", "visible");
+      const refreshMarkers = async () => {
+        if (isDisposed) {
+          return;
         }
+        const updateId = ++latestUpdateId;
+        syncLayerVisibility(map, map.getZoom());
 
-        // Force re-render of markers.
-        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+        const nextMarkers = await collectMarkers(
           map,
-          markers,
           markersOnScreen,
           directions,
           clusterTooltipCreate,
           clusterProperties,
-          pointerTooltipCreate
+          pointerTooltipCreate,
+          () => isDisposed || updateId !== latestUpdateId
         );
-        markersOnScreen = newMarkersOnScreen;
+
+        // Discard stale async completions if a newer update or unmount occurred.
+        if (isDisposed || updateId !== latestUpdateId) {
+          return;
+        }
+
+        markersOnScreen = reconcileMarkers(map, markersOnScreen, nextMarkers);
+      };
+
+      // Sync initial visibility and markers immediately after initial bounds/jump.
+      void refreshMarkers();
+
+      // Transition markers immediately when crossing DECLUSTER_ZOOM during zoom.
+      map.on("zoom", () => {
+        const isClustered = map.getZoom() < DECLUSTER_ZOOM;
+        if (isClustered !== wasClustered) {
+          wasClustered = isClustered;
+          void refreshMarkers();
+        }
+      });
+
+      map.on("zoomend", () => {
+        wasClustered = map.getZoom() < DECLUSTER_ZOOM;
+        void refreshMarkers();
       });
 
       map.on("moveend", () => {
-        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
-          map,
-          markers,
-          markersOnScreen,
-          directions,
-          clusterTooltipCreate,
-          clusterProperties,
-          pointerTooltipCreate
-        );
-        markersOnScreen = newMarkersOnScreen;
+        void refreshMarkers();
       });
+
       map.once("idle", () => {
-        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
-          map,
-          markers,
-          markersOnScreen,
-          directions,
-          clusterTooltipCreate,
-          clusterProperties,
-          pointerTooltipCreate
-        );
-        markersOnScreen = newMarkersOnScreen;
+        void refreshMarkers();
       });
     });
   };

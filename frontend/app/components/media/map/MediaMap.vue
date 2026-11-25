@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { LayerSpecification } from "maplibre-gl";
+import type { LayerSpecification, Map } from "maplibre-gl";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -22,11 +22,12 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const colorMode = useColorMode();
-const { setMapLayers, setMap } = useRouting();
+const { setMapLayers, setMap, cleanupRouting } = useRouting();
 
 const { createMap, isWebgl2Supported, addDefaultControls } = useMap();
 const { createMapForClusterTypeMap } = useClusterMap();
 const { createMapForPointerTypeMap } = usePointerMap();
+let mapInstance: Map | null = null;
 
 // MARK: Map Tooltip Helper
 
@@ -74,6 +75,7 @@ onMounted(() => {
     alert(t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
     const map = createMap(mapLayers);
+    mapInstance = map;
     addDefaultControls(map);
     setMapLayers(mapLayers);
     setMap(map);
@@ -100,6 +102,12 @@ onMounted(() => {
       );
     }
   }
+});
+
+onUnmounted(() => {
+  cleanupRouting();
+  mapInstance?.remove();
+  mapInstance = null;
 });
 </script>
 

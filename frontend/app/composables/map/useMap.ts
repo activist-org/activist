@@ -86,9 +86,12 @@ export const useMap = () => {
     map
       .loadImage("/icons/from_library/bootstrap_arrow_right.png")
       .then((image) => {
-        if (image) {
+        if (image && !map.hasImage?.("route-direction-arrow")) {
           map.addImage("route-direction-arrow", image.data);
         }
+      })
+      .catch(() => {
+        // Ignore image load cancellation when the map unmounts early.
       });
   };
 

@@ -1,50 +1,95 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Map, Marker, LayerSpecification } from "maplibre-gl";
+import type { IControl, LayerSpecification, Map, Marker } from "maplibre-gl";
 
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
+
+const DIRECTION_ARROW_LAYER_ID =
+  "maplibre-gl-directions-route-line-direction-arrow";
+
+interface RouteProfileOption {
+  FOOT: "foot";
+  BIKE: "bike";
+  DRIVING: "driving";
+  CAR: "car";
+}
+
+const routeProfileOptions: RouteProfileOption = {
+  FOOT: "foot",
+  BIKE: "bike",
+  DRIVING: "driving",
+  CAR: "car",
+};
+
+const routingAPI = "https://routing.openstreetmap.de/routed-";
+const routingAPIVersion = "/route/v1/";
+
+const routeProfileMap: RouteProfile[] = [
+  {
+    api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
+    profile: routeProfileOptions.FOOT,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
+    profile: routeProfileOptions.BIKE,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.DRIVING}${routingAPIVersion}`,
+    profile: routeProfileOptions.DRIVING,
+  },
+];
+
+// Shared reactive routing state across map composables and MediaMap so
+// directions, controls, and cleanup operate on a single active map lifecycle.
+// Use shallowRef for external MapLibre instances so object identity (===)
+// is preserved for map.removeControl() and internal MapLibre checks.
+const directionsRef = shallowRef<MapLibreGlDirections | null>(null);
+const mapRef = shallowRef<Map | null>(null);
+const markerRef = shallowRef<Marker | null>(null);
+const mapLayersRef = shallowRef<LayerSpecification[]>([]);
+const activeProfile = ref<"foot" | "bike">(routeProfileOptions.FOOT);
+const currentProfile = ref("");
+const selectedRoute = ref<RouteProfile | undefined>(
+  routeProfileMap.find((item) => item.profile === routeProfileOptions.FOOT)
+);
+const routeProfileControlRef = shallowRef<IControl | null>(null);
+const directionsControlRef = shallowRef<IControl | null>(null);
+let routeKeydownController: AbortController | null = null;
+let directionsKeydownController: AbortController | null = null;
+
+const isEditableTarget = (target: EventTarget | null): boolean => {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+  return (
+    target.tagName === "INPUT" ||
+    target.tagName === "TEXTAREA" ||
+    target.tagName === "SELECT" ||
+    target.isContentEditable
+  );
+};
+
+const safeRemoveControl = (
+  map: Map | null,
+  controlRef: { value: IControl | null },
+  elementId: string
+) => {
+  if (map && controlRef.value && typeof map.removeControl === "function") {
+    try {
+      map.removeControl(controlRef.value);
+    } catch {
+      // Control may already be detached if the map is tearing down.
+    }
+  }
+  controlRef.value = null;
+  document.getElementById(elementId)?.remove();
+};
 
 export const useRouting = () => {
   const { t } = useI18n();
 
   const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
   const walkDirectionsIcon = `/icons/map/walk_directions.png`;
-  const directionsRef = ref<MapLibreGlDirections | null>(null);
-  const mapRef = ref<Map | null>(null);
-  const markerRef = ref<Marker | null>(null);
-  const mapLayersRef = ref<LayerSpecification[]>([]);
-
-  interface RouteProfileOption {
-    FOOT: string;
-    BIKE: string;
-    DRIVING: string;
-    CAR: string;
-  }
-
-  const routeProfileOptions: RouteProfileOption = {
-    FOOT: "foot",
-    BIKE: "bike",
-    DRIVING: "driving",
-    CAR: "car",
-  };
-
-  const routingAPI = "https://routing.openstreetmap.de/routed-";
-  const routingAPIVersion = "/route/v1/";
-
-  const routeProfileMap: RouteProfile[] = [
-    {
-      api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
-      profile: routeProfileOptions.FOOT,
-    },
-    {
-      api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
-      profile: routeProfileOptions.BIKE,
-    },
-    {
-      api: `${routingAPI}${routeProfileOptions.DRIVING}${routingAPIVersion}`,
-      profile: routeProfileOptions.DRIVING,
-    },
-  ];
 
   const walkingRouteProfileControl = `
     <div
@@ -74,13 +119,19 @@ export const useRouting = () => {
       cursor: pointer"
     ></div>`;
 
-  const currentProfile = ref(walkingRouteProfileControl);
-  const selectedRoute = ref<RouteProfile | undefined>(
-    routeProfileMap.find((item) => item.profile === routeProfileOptions.FOOT)
-  );
+  if (!currentProfile.value) {
+    currentProfile.value = walkingRouteProfileControl;
+  }
+
+  const getProfileHtml = () =>
+    activeProfile.value === routeProfileOptions.FOOT
+      ? walkingRouteProfileControl
+      : bikeRouteProfileControl;
 
   const setMapLayers = (newMapLayers: LayerSpecification[]) => {
-    mapLayersRef.value = newMapLayers;
+    mapLayersRef.value = newMapLayers.filter(
+      (layer) => layer.id !== DIRECTION_ARROW_LAYER_ID
+    );
   };
 
   const setDirections = (newDirections: MapLibreGlDirections) => {
@@ -100,7 +151,10 @@ export const useRouting = () => {
   };
 
   const toggleLayerHandler = (map: Map) => {
-    if (currentProfile.value === walkingRouteProfileControl) {
+    if (typeof map.getLayer === "function" && !map.getLayer("cycle-layer")) {
+      return;
+    }
+    if (activeProfile.value === routeProfileOptions.FOOT) {
       map.setLayoutProperty("cycle-layer", "visibility", "visible");
     } else {
       map.setLayoutProperty("cycle-layer", "visibility", "none");
@@ -108,41 +162,87 @@ export const useRouting = () => {
   };
 
   const routeProfileHandler = () => {
-    currentProfile.value =
-      currentProfile.value === walkingRouteProfileControl
-        ? bikeRouteProfileControl
-        : walkingRouteProfileControl;
+    activeProfile.value =
+      activeProfile.value === routeProfileOptions.FOOT
+        ? routeProfileOptions.BIKE
+        : routeProfileOptions.FOOT;
+    currentProfile.value = getProfileHtml();
     return currentProfile.value;
   };
 
   const setSelectedRoute = () => {
-    selectedRoute.value =
-      currentProfile.value === walkingRouteProfileControl
-        ? mapProfile(routeProfileOptions.FOOT)
-        : mapProfile(routeProfileOptions.BIKE);
+    selectedRoute.value = mapProfile(activeProfile.value);
     return selectedRoute.value;
   };
 
-  const resetRouteProfileControl = () => {
-    const existing = document.getElementById("route-profile-control");
-    if (existing) {
-      existing.remove();
-    }
+  const addDirectionsLayer = (
+    map: Map,
+    layers: LayerSpecification[],
+    route: RouteProfile
+  ) => {
+    const baseLayers = layers.filter(
+      (layer) => layer.id !== DIRECTION_ARROW_LAYER_ID
+    );
+    const directionsLayers: LayerSpecification[] = [
+      ...baseLayers,
+      {
+        id: DIRECTION_ARROW_LAYER_ID,
+        type: "symbol",
+        source: "maplibre-gl-directions",
+        layout: {
+          "symbol-placement": "line-center",
+          "icon-image": "route-direction-arrow",
+          "icon-size": [
+            "interpolate",
+            ["exponential", 1.5],
+            ["zoom"],
+            12,
+            0.85,
+            18,
+            1.4,
+          ],
+        },
+        paint: { "icon-opacity": 1 },
+        filter: ["==", ["get", "route"], "SELECTED"],
+      },
+    ];
+    const directions = new MapLibreGlDirections(map, {
+      ...route,
+      requestOptions: { alternatives: "true" },
+      layers: directionsLayers,
+    });
+    directions.interactive = true;
+    setMapLayers(baseLayers);
+    setDirections(directions);
+    return directions;
+  };
 
-    const map = mapRef.value as unknown as Map;
+  const resetRouteProfileControl = () => {
+    const map = mapRef.value as unknown as Map | null;
     if (!map) {
       return;
     }
 
-    map.addControl(
-      {
-        onAdd: function () {
-          const div = document.createElement("div");
-          div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
-          div.id = "route-profile-control";
-          div.innerHTML = currentProfile.value;
+    safeRemoveControl(map, routeProfileControlRef, "route-profile-control");
+    routeKeydownController?.abort();
+    routeKeydownController = null;
 
-          const updateSelectedProfile = () => {
+    let isSwitchingProfile = false;
+
+    const control: IControl = {
+      onAdd: () => {
+        const div = document.createElement("div");
+        div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
+        div.id = "route-profile-control";
+        currentProfile.value = getProfileHtml();
+        div.innerHTML = currentProfile.value;
+
+        const updateSelectedProfile = () => {
+          if (isSwitchingProfile) {
+            return;
+          }
+          isSwitchingProfile = true;
+          try {
             toggleLayerHandler(map);
 
             if (directionsRef.value) {
@@ -150,147 +250,148 @@ export const useRouting = () => {
             }
 
             div.innerHTML = routeProfileHandler();
-            selectedRoute.value = setSelectedRoute() as RouteProfile;
-            const mapLayers =
-              mapLayersRef.value as unknown as LayerSpecification[];
-            const newDirections = addDirectionsLayer(
-              map,
-              mapLayers,
-              selectedRoute.value as RouteProfile
-            );
+            const nextRoute = setSelectedRoute() as RouteProfile;
+            addDirectionsLayer(map, mapLayersRef.value, nextRoute);
+            resetDirectionsControl({ skipProfileReset: true });
+          } finally {
+            isSwitchingProfile = false;
+          }
+        };
 
-            newDirections.interactive = true;
-
-            const marker = markerRef.value as unknown as Marker;
-            if (!marker) {
-              return;
-            }
-
-            marker.getElement().addEventListener("mouseenter", () => {
-              newDirections.interactive = false;
-            });
-            marker.getElement().addEventListener("mouseleave", () => {
-              newDirections.interactive = true;
-            });
-          };
-
-          div.addEventListener("click", updateSelectedProfile);
-          if (window.innerWidth < 768) {
-            div.addEventListener("touchend", updateSelectedProfile);
-          } else {
-            document.addEventListener("keydown", (event) => {
-              if (event.key === "p") {
+        div.addEventListener("click", updateSelectedProfile);
+        if (window.innerWidth < 768) {
+          div.addEventListener("touchend", (event) => {
+            event.preventDefault();
+            updateSelectedProfile();
+          });
+        } else {
+          routeKeydownController = new AbortController();
+          document.addEventListener(
+            "keydown",
+            (event) => {
+              if (!isEditableTarget(event.target) && event.key === "p") {
                 updateSelectedProfile();
               }
-            });
-          }
+            },
+            { signal: routeKeydownController.signal }
+          );
+        }
 
-          return div;
-        },
-        onRemove: () => {},
+        return div;
       },
-      "top-left"
-    );
+      onRemove: () => {
+        routeKeydownController?.abort();
+        routeKeydownController = null;
+      },
+    };
+
+    routeProfileControlRef.value = control;
+    map.addControl(control, "top-left");
   };
 
-  const resetDirectionsControl = () => {
+  const resetDirectionsControl = (
+    options: { skipProfileReset?: boolean } = {}
+  ) => {
     const map = mapRef.value;
     const directions = directionsRef.value;
     if (!map || !directions) {
       return;
     }
 
-    const existing = document.getElementById("directions-control");
-    if (existing) {
-      existing.remove();
-    }
+    safeRemoveControl(map, directionsControlRef, "directions-control");
+    directionsKeydownController?.abort();
+    directionsKeydownController = null;
 
-    map.addControl(
-      {
-        onAdd: function () {
-          const div = document.createElement("div");
-          div.className = "maplibregl-ctrl";
-          div.id = "directions-control";
+    const control: IControl = {
+      onAdd: () => {
+        const div = document.createElement("div");
+        div.className = "maplibregl-ctrl";
+        div.id = "directions-control";
 
-          let label =
-            directions.waypoints.length === 0
-              ? t("i18n.composables.use_routing_map.click_for_directions")
-              : t("i18n.composables.use_routing_map.clear_directions");
+        let label =
+          directions.waypoints.length === 0
+            ? t("i18n.composables.use_routing_map.click_for_directions")
+            : t("i18n.composables.use_routing_map.clear_directions");
 
-          const tooltip =
-            directions.waypoints.length === 0
-              ? t(
-                  "i18n.composables.use_routing_map.click_for_directions_tooltip"
-                )
-              : t("i18n.composables.use_routing_map.clear_directions_tooltip");
+        const tooltip =
+          directions.waypoints.length === 0
+            ? t("i18n.composables.use_routing_map.click_for_directions_tooltip")
+            : t("i18n.composables.use_routing_map.clear_directions_tooltip");
 
-          if (window.innerWidth >= 768 && directions.waypoints.length !== 0) {
-            label += " [x]";
-          }
+        if (window.innerWidth >= 768 && directions.waypoints.length !== 0) {
+          label += " [x]";
+        }
 
-          div.innerHTML = `<div title="${tooltip}" style="background-color: rgba(255,255,255,0.75); padding: 1px 5px; border-radius: 0.3125rem; box-shadow: 0 0 1px 2px rgba(0,0,0,0.15); color: rgba(0,0,0,0.8); cursor: pointer">${label}</div>`;
+        div.innerHTML = `<div title="${tooltip}" style="background-color: rgba(255,255,255,0.75); padding: 1px 5px; border-radius: 0.3125rem; box-shadow: 0 0 1px 2px rgba(0,0,0,0.15); color: rgba(0,0,0,0.8); cursor: pointer">${label}</div>`;
 
-          div.addEventListener("click", () => {
-            directions.clear();
-            resetDirectionsControl();
+        const clearDirections = () => {
+          directions.clear();
+          resetDirectionsControl({ skipProfileReset: true });
+        };
+
+        div.addEventListener("click", clearDirections);
+        if (window.innerWidth < 768) {
+          div.addEventListener("touchend", (event) => {
+            event.preventDefault();
+            clearDirections();
           });
-          if (window.innerWidth < 768) {
-            div.addEventListener("touchend", () => {
-              directions.clear();
-              resetDirectionsControl();
-            });
-          } else {
-            document.addEventListener("keydown", (event) => {
-              if (event.key === "x") {
-                directions.clear();
-                resetDirectionsControl();
+        } else {
+          directionsKeydownController = new AbortController();
+          document.addEventListener(
+            "keydown",
+            (event) => {
+              if (!isEditableTarget(event.target) && event.key === "x") {
+                clearDirections();
               }
-            });
-          }
+            },
+            { signal: directionsKeydownController.signal }
+          );
+        }
 
-          return div;
-        },
-        onRemove: () => {},
+        return div;
       },
-      "top-left"
-    );
+      onRemove: () => {
+        directionsKeydownController?.abort();
+        directionsKeydownController = null;
+      },
+    };
 
-    resetRouteProfileControl();
+    directionsControlRef.value = control;
+    map.addControl(control, "top-left");
+
+    if (!options.skipProfileReset && !routeProfileControlRef.value) {
+      resetRouteProfileControl();
+    }
   };
 
-  const addDirectionsLayer = (
-    map: Map,
-    layers: LayerSpecification[],
-    selectedRoute: RouteProfile
-  ) => {
-    layers.push({
-      id: "maplibre-gl-directions-route-line-direction-arrow",
-      type: "symbol",
-      source: "maplibre-gl-directions",
-      layout: {
-        "symbol-placement": "line-center",
-        "icon-image": "route-direction-arrow",
-        "icon-size": [
-          "interpolate",
-          ["exponential", 1.5],
-          ["zoom"],
-          12,
-          0.85,
-          18,
-          1.4,
-        ],
-      },
-      paint: { "icon-opacity": 1 },
-      filter: ["==", ["get", "route"], "SELECTED"],
-    });
-    const directions = new MapLibreGlDirections(map, {
-      ...selectedRoute,
-      requestOptions: { alternatives: "true" },
-      layers,
-    });
-    setMapLayers(layers);
-    setDirections(directions);
-    return directions;
+  const cleanupRouting = () => {
+    routeKeydownController?.abort();
+    routeKeydownController = null;
+    directionsKeydownController?.abort();
+    directionsKeydownController = null;
+
+    if (directionsRef.value) {
+      try {
+        directionsRef.value.destroy();
+      } catch {
+        // Ignore if the underlying map instance has already been destroyed.
+      }
+    }
+
+    safeRemoveControl(mapRef.value, directionsControlRef, "directions-control");
+    safeRemoveControl(
+      mapRef.value,
+      routeProfileControlRef,
+      "route-profile-control"
+    );
+
+    directionsRef.value = null;
+    mapRef.value = null;
+    markerRef.value = null;
+    mapLayersRef.value = [];
+    activeProfile.value = routeProfileOptions.FOOT;
+    currentProfile.value = walkingRouteProfileControl;
+    selectedRoute.value = mapProfile(routeProfileOptions.FOOT);
   };
 
   return {
@@ -299,6 +400,7 @@ export const useRouting = () => {
     toggleLayerHandler,
     selectedRoute,
     currentProfile,
+    directionsRef,
     walkingRouteProfileControl,
     bikeRouteProfileControl,
     resetDirectionsControl,
@@ -310,5 +412,6 @@ export const useRouting = () => {
     setMarker,
     setMap,
     setMapLayers,
+    cleanupRouting,
   };
 };
