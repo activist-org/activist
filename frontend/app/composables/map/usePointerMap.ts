@@ -12,6 +12,7 @@ export const usePointerMap = () => {
     setDirections,
     setMap,
     setMarker,
+    directionsRef,
   } = useRouting();
   const createPointerMarker = (
     pointer: Pointer,
@@ -38,11 +39,13 @@ export const usePointerMap = () => {
     if (directions) {
       directions.interactive = true;
       element.addEventListener("mouseenter", () => {
-        directions.interactive = false;
+        const activeDirections = directionsRef.value ?? directions;
+        activeDirections.interactive = false;
       });
 
       element.addEventListener("mouseleave", () => {
-        directions.interactive = true;
+        const activeDirections = directionsRef.value ?? directions;
+        activeDirections.interactive = true;
       });
     }
     return marker;
