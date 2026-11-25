@@ -8,28 +8,14 @@ export function useGetOrganization(id: MaybeRef<string>) {
   const imageStore = useOrganizationImageStore();
   const { getKeyForOrganization } = useOrganizationCache();
 
-  const { data, isLoading, error, refresh } = useQuery({
-    key: () => getKeyForOrganization(orgId.value),
-    query: async () => {
+  return useCustomQuery(
+    () => getKeyForOrganization(orgId.value),
+    async () => {
       const organization = await getOrganization(orgId.value);
       store.setOrganization(organization);
       imageStore.setEntityId(organization?.id);
       return organization;
     },
-    enabled,
-  });
-  const { handleError, error: appError } = useAppError();
-
-  watch(error, (err) => {
-    if (err) {
-      handleError(err);
-    }
-  });
-
-  return {
-    data,
-    pending: isLoading,
-    error: appError,
-    refresh: refresh ?? (() => {}),
-  };
+    { enabled }
+  );
 }
