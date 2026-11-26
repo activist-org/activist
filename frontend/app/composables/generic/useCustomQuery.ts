@@ -7,8 +7,6 @@ export function useCustomQuery<ReturnTypeOfQuery>(
   query: () => Promise<ReturnTypeOfQuery>,
   enabled?: MaybeRefOrGetter<boolean>
 ) {
-
-
   const { data, isLoading, error, refresh } = useQuery({
     key: () => unref(key),
     query: query,
@@ -16,7 +14,7 @@ export function useCustomQuery<ReturnTypeOfQuery>(
     If the 'enabled' parameter is not passed into useCustomQuery, 
     then don't pass 'enabled' into the underlying useQuery call.
     */
-    ...(enabled !== undefined ? { enabled } : {})
+    ...(enabled !== undefined ? { enabled } : {}),
   });
 
   const { handleError, error: appError } = useAppError();
