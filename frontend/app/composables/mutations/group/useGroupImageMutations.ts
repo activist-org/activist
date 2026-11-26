@@ -6,7 +6,7 @@ export function useGroupImageMutations(
   options: OptionMutation = {}
 ) {
   const loading = ref(false);
-  const { error, handleError } = useAppError();
+  const { error } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
   const { invalidateGroupImageCache } = useGroupCache();
@@ -16,58 +16,43 @@ export function useGroupImageMutations(
     mutate: updateImage,
     mutateAsync: updateImageAsync,
     isLoading: loadingUpdateImage,
-  } = useMutation({
-    ...options.update,
-    mutation: (contentImage: ContentImage) =>
+  } = useCustomMutation(
+    options.update,
+    (contentImage: ContentImage) =>
       updateGroupImage(currentGroupId.value, contentImage),
-    async onSuccess() {
-      await invalidateGroupImageCache(currentGroupId.value);
-      options.update?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupImageCache,
+    currentGroupId
+  );
 
   // Upload new images.
   const {
     mutate: uploadImages,
     mutateAsync: uploadImagesAsync,
     isLoading: loadingUploadImages,
-  } = useMutation({
-    ...options.create,
-    mutation: ({
+  } = useCustomMutation(
+    options.create,
+    ({
       images,
       sequences,
     }: {
       images: UploadableFile[];
       sequences?: number[];
     }) => uploadGroupImages(currentGroupId.value, images, sequences),
-    async onSuccess() {
-      await invalidateGroupImageCache(currentGroupId.value);
-      options.create?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupImageCache,
+    currentGroupId
+  );
 
   // Delete existing image.
   const {
     mutate: deleteImg,
     mutateAsync: deleteImageAsync,
     isLoading: loadingDeleteImage,
-  } = useMutation({
-    ...options.delete,
-    mutation: (imageId: string) => deleteImage(imageId),
-    async onSuccess() {
-      await invalidateGroupImageCache(currentGroupId.value);
-      options.delete?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+  } = useCustomMutation(
+    options.delete,
+    (imageId: string) => deleteImage(imageId),
+    invalidateGroupImageCache,
+    currentGroupId
+  );
 
   watch(
     [loadingUpdateImage, loadingUploadImages, loadingDeleteImage],

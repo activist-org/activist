@@ -6,7 +6,7 @@ export function useGroupSocialLinksMutations(
   options: OptionMutation = {}
 ) {
   const loading = ref(false);
-  const { error, handleError } = useAppError();
+  const { error } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
   const { invalidateGroupCache } = useGroupCache();
@@ -16,9 +16,9 @@ export function useGroupSocialLinksMutations(
     mutate: updateLink,
     mutateAsync: updateLinkAsync,
     isLoading: loadingUpdateLink,
-  } = useMutation({
-    ...options.update,
-    mutation: async (linkData: {
+  } = useCustomMutation(
+    options.mutate,
+    async (linkData: {
       id: string;
       link: string;
       label: string;
@@ -32,73 +32,51 @@ export function useGroupSocialLinksMutations(
         group: currentGroupId.value,
       });
     },
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.update?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupCache,
+    currentGroupId
+  );
 
   // Create multiple social links.
   const {
     mutate: createLinks,
     mutateAsync: createLinksAsync,
     isLoading: loadingCreateLinks,
-  } = useMutation({
-    ...options.create,
-    mutation: async (links: SocialLinkInput[]) => {
+  } = useCustomMutation(
+    options.create,
+    async (links: SocialLinkInput[]) => {
       if (!currentGroupId.value || !links.length) return null;
       return createGroupSocialLinks(currentGroupId.value, links);
     },
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.create?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupCache,
+    currentGroupId
+  );
 
   // Delete a single social link.
   const {
     mutate: deleteLink,
     mutateAsync: deleteLinkAsync,
     isLoading: loadingDeleteLink,
-  } = useMutation({
-    ...options.delete,
-    mutation: (linkId: string) => deleteGroupSocialLink(linkId),
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.delete?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+  } = useCustomMutation(
+    options.delete,
+    (linkId: string) => deleteGroupSocialLink(linkId),
+    invalidateGroupCache,
+    currentGroupId
+  );
 
   // Replace all social links (delete all + create new ones).
   const {
     mutate: replaceAllLinks,
     mutateAsync: replaceAllLinksAsync,
     isLoading: loadingReplaceAllLinks,
-  } = useMutation({
-    ...options.replaceAll,
-    mutation: async (
-      links: { link: string; label: string; order: number }[]
-    ) => {
+  } = useCustomMutation(
+    options.replaceAll,
+    async (links: { link: string; label: string; order: number }[]) => {
       if (!currentGroupId.value) return null;
       return replaceAllGroupSocialLinks(currentGroupId.value, links);
     },
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.replaceAll?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupCache,
+    currentGroupId
+  );
 
   watch(
     [

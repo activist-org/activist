@@ -5,24 +5,19 @@ export function useGroupTextsMutations(
   groupId: MaybeRef<string>,
   options: OptionMutation = {}
 ) {
-  const { error, handleError } = useAppError();
+  const { error } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
   const { invalidateGroupCache } = useGroupCache();
 
   // Update group texts.
-  const { mutate: updateTexts, isLoading: loading } = useMutation({
-    ...options.update,
-    mutation: (vars: { textId: string; data: GroupUpdateTextFormData }) =>
+  const { mutate: updateTexts, isLoading: loading } = useCustomMutation(
+    options.update,
+    (vars: { textId: string; data: GroupUpdateTextFormData }) =>
       updateGroupTexts(currentGroupId.value, vars.textId, vars.data),
-    async onSuccess() {
-      await invalidateGroupCache(currentGroupId.value);
-      options.update?.onSuccess?.();
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
+    invalidateGroupCache,
+    currentGroupId
+  );
 
   return {
     loading: readonly(loading),

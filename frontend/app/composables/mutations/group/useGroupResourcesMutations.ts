@@ -12,46 +12,31 @@ export function useGroupResourcesMutations(
 
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
-    useMutation({
-      ...options.create,
-      mutation: (resourceData: ResourceInput) =>
+    useCustomMutation(
+      options.create,
+      (resourceData: ResourceInput) =>
         createGroupResource(currentGroupId.value, resourceData as Resource),
-      async onSuccess() {
-        await invalidateGroupCache(currentGroupId.value);
-        options?.create?.onSuccess?.();
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+      invalidateGroupCache,
+      currentGroupId
+    );
 
   // Update existing resource.
   const { mutate: updateResource, isLoading: loadingUpdateResource } =
-    useMutation({
-      ...options.update,
-      mutation: (resource: ResourceInput) => updateGroupResource(resource),
-      async onSuccess() {
-        await invalidateGroupCache(currentGroupId.value);
-        options.update?.onSuccess?.();
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+    useCustomMutation(
+      options.update,
+      (resource: ResourceInput) => updateGroupResource(resource),
+      invalidateGroupCache,
+      currentGroupId
+    );
 
   // Delete existing resource.
   const { mutate: deleteResource, isLoading: loadingDeleteResource } =
-    useMutation({
-      ...options.delete,
-      mutation: (resourceId: string) => deleteGroupResource(resourceId),
-      async onSuccess() {
-        await invalidateGroupCache(currentGroupId.value);
-        options.delete?.onSuccess?.();
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+    useCustomMutation(
+      options.delete,
+      (resourceId: string) => deleteGroupResource(resourceId),
+      invalidateGroupCache,
+      currentGroupId
+    );
 
   // Reorder multiple resource entries.
   const { mutate: reorderResources, isLoading: loadingReorderResources } =
