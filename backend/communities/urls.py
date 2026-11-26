@@ -36,6 +36,11 @@ app_name = "communities"
 
 router = DefaultRouter(trailing_slash=False)
 
+# Only match UUIDs so that invalid IDs return 404 instead of a 500 from the database query.
+UUID_PATTERN = (
+    r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+)
+
 router.register(
     prefix=r"statuses",
     viewset=StatusViewSet,
@@ -44,7 +49,7 @@ router.register(
 # MARK: Group
 
 router.register(
-    prefix=r"group/(?P<group_id>[^/.]+)/images",
+    prefix=rf"group/(?P<group_id>{UUID_PATTERN})/images",
     viewset=GroupImageViewSet,
     basename="group-images",
 )
@@ -83,12 +88,12 @@ router.register(
     basename="organization-social-links",
 )
 router.register(
-    prefix=r"organization/(?P<org_id>[^/.]+)/images",
+    prefix=rf"organization/(?P<org_id>{UUID_PATTERN})/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )
 router.register(
-    prefix=r"organizations/(?P<org_id>[^/.]+)/events",
+    prefix=rf"organizations/(?P<org_id>{UUID_PATTERN})/events",
     viewset=OrganizationEventViewSet,
     basename="organization-events",
 )
