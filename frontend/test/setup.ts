@@ -78,7 +78,7 @@ const globalCacheGetEntries = vi.fn();
 const globalCacheSetQueryData = vi.fn();
 const globalCacheGetQueryData = vi.fn();
 
-globalThis.useQueryMock = vi.fn((_options:unknown) => ({
+globalThis.useQueryMock = vi.fn((_options: unknown) => ({
   isLoading: ref(false),
   error: ref(null),
   data: ref(null),

@@ -5,12 +5,11 @@ import { computed, effectScope, isReadonly, nextTick, ref } from "vue";
 
 import { useCustomQuery } from "../../app/composables/generic";
 
-
-type QueryOptions =  {
-    key: unknown,
-    query: () => Promise<number>,
-    enabled: boolean
-}
+type QueryOptions = {
+  key: unknown;
+  query: () => Promise<number>;
+  enabled: boolean;
+};
 
 const mocks = vi.hoisted(() => ({
   useQuery: globalThis.useQueryMock,
@@ -19,8 +18,6 @@ const mocks = vi.hoisted(() => ({
 
 mockNuxtImport("useAppError", () => mocks.useAppError);
 
-
-
 describe("useCustomQuery", () => {
   let scope: ReturnType<typeof effectScope>;
   let loading: ReturnType<typeof ref<boolean>>;
@@ -28,7 +25,7 @@ describe("useCustomQuery", () => {
   let appError: ReturnType<typeof ref<Error | null>>;
   let handleError: ReturnType<typeof vi.fn>;
   let data: ReturnType<typeof ref<number>>;
-beforeEach(() => {
+  beforeEach(() => {
     vi.clearAllMocks();
     scope = effectScope();
 
@@ -38,13 +35,12 @@ beforeEach(() => {
 
     appError = ref<Error | null>(null);
     handleError = vi.fn();
-    
 
     mocks.useQuery.mockReturnValue({
-        data: data,
-        pending: loading,
-        error: queryError,
-        refresh: (() => {})
+      data: data,
+      pending: loading,
+      error: queryError,
+      refresh: () => {},
     });
     mocks.useAppError.mockReturnValue({ handleError, error: appError });
   });
@@ -52,14 +48,14 @@ beforeEach(() => {
   afterEach(() => scope.stop());
 
   function setup() {
-    const id = ref("00000000-0000-4000-8000-000000000000")
+    const id = ref("00000000-0000-4000-8000-000000000000");
     const key = computed(() => ["group", id.value]);
-    const query = (async () => {return 1});
+    const query = async () => {
+      return 1;
+    };
     const enabled = false;
 
-    const result = scope.run(() =>
-      useCustomQuery(key, query, enabled)
-    )!;
+    const result = scope.run(() => useCustomQuery(key, query, enabled))!;
     const options = mocks.useQuery.mock.calls[0]![0] as QueryOptions;
 
     return { result, options, id, key, query, enabled };
@@ -75,5 +71,4 @@ beforeEach(() => {
     expect(handleError).toHaveBeenCalledWith(error);
     expect(result.error).toBe(appError);
   });
-
-})
+});
