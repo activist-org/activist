@@ -2,9 +2,9 @@
 export function useGetTopics() {
   const { getKeyForTopics } = useTopicCache();
 
-  const key = getKeyForTopics();
-  const { data, pending, error, refresh } = useCustomQuery<Topic[]>(
-    key,
+ 
+  const { data, pending, error, refresh } = useCustomQuery(
+    getKeyForTopics(),
     async () => listTopics()
   );
 
