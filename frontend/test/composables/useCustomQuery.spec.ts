@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { computed, effectScope, isReadonly, nextTick, ref } from "vue";
+import { computed, effectScope, nextTick, ref } from "vue";
 
 import { useCustomQuery } from "../../app/composables/generic";
 
