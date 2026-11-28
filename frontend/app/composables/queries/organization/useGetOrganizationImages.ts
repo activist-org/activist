@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read an organization's images with Pinia Colada. Store-first, then fetch if missing.
 
+import { validate as isValidUUID } from "uuid";
+
 export function useGetOrganizationImages(id: MaybeRef<string>) {
   const orgId = computed(() => String(unref(id)));
-  const enabled = computed(() => !!orgId.value);
+  const enabled = computed(() => isValidUUID(orgId.value));
   const store = useOrganizationImageStore();
   const { getKeyForOrganizationListImage } = useOrganizationCache();
 
