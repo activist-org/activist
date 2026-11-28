@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Models for the events app.
+
+Note: Event roles and membership are controlled by their organizations.
 """
 
 from typing import Any
